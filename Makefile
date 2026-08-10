@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency figures
 
 sync:
 	uv sync --extra dev
@@ -21,3 +21,6 @@ experiment-zero:
 sample-efficiency:
 	uv run python -m experiments.run_sample_efficiency \
 		--config experiments/configs/experiment_zero_sample_efficiency.yaml
+
+figures:
+	uv run python research/figures/generate_experiment_zero.py
