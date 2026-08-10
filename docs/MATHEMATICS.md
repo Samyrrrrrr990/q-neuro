@@ -19,6 +19,10 @@ prevents absence and missingness from being conflated:
 
 `h = GELU(W_1 [x;m] + b_1)`, `logits = W_2 h + b_2`.
 
+The stronger recurrent control embeds each signed evidence token, initializes a GRU state from the
+same demographic context, and uses the final recurrent state for diagnosis. Its learning rate is
+selected only by validation NLL from a preregistered grid.
+
 ## Low-rank operator state
 
 Let `h_t in R^S`, `U_e,V_e in R^(S x r)`, and `b_e in R^S`. Initialize with
@@ -61,6 +65,27 @@ For complex readout vectors `w_d`, the diagnostic amplitude and measurement are
 
 Training uses cross-entropy on `log(|a_d|^2 + epsilon)`. A global phase rotation leaves the
 measurement invariant, while relative phase generally does not.
+
+## Two-channel real magnitude control
+
+The two-channel control evolves an unconstrained flat real state using the same low-rank operator
+law as the real model. Its readout emits two real amplitudes per diagnosis:
+
+`(r_d, s_d) = W_d h_T + b_d`,
+
+`logit_d = log(r_d^2 + s_d^2 + epsilon)`.
+
+This matches the complex model's paired magnitude-squared measurement while removing complex
+multiplication, conjugation, and an explicit phase algebra. It therefore tests whether a complex
+result can be explained by two interacting real channels and the measurement rule.
+
+## Controlled generator shifts
+
+The replication varies only declared simulator parameters. `probability_mixing` moves every
+finding probability toward 0.5, `temporal_jitter` perturbs evidence times, and
+`order_marker_visibility` independently hides the two chronology markers. Cases are marked as
+order-resolvable only when both markers are observed. Counterfactual pairs always expose both
+markers so their single-factor intervention remains valid.
 
 ## Parameter accounting
 

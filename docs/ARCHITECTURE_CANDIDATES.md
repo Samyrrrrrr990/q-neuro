@@ -63,3 +63,14 @@ Experiment Zero begins with a matched MLP, Candidate 1, and Candidate 2. The fir
 order and randomize complex phase. No Hamiltonian, density, attractor, optimizer, or UI work is
 justified until this minimal comparison yields a replicated signal or a clear negative result.
 
+## Post-Experiment-Zero control gate
+
+The initial learning curve produced a real/complex crossover but did not establish a complex Pareto
+advantage. Before adding more Q-Neuro machinery, the next comparison adds:
+
+1. a validation-tuned GRU to strengthen the conventional sequential baseline;
+2. a two-channel real magnitude model to control for paired amplitudes and squared measurement;
+3. nuisance-seed and noisy/sparse-order NeuroWorld shifts;
+4. separate accuracy for cases with complete versus incomplete chronology evidence.
+
+Hamiltonian and density dynamics remain deferred until this control gate is passed.

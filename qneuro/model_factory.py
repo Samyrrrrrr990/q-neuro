@@ -7,7 +7,14 @@ from collections.abc import Callable
 from torch import nn
 
 from neuroworld import NeuroWorld
-from qneuro.models import ComplexOperatorState, EvidenceMLP, RealOperatorState, TinyTransformer
+from qneuro.models import (
+    ComplexOperatorState,
+    EvidenceMLP,
+    RealOperatorState,
+    TinyGRU,
+    TinyTransformer,
+    TwoChannelRealOperatorState,
+)
 
 
 def parameter_count(model: nn.Module) -> int:
@@ -52,6 +59,18 @@ def build_model(
             list(range(8, 129, 4)),
             parameter_budget,
         )
+    elif name == "gru":
+        model, width = _nearest_width(
+            lambda value: TinyGRU(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                NeuroWorld.num_diagnoses,
+                hidden_dim=value,
+                embedding_dim=max(8, value // 2),
+            ),
+            list(range(8, 193)),
+            parameter_budget,
+        )
     elif name == "real_operator":
         model, width = _nearest_width(
             lambda value: RealOperatorState(
@@ -76,6 +95,19 @@ def build_model(
                 step_size,
             ),
             list(range(4, 129)),
+            parameter_budget,
+        )
+    elif name == "two_channel_operator":
+        model, width = _nearest_width(
+            lambda value: TwoChannelRealOperatorState(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                rank,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 257)),
             parameter_budget,
         )
     else:

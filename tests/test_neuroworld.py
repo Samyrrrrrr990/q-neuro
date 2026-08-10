@@ -25,6 +25,8 @@ def test_counterfactual_pair_changes_only_marker_order_and_target() -> None:
     changed_positions = np.flatnonzero(pair.first.tokens != pair.second.tokens)
     assert changed_positions.size == 2
     assert pair.causal_factor == "evidence_order"
+    assert pair.first.order_evidence_complete
+    assert pair.second.order_evidence_complete
 
 
 def test_generation_is_deterministic() -> None:
@@ -35,3 +37,18 @@ def test_generation_is_deterministic() -> None:
         assert case_a.label == case_b.label
         assert np.array_equal(case_a.evidence, case_b.evidence)
         assert np.array_equal(case_a.tokens, case_b.tokens)
+
+
+def test_sparse_order_shift_marks_unresolvable_cases() -> None:
+    world = NeuroWorld(
+        observation_probability=0.55,
+        probability_mixing=0.18,
+        temporal_jitter=0.08,
+        order_marker_visibility=0.0,
+    )
+    cases = world.generate(200, seed=41)
+    order_cases = [case for case in cases if case.is_order_dependent]
+    assert order_cases
+    assert all(not case.order_evidence_complete for case in order_cases)
+    pairs = world.counterfactual_pairs(10, seed=42)
+    assert all(pair.first.order_evidence_complete for pair in pairs)

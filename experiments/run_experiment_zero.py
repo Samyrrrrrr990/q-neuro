@@ -73,6 +73,7 @@ def evaluate(
     logits_parts: list[torch.Tensor] = []
     label_parts: list[torch.Tensor] = []
     order_parts: list[torch.Tensor] = []
+    order_complete_parts: list[torch.Tensor] = []
     for batch_index, raw_batch in enumerate(loader):
         batch = to_device(raw_batch, device)
         if shuffle_order:
@@ -81,8 +82,13 @@ def evaluate(
         logits_parts.append(logits.detach().cpu())
         label_parts.append(batch["label"].detach().cpu())
         order_parts.append(batch["is_order"].detach().cpu())
+        order_complete_parts.append(batch["order_complete"].detach().cpu())
     return classification_metrics(
-        torch.cat(logits_parts), torch.cat(label_parts), torch.cat(order_parts), n_bins=n_bins
+        torch.cat(logits_parts),
+        torch.cat(label_parts),
+        torch.cat(order_parts),
+        torch.cat(order_complete_parts),
+        n_bins=n_bins,
     )
 
 
