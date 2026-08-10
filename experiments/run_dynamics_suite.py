@@ -28,6 +28,7 @@ from neuroworld import NeuroWorld, ambiguous_order_pairs
 from qneuro.evaluation import ambiguity_pair_metrics
 from qneuro.metrics import aggregate_seed_metrics, classification_metrics
 from qneuro.models import (
+    ComplexEvidenceAccumulator,
     ComplexEvidenceMLP,
     ComplexOperatorState,
     DiagnosticDensityDynamics,
@@ -172,7 +173,10 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                     ambiguity_pair_metrics(ambiguity_outputs["logits"], ambiguity_outputs["labels"])
                 )
                 in_metrics.update(mechanism_diagnostics(model, in_domain_cases, batch_size, device))
-                if isinstance(model, (ComplexOperatorState, ComplexEvidenceMLP)):
+                if isinstance(
+                    model,
+                    (ComplexOperatorState, ComplexEvidenceMLP, ComplexEvidenceAccumulator),
+                ):
                     for phase_mode in ("zero", "randomized"):
                         ablated = collect_outputs(
                             model, in_loader, device, phase_mode=phase_mode, seed=seed

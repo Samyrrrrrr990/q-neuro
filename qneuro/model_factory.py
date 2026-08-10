@@ -8,7 +8,10 @@ from torch import nn
 
 from neuroworld import NeuroWorld
 from qneuro.models import (
+    ComplexEvidenceAccumulator,
     ComplexEvidenceMLP,
+    ComplexMagnitudeReadoutOperator,
+    ComplexNoNegativeEvidenceOperator,
     ComplexOperatorState,
     CoupledTensorState,
     DiagnosticDensityDynamics,
@@ -19,6 +22,7 @@ from qneuro.models import (
     HamiltonianDissipativeState,
     LogisticEvidence,
     ModernHopfieldMemory,
+    RealEvidenceAccumulator,
     RealOperatorState,
     TinyGRU,
     TinyTransformer,
@@ -63,6 +67,22 @@ def build_model(
         model, width = _nearest_width(
             lambda value: ComplexEvidenceMLP(82, value, NeuroWorld.num_diagnoses),
             list(range(4, 257)),
+            parameter_budget,
+        )
+    elif name == "real_accumulator":
+        model, width = _nearest_width(
+            lambda value: RealEvidenceAccumulator(
+                NeuroWorld.num_tokens, value, NeuroWorld.num_diagnoses
+            ),
+            list(range(4, 257)),
+            parameter_budget,
+        )
+    elif name == "complex_accumulator":
+        model, width = _nearest_width(
+            lambda value: ComplexEvidenceAccumulator(
+                NeuroWorld.num_tokens, value, NeuroWorld.num_diagnoses
+            ),
+            list(range(4, 161)),
             parameter_budget,
         )
     elif name == "transformer":
@@ -143,6 +163,24 @@ def build_model(
             list(range(4, 129)),
             parameter_budget,
         )
+    elif name in {"complex_magnitude_readout", "complex_no_negative"}:
+        model_class = (
+            ComplexMagnitudeReadoutOperator
+            if name == "complex_magnitude_readout"
+            else ComplexNoNegativeEvidenceOperator
+        )
+        model, width = _nearest_width(
+            lambda value: model_class(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                rank,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 129)),
+            parameter_budget,
+        )
     elif name == "two_channel_operator":
         model, width = _nearest_width(
             lambda value: TwoChannelRealOperatorState(
@@ -183,11 +221,16 @@ def build_model(
             list(range(4, 129)),
             parameter_budget,
         )
-    elif name == "density_dynamics":
+    elif name in {"density_dynamics", "density_rank1", "density_rank2", "density_rank4"}:
+        factor_rank = {
+            "density_rank1": 1,
+            "density_rank2": 2,
+            "density_rank4": 4,
+        }.get(name, 2)
         model = DiagnosticDensityDynamics(
             NeuroWorld.num_tokens,
             NeuroWorld.num_diagnoses,
-            factor_rank=2,
+            factor_rank=factor_rank,
             operator_rank=rank,
             step_size=step_size,
         )
