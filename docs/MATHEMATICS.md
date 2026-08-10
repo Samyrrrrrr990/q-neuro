@@ -209,3 +209,19 @@ with a constructive magnitude sum:
 It cannot express destructive readout interference. The negative-evidence ablation prevents tokens
 40–79 from acting on the state, while retaining the observation process and all positive tokens.
 This tests information removal, not a fully specified contradiction operator.
+
+### Frozen hierarchical observables
+
+Let `s(x)` be a final frozen diagnostic state and `y_f` one simulator factor. The linear probe is
+
+`p(y_f | x) = softmax(W_f s(x) + b_f)`.
+
+For a complex state `z`, a `C`-class Hermitian observable probe uses one learned matrix per class:
+
+`o_c(z) = z^H A_c z + b_c`, where `A_c = A_c^H`.
+
+The implementation parameterizes `A_c = (B_c + B_c^H)/2`, so every score is real up to numerical
+precision. Probe regularization is selected without test labels, and the diagnostic network remains
+frozen. The resulting accuracy measures whether the factor can be decoded by the chosen function
+class. It does not imply independence of factors, causal use by the diagnosis head, or a physical
+measurement interpretation.

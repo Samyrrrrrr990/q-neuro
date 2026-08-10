@@ -73,6 +73,11 @@ readout costs 0.104, and dropping negative evidence costs 0.072. Density ranks a
 help. These effects isolate functional components but still do not establish novelty or external
 validity.
 
+Frozen-state probes (`QN-000019`) recover all four simulator factors from the complex operator, but
+GRU and state-space representations are generally more linearly readable. Hermitian quadratic
+observables improve some complex-state probe accuracies while usually worsening NLL. The result
+supports latent accessibility, not unique hierarchy or intrinsic interpretability.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -87,11 +92,13 @@ validity.
 
 ![Critical Q-Neuro ablations](research/figures/generated/critical_ablation_suite.png)
 
+![Emergent hierarchical observables](research/figures/generated/observable_probe.png)
+
 ## Quick start
 
 ```bash
 uv sync --extra dev
-uv run pytest
+uv run python -m pytest
 uv run python -m experiments.run_experiment_zero \
   --config experiments/configs/experiment_zero.yaml
 # Run the orthogonal task suite after the fast smoke/invariant checks
