@@ -83,9 +83,9 @@ result can be explained by two interacting real channels and the measurement rul
 
 The replication varies only declared simulator parameters. `probability_mixing` moves every
 finding probability toward 0.5, `temporal_jitter` perturbs evidence times, and
-`order_marker_visibility` independently hides the two chronology markers. Cases are marked as
-order-resolvable only when both markers are observed. Counterfactual pairs always expose both
-markers so their single-factor intervention remains valid.
+`order_marker_visibility` independently hides the two chronology markers. The evaluator separates
+cases with complete marker evidence from those with one or both markers missing. Counterfactual
+pairs always expose both markers so their single-factor intervention remains valid.
 
 ## Parameter accounting
 

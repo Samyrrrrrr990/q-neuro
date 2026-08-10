@@ -4,7 +4,7 @@ import torch
 
 from neuroworld import NeuroWorld
 from qneuro.data import collate_cases
-from qneuro.metrics import aggregate_seed_metrics
+from qneuro.metrics import aggregate_seed_metrics, classification_metrics
 from qneuro.model_factory import build_model, parameter_count
 from qneuro.models import ComplexOperatorState, RealOperatorState
 
@@ -78,3 +78,14 @@ def test_seed_summary_uses_student_t_interval() -> None:
     assert math.isclose(summary["mean"], 1.0)
     assert math.isclose(summary["std"], 1.0)
     assert math.isclose(summary["ci95_high"], 1.0 + expected_half_width, rel_tol=1e-6)
+
+
+def test_order_metrics_separate_complete_and_incomplete_evidence() -> None:
+    logits = torch.tensor([[4.0, 0.0], [4.0, 0.0], [0.0, 4.0]])
+    labels = torch.tensor([0, 1, 1])
+    is_order = torch.tensor([True, True, True])
+    order_complete = torch.tensor([True, False, False])
+    metrics = classification_metrics(logits, labels, is_order, order_complete)
+    assert metrics["complete_order_accuracy"] == 1.0
+    assert metrics["incomplete_order_accuracy"] == 0.5
+    assert math.isclose(metrics["order_evidence_complete_rate"], 1.0 / 3.0, rel_tol=1e-6)

@@ -75,10 +75,10 @@ def classification_metrics(
     if order_complete is not None:
         resolvable = is_order & order_complete
         ambiguous = is_order & ~order_complete
-        metrics["resolvable_order_accuracy"] = (
+        metrics["complete_order_accuracy"] = (
             float(correct[resolvable].float().mean()) if resolvable.any() else float("nan")
         )
-        metrics["ambiguous_order_accuracy"] = (
+        metrics["incomplete_order_accuracy"] = (
             float(correct[ambiguous].float().mean()) if ambiguous.any() else float("nan")
         )
         metrics["order_evidence_complete_rate"] = (
