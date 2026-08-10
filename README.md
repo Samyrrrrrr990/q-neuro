@@ -61,6 +61,12 @@ two-channel and 0.585 MLP; those differences do not separate with three seeds. T
 harms the Transformer even though its full-information accuracy is 0.982. Active evidence
 efficiency is a distinct target, not a consequence of high static accuracy.
 
+The computational-law suite (`QN-000014`) compares 18 models. Complex operator remains strongest
+under moderate unseen-world shift at 0.647 top-1. Hamiltonian-style evolution reaches 0.556 versus
+0.438 for dissipative-only, while the hybrid does not improve over Hamiltonian. Low-rank density
+dynamics preserve Hermiticity, PSD, and unit trace but do not beat the real operator. These are
+exploratory synthetic mechanism results, not physical or novelty claims.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -70,6 +76,8 @@ efficiency is a distinct target, not a consequence of high static accuracy.
 ![Orthogonal NeuroWorld task suite](research/figures/generated/neuro_task_suite.png)
 
 ![Active evidence acquisition](research/figures/generated/active_evidence.png)
+
+![Computational-law mechanism suite](research/figures/generated/dynamics_suite.png)
 
 ## Quick start
 

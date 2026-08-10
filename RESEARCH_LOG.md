@@ -193,3 +193,31 @@ synthetic diagnoses and three seeds are used.
 **Next:** Expose trajectories and implement adaptive diagnostic time, energy/attractor, and
 Hamiltonian/dissipative variants. Use active AUC and ambiguity NLL as gates rather than optimizing
 saturated full-case accuracy.
+
+## 2026-08-09 — QN-000014 computational-law mechanism suite
+
+**Question:** Do attractor, adaptive-time, Hamiltonian, dissipative, or density laws improve the
+robustness/ambiguity frontier beyond conventional and operator controls?
+
+**Method:** Implemented and tested 18 laws at roughly 20k real scalars. Trained on 1,000 cases over
+three seeds. Evaluated in-domain performance, 300 ambiguous twins, 200 chronology pairs, and three
+unseen moderately shifted worlds. Shift inference treats world seed as the unit.
+
+**Result:** Complex operator remains strongest under shift at 0.647. Hamiltonian reaches 0.556 and
+hybrid 0.550, versus dissipative-only 0.438. Hybrid-minus-dissipative is +0.112 across worlds, while
+hybrid-minus-Hamiltonian is −0.006. D3 reaches 0.453 shift top-1 and 1.468 ambiguity NLL, preserves
+density invariants, and has 0.620 mean off-diagonal coherence. Adaptive attractor has 5.25/8 soft
+expected steps but no clear performance gain over fixed attractor.
+
+**Interpretation:** Coherent low-rank Hermitian rotation is useful relative to damping alone, but
+dissipation adds nothing to the coherent model. Complex operator dynamics still lead the tested
+Hamiltonian approximation. Density structure creates a legitimate inspectable state without yet
+creating predictive benefit. Adaptive depth is not validated until it produces actual compute
+savings at matched performance.
+
+**Negative results:** Fixed factor-graph message passing underfits; energy attractors ignore order;
+dissipation alone loses chronology; hybrid dynamics do not beat pure Hamiltonian; D3 does not beat
+real operators; complex and Transformer remain badly calibrated on irreducible ambiguity.
+
+**Next:** Run targeted ablations for phase, ordering, interference, damping, density rank, and hard
+adaptive halting. Then evaluate unconventional learning rules against AdamW.
