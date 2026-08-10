@@ -135,3 +135,33 @@ or novelty claims.
 
 **Next:** Build composition, ambiguity, OOD disease, and hidden-syndrome task suites with explicit
 task-specific controls. Keep Hamiltonian/density and novel optimizers behind those gates.
+
+## 2026-08-09 — QN-000010 orthogonal NeuroWorld task suite
+
+**Question:** Does the replicated shift advantage extend to composition, irreducible ambiguity,
+unknown diseases, and an unlabeled hidden syndrome?
+
+**Method:** Trained all six models in three independent contexts across seeds 11/23/37: a 3,000-
+case ordinary dataset; a split excluding declared evidence conjunctions from training; and a split
+excluding diagnosis label 19 entirely. Evaluated 300 observationally identical ambiguity pairs and
+400 cases from a separately generated, unlabeled syndrome. Measured output uncertainty and
+nearest-centroid representation distance.
+
+**Result:** Operator models saturate held-out composition (0.995–1.000), making that test
+non-discriminative. Complex rejects the unknown disease with 0.9988 maximum-softmax AUROC and
+separates the hidden syndrome with 0.9990 representation AUROC. The two-channel output-space
+unknown AUROC is nearly identical at 0.9974, while its representation metrics are unstable across
+seeds. Complex performs poorly on irreducible ambiguity: pair NLL 2.581 versus 1.148 for the real
+operator, and it assigns only 0.212 total probability mass to the two valid twin labels.
+
+**Interpretation:** Complex representation geometry is a promising anomaly signal, but unknown-
+disease rejection does not yet require complex arithmetic. More importantly, hypothesis-state
+dynamics do not automatically preserve multiple plausible diagnoses; the present complex
+measurement can be less calibrated than a real operator when evidence is fundamentally
+insufficient.
+
+**Statistical limitation:** Three paired seeds permit a minimum two-sided exact sign-flip p-value
+of 0.25. All task-suite effects remain exploratory.
+
+**Next:** Add active evidence acquisition and explicit trajectory diagnostics. Then test whether
+adaptive dynamics or uncertainty-aware objectives repair ambiguity without sacrificing robustness.

@@ -17,9 +17,10 @@ falsifiable hypothesis.
 
 - Foundational research questions and mathematical definitions
 - A causal, structured `NeuroWorld` simulator with explicit missingness and ordered evidence
-- Parameter-budgeted MLP, real operator-state, and complex operator-state models
-- A reproducible, resource-bounded Experiment Zero runner
-- Mathematical-invariant and generator-validity tests
+- Parameter-budgeted MLP, Transformer, GRU, real, two-channel, and complex operator models
+- Reproducible Experiment Zero, multi-world shift, composition, ambiguity, and OOD runners
+- A never-overwritten SQLite experiment registry with environment, metric, and artifact records
+- Mathematical-invariant, generator-validity, task-construction, and evaluation tests
 
 ## Current evidence
 
@@ -45,11 +46,22 @@ positive at every severity, with 95% intervals excluding zero. This confirms a s
 phenomenon, while in-domain temperature calibration fails to transfer and often worsens shifted
 calibration.
 
+The orthogonal task suite (`QN-000010`) adds an important boundary to that result. Complex and
+two-channel real models both saturate held-out evidence composition. Complex output uncertainty
+detects a completely omitted disease at 0.9988 AUROC, but two-channel real is statistically
+indistinguishable at 0.9974. Complex representation distance separates a synthetic hidden syndrome
+at 0.9990 AUROC, yet this is anomaly separability—not discovery of a new attractor. On genuinely
+ambiguous, observationally identical cases, complex is worse: ambiguous-pair NLL is 2.581 versus
+1.148 for the ordinary real operator. The current complex architecture is robust under shift but
+does not automatically maintain a calibrated differential when evidence cannot resolve the case.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
 
 ![Multi-world robustness sweep](research/figures/generated/robustness_world_sweep.png)
+
+![Orthogonal NeuroWorld task suite](research/figures/generated/neuro_task_suite.png)
 
 ## Quick start
 
@@ -58,6 +70,9 @@ uv sync --extra dev
 uv run pytest
 uv run python -m experiments.run_experiment_zero \
   --config experiments/configs/experiment_zero.yaml
+# Run the orthogonal task suite after the fast smoke/invariant checks
+make neuro-task-suite
+make analyses figures
 ```
 
 Run artifacts are written to a never-overwritten `experiments/results/QN-XXXXXX/` directory and
