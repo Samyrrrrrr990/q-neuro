@@ -37,9 +37,19 @@ noisy/sparse shift at 1,000 cases. The matched two-channel real control reaches 
 This is preliminary evidence of a robustness difference on declared synthetic shifts—not evidence
 that complex arithmetic, Q-Neuro broadly, or a medical system is superior.
 
+The confirmatory sweep (`QN-000008`) evaluates five preregistered unseen world seeds at four shift
+severities and uses world seed—not individual cases—as the statistical unit. At 1,000 training
+cases, complex top-1 is 0.909/0.806/0.645/0.468 from nuisance through severe shift. The two-channel
+real control reaches 0.846/0.745/0.585/0.414. The complex-minus-two-channel world-level effect is
+positive at every severity, with 95% intervals excluding zero. This confirms a simulator robustness
+phenomenon, while in-domain temperature calibration fails to transfer and often worsens shifted
+calibration.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
+
+![Multi-world robustness sweep](research/figures/generated/robustness_world_sweep.png)
 
 ## Quick start
 

@@ -50,3 +50,18 @@ sequence learning. A compact recurrent inductive bias matches this task extremel
 
 **Scientific value:** The GRU then collapses under generator shift, revealing that in-domain sample
 efficiency and robustness are different questions. Future claims must report both.
+
+## In-domain temperature scaling as a shift-calibration fix
+
+**Why it seemed plausible:** Scalar temperature scaling is cheap, preserves class rankings, and can
+correct over- or under-confidence using validation data.
+
+**What happened:** Temperatures fitted on the original world worsen shifted ECE for every tested
+model. For complex operators, moderate-shift NLL rises from 1.459 raw to 4.341 calibrated.
+
+**Why it failed:** The confidence distortion changes with the evidence distribution. A scalar fitted
+to the source distribution encodes the wrong correction under shift, especially for
+magnitude-squared measurements.
+
+**Decision:** Report raw and calibrated metrics, but do not use source-fitted temperature scaling as
+a robustness intervention. Future calibration work must be shift-aware without using test labels.
