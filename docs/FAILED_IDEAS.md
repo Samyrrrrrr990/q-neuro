@@ -96,3 +96,21 @@ objective encouraging metastable mass over observational equivalence classes.
 
 **Worth revisiting:** Yes, with ambiguity-aware training, energy/coherence observables, or an
 explicit set-valued target. The current architecture alone is not the solution.
+
+## Expected information gain as a universally superior query rule
+
+**Why it seemed plausible:** Selecting the finding with the lowest expected posterior entropy is
+the standard rational objective when all query costs are equal.
+
+**What happened:** It improves complex and MLP evidence-curve AUC over a fixed information order,
+but reduces Transformer AUC from 0.528 to 0.359. The real operator is essentially unchanged, and
+GRU/two-channel effects vary across seeds.
+
+**Why it failed broadly:** The policy evaluates counterfactuals through the same model whose
+partial-evidence calibration may be wrong. Entropy minimization can steer toward model artifacts
+rather than resolve the true label. Its diagnosis-weighted outcome model also ignores conditional
+dependencies.
+
+**Decision:** Treat acquisition policy and predictor as a coupled system. Future variants require
+held-out policy validation, calibrated outcome models, and query-cost sensitivity; never infer
+active competence from full-information accuracy alone.

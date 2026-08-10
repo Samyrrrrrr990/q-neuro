@@ -41,9 +41,11 @@ active-evidence:
 analyses:
 	uv run python research/analyses/analyze_generator_shift.py
 	uv run python research/analyses/analyze_neuro_task_suite.py
+	uv run python research/analyses/analyze_active_evidence.py
 
 figures:
 	uv run python research/figures/generate_experiment_zero.py
 	uv run python research/figures/generate_generator_shift.py
 	uv run python research/figures/generate_robustness_sweep.py
 	uv run python research/figures/generate_neuro_task_suite.py
+	uv run python research/figures/generate_active_evidence.py
