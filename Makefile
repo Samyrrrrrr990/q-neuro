@@ -51,6 +51,7 @@ analyses:
 	uv run python research/analyses/analyze_neuro_task_suite.py
 	uv run python research/analyses/analyze_active_evidence.py
 	uv run python research/analyses/analyze_dynamics_suite.py
+	uv run python research/analyses/analyze_ablation_suite.py
 
 figures:
 	uv run python research/figures/generate_experiment_zero.py
@@ -59,3 +60,4 @@ figures:
 	uv run python research/figures/generate_neuro_task_suite.py
 	uv run python research/figures/generate_active_evidence.py
 	uv run python research/figures/generate_dynamics_suite.py
+	uv run python research/figures/generate_ablation_suite.py

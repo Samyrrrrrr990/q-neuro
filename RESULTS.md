@@ -346,3 +346,39 @@ GNN underfits badly, showing that declared causal grouping alone is not a compet
 bias in its present message-passing form.
 
 ![Computational-law mechanism suite](research/figures/generated/dynamics_suite.png)
+
+## Critical mechanism ablations
+
+Primary artifact: `experiments/results/QN-000016/metrics.json`. Paired analysis:
+`research/analyses/generated/critical_ablation_paired_effects.json`.
+
+This suite retrains every ablation rather than perturbing a finished checkpoint. All complex
+operator ablations have the same 20,304 real-scalar count; the commutative accumulator is matched at
+19,982 and two-channel real at 19,975.
+
+| Variant | In-domain top-1 | Moderate-shift top-1 | Counterfactual pairs | Ambiguous-pair NLL ↓ |
+|---|---:|---:|---:|---:|
+| Commutative complex accumulator | 0.704 | 0.415 | 0.000 | 2.422 |
+| Two-channel real operator | 0.877 | 0.499 | 0.663 | 2.037 |
+| Complex operator, magnitude-only readout | 0.861 | 0.543 | 0.825 | 2.467 |
+| Complex operator, negative evidence removed | 0.915 | 0.575 | 0.972 | 3.274 |
+| Full complex operator | **0.969** | **0.647** | **1.000** | 2.352 |
+
+Against the commutative complex accumulator, the full model gains +0.232 shifted top-1 across
+worlds (interval +0.227 to +0.237) and +1.000 counterfactual-pair accuracy. This does not prove that
+matrix non-commutativity alone causes the gain—the accumulator also lacks state-conditioned
+multiplicative updates—but it rules out complex amplitudes plus the final measurement as a
+sufficient explanation.
+
+Making the readout phase-insensitive and constructive-only costs 0.104 shifted top-1 (interval
++0.083 to +0.125). Removing observed-negative evidence costs 0.072 (interval +0.040 to +0.104),
+reduces pair accuracy, and worsens ambiguity NLL by 0.922. Phase-sensitive interference and signed
+anti-evidence are therefore functional contributors under the tested simulator. Neither result is
+a claim of quantum behavior.
+
+Density factor ranks 1, 2, and 4 reach shifted top-1 0.449, 0.453, and 0.441. Rank 4 uses 22,880
+parameters versus 12,920 for rank 1 yet has lower in-domain accuracy, lower pair accuracy, and worse
+ambiguity NLL. More off-diagonal capacity does not help. Because rank changes parameter count, this
+is a capacity trend rather than a perfectly parameter-matched causal ablation.
+
+![Critical Q-Neuro ablations](research/figures/generated/critical_ablation_suite.png)
