@@ -29,14 +29,17 @@ operator-state model, and 1.000 for the complex operator-state model. All ordere
 held-out chronology counterfactual pairs; the MLP solved none because each pair has identical
 aggregate evidence by construction.
 
-The learning-curve study (`QN-000004`) is more informative than the saturated full-data result. At
-250 cases the real operator model was strongest (0.716 mean top-1 versus 0.673 complex). At 1,000
-cases complex reached 0.997 versus 0.985 real, but its mean ECE was 0.176 versus 0.028 and it trained
-about 1.6 times longer. This is preliminary evidence for an operator-state inductive bias on one
-synthetic generator—not evidence that complex arithmetic, Q-Neuro broadly, or a medical system is
-superior.
+The stronger-control replication (`QN-000006`) changes the interpretation of that learning curve.
+A validation-tuned GRU is the most sample-efficient in-domain model at 250 cases (0.920 top-1), so
+operators do not hold a general in-domain sample-efficiency lead. The GRU collapses under changed
+generator seeds, while the complex operator reaches 0.896 on the nuisance shift and 0.660 on the
+noisy/sparse shift at 1,000 cases. The matched two-channel real control reaches 0.828 and 0.597.
+This is preliminary evidence of a robustness difference on declared synthetic shifts—not evidence
+that complex arithmetic, Q-Neuro broadly, or a medical system is superior.
 
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
+
+![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
 
 ## Quick start
 

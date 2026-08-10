@@ -84,3 +84,30 @@ baseline, no two-channel real equivalent, only three training seeds, saturated m
 **Next experiment:** Change the generator seed and causal templates; add a parameter-matched GRU
 and an explicitly two-channel real operator; tune calibration/temperature without changing top-1.
 
+## 2026-08-09 — QN-000006 generator-shift replication
+
+**Question:** Does the medium-data complex result survive a stronger recurrent baseline, an
+explicitly two-channel real control, and changed generator conditions?
+
+**Method:** Nested sizes 250/500/1,000; three seeds; approximately 20k real scalars; learning rates
+for GRU and Transformer chosen exclusively by in-domain validation NLL. Evaluated on the original
+world, a nuisance-seed shift, and a noisy/sparse-evidence shift. The latter mixes probabilities
+toward 0.5, reduces observation rate, increases timing noise, and independently hides chronology
+markers.
+
+**Result:** The tuned GRU is the strongest 250-case in-domain model (0.920 top-1) and disproves the
+broad operator sample-efficiency interpretation. It collapses under generator shift. At 1,000 cases,
+complex operator top-1 is 0.995 in-domain, 0.896 under nuisance shift, and 0.660 under noisy/sparse
+shift. The two-channel real control obtains 0.986, 0.828, and 0.597. Complex solves 0.991 of shifted
+counterfactual pairs versus 0.844 two-channel and 0.663 ordinary real.
+
+**Interpretation:** The new evidence supports an exploratory robustness hypothesis rather than an
+in-domain sample-efficiency headline. The complex-versus-two-channel paired difference is positive
+under both shifts at 1,000 cases, but the study has only three seeds and project-designed shifts.
+
+**Negative result:** A well-tuned conventional recurrent model can dominate all Q-Neuro variants
+in low-data in-domain accuracy. Architecture comparisons without tuning that baseline were weak.
+
+**Next experiment:** Replicate over a preregistered grid of at least five unseen world seeds and
+multiple shift severities; add post-hoc temperature calibration fitted only on validation data; do
+not add Hamiltonian or density dynamics yet.
