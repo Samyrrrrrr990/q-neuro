@@ -65,3 +65,34 @@ magnitude-squared measurements.
 
 **Decision:** Report raw and calibrated metrics, but do not use source-fitted temperature scaling as
 a robustness intervention. Future calibration work must be shift-aware without using test labels.
+
+## Held-out composition at 3,000 cases as an architectural discriminator
+
+**Why it seemed useful:** Excluding selected finding conjunctions should test whether coupled or
+interference-like states recombine evidence more effectively than conventional sequence models.
+
+**What happened:** Complex and two-channel real both reach 1.000 held-out top-1; real reaches 0.999
+and GRU 0.995. Operator-model reference-versus-held-out gaps are effectively zero.
+
+**Why it failed as a discriminator:** The causal factors and individual evidence items remain easy
+to learn, and 3,000 examples saturate the tested construction. Selecting test cases containing a
+conjunction does not itself require an inseparable representation.
+
+**Decision:** Keep the result as a competence check. A future composition experiment must reduce
+data, require an XOR-like or tensor-coupled factor, and include a parameter-matched multiplicative
+baseline.
+
+## Complex states as automatic protection against premature collapse
+
+**Why it seemed plausible:** Amplitude and phase could retain several hypotheses even when the
+final measurement is uncertain.
+
+**What happened:** On observationally identical chronology twins, complex pair NLL is 2.581 and
+valid-twin probability mass is 0.212. The ordinary real operator obtains 1.148 NLL and 0.836 mass.
+
+**Why it failed:** A rich internal state does not force a calibrated measurement. Cross-entropy on
+fully observed cases rewards sharp decisions, and the current magnitude-squared readout has no
+objective encouraging metastable mass over observational equivalence classes.
+
+**Worth revisiting:** Yes, with ambiguity-aware training, energy/coherence observables, or an
+explicit set-valued target. The current architecture alone is not the solution.

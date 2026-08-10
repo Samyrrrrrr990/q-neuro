@@ -186,3 +186,60 @@ Complex moderate-shift NLL worsens from 1.459 to 4.341 after scaling. In-domain 
 shifted confidence substantially worse even while leaving top-1 predictions unchanged.
 
 ![Multi-world robustness sweep](research/figures/generated/robustness_world_sweep.png)
+
+## Orthogonal NeuroWorld task suite
+
+Primary artifact: `experiments/results/QN-000010/metrics.json`. Paired exploratory analysis:
+`research/analyses/generated/neuro_task_suite_paired_effects.json`.
+
+This experiment trains each model separately for ordinary/ambiguity evaluation, held-out evidence
+composition, and a completely omitted disease class. It also evaluates an unlabeled synthetic
+syndrome with a fixed cross-factor signature. All summaries use three training seeds.
+
+| Model | Standard top-1 | Held-out composition top-1 | Ambiguous-pair NLL ↓ | Unknown-disease MSP AUROC | Hidden-syndrome representation AUROC |
+|---|---:|---:|---:|---:|---:|
+| MLP | 0.732 | 0.921 | 1.681 | 0.709 | 0.741 |
+| Tiny Transformer | 0.979 | 0.973 | 6.171 | 0.887 | 0.941 |
+| Tuned GRU | 0.993 | 0.995 | 2.450 | 0.985 | 0.983 |
+| Real operator | 0.998 | 0.999 | **1.148** | 0.952 | 0.992 |
+| Two-channel real operator | 1.000 | 1.000 | 1.453 | 0.997 | 0.852 |
+| Complex operator | **1.000** | **1.000** | 2.581 | **0.999** | **0.999** |
+
+### Composition: non-discriminative at this data scale
+
+The composition split removes four declared positive-finding conjunctions from training and
+requires at least one at test time. Complex and two-channel models both reach 1.000; real reaches
+0.999; GRU reaches 0.995. The reference-versus-held-out generalization gap is effectively zero for
+all operator models. This task therefore verifies compositional competence but does not isolate an
+interference or complex-state advantage.
+
+### Ambiguity: a clear complex-model weakness
+
+Each ambiguity pair contains observationally identical evidence with two equally valid chronology
+labels. The ideal distribution assigns all probability mass equally to the two twins, yielding
+pair NLL `log(2) = 0.693`. No model reaches that target. The real operator is best at 1.148, followed
+by two-channel real at 1.453 and the MLP at 1.681. Complex reaches 2.581, with only 0.212 mean
+probability mass on the two valid labels. Its paired NLL disadvantage versus real is +1.434 (three-
+seed Student-`t` interval +1.416 to +1.451). Complex dynamics are therefore not inherently better
+at representing irreducible uncertainty; the current measurement becomes overcommitted away from
+the valid twin set.
+
+### Unknown disease and hidden syndrome
+
+When label 19 is completely absent from training, complex maximum-softmax uncertainty reaches
+0.9988 AUROC, versus 0.9974 two-channel, 0.9847 GRU, and 0.9521 real. The complex-minus-two-channel
+paired difference is only +0.0015 and its interval crosses zero, so output-space rejection does not
+identify a complex-specific effect. In representation space, complex centroid-distance AUROC is
+0.9965; two-channel is highly seed-unstable (0.8285 ± 0.1358).
+
+For the separately generated unlabeled syndrome, complex representation-distance AUROC is 0.9990
+and real is 0.9918. Two-channel again varies strongly across seeds (0.8519 ± 0.1599). This is
+evidence for robust anomaly separation by the current complex representation, not evidence that a
+new disease attractor was discovered: the test measures separability from known cases and does not
+fit or recover an unknown cluster count.
+
+With only three paired seeds, the smallest attainable two-sided exact sign-flip p-value is 0.25.
+Student-`t` intervals and standardized effects are descriptive, not confirmatory significance
+claims.
+
+![Orthogonal NeuroWorld task suite](research/figures/generated/neuro_task_suite.png)
