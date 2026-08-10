@@ -21,6 +21,23 @@ falsifiable hypothesis.
 - A reproducible, resource-bounded Experiment Zero runner
 - Mathematical-invariant and generator-validity tests
 
+## Current evidence
+
+Corrected Experiment Zero (`QN-000003`, 14,000 training cases, three seeds) found mean top-1
+accuracy of 0.752 for the unordered MLP, 0.995 for the tiny Transformer, 0.999 for the real
+operator-state model, and 1.000 for the complex operator-state model. All ordered models solved the
+held-out chronology counterfactual pairs; the MLP solved none because each pair has identical
+aggregate evidence by construction.
+
+The learning-curve study (`QN-000004`) is more informative than the saturated full-data result. At
+250 cases the real operator model was strongest (0.716 mean top-1 versus 0.673 complex). At 1,000
+cases complex reached 0.997 versus 0.985 real, but its mean ECE was 0.176 versus 0.028 and it trained
+about 1.6 times longer. This is preliminary evidence for an operator-state inductive bias on one
+synthetic generator—not evidence that complex arithmetic, Q-Neuro broadly, or a medical system is
+superior.
+
+![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
+
 ## Quick start
 
 ```bash
@@ -39,4 +56,5 @@ indexed in `experiments/registry.sqlite3`.
 - [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md)
 - [`docs/ARCHITECTURE_CANDIDATES.md`](docs/ARCHITECTURE_CANDIDATES.md)
 - [`docs/MATHEMATICS.md`](docs/MATHEMATICS.md)
-
+- [`RESULTS.md`](RESULTS.md)
+- [`RESEARCH_LOG.md`](RESEARCH_LOG.md)
