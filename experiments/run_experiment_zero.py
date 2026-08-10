@@ -175,6 +175,9 @@ def train_one(
             optimizer.zero_grad(set_to_none=True)
             logits = model(**batch)
             loss = torch.nn.functional.cross_entropy(logits, batch["label"])
+            auxiliary_loss = getattr(model, "auxiliary_loss", None)
+            if auxiliary_loss is not None:
+                loss = loss + auxiliary_loss()
             if not torch.isfinite(loss):
                 raise FloatingPointError("non-finite training loss")
             loss.backward()
