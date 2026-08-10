@@ -151,7 +151,8 @@ def main() -> None:
     )
     for extension in ("png", "pdf"):
         output_path = args.output_directory / f"experiment_zero_learning_curves.{extension}"
-        figure.savefig(output_path, dpi=220, bbox_inches="tight")
+        metadata = {"CreationDate": None, "ModDate": None} if extension == "pdf" else None
+        figure.savefig(output_path, dpi=220, bbox_inches="tight", metadata=metadata)
         print(output_path)
     plt.close(figure)
 
