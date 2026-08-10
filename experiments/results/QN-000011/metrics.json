@@ -1,0 +1,5073 @@
+{
+  "experiment_id": "QN-000011",
+  "fixed_information_names": [
+    "localization_signal_2",
+    "localization_signal_1",
+    "mechanism_signal_3",
+    "localization_signal_6",
+    "mechanism_signal_2",
+    "mechanism_signal_1",
+    "mechanism_signal_0",
+    "mechanism_signal_7",
+    "localization_signal_5",
+    "localization_signal_4",
+    "localization_signal_3",
+    "mechanism_signal_4",
+    "temporal_signal_2",
+    "mechanism_signal_8",
+    "context_signal_5",
+    "mechanism_signal_9",
+    "localization_signal_0",
+    "localization_signal_7",
+    "mechanism_signal_6",
+    "mechanism_signal_5",
+    "context_signal_7",
+    "temporal_signal_4",
+    "temporal_signal_3",
+    "context_signal_2",
+    "context_signal_6",
+    "context_signal_4",
+    "context_signal_0",
+    "temporal_signal_5",
+    "context_signal_3",
+    "temporal_signal_0",
+    "context_signal_1",
+    "temporal_signal_1",
+    "order_marker_1",
+    "order_marker_2",
+    "order_marker_0",
+    "order_marker_3",
+    "order_marker_5",
+    "order_marker_6",
+    "order_marker_4",
+    "order_marker_7"
+  ],
+  "fixed_information_order": [
+    20,
+    19,
+    11,
+    24,
+    10,
+    9,
+    8,
+    15,
+    23,
+    22,
+    21,
+    12,
+    28,
+    16,
+    37,
+    17,
+    18,
+    25,
+    14,
+    13,
+    39,
+    30,
+    29,
+    34,
+    38,
+    36,
+    32,
+    31,
+    35,
+    26,
+    33,
+    27,
+    1,
+    2,
+    0,
+    3,
+    5,
+    6,
+    4,
+    7
+  ],
+  "runs": [
+    {
+      "checkpoint": "/Users/samyarshafiee/Documents/Ai Model/experiments/results/QN-000011/checkpoints/active_evidence_mlp_seed11.pt",
+      "full_information_metrics": {
+        "complete_order_accuracy": NaN,
+        "ece": 0.2684437036514282,
+        "incomplete_order_accuracy": NaN,
+        "nll": 2.185502290725708,
+        "order_accuracy": NaN,
+        "order_evidence_complete_rate": NaN,
+        "top1": 0.4166666567325592,
+        "top3": 0.6666666865348816
+      },
+      "model": "mlp",
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_auc": 0.08333333333333333,
+          "curve": [
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.061822786616782345,
+              "mean_entropy": 2.988713026046753,
+              "nll": 2.8936571524815666,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.06540301038573186,
+              "mean_entropy": 2.9835302233695984,
+              "nll": 2.870475724081293,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.07072310460110505,
+              "mean_entropy": 2.974722941716512,
+              "nll": 2.830385460959166,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.16666666666666666,
+          "final_nll": 2.830385460959166,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.0216371659989818,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            7,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "fixed_information": {
+          "accuracy_auc": 0.13888888888888887,
+          "curve": [
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.061822786616782345,
+              "mean_entropy": 2.988713026046753,
+              "nll": 2.8936571524815666,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.06292832673837741,
+              "mean_entropy": 2.986002763112386,
+              "nll": 2.875534337514327,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.06520505870381992,
+              "mean_entropy": 2.9827097058296204,
+              "nll": 2.8455373315753616,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.25,
+          "final_nll": 2.8455373315753616,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.0020745420042658225,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "random": {
+          "accuracy_auc": 0.13888888888888887,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.05984893720597029,
+              "mean_entropy": 2.9888795812924704,
+              "nll": 2.908607748301812,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.061781108689804874,
+              "mean_entropy": 2.9854949712753296,
+              "nll": 2.8837842852290394,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.3333333333333333,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.06429421932746966,
+              "mean_entropy": 2.980695883433024,
+              "nll": 2.8583158338205306,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.3333333333333333,
+          "final_nll": 2.8583158338205306,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.00276641700475011,
+          "query_frequency": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            2,
+            1,
+            3,
+            1,
+            1,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        }
+      },
+      "seed": 11,
+      "selected_trial": {
+        "learning_rate": 0.003,
+        "model_metadata": {
+          "name": "mlp",
+          "parameter_budget": 20000,
+          "parameter_count": 20002,
+          "rank": 0,
+          "width": 194
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.919462429682414,
+              "validation_nll": 2.613111972808838,
+              "validation_top1": 0.25
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.4689766343434654,
+              "validation_nll": 2.326409339904785,
+              "validation_top1": 0.3700000047683716
+            }
+          ],
+          "peak_rss_bytes": 334544896,
+          "peak_rss_delta_bytes": 10108928,
+          "training_seconds": 0.0328085419969284
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.24178802967071533,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.326409339904785,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.3700000047683716,
+          "top3": 0.6299999952316284
+        }
+      },
+      "tuning_trials": [
+        {
+          "learning_rate": 0.003,
+          "model_metadata": {
+            "name": "mlp",
+            "parameter_budget": 20000,
+            "parameter_count": 20002,
+            "rank": 0,
+            "width": 194
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.919462429682414,
+                "validation_nll": 2.613111972808838,
+                "validation_top1": 0.25
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.4689766343434654,
+                "validation_nll": 2.326409339904785,
+                "validation_top1": 0.3700000047683716
+              }
+            ],
+            "peak_rss_bytes": 334544896,
+            "peak_rss_delta_bytes": 10108928,
+            "training_seconds": 0.0328085419969284
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.24178802967071533,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.326409339904785,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.3700000047683716,
+            "top3": 0.6299999952316284
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "/Users/samyarshafiee/Documents/Ai Model/experiments/results/QN-000011/checkpoints/active_evidence_transformer_seed11.pt",
+      "full_information_metrics": {
+        "complete_order_accuracy": NaN,
+        "ece": 0.08037476241588593,
+        "incomplete_order_accuracy": NaN,
+        "nll": 2.623704671859741,
+        "order_accuracy": NaN,
+        "order_evidence_complete_rate": NaN,
+        "top1": 0.1666666716337204,
+        "top3": 0.3333333432674408
+      },
+      "model": "transformer",
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_auc": 0.08333333333333333,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.13107505813241005,
+              "mean_entropy": 2.772378623485565,
+              "nll": 2.671527267073539,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.14917350995043913,
+              "mean_entropy": 2.7674665252367654,
+              "nll": 2.6554205641445274,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.15007075977822146,
+              "mean_entropy": 2.7704843481381736,
+              "nll": 2.613093632222054,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.16666666666666666,
+          "final_nll": 2.613093632222054,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.0347054579979158,
+          "query_frequency": [
+            2,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            6,
+            0,
+            0,
+            0,
+            2,
+            0,
+            1,
+            0,
+            0,
+            0,
+            12,
+            2,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "fixed_information": {
+          "accuracy_auc": 0.05555555555555555,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.13107505813241005,
+              "mean_entropy": 2.772378623485565,
+              "nll": 2.671527267073539,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.13303906532625356,
+              "mean_entropy": 2.8020642598470054,
+              "nll": 2.6553128348129893,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.1298180321852366,
+              "mean_entropy": 2.8416624665260315,
+              "nll": 2.6154636833198226,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.16666666666666666,
+          "final_nll": 2.6154636833198226,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.007231042000057641,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "random": {
+          "accuracy_auc": 0.08333333333333333,
+          "curve": [
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.16025010061760744,
+              "mean_entropy": 2.73854132493337,
+              "nll": 2.812948204462684,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.13231243814031282,
+              "mean_entropy": 2.8098918994267783,
+              "nll": 2.8192083749298718,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.12753415666520596,
+              "mean_entropy": 2.841028153896332,
+              "nll": 2.750644720482754,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.08333333333333333,
+          "final_nll": 2.750644720482754,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.006909249997988809,
+          "query_frequency": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            2,
+            1,
+            3,
+            1,
+            1,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        }
+      },
+      "seed": 11,
+      "selected_trial": {
+        "learning_rate": 0.003,
+        "model_metadata": {
+          "name": "transformer",
+          "parameter_budget": 20000,
+          "parameter_count": 18980,
+          "rank": 0,
+          "width": 40
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.9402876631418864,
+              "validation_nll": 2.7447752952575684,
+              "validation_top1": 0.11999999731779099
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.7240405877431235,
+              "validation_nll": 2.5983622074127197,
+              "validation_top1": 0.15000000596046448
+            }
+          ],
+          "peak_rss_bytes": 323452928,
+          "peak_rss_delta_bytes": 10567680,
+          "training_seconds": 0.06093637499725446
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.05227148160338402,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.5983622074127197,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.15000000596046448,
+          "top3": 0.38999998569488525
+        }
+      },
+      "tuning_trials": [
+        {
+          "learning_rate": 0.003,
+          "model_metadata": {
+            "name": "transformer",
+            "parameter_budget": 20000,
+            "parameter_count": 18980,
+            "rank": 0,
+            "width": 40
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.9402876631418864,
+                "validation_nll": 2.7447752952575684,
+                "validation_top1": 0.11999999731779099
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.7240405877431235,
+                "validation_nll": 2.5983622074127197,
+                "validation_top1": 0.15000000596046448
+              }
+            ],
+            "peak_rss_bytes": 323452928,
+            "peak_rss_delta_bytes": 10567680,
+            "training_seconds": 0.06093637499725446
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.05227148160338402,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.5983622074127197,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.15000000596046448,
+            "top3": 0.38999998569488525
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "/Users/samyarshafiee/Documents/Ai Model/experiments/results/QN-000011/checkpoints/active_evidence_gru_seed11.pt",
+      "full_information_metrics": {
+        "complete_order_accuracy": NaN,
+        "ece": 0.02063414454460144,
+        "incomplete_order_accuracy": NaN,
+        "nll": 2.409621000289917,
+        "order_accuracy": NaN,
+        "order_evidence_complete_rate": NaN,
+        "top1": 0.1666666716337204,
+        "top3": 0.5
+      },
+      "model": "gru",
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_auc": 0.05555555555555555,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.08011489920318127,
+              "mean_entropy": 2.960130830605825,
+              "nll": 2.998740849168751,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.13162105716764927,
+              "mean_entropy": 2.8364022374153137,
+              "nll": 2.6205799617647023,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.1475637573748827,
+              "mean_entropy": 2.7589051922162375,
+              "nll": 2.5199416990167385,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.08333333333333333,
+          "final_nll": 2.5199416990167385,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.029053958998702,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            11,
+            0,
+            0,
+            12
+          ],
+          "resolution_rate": 0.0
+        },
+        "fixed_information": {
+          "accuracy_auc": 0.0,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.08011489920318127,
+              "mean_entropy": 2.960130830605825,
+              "nll": 2.998740849168751,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.07808295885721843,
+              "mean_entropy": 2.96348637342453,
+              "nll": 2.9313083872559162,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.07976343172291915,
+              "mean_entropy": 2.9612889091173806,
+              "nll": 2.9024899993309368,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.0,
+          "final_nll": 2.9024899993309368,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.0043440000008558854,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "random": {
+          "accuracy_auc": 0.05555555555555555,
+          "curve": [
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.07989394788940747,
+              "mean_entropy": 2.9520472288131714,
+              "nll": 2.973159347078185,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.08924473139146964,
+              "mean_entropy": 2.920796831448873,
+              "nll": 2.9037889423236045,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.08333333333333333,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.09140197684367497,
+              "mean_entropy": 2.906258742014567,
+              "nll": 2.886868896136591,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.08333333333333333,
+          "final_nll": 2.886868896136591,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.004620499996235594,
+          "query_frequency": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            2,
+            1,
+            3,
+            1,
+            1,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        }
+      },
+      "seed": 11,
+      "selected_trial": {
+        "learning_rate": 0.006,
+        "model_metadata": {
+          "name": "gru",
+          "parameter_budget": 20000,
+          "parameter_count": 19656,
+          "rank": 0,
+          "width": 59
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.9119873174031574,
+              "validation_nll": 2.7247061729431152,
+              "validation_top1": 0.15000000596046448
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.6151461378733316,
+              "validation_nll": 2.5226120948791504,
+              "validation_top1": 0.1599999964237213
+            }
+          ],
+          "peak_rss_bytes": 342622208,
+          "peak_rss_delta_bytes": 15548416,
+          "training_seconds": 0.08939266700326698
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.02333068661391735,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.5226120948791504,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.1599999964237213,
+          "top3": 0.38999998569488525
+        }
+      },
+      "tuning_trials": [
+        {
+          "learning_rate": 0.006,
+          "model_metadata": {
+            "name": "gru",
+            "parameter_budget": 20000,
+            "parameter_count": 19656,
+            "rank": 0,
+            "width": 59
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.9119873174031574,
+                "validation_nll": 2.7247061729431152,
+                "validation_top1": 0.15000000596046448
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.6151461378733316,
+                "validation_nll": 2.5226120948791504,
+                "validation_top1": 0.1599999964237213
+              }
+            ],
+            "peak_rss_bytes": 342622208,
+            "peak_rss_delta_bytes": 15548416,
+            "training_seconds": 0.08939266700326698
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.02333068661391735,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.5226120948791504,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.1599999964237213,
+            "top3": 0.38999998569488525
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "/Users/samyarshafiee/Documents/Ai Model/experiments/results/QN-000011/checkpoints/active_evidence_real_operator_seed11.pt",
+      "full_information_metrics": {
+        "complete_order_accuracy": NaN,
+        "ece": 0.2853551208972931,
+        "incomplete_order_accuracy": NaN,
+        "nll": 2.5773980617523193,
+        "order_accuracy": NaN,
+        "order_evidence_complete_rate": NaN,
+        "top1": 0.25,
+        "top3": 0.5
+      },
+      "model": "real_operator",
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_auc": 0.19444444444444442,
+          "curve": [
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.12845679372549057,
+              "mean_entropy": 2.7328079541524253,
+              "nll": 2.99901177681012,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.13321499961117902,
+              "mean_entropy": 2.726903021335602,
+              "nll": 2.970490434365127,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.14042114528516927,
+              "mean_entropy": 2.720508317152659,
+              "nll": 2.9403345074978664,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.16666666666666666,
+          "final_nll": 2.9403345074978664,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.05519208300393075,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            1,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            8,
+            0,
+            4
+          ],
+          "resolution_rate": 0.0
+        },
+        "fixed_information": {
+          "accuracy_auc": 0.2222222222222222,
+          "curve": [
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.12845679372549057,
+              "mean_entropy": 2.7328079541524253,
+              "nll": 2.99901177681012,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.13046108496685824,
+              "mean_entropy": 2.730312963326772,
+              "nll": 2.9824926372620593,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.1344971458117167,
+              "mean_entropy": 2.7272515098253884,
+              "nll": 2.9595079336452774,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.25,
+          "final_nll": 2.9595079336452774,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.005388041005062405,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "random": {
+          "accuracy_auc": 0.19444444444444442,
+          "curve": [
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.12968137922386327,
+              "mean_entropy": 2.7344205578168235,
+              "nll": 3.0060330365764085,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.12737303785979748,
+              "mean_entropy": 2.7361609737078347,
+              "nll": 2.9890266924977413,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.16666666666666666,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.12862145528197289,
+              "mean_entropy": 2.736143867174784,
+              "nll": 2.973167289417004,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.16666666666666666,
+          "final_nll": 2.973167289417004,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.0056587080034660175,
+          "query_frequency": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            2,
+            1,
+            3,
+            1,
+            1,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        }
+      },
+      "seed": 11,
+      "selected_trial": {
+        "learning_rate": 0.003,
+        "model_metadata": {
+          "name": "real_operator",
+          "parameter_budget": 20000,
+          "parameter_count": 19901,
+          "rank": 2,
+          "width": 47
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.4192519092559817,
+              "validation_nll": 3.150104284286499,
+              "validation_top1": 0.09000000357627869
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.8787030156453453,
+              "validation_nll": 2.756587028503418,
+              "validation_top1": 0.23000000417232513
+            }
+          ],
+          "peak_rss_bytes": 318439424,
+          "peak_rss_delta_bytes": 5603328,
+          "training_seconds": 0.09879424999962794
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.07578936964273453,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.756587028503418,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.23000000417232513,
+          "top3": 0.41999998688697815
+        }
+      },
+      "tuning_trials": [
+        {
+          "learning_rate": 0.003,
+          "model_metadata": {
+            "name": "real_operator",
+            "parameter_budget": 20000,
+            "parameter_count": 19901,
+            "rank": 2,
+            "width": 47
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.4192519092559817,
+                "validation_nll": 3.150104284286499,
+                "validation_top1": 0.09000000357627869
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.8787030156453453,
+                "validation_nll": 2.756587028503418,
+                "validation_top1": 0.23000000417232513
+              }
+            ],
+            "peak_rss_bytes": 318439424,
+            "peak_rss_delta_bytes": 5603328,
+            "training_seconds": 0.09879424999962794
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.07578936964273453,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.756587028503418,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.23000000417232513,
+            "top3": 0.41999998688697815
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "/Users/samyarshafiee/Documents/Ai Model/experiments/results/QN-000011/checkpoints/active_evidence_two_channel_operator_seed11.pt",
+      "full_information_metrics": {
+        "complete_order_accuracy": NaN,
+        "ece": 0.14770744740962982,
+        "incomplete_order_accuracy": NaN,
+        "nll": 2.5077269077301025,
+        "order_accuracy": NaN,
+        "order_evidence_complete_rate": NaN,
+        "top1": 0.0,
+        "top3": 0.3333333432674408
+      },
+      "model": "two_channel_operator",
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_auc": 0.0,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.19301227976878485,
+              "mean_entropy": 2.5677654147148132,
+              "nll": 2.9550867519826896,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.19557646786173186,
+              "mean_entropy": 2.556651532649994,
+              "nll": 2.9445804655490115,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.19810603434840837,
+              "mean_entropy": 2.5483477314313254,
+              "nll": 2.949023140507466,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.0,
+          "final_nll": 2.949023140507466,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.031048749995534308,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            4,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            5,
+            0,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        },
+        "fixed_information": {
+          "accuracy_auc": 0.0,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.19301227976878485,
+              "mean_entropy": 2.5677654147148132,
+              "nll": 2.9550867519826896,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.1907342659930388,
+              "mean_entropy": 2.5701724886894226,
+              "nll": 2.9343543896264106,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.18914790575702986,
+              "mean_entropy": 2.5730020801226297,
+              "nll": 2.9211751632835874,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.0,
+          "final_nll": 2.9211751632835874,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.005550249996304046,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "random": {
+          "accuracy_auc": 0.0,
+          "curve": [
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.19374223301808038,
+              "mean_entropy": 2.5700324177742004,
+              "nll": 2.982631667486794,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.19259736562768617,
+              "mean_entropy": 2.5714876453081765,
+              "nll": 2.9934551252623915,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.0,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.1923363357782364,
+              "mean_entropy": 2.570291022459666,
+              "nll": 2.964715592786744,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.0,
+          "final_nll": 2.964715592786744,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.005652332998579368,
+          "query_frequency": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            2,
+            1,
+            3,
+            1,
+            1,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        }
+      },
+      "seed": 11,
+      "selected_trial": {
+        "learning_rate": 0.003,
+        "model_metadata": {
+          "name": "two_channel_operator",
+          "parameter_budget": 20000,
+          "parameter_count": 19975,
+          "rank": 2,
+          "width": 45
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.3101677989959715,
+              "validation_nll": 2.714190721511841,
+              "validation_top1": 0.09000000357627869
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.5345652612050373,
+              "validation_nll": 2.370832920074463,
+              "validation_top1": 0.10999999940395355
+            }
+          ],
+          "peak_rss_bytes": 302563328,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.08203599999978906
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.06470415741205215,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.370832920074463,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.10999999940395355,
+          "top3": 0.4300000071525574
+        }
+      },
+      "tuning_trials": [
+        {
+          "learning_rate": 0.003,
+          "model_metadata": {
+            "name": "two_channel_operator",
+            "parameter_budget": 20000,
+            "parameter_count": 19975,
+            "rank": 2,
+            "width": 45
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.3101677989959715,
+                "validation_nll": 2.714190721511841,
+                "validation_top1": 0.09000000357627869
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.5345652612050373,
+                "validation_nll": 2.370832920074463,
+                "validation_top1": 0.10999999940395355
+              }
+            ],
+            "peak_rss_bytes": 302563328,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.08203599999978906
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.06470415741205215,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.370832920074463,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.10999999940395355,
+            "top3": 0.4300000071525574
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "/Users/samyarshafiee/Documents/Ai Model/experiments/results/QN-000011/checkpoints/active_evidence_complex_operator_seed11.pt",
+      "full_information_metrics": {
+        "complete_order_accuracy": NaN,
+        "ece": 0.18103431165218353,
+        "incomplete_order_accuracy": NaN,
+        "nll": 2.2193641662597656,
+        "order_accuracy": NaN,
+        "order_evidence_complete_rate": NaN,
+        "top1": 0.3333333432674408,
+        "top3": 0.5833333134651184
+      },
+      "model": "complex_operator",
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_auc": 0.25,
+          "curve": [
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.11740074741343658,
+              "mean_entropy": 2.683968484401703,
+              "nll": 2.5597434249019044,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.11905524010459582,
+              "mean_entropy": 2.6701480746269226,
+              "nll": 2.5425275481724685,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.12246807850897312,
+              "mean_entropy": 2.659145712852478,
+              "nll": 2.5346185747296315,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.25,
+          "final_nll": 2.5346185747296315,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.06075537499418715,
+          "query_frequency": [
+            6,
+            0,
+            0,
+            0,
+            0,
+            4,
+            0,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "fixed_information": {
+          "accuracy_auc": 0.27777777777777773,
+          "curve": [
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.11740074741343658,
+              "mean_entropy": 2.683968484401703,
+              "nll": 2.5597434249019044,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.11965333918730418,
+              "mean_entropy": 2.684626797835032,
+              "nll": 2.536936893239543,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.3333333333333333,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.1194505828122298,
+              "mean_entropy": 2.6832205057144165,
+              "nll": 2.5291421531453326,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.3333333333333333,
+          "final_nll": 2.5291421531453326,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.014659749998827465,
+          "query_frequency": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            12,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolution_rate": 0.0
+        },
+        "random": {
+          "accuracy_auc": 0.27777777777777773,
+          "curve": [
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.025,
+              "mean_confidence": 0.11557319760322571,
+              "mean_entropy": 2.682920495669047,
+              "nll": 2.567575504440962,
+              "queries": 1.0
+            },
+            {
+              "accuracy": 0.25,
+              "evidence_fraction": 0.05,
+              "mean_confidence": 0.11561351393659909,
+              "mean_entropy": 2.676848749319712,
+              "nll": 2.565220493597513,
+              "queries": 2.0
+            },
+            {
+              "accuracy": 0.3333333333333333,
+              "evidence_fraction": 0.075,
+              "mean_confidence": 0.11720471270382404,
+              "mean_entropy": 2.6709229350090027,
+              "nll": 2.5333756201283775,
+              "queries": 3.0
+            }
+          ],
+          "final_accuracy": 0.3333333333333333,
+          "final_nll": 2.5333756201283775,
+          "mean_queries_to_resolution_penalized": 4.0,
+          "median_queries_to_resolution_penalized": 4.0,
+          "policy_seconds": 0.03548287499870639,
+          "query_frequency": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            1,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            2,
+            1,
+            3,
+            1,
+            1,
+            0,
+            2
+          ],
+          "resolution_rate": 0.0
+        }
+      },
+      "seed": 11,
+      "selected_trial": {
+        "learning_rate": 0.003,
+        "model_metadata": {
+          "name": "complex_operator",
+          "parameter_budget": 20000,
+          "parameter_count": 20304,
+          "rank": 2,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.433264627456665,
+              "validation_nll": 2.64007568359375,
+              "validation_top1": 0.10000000149011612
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.5109902064005536,
+              "validation_nll": 2.3709280490875244,
+              "validation_top1": 0.20000000298023224
+            }
+          ],
+          "peak_rss_bytes": 306823168,
+          "peak_rss_delta_bytes": 8241152,
+          "training_seconds": 0.16375020800478524
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.05882520228624344,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.3709280490875244,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.20000000298023224,
+          "top3": 0.47999998927116394
+        }
+      },
+      "tuning_trials": [
+        {
+          "learning_rate": 0.003,
+          "model_metadata": {
+            "name": "complex_operator",
+            "parameter_budget": 20000,
+            "parameter_count": 20304,
+            "rank": 2,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.433264627456665,
+                "validation_nll": 2.64007568359375,
+                "validation_top1": 0.10000000149011612
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.5109902064005536,
+                "validation_nll": 2.3709280490875244,
+                "validation_top1": 0.20000000298023224
+              }
+            ],
+            "peak_rss_bytes": 306823168,
+            "peak_rss_delta_bytes": 8241152,
+            "training_seconds": 0.16375020800478524
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.05882520228624344,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.3709280490875244,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.20000000298023224,
+            "top3": 0.47999998927116394
+          }
+        }
+      ]
+    }
+  ],
+  "status": "complete",
+  "summary": {
+    "complex_operator": {
+      "full_information": {
+        "ece": {
+          "ci95_high": 0.18103431165218353,
+          "ci95_low": 0.18103431165218353,
+          "ci_method": "student_t",
+          "mean": 0.18103431165218353,
+          "n": 1,
+          "std": 0.0
+        },
+        "nll": {
+          "ci95_high": 2.2193641662597656,
+          "ci95_low": 2.2193641662597656,
+          "ci_method": "student_t",
+          "mean": 2.2193641662597656,
+          "n": 1,
+          "std": 0.0
+        },
+        "top1": {
+          "ci95_high": 0.3333333432674408,
+          "ci95_low": 0.3333333432674408,
+          "ci_method": "student_t",
+          "mean": 0.3333333432674408,
+          "n": 1,
+          "std": 0.0
+        },
+        "top3": {
+          "ci95_high": 0.5833333134651184,
+          "ci95_low": 0.5833333134651184,
+          "ci_method": "student_t",
+          "mean": 0.5833333134651184,
+          "n": 1,
+          "std": 0.0
+        }
+      },
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.5346185747296315,
+            "ci95_low": 2.5346185747296315,
+            "ci_method": "student_t",
+            "mean": 2.5346185747296315,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.11740074741343658,
+            "ci95_low": 0.11740074741343658,
+            "ci_method": "student_t",
+            "mean": 0.11740074741343658,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.11905524010459582,
+            "ci95_low": 0.11905524010459582,
+            "ci_method": "student_t",
+            "mean": 0.11905524010459582,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.12246807850897312,
+            "ci95_low": 0.12246807850897312,
+            "ci_method": "student_t",
+            "mean": 0.12246807850897312,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.683968484401703,
+            "ci95_low": 2.683968484401703,
+            "ci_method": "student_t",
+            "mean": 2.683968484401703,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.6701480746269226,
+            "ci95_low": 2.6701480746269226,
+            "ci_method": "student_t",
+            "mean": 2.6701480746269226,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.659145712852478,
+            "ci95_low": 2.659145712852478,
+            "ci_method": "student_t",
+            "mean": 2.659145712852478,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.5597434249019044,
+            "ci95_low": 2.5597434249019044,
+            "ci_method": "student_t",
+            "mean": 2.5597434249019044,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.5425275481724685,
+            "ci95_low": 2.5425275481724685,
+            "ci_method": "student_t",
+            "mean": 2.5425275481724685,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.5346185747296315,
+            "ci95_low": 2.5346185747296315,
+            "ci_method": "student_t",
+            "mean": 2.5346185747296315,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.06075537499418715,
+            "ci95_low": 0.06075537499418715,
+            "ci_method": "student_t",
+            "mean": 0.06075537499418715,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "fixed_information": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.3333333333333333,
+            "ci95_low": 0.3333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.3333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.27777777777777773,
+            "ci95_low": 0.27777777777777773,
+            "ci_method": "student_t",
+            "mean": 0.27777777777777773,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.3333333333333333,
+            "ci95_low": 0.3333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.3333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.5291421531453326,
+            "ci95_low": 2.5291421531453326,
+            "ci_method": "student_t",
+            "mean": 2.5291421531453326,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.11740074741343658,
+            "ci95_low": 0.11740074741343658,
+            "ci_method": "student_t",
+            "mean": 0.11740074741343658,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.11965333918730418,
+            "ci95_low": 0.11965333918730418,
+            "ci_method": "student_t",
+            "mean": 0.11965333918730418,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.1194505828122298,
+            "ci95_low": 0.1194505828122298,
+            "ci_method": "student_t",
+            "mean": 0.1194505828122298,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.683968484401703,
+            "ci95_low": 2.683968484401703,
+            "ci_method": "student_t",
+            "mean": 2.683968484401703,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.684626797835032,
+            "ci95_low": 2.684626797835032,
+            "ci_method": "student_t",
+            "mean": 2.684626797835032,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.6832205057144165,
+            "ci95_low": 2.6832205057144165,
+            "ci_method": "student_t",
+            "mean": 2.6832205057144165,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.5597434249019044,
+            "ci95_low": 2.5597434249019044,
+            "ci_method": "student_t",
+            "mean": 2.5597434249019044,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.536936893239543,
+            "ci95_low": 2.536936893239543,
+            "ci_method": "student_t",
+            "mean": 2.536936893239543,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.5291421531453326,
+            "ci95_low": 2.5291421531453326,
+            "ci_method": "student_t",
+            "mean": 2.5291421531453326,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.014659749998827465,
+            "ci95_low": 0.014659749998827465,
+            "ci_method": "student_t",
+            "mean": 0.014659749998827465,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "random": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.3333333333333333,
+            "ci95_low": 0.3333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.3333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.27777777777777773,
+            "ci95_low": 0.27777777777777773,
+            "ci_method": "student_t",
+            "mean": 0.27777777777777773,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.3333333333333333,
+            "ci95_low": 0.3333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.3333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.5333756201283775,
+            "ci95_low": 2.5333756201283775,
+            "ci_method": "student_t",
+            "mean": 2.5333756201283775,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.11557319760322571,
+            "ci95_low": 0.11557319760322571,
+            "ci_method": "student_t",
+            "mean": 0.11557319760322571,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.11561351393659909,
+            "ci95_low": 0.11561351393659909,
+            "ci_method": "student_t",
+            "mean": 0.11561351393659909,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.11720471270382404,
+            "ci95_low": 0.11720471270382404,
+            "ci_method": "student_t",
+            "mean": 0.11720471270382404,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.682920495669047,
+            "ci95_low": 2.682920495669047,
+            "ci_method": "student_t",
+            "mean": 2.682920495669047,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.676848749319712,
+            "ci95_low": 2.676848749319712,
+            "ci_method": "student_t",
+            "mean": 2.676848749319712,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.6709229350090027,
+            "ci95_low": 2.6709229350090027,
+            "ci_method": "student_t",
+            "mean": 2.6709229350090027,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.567575504440962,
+            "ci95_low": 2.567575504440962,
+            "ci_method": "student_t",
+            "mean": 2.567575504440962,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.565220493597513,
+            "ci95_low": 2.565220493597513,
+            "ci_method": "student_t",
+            "mean": 2.565220493597513,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.5333756201283775,
+            "ci95_low": 2.5333756201283775,
+            "ci_method": "student_t",
+            "mean": 2.5333756201283775,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.03548287499870639,
+            "ci95_low": 0.03548287499870639,
+            "ci_method": "student_t",
+            "mean": 0.03548287499870639,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        }
+      }
+    },
+    "gru": {
+      "full_information": {
+        "ece": {
+          "ci95_high": 0.02063414454460144,
+          "ci95_low": 0.02063414454460144,
+          "ci_method": "student_t",
+          "mean": 0.02063414454460144,
+          "n": 1,
+          "std": 0.0
+        },
+        "nll": {
+          "ci95_high": 2.409621000289917,
+          "ci95_low": 2.409621000289917,
+          "ci_method": "student_t",
+          "mean": 2.409621000289917,
+          "n": 1,
+          "std": 0.0
+        },
+        "top1": {
+          "ci95_high": 0.1666666716337204,
+          "ci95_low": 0.1666666716337204,
+          "ci_method": "student_t",
+          "mean": 0.1666666716337204,
+          "n": 1,
+          "std": 0.0
+        },
+        "top3": {
+          "ci95_high": 0.5,
+          "ci95_low": 0.5,
+          "ci_method": "student_t",
+          "mean": 0.5,
+          "n": 1,
+          "std": 0.0
+        }
+      },
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.05555555555555555,
+            "ci95_low": 0.05555555555555555,
+            "ci_method": "student_t",
+            "mean": 0.05555555555555555,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.5199416990167385,
+            "ci95_low": 2.5199416990167385,
+            "ci_method": "student_t",
+            "mean": 2.5199416990167385,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.08011489920318127,
+            "ci95_low": 0.08011489920318127,
+            "ci_method": "student_t",
+            "mean": 0.08011489920318127,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.13162105716764927,
+            "ci95_low": 0.13162105716764927,
+            "ci_method": "student_t",
+            "mean": 0.13162105716764927,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.1475637573748827,
+            "ci95_low": 0.1475637573748827,
+            "ci_method": "student_t",
+            "mean": 0.1475637573748827,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.960130830605825,
+            "ci95_low": 2.960130830605825,
+            "ci_method": "student_t",
+            "mean": 2.960130830605825,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.8364022374153137,
+            "ci95_low": 2.8364022374153137,
+            "ci_method": "student_t",
+            "mean": 2.8364022374153137,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.7589051922162375,
+            "ci95_low": 2.7589051922162375,
+            "ci_method": "student_t",
+            "mean": 2.7589051922162375,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.998740849168751,
+            "ci95_low": 2.998740849168751,
+            "ci_method": "student_t",
+            "mean": 2.998740849168751,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.6205799617647023,
+            "ci95_low": 2.6205799617647023,
+            "ci_method": "student_t",
+            "mean": 2.6205799617647023,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.5199416990167385,
+            "ci95_low": 2.5199416990167385,
+            "ci_method": "student_t",
+            "mean": 2.5199416990167385,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.029053958998702,
+            "ci95_low": 0.029053958998702,
+            "ci_method": "student_t",
+            "mean": 0.029053958998702,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "fixed_information": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.9024899993309368,
+            "ci95_low": 2.9024899993309368,
+            "ci_method": "student_t",
+            "mean": 2.9024899993309368,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.08011489920318127,
+            "ci95_low": 0.08011489920318127,
+            "ci_method": "student_t",
+            "mean": 0.08011489920318127,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.07808295885721843,
+            "ci95_low": 0.07808295885721843,
+            "ci_method": "student_t",
+            "mean": 0.07808295885721843,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.07976343172291915,
+            "ci95_low": 0.07976343172291915,
+            "ci_method": "student_t",
+            "mean": 0.07976343172291915,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.960130830605825,
+            "ci95_low": 2.960130830605825,
+            "ci_method": "student_t",
+            "mean": 2.960130830605825,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.96348637342453,
+            "ci95_low": 2.96348637342453,
+            "ci_method": "student_t",
+            "mean": 2.96348637342453,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.9612889091173806,
+            "ci95_low": 2.9612889091173806,
+            "ci_method": "student_t",
+            "mean": 2.9612889091173806,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.998740849168751,
+            "ci95_low": 2.998740849168751,
+            "ci_method": "student_t",
+            "mean": 2.998740849168751,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9313083872559162,
+            "ci95_low": 2.9313083872559162,
+            "ci_method": "student_t",
+            "mean": 2.9313083872559162,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.9024899993309368,
+            "ci95_low": 2.9024899993309368,
+            "ci_method": "student_t",
+            "mean": 2.9024899993309368,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.0043440000008558854,
+            "ci95_low": 0.0043440000008558854,
+            "ci_method": "student_t",
+            "mean": 0.0043440000008558854,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "random": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.05555555555555555,
+            "ci95_low": 0.05555555555555555,
+            "ci_method": "student_t",
+            "mean": 0.05555555555555555,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.886868896136591,
+            "ci95_low": 2.886868896136591,
+            "ci_method": "student_t",
+            "mean": 2.886868896136591,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.07989394788940747,
+            "ci95_low": 0.07989394788940747,
+            "ci_method": "student_t",
+            "mean": 0.07989394788940747,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.08924473139146964,
+            "ci95_low": 0.08924473139146964,
+            "ci_method": "student_t",
+            "mean": 0.08924473139146964,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.09140197684367497,
+            "ci95_low": 0.09140197684367497,
+            "ci_method": "student_t",
+            "mean": 0.09140197684367497,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.9520472288131714,
+            "ci95_low": 2.9520472288131714,
+            "ci_method": "student_t",
+            "mean": 2.9520472288131714,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.920796831448873,
+            "ci95_low": 2.920796831448873,
+            "ci_method": "student_t",
+            "mean": 2.920796831448873,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.906258742014567,
+            "ci95_low": 2.906258742014567,
+            "ci_method": "student_t",
+            "mean": 2.906258742014567,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.973159347078185,
+            "ci95_low": 2.973159347078185,
+            "ci_method": "student_t",
+            "mean": 2.973159347078185,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9037889423236045,
+            "ci95_low": 2.9037889423236045,
+            "ci_method": "student_t",
+            "mean": 2.9037889423236045,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.886868896136591,
+            "ci95_low": 2.886868896136591,
+            "ci_method": "student_t",
+            "mean": 2.886868896136591,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.004620499996235594,
+            "ci95_low": 0.004620499996235594,
+            "ci_method": "student_t",
+            "mean": 0.004620499996235594,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        }
+      }
+    },
+    "mlp": {
+      "full_information": {
+        "ece": {
+          "ci95_high": 0.2684437036514282,
+          "ci95_low": 0.2684437036514282,
+          "ci_method": "student_t",
+          "mean": 0.2684437036514282,
+          "n": 1,
+          "std": 0.0
+        },
+        "nll": {
+          "ci95_high": 2.185502290725708,
+          "ci95_low": 2.185502290725708,
+          "ci_method": "student_t",
+          "mean": 2.185502290725708,
+          "n": 1,
+          "std": 0.0
+        },
+        "top1": {
+          "ci95_high": 0.4166666567325592,
+          "ci95_low": 0.4166666567325592,
+          "ci_method": "student_t",
+          "mean": 0.4166666567325592,
+          "n": 1,
+          "std": 0.0
+        },
+        "top3": {
+          "ci95_high": 0.6666666865348816,
+          "ci95_low": 0.6666666865348816,
+          "ci_method": "student_t",
+          "mean": 0.6666666865348816,
+          "n": 1,
+          "std": 0.0
+        }
+      },
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.830385460959166,
+            "ci95_low": 2.830385460959166,
+            "ci_method": "student_t",
+            "mean": 2.830385460959166,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.061822786616782345,
+            "ci95_low": 0.061822786616782345,
+            "ci_method": "student_t",
+            "mean": 0.061822786616782345,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.06540301038573186,
+            "ci95_low": 0.06540301038573186,
+            "ci_method": "student_t",
+            "mean": 0.06540301038573186,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.07072310460110505,
+            "ci95_low": 0.07072310460110505,
+            "ci_method": "student_t",
+            "mean": 0.07072310460110505,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.988713026046753,
+            "ci95_low": 2.988713026046753,
+            "ci_method": "student_t",
+            "mean": 2.988713026046753,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.9835302233695984,
+            "ci95_low": 2.9835302233695984,
+            "ci_method": "student_t",
+            "mean": 2.9835302233695984,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.974722941716512,
+            "ci95_low": 2.974722941716512,
+            "ci_method": "student_t",
+            "mean": 2.974722941716512,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.8936571524815666,
+            "ci95_low": 2.8936571524815666,
+            "ci_method": "student_t",
+            "mean": 2.8936571524815666,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.870475724081293,
+            "ci95_low": 2.870475724081293,
+            "ci_method": "student_t",
+            "mean": 2.870475724081293,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.830385460959166,
+            "ci95_low": 2.830385460959166,
+            "ci_method": "student_t",
+            "mean": 2.830385460959166,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.0216371659989818,
+            "ci95_low": 0.0216371659989818,
+            "ci_method": "student_t",
+            "mean": 0.0216371659989818,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "fixed_information": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.13888888888888887,
+            "ci95_low": 0.13888888888888887,
+            "ci_method": "student_t",
+            "mean": 0.13888888888888887,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.8455373315753616,
+            "ci95_low": 2.8455373315753616,
+            "ci_method": "student_t",
+            "mean": 2.8455373315753616,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.061822786616782345,
+            "ci95_low": 0.061822786616782345,
+            "ci_method": "student_t",
+            "mean": 0.061822786616782345,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.06292832673837741,
+            "ci95_low": 0.06292832673837741,
+            "ci_method": "student_t",
+            "mean": 0.06292832673837741,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.06520505870381992,
+            "ci95_low": 0.06520505870381992,
+            "ci_method": "student_t",
+            "mean": 0.06520505870381992,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.988713026046753,
+            "ci95_low": 2.988713026046753,
+            "ci_method": "student_t",
+            "mean": 2.988713026046753,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.986002763112386,
+            "ci95_low": 2.986002763112386,
+            "ci_method": "student_t",
+            "mean": 2.986002763112386,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.9827097058296204,
+            "ci95_low": 2.9827097058296204,
+            "ci_method": "student_t",
+            "mean": 2.9827097058296204,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.8936571524815666,
+            "ci95_low": 2.8936571524815666,
+            "ci_method": "student_t",
+            "mean": 2.8936571524815666,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.875534337514327,
+            "ci95_low": 2.875534337514327,
+            "ci_method": "student_t",
+            "mean": 2.875534337514327,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.8455373315753616,
+            "ci95_low": 2.8455373315753616,
+            "ci_method": "student_t",
+            "mean": 2.8455373315753616,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.0020745420042658225,
+            "ci95_low": 0.0020745420042658225,
+            "ci_method": "student_t",
+            "mean": 0.0020745420042658225,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "random": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.3333333333333333,
+            "ci95_low": 0.3333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.3333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.13888888888888887,
+            "ci95_low": 0.13888888888888887,
+            "ci_method": "student_t",
+            "mean": 0.13888888888888887,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.3333333333333333,
+            "ci95_low": 0.3333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.3333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.8583158338205306,
+            "ci95_low": 2.8583158338205306,
+            "ci_method": "student_t",
+            "mean": 2.8583158338205306,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.05984893720597029,
+            "ci95_low": 0.05984893720597029,
+            "ci_method": "student_t",
+            "mean": 0.05984893720597029,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.061781108689804874,
+            "ci95_low": 0.061781108689804874,
+            "ci_method": "student_t",
+            "mean": 0.061781108689804874,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.06429421932746966,
+            "ci95_low": 0.06429421932746966,
+            "ci_method": "student_t",
+            "mean": 0.06429421932746966,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.9888795812924704,
+            "ci95_low": 2.9888795812924704,
+            "ci_method": "student_t",
+            "mean": 2.9888795812924704,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.9854949712753296,
+            "ci95_low": 2.9854949712753296,
+            "ci_method": "student_t",
+            "mean": 2.9854949712753296,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.980695883433024,
+            "ci95_low": 2.980695883433024,
+            "ci_method": "student_t",
+            "mean": 2.980695883433024,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.908607748301812,
+            "ci95_low": 2.908607748301812,
+            "ci_method": "student_t",
+            "mean": 2.908607748301812,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.8837842852290394,
+            "ci95_low": 2.8837842852290394,
+            "ci_method": "student_t",
+            "mean": 2.8837842852290394,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.8583158338205306,
+            "ci95_low": 2.8583158338205306,
+            "ci_method": "student_t",
+            "mean": 2.8583158338205306,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.00276641700475011,
+            "ci95_low": 0.00276641700475011,
+            "ci_method": "student_t",
+            "mean": 0.00276641700475011,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        }
+      }
+    },
+    "real_operator": {
+      "full_information": {
+        "ece": {
+          "ci95_high": 0.2853551208972931,
+          "ci95_low": 0.2853551208972931,
+          "ci_method": "student_t",
+          "mean": 0.2853551208972931,
+          "n": 1,
+          "std": 0.0
+        },
+        "nll": {
+          "ci95_high": 2.5773980617523193,
+          "ci95_low": 2.5773980617523193,
+          "ci_method": "student_t",
+          "mean": 2.5773980617523193,
+          "n": 1,
+          "std": 0.0
+        },
+        "top1": {
+          "ci95_high": 0.25,
+          "ci95_low": 0.25,
+          "ci_method": "student_t",
+          "mean": 0.25,
+          "n": 1,
+          "std": 0.0
+        },
+        "top3": {
+          "ci95_high": 0.5,
+          "ci95_low": 0.5,
+          "ci_method": "student_t",
+          "mean": 0.5,
+          "n": 1,
+          "std": 0.0
+        }
+      },
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.19444444444444442,
+            "ci95_low": 0.19444444444444442,
+            "ci_method": "student_t",
+            "mean": 0.19444444444444442,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.9403345074978664,
+            "ci95_low": 2.9403345074978664,
+            "ci_method": "student_t",
+            "mean": 2.9403345074978664,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.12845679372549057,
+            "ci95_low": 0.12845679372549057,
+            "ci_method": "student_t",
+            "mean": 0.12845679372549057,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.13321499961117902,
+            "ci95_low": 0.13321499961117902,
+            "ci_method": "student_t",
+            "mean": 0.13321499961117902,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.14042114528516927,
+            "ci95_low": 0.14042114528516927,
+            "ci_method": "student_t",
+            "mean": 0.14042114528516927,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.7328079541524253,
+            "ci95_low": 2.7328079541524253,
+            "ci_method": "student_t",
+            "mean": 2.7328079541524253,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.726903021335602,
+            "ci95_low": 2.726903021335602,
+            "ci_method": "student_t",
+            "mean": 2.726903021335602,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.720508317152659,
+            "ci95_low": 2.720508317152659,
+            "ci_method": "student_t",
+            "mean": 2.720508317152659,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.99901177681012,
+            "ci95_low": 2.99901177681012,
+            "ci_method": "student_t",
+            "mean": 2.99901177681012,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.970490434365127,
+            "ci95_low": 2.970490434365127,
+            "ci_method": "student_t",
+            "mean": 2.970490434365127,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.9403345074978664,
+            "ci95_low": 2.9403345074978664,
+            "ci_method": "student_t",
+            "mean": 2.9403345074978664,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.05519208300393075,
+            "ci95_low": 0.05519208300393075,
+            "ci_method": "student_t",
+            "mean": 0.05519208300393075,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "fixed_information": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.2222222222222222,
+            "ci95_low": 0.2222222222222222,
+            "ci_method": "student_t",
+            "mean": 0.2222222222222222,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.9595079336452774,
+            "ci95_low": 2.9595079336452774,
+            "ci_method": "student_t",
+            "mean": 2.9595079336452774,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.12845679372549057,
+            "ci95_low": 0.12845679372549057,
+            "ci_method": "student_t",
+            "mean": 0.12845679372549057,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.13046108496685824,
+            "ci95_low": 0.13046108496685824,
+            "ci_method": "student_t",
+            "mean": 0.13046108496685824,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.1344971458117167,
+            "ci95_low": 0.1344971458117167,
+            "ci_method": "student_t",
+            "mean": 0.1344971458117167,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.7328079541524253,
+            "ci95_low": 2.7328079541524253,
+            "ci_method": "student_t",
+            "mean": 2.7328079541524253,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.730312963326772,
+            "ci95_low": 2.730312963326772,
+            "ci_method": "student_t",
+            "mean": 2.730312963326772,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.7272515098253884,
+            "ci95_low": 2.7272515098253884,
+            "ci_method": "student_t",
+            "mean": 2.7272515098253884,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.99901177681012,
+            "ci95_low": 2.99901177681012,
+            "ci_method": "student_t",
+            "mean": 2.99901177681012,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9824926372620593,
+            "ci95_low": 2.9824926372620593,
+            "ci_method": "student_t",
+            "mean": 2.9824926372620593,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.9595079336452774,
+            "ci95_low": 2.9595079336452774,
+            "ci_method": "student_t",
+            "mean": 2.9595079336452774,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.005388041005062405,
+            "ci95_low": 0.005388041005062405,
+            "ci_method": "student_t",
+            "mean": 0.005388041005062405,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "random": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.25,
+            "ci95_low": 0.25,
+            "ci_method": "student_t",
+            "mean": 0.25,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.19444444444444442,
+            "ci95_low": 0.19444444444444442,
+            "ci_method": "student_t",
+            "mean": 0.19444444444444442,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.973167289417004,
+            "ci95_low": 2.973167289417004,
+            "ci_method": "student_t",
+            "mean": 2.973167289417004,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.12968137922386327,
+            "ci95_low": 0.12968137922386327,
+            "ci_method": "student_t",
+            "mean": 0.12968137922386327,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.12737303785979748,
+            "ci95_low": 0.12737303785979748,
+            "ci_method": "student_t",
+            "mean": 0.12737303785979748,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.12862145528197289,
+            "ci95_low": 0.12862145528197289,
+            "ci_method": "student_t",
+            "mean": 0.12862145528197289,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.7344205578168235,
+            "ci95_low": 2.7344205578168235,
+            "ci_method": "student_t",
+            "mean": 2.7344205578168235,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.7361609737078347,
+            "ci95_low": 2.7361609737078347,
+            "ci_method": "student_t",
+            "mean": 2.7361609737078347,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.736143867174784,
+            "ci95_low": 2.736143867174784,
+            "ci_method": "student_t",
+            "mean": 2.736143867174784,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 3.0060330365764085,
+            "ci95_low": 3.0060330365764085,
+            "ci_method": "student_t",
+            "mean": 3.0060330365764085,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9890266924977413,
+            "ci95_low": 2.9890266924977413,
+            "ci_method": "student_t",
+            "mean": 2.9890266924977413,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.973167289417004,
+            "ci95_low": 2.973167289417004,
+            "ci_method": "student_t",
+            "mean": 2.973167289417004,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.0056587080034660175,
+            "ci95_low": 0.0056587080034660175,
+            "ci_method": "student_t",
+            "mean": 0.0056587080034660175,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        }
+      }
+    },
+    "transformer": {
+      "full_information": {
+        "ece": {
+          "ci95_high": 0.08037476241588593,
+          "ci95_low": 0.08037476241588593,
+          "ci_method": "student_t",
+          "mean": 0.08037476241588593,
+          "n": 1,
+          "std": 0.0
+        },
+        "nll": {
+          "ci95_high": 2.623704671859741,
+          "ci95_low": 2.623704671859741,
+          "ci_method": "student_t",
+          "mean": 2.623704671859741,
+          "n": 1,
+          "std": 0.0
+        },
+        "top1": {
+          "ci95_high": 0.1666666716337204,
+          "ci95_low": 0.1666666716337204,
+          "ci_method": "student_t",
+          "mean": 0.1666666716337204,
+          "n": 1,
+          "std": 0.0
+        },
+        "top3": {
+          "ci95_high": 0.3333333432674408,
+          "ci95_low": 0.3333333432674408,
+          "ci_method": "student_t",
+          "mean": 0.3333333432674408,
+          "n": 1,
+          "std": 0.0
+        }
+      },
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.613093632222054,
+            "ci95_low": 2.613093632222054,
+            "ci_method": "student_t",
+            "mean": 2.613093632222054,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.13107505813241005,
+            "ci95_low": 0.13107505813241005,
+            "ci_method": "student_t",
+            "mean": 0.13107505813241005,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.14917350995043913,
+            "ci95_low": 0.14917350995043913,
+            "ci_method": "student_t",
+            "mean": 0.14917350995043913,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.15007075977822146,
+            "ci95_low": 0.15007075977822146,
+            "ci_method": "student_t",
+            "mean": 0.15007075977822146,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.772378623485565,
+            "ci95_low": 2.772378623485565,
+            "ci_method": "student_t",
+            "mean": 2.772378623485565,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.7674665252367654,
+            "ci95_low": 2.7674665252367654,
+            "ci_method": "student_t",
+            "mean": 2.7674665252367654,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.7704843481381736,
+            "ci95_low": 2.7704843481381736,
+            "ci_method": "student_t",
+            "mean": 2.7704843481381736,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.671527267073539,
+            "ci95_low": 2.671527267073539,
+            "ci_method": "student_t",
+            "mean": 2.671527267073539,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.6554205641445274,
+            "ci95_low": 2.6554205641445274,
+            "ci_method": "student_t",
+            "mean": 2.6554205641445274,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.613093632222054,
+            "ci95_low": 2.613093632222054,
+            "ci_method": "student_t",
+            "mean": 2.613093632222054,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.0347054579979158,
+            "ci95_low": 0.0347054579979158,
+            "ci_method": "student_t",
+            "mean": 0.0347054579979158,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "fixed_information": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.05555555555555555,
+            "ci95_low": 0.05555555555555555,
+            "ci_method": "student_t",
+            "mean": 0.05555555555555555,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.16666666666666666,
+            "ci95_low": 0.16666666666666666,
+            "ci_method": "student_t",
+            "mean": 0.16666666666666666,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.6154636833198226,
+            "ci95_low": 2.6154636833198226,
+            "ci_method": "student_t",
+            "mean": 2.6154636833198226,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.13107505813241005,
+            "ci95_low": 0.13107505813241005,
+            "ci_method": "student_t",
+            "mean": 0.13107505813241005,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.13303906532625356,
+            "ci95_low": 0.13303906532625356,
+            "ci_method": "student_t",
+            "mean": 0.13303906532625356,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.1298180321852366,
+            "ci95_low": 0.1298180321852366,
+            "ci_method": "student_t",
+            "mean": 0.1298180321852366,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.772378623485565,
+            "ci95_low": 2.772378623485565,
+            "ci_method": "student_t",
+            "mean": 2.772378623485565,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.8020642598470054,
+            "ci95_low": 2.8020642598470054,
+            "ci_method": "student_t",
+            "mean": 2.8020642598470054,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.8416624665260315,
+            "ci95_low": 2.8416624665260315,
+            "ci_method": "student_t",
+            "mean": 2.8416624665260315,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.671527267073539,
+            "ci95_low": 2.671527267073539,
+            "ci_method": "student_t",
+            "mean": 2.671527267073539,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.6553128348129893,
+            "ci95_low": 2.6553128348129893,
+            "ci_method": "student_t",
+            "mean": 2.6553128348129893,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.6154636833198226,
+            "ci95_low": 2.6154636833198226,
+            "ci_method": "student_t",
+            "mean": 2.6154636833198226,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.007231042000057641,
+            "ci95_low": 0.007231042000057641,
+            "ci_method": "student_t",
+            "mean": 0.007231042000057641,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "random": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.08333333333333333,
+            "ci95_low": 0.08333333333333333,
+            "ci_method": "student_t",
+            "mean": 0.08333333333333333,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.750644720482754,
+            "ci95_low": 2.750644720482754,
+            "ci_method": "student_t",
+            "mean": 2.750644720482754,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.16025010061760744,
+            "ci95_low": 0.16025010061760744,
+            "ci_method": "student_t",
+            "mean": 0.16025010061760744,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.13231243814031282,
+            "ci95_low": 0.13231243814031282,
+            "ci_method": "student_t",
+            "mean": 0.13231243814031282,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.12753415666520596,
+            "ci95_low": 0.12753415666520596,
+            "ci_method": "student_t",
+            "mean": 0.12753415666520596,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.73854132493337,
+            "ci95_low": 2.73854132493337,
+            "ci_method": "student_t",
+            "mean": 2.73854132493337,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.8098918994267783,
+            "ci95_low": 2.8098918994267783,
+            "ci_method": "student_t",
+            "mean": 2.8098918994267783,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.841028153896332,
+            "ci95_low": 2.841028153896332,
+            "ci_method": "student_t",
+            "mean": 2.841028153896332,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.812948204462684,
+            "ci95_low": 2.812948204462684,
+            "ci_method": "student_t",
+            "mean": 2.812948204462684,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.8192083749298718,
+            "ci95_low": 2.8192083749298718,
+            "ci_method": "student_t",
+            "mean": 2.8192083749298718,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.750644720482754,
+            "ci95_low": 2.750644720482754,
+            "ci_method": "student_t",
+            "mean": 2.750644720482754,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.006909249997988809,
+            "ci95_low": 0.006909249997988809,
+            "ci_method": "student_t",
+            "mean": 0.006909249997988809,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        }
+      }
+    },
+    "two_channel_operator": {
+      "full_information": {
+        "ece": {
+          "ci95_high": 0.14770744740962982,
+          "ci95_low": 0.14770744740962982,
+          "ci_method": "student_t",
+          "mean": 0.14770744740962982,
+          "n": 1,
+          "std": 0.0
+        },
+        "nll": {
+          "ci95_high": 2.5077269077301025,
+          "ci95_low": 2.5077269077301025,
+          "ci_method": "student_t",
+          "mean": 2.5077269077301025,
+          "n": 1,
+          "std": 0.0
+        },
+        "top1": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "ci_method": "student_t",
+          "mean": 0.0,
+          "n": 1,
+          "std": 0.0
+        },
+        "top3": {
+          "ci95_high": 0.3333333432674408,
+          "ci95_low": 0.3333333432674408,
+          "ci_method": "student_t",
+          "mean": 0.3333333432674408,
+          "n": 1,
+          "std": 0.0
+        }
+      },
+      "policies": {
+        "expected_information_gain": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.949023140507466,
+            "ci95_low": 2.949023140507466,
+            "ci_method": "student_t",
+            "mean": 2.949023140507466,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.19301227976878485,
+            "ci95_low": 0.19301227976878485,
+            "ci_method": "student_t",
+            "mean": 0.19301227976878485,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.19557646786173186,
+            "ci95_low": 0.19557646786173186,
+            "ci_method": "student_t",
+            "mean": 0.19557646786173186,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.19810603434840837,
+            "ci95_low": 0.19810603434840837,
+            "ci_method": "student_t",
+            "mean": 0.19810603434840837,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.5677654147148132,
+            "ci95_low": 2.5677654147148132,
+            "ci_method": "student_t",
+            "mean": 2.5677654147148132,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.556651532649994,
+            "ci95_low": 2.556651532649994,
+            "ci_method": "student_t",
+            "mean": 2.556651532649994,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.5483477314313254,
+            "ci95_low": 2.5483477314313254,
+            "ci_method": "student_t",
+            "mean": 2.5483477314313254,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.9550867519826896,
+            "ci95_low": 2.9550867519826896,
+            "ci_method": "student_t",
+            "mean": 2.9550867519826896,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9445804655490115,
+            "ci95_low": 2.9445804655490115,
+            "ci_method": "student_t",
+            "mean": 2.9445804655490115,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.949023140507466,
+            "ci95_low": 2.949023140507466,
+            "ci_method": "student_t",
+            "mean": 2.949023140507466,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.031048749995534308,
+            "ci95_low": 0.031048749995534308,
+            "ci_method": "student_t",
+            "mean": 0.031048749995534308,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "fixed_information": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.9211751632835874,
+            "ci95_low": 2.9211751632835874,
+            "ci_method": "student_t",
+            "mean": 2.9211751632835874,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.19301227976878485,
+            "ci95_low": 0.19301227976878485,
+            "ci_method": "student_t",
+            "mean": 0.19301227976878485,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.1907342659930388,
+            "ci95_low": 0.1907342659930388,
+            "ci_method": "student_t",
+            "mean": 0.1907342659930388,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.18914790575702986,
+            "ci95_low": 0.18914790575702986,
+            "ci_method": "student_t",
+            "mean": 0.18914790575702986,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.5677654147148132,
+            "ci95_low": 2.5677654147148132,
+            "ci_method": "student_t",
+            "mean": 2.5677654147148132,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.5701724886894226,
+            "ci95_low": 2.5701724886894226,
+            "ci_method": "student_t",
+            "mean": 2.5701724886894226,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.5730020801226297,
+            "ci95_low": 2.5730020801226297,
+            "ci_method": "student_t",
+            "mean": 2.5730020801226297,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.9550867519826896,
+            "ci95_low": 2.9550867519826896,
+            "ci_method": "student_t",
+            "mean": 2.9550867519826896,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9343543896264106,
+            "ci95_low": 2.9343543896264106,
+            "ci_method": "student_t",
+            "mean": 2.9343543896264106,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.9211751632835874,
+            "ci95_low": 2.9211751632835874,
+            "ci_method": "student_t",
+            "mean": 2.9211751632835874,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.005550249996304046,
+            "ci95_low": 0.005550249996304046,
+            "ci_method": "student_t",
+            "mean": 0.005550249996304046,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        },
+        "random": {
+          "accuracy_at_1_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_2_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_at_3_queries": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "accuracy_auc": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_accuracy": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "final_nll": {
+            "ci95_high": 2.964715592786744,
+            "ci95_low": 2.964715592786744,
+            "ci_method": "student_t",
+            "mean": 2.964715592786744,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_1_queries": {
+            "ci95_high": 0.19374223301808038,
+            "ci95_low": 0.19374223301808038,
+            "ci_method": "student_t",
+            "mean": 0.19374223301808038,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_2_queries": {
+            "ci95_high": 0.19259736562768617,
+            "ci95_low": 0.19259736562768617,
+            "ci_method": "student_t",
+            "mean": 0.19259736562768617,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_confidence_at_3_queries": {
+            "ci95_high": 0.1923363357782364,
+            "ci95_low": 0.1923363357782364,
+            "ci_method": "student_t",
+            "mean": 0.1923363357782364,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_1_queries": {
+            "ci95_high": 2.5700324177742004,
+            "ci95_low": 2.5700324177742004,
+            "ci_method": "student_t",
+            "mean": 2.5700324177742004,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_2_queries": {
+            "ci95_high": 2.5714876453081765,
+            "ci95_low": 2.5714876453081765,
+            "ci_method": "student_t",
+            "mean": 2.5714876453081765,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_entropy_at_3_queries": {
+            "ci95_high": 2.570291022459666,
+            "ci95_low": 2.570291022459666,
+            "ci_method": "student_t",
+            "mean": 2.570291022459666,
+            "n": 1,
+            "std": 0.0
+          },
+          "mean_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "median_queries_to_resolution_penalized": {
+            "ci95_high": 4.0,
+            "ci95_low": 4.0,
+            "ci_method": "student_t",
+            "mean": 4.0,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_1_queries": {
+            "ci95_high": 2.982631667486794,
+            "ci95_low": 2.982631667486794,
+            "ci_method": "student_t",
+            "mean": 2.982631667486794,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_2_queries": {
+            "ci95_high": 2.9934551252623915,
+            "ci95_low": 2.9934551252623915,
+            "ci_method": "student_t",
+            "mean": 2.9934551252623915,
+            "n": 1,
+            "std": 0.0
+          },
+          "nll_at_3_queries": {
+            "ci95_high": 2.964715592786744,
+            "ci95_low": 2.964715592786744,
+            "ci_method": "student_t",
+            "mean": 2.964715592786744,
+            "n": 1,
+            "std": 0.0
+          },
+          "policy_seconds": {
+            "ci95_high": 0.005652332998579368,
+            "ci95_low": 0.005652332998579368,
+            "ci_method": "student_t",
+            "mean": 0.005652332998579368,
+            "n": 1,
+            "std": 0.0
+          },
+          "resolution_rate": {
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "ci_method": "student_t",
+            "mean": 0.0,
+            "n": 1,
+            "std": 0.0
+          }
+        }
+      }
+    }
+  },
+  "task_scope": "factorial labels 8-19; temporal-order twins excluded"
+}
