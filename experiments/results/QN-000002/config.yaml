@@ -1,0 +1,35 @@
+experiment: experiment_zero
+description: Parameter-budgeted comparison of aggregate, sequence, real operator-state,
+  and complex operator-state models on controlled synthetic neurological evidence.
+dataset:
+  world_seed: 314159
+  observation_probability: 0.72
+  train_cases: 14000
+  validation_cases: 3000
+  test_cases: 3000
+  counterfactual_pairs: 500
+models:
+  names:
+  - mlp
+  - transformer
+  - real_operator
+  - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+training:
+  seeds:
+  - 11
+  - 23
+  - 37
+  batch_size: 256
+  epochs: 14
+  patience: 4
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
+  shuffled_order: true
+  complex_phase_ablations: true
