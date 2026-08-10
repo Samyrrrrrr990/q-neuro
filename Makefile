@@ -50,6 +50,10 @@ observable-probe:
 	uv run python -m experiments.run_observable_probe \
 		--config experiments/configs/observable_probe.yaml
 
+training-laws:
+	uv run python -m experiments.run_training_laws \
+		--config experiments/configs/training_laws.yaml
+
 analyses:
 	uv run python -m research.analyses.analyze_generator_shift
 	uv run python -m research.analyses.analyze_neuro_task_suite
@@ -57,6 +61,7 @@ analyses:
 	uv run python -m research.analyses.analyze_dynamics_suite
 	uv run python -m research.analyses.analyze_ablation_suite
 	uv run python -m research.analyses.analyze_observable_probe
+	uv run python -m research.analyses.analyze_training_laws
 
 figures:
 	uv run python -m research.figures.generate_experiment_zero
@@ -67,3 +72,4 @@ figures:
 	uv run python -m research.figures.generate_dynamics_suite
 	uv run python -m research.figures.generate_ablation_suite
 	uv run python -m research.figures.generate_observable_probe
+	uv run python -m research.figures.generate_training_laws

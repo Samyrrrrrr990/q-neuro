@@ -78,6 +78,11 @@ GRU and state-space representations are generally more linearly readable. Hermit
 observables improve some complex-state probe accuracies while usually worsening NLL. The result
 supports latent accessibility, not unique hierarchy or intrinsic interpretability.
 
+Experiment Six (`QN-000021`) finds no optimizer breakthrough. PGO and PCGrad match, but do not beat,
+ordinary multi-objective AdamW and cost almost twice as much CPU time. Backprop-free local
+plasticity learns source structure but fails under shift; local pretraining makes source accuracy
+nearly perfect while reducing shifted accuracy. ZeroBackprop is fast and noncompetitive.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -93,6 +98,8 @@ supports latent accessibility, not unique hierarchy or intrinsic interpretabilit
 ![Critical Q-Neuro ablations](research/figures/generated/critical_ablation_suite.png)
 
 ![Emergent hierarchical observables](research/figures/generated/observable_probe.png)
+
+![Unconventional training-law suite](research/figures/generated/training_law_suite.png)
 
 ## Quick start
 

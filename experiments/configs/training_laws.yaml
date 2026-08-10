@@ -1,0 +1,63 @@
+experiment: training_law_suite
+description: >-
+  Controlled comparison of ordinary global optimization, task-gradient interference methods,
+  transition-local plasticity, a local/global hybrid, and a no-backprop centroid prototype on one
+  fixed complex operator architecture. Auxiliary factor labels are used only by explicitly named
+  multi-objective methods.
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+dataset:
+  train_sizes: [250, 1000]
+  validation_cases: 600
+  test_cases: 800
+  ambiguity_pairs: 200
+  counterfactual_pairs: 150
+  unseen_world_seeds: [141421, 173205, 271828]
+shift:
+  observation_probability: 0.55
+  probability_mixing: 0.18
+  temporal_jitter: 0.08
+  order_marker_visibility: 0.70
+model:
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.25
+  max_sequence_length: 40
+methods:
+  adamw:
+    learning_rate: 0.003
+  sgd:
+    learning_rate: 0.03
+  gradient_accumulation:
+    learning_rate: 0.003
+    accumulation_steps: 2
+  multiobjective_adamw:
+    learning_rate: 0.003
+  pcgrad:
+    learning_rate: 0.003
+  phase_gradient:
+    learning_rate: 0.003
+  local_plasticity:
+    learning_rate: 0.025
+    local_epochs: 5
+  hybrid_local_global:
+    learning_rate: 0.025
+    global_learning_rate: 0.003
+    local_epochs: 3
+  zerobackprop:
+    learning_rate: 0.0
+    local_epochs: 0
+training:
+  seeds: [11, 23, 37]
+  batch_size: 128
+  epochs: 15
+  patience: 4
+  weight_decay: 0.0001
+  auxiliary_weight: 0.2
+  device: cpu
+evaluation:
+  calibration_bins: 10
