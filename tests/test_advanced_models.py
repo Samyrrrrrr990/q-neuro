@@ -8,6 +8,8 @@ from qneuro.models import DiagnosticDensityDynamics, EnergyAttractorState
 ADVANCED_MODELS = (
     "logistic",
     "complex_mlp",
+    "real_accumulator",
+    "complex_accumulator",
     "state_space",
     "hopfield",
     "graph_network",
@@ -18,6 +20,10 @@ ADVANCED_MODELS = (
     "dissipative",
     "hybrid_dynamics",
     "density_dynamics",
+    "complex_magnitude_readout",
+    "complex_no_negative",
+    "density_rank1",
+    "density_rank4",
 )
 
 

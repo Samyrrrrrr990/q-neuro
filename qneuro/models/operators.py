@@ -279,3 +279,27 @@ class TwoChannelRealOperatorState(RealOperatorState):
         amplitude = self.readout(self.evolve(tokens, mask, vector))
         paired = amplitude.reshape(amplitude.shape[0], self.output_classes, 2)
         return torch.log(paired.square().sum(dim=-1) + self.eps)
+
+
+class ComplexMagnitudeReadoutOperator(ComplexOperatorState):
+    """Complex evolution with a phase-insensitive, constructive-only magnitude readout."""
+
+    def measure(self, state: torch.Tensor, phase_mode: str = "learned") -> torch.Tensor:
+        if phase_mode not in {"learned", "zero", "randomized"}:
+            raise ValueError(f"unknown phase_mode: {phase_mode}")
+        readout_magnitude = torch.sqrt(self.readout_real.square() + self.readout_imag.square())
+        amplitude = torch.abs(state) @ readout_magnitude.T
+        return torch.log(amplitude.square() + self.eps)
+
+
+class ComplexNoNegativeEvidenceOperator(ComplexOperatorState):
+    """Ablation in which observed-negative findings do not act on the state."""
+
+    def evolve(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        positive_mask = mask & tokens.lt(self.num_tokens // 2)
+        return super().evolve(tokens, positive_mask, vector)

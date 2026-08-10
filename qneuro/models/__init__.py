@@ -1,6 +1,7 @@
 """Model families used in controlled Q-Neuro comparisons."""
 
 from qneuro.models.advanced import (
+    ComplexEvidenceAccumulator,
     ComplexEvidenceMLP,
     CoupledTensorState,
     DiagnosticDensityDynamics,
@@ -10,16 +11,22 @@ from qneuro.models.advanced import (
     HamiltonianDissipativeState,
     LogisticEvidence,
     ModernHopfieldMemory,
+    RealEvidenceAccumulator,
 )
 from qneuro.models.baselines import EvidenceMLP, TinyGRU, TinyTransformer
 from qneuro.models.operators import (
+    ComplexMagnitudeReadoutOperator,
+    ComplexNoNegativeEvidenceOperator,
     ComplexOperatorState,
     RealOperatorState,
     TwoChannelRealOperatorState,
 )
 
 __all__ = [
+    "ComplexEvidenceAccumulator",
     "ComplexEvidenceMLP",
+    "ComplexMagnitudeReadoutOperator",
+    "ComplexNoNegativeEvidenceOperator",
     "ComplexOperatorState",
     "CoupledTensorState",
     "DiagnosticDensityDynamics",
@@ -30,6 +37,7 @@ __all__ = [
     "HamiltonianDissipativeState",
     "LogisticEvidence",
     "ModernHopfieldMemory",
+    "RealEvidenceAccumulator",
     "RealOperatorState",
     "TinyGRU",
     "TinyTransformer",

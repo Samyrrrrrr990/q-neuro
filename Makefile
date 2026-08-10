@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite analyses figures
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite analyses figures
 
 sync:
 	uv sync --extra dev
@@ -41,6 +41,10 @@ active-evidence:
 dynamics-suite:
 	uv run python -m experiments.run_dynamics_suite \
 		--config experiments/configs/dynamics_suite.yaml
+
+ablation-suite:
+	uv run python -m experiments.run_dynamics_suite \
+		--config experiments/configs/ablation_suite.yaml
 
 analyses:
 	uv run python research/analyses/analyze_generator_shift.py

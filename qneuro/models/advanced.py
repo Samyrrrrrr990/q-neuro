@@ -109,6 +109,108 @@ class DiagonalStateSpace(nn.Module):
         return self.readout(self.encode(**batch))
 
 
+class RealEvidenceAccumulator(nn.Module):
+    """Strictly commutative additive evidence-state control."""
+
+    def __init__(self, num_tokens: int, state_dim: int, num_classes: int):
+        super().__init__()
+        self.initial_state = nn.Parameter(torch.empty(state_dim))
+        self.evidence_embedding = nn.Embedding(num_tokens + 1, state_dim, padding_idx=num_tokens)
+        self.demographic_projection = nn.Linear(2, state_dim, bias=False)
+        self.readout = nn.Linear(state_dim, num_classes)
+        nn.init.normal_(self.initial_state, std=0.05)
+        nn.init.normal_(self.evidence_embedding.weight, std=0.07)
+
+    def encode(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        state = self.initial_state[None] + (self.evidence_embedding(tokens) * mask[..., None]).sum(
+            dim=1
+        )
+        if vector is not None:
+            state = state + self.demographic_projection(vector[:, -2:])
+        return _bounded_norm_real(state)
+
+    def forward(self, **batch: torch.Tensor) -> torch.Tensor:
+        return self.readout(self.encode(**batch))
+
+
+class ComplexEvidenceAccumulator(nn.Module):
+    """Commutative complex accumulator with phase-sensitive amplitude measurement."""
+
+    def __init__(self, num_tokens: int, state_dim: int, num_classes: int, eps: float = 1e-8):
+        super().__init__()
+        self.eps = float(eps)
+        self.initial_real = nn.Parameter(torch.empty(state_dim))
+        self.initial_imag = nn.Parameter(torch.empty(state_dim))
+        self.embedding_real = nn.Parameter(torch.empty(num_tokens, state_dim))
+        self.embedding_imag = nn.Parameter(torch.empty(num_tokens, state_dim))
+        self.demographic_real = nn.Parameter(torch.empty(2, state_dim))
+        self.demographic_imag = nn.Parameter(torch.empty(2, state_dim))
+        self.readout_real = nn.Parameter(torch.empty(num_classes, state_dim))
+        self.readout_imag = nn.Parameter(torch.empty(num_classes, state_dim))
+        self.reset_parameters()
+
+    @staticmethod
+    def _complex(real: torch.Tensor, imag: torch.Tensor) -> torch.Tensor:
+        return torch.complex(real, imag)
+
+    def reset_parameters(self) -> None:
+        for parameter in self.parameters():
+            nn.init.normal_(parameter, std=0.06)
+        nn.init.normal_(self.readout_real, std=1.0 / math.sqrt(self.readout_real.shape[-1]))
+        nn.init.normal_(self.readout_imag, std=1.0 / math.sqrt(self.readout_imag.shape[-1]))
+
+    def complex_state(
+        self, tokens: torch.Tensor, mask: torch.Tensor, vector: torch.Tensor | None
+    ) -> torch.Tensor:
+        safe_tokens = tokens.clamp_max(self.embedding_real.shape[0] - 1)
+        embedding = self._complex(
+            self.embedding_real[safe_tokens], self.embedding_imag[safe_tokens]
+        )
+        state = self._complex(self.initial_real, self.initial_imag)[None] + (
+            embedding * mask[..., None]
+        ).sum(dim=1)
+        if vector is not None:
+            demographic = self._complex(self.demographic_real, self.demographic_imag)
+            state = state + vector[:, -2:].to(demographic.dtype) @ demographic
+        return _bounded_norm_complex(state)
+
+    def encode(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        state = self.complex_state(tokens, mask, vector)
+        return torch.cat([state.real, state.imag], dim=-1)
+
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        phase_mode: str = "learned",
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        state = self.complex_state(tokens, mask, vector)
+        if phase_mode == "zero":
+            state = torch.complex(torch.abs(state), torch.zeros_like(state.real))
+        elif phase_mode == "randomized":
+            phase = 2.0 * math.pi * torch.rand_like(state.real)
+            state = state * torch.complex(torch.cos(phase), torch.sin(phase))
+        elif phase_mode != "learned":
+            raise ValueError(f"unknown phase mode: {phase_mode}")
+        readout = self._complex(self.readout_real, self.readout_imag)
+        amplitude = torch.einsum("bs,ds->bd", state, readout.conj())
+        return torch.log(torch.abs(amplitude).square() + self.eps)
+
+
 class ModernHopfieldMemory(nn.Module):
     """Single-retrieval modern-Hopfield-style associative diagnosis baseline."""
 
