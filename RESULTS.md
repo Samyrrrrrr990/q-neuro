@@ -143,3 +143,46 @@ reuse makes cross-model memory deltas approximate rather than definitive.
 `QN-000006` uses validation-only learning-rate selection and never selects against shifted test
 metrics. The two shift definitions were designed by the same project that produced the models, so
 replication over independently varied causal templates is mandatory.
+
+## Multi-world robustness confirmation
+
+Primary artifact: `experiments/results/QN-000008/metrics.json`.
+
+The confirmation gate trains at 1,000 cases and evaluates five preregistered unseen world seeds at
+four shift severities. Every world contains 2,000 test cases and 300 paired chronology
+counterfactuals. Models are trained with three seeds; metrics are first averaged across training
+seeds within each world, then confidence intervals are computed across the five world means. This
+avoids treating cases from one simulator instantiation as independent replications.
+
+| Model | In-domain | Nuisance | Mild | Moderate | Severe | Moderate counterfactual pairs |
+|---|---:|---:|---:|---:|---:|---:|
+| MLP | 0.722 | 0.584 | 0.510 | 0.399 | 0.288 | 0.000 |
+| Tiny Transformer | 0.910 | 0.747 | 0.632 | 0.491 | 0.359 | 0.574 |
+| Tuned GRU | 0.982 | 0.373 | 0.337 | 0.256 | 0.181 | 0.499 |
+| Real operator | 0.984 | 0.788 | 0.672 | 0.523 | 0.377 | 0.640 |
+| Two-channel real operator | 0.986 | 0.846 | 0.745 | 0.585 | 0.414 | 0.869 |
+| Complex operator | **0.996** | **0.909** | **0.806** | **0.645** | **0.468** | **0.987** |
+
+The complex-minus-two-channel top-1 effect remains positive across unseen worlds:
+
+| Severity | Mean paired difference | World-level 95% Student-`t` CI |
+|---|---:|---:|
+| Nuisance | +0.0627 | [+0.0552, +0.0702] |
+| Mild | +0.0609 | [+0.0502, +0.0715] |
+| Moderate | +0.0602 | [+0.0529, +0.0674] |
+| Severe | +0.0538 | [+0.0471, +0.0606] |
+
+This confirms that the current complex parameterization has a repeatable robustness advantage over
+the current two-channel real control inside NeuroWorld. It does not prove that complex arithmetic
+is uniquely responsible: the control is not an exhaustive real reparameterization, and all worlds
+still share the same simulator family.
+
+### Calibration transport failure
+
+One scalar temperature is fitted using only in-domain validation NLL and applied unchanged under
+shift. It fails to transfer. Under moderate shift, raw versus calibrated ECE is 0.122 versus 0.247
+for the real operator, 0.201 versus 0.267 for two-channel real, and 0.204 versus 0.257 for complex.
+Complex moderate-shift NLL worsens from 1.459 to 4.341 after scaling. In-domain calibration can make
+shifted confidence substantially worse even while leaving top-1 predictions unchanged.
+
+![Multi-world robustness sweep](research/figures/generated/robustness_world_sweep.png)

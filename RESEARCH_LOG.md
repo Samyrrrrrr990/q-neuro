@@ -111,3 +111,27 @@ in low-data in-domain accuracy. Architecture comparisons without tuning that bas
 **Next experiment:** Replicate over a preregistered grid of at least five unseen world seeds and
 multiple shift severities; add post-hoc temperature calibration fitted only on validation data; do
 not add Hamiltonian or density dynamics yet.
+
+## 2026-08-09 — QN-000008 multi-world robustness confirmation
+
+**Question:** Does the complex robustness signal replicate across multiple unseen worlds and shift
+severities when world seed is treated as the statistical unit?
+
+**Method:** Trained all six controls at 1,000 cases with three training seeds. Evaluated five unseen
+world seeds under nuisance, mild, moderate, and severe shifts. Each world has 2,000 cases and 300
+counterfactual pairs. Fitted one temperature using only in-domain validation logits.
+
+**Result:** Complex top-1 is 0.909 nuisance, 0.806 mild, 0.645 moderate, and 0.468 severe. The
+two-channel control reaches 0.846, 0.745, 0.585, and 0.414. Complex-minus-two-channel paired effects
+are +0.054 to +0.063 with all five-world 95% intervals above zero. Complex also retains 0.987
+counterfactual-pair accuracy at moderate shift.
+
+**Negative result:** In-domain temperature scaling does not transfer. It worsens moderate-shift ECE
+for every model and catastrophically worsens complex NLL in one training seed.
+
+**Interpretation:** A robustness phenomenon is now replicated within the NeuroWorld simulator
+family. The result justifies expanding to orthogonal task constructions, not escalating to clinical
+or novelty claims.
+
+**Next:** Build composition, ambiguity, OOD disease, and hidden-syndrome task suites with explicit
+task-specific controls. Keep Hamiltonian/density and novel optimizers behind those gates.
