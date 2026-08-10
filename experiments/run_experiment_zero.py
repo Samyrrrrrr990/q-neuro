@@ -59,15 +59,14 @@ def make_loader(
 
 
 @torch.no_grad()
-def evaluate(
+def collect_outputs(
     model: nn.Module,
     loader: DataLoader,
     device: torch.device,
-    n_bins: int,
     shuffle_order: bool = False,
     phase_mode: str = "learned",
     seed: int = 0,
-) -> dict[str, float]:
+) -> dict[str, torch.Tensor]:
     model.eval()
     torch.manual_seed(seed)
     logits_parts: list[torch.Tensor] = []
@@ -83,11 +82,37 @@ def evaluate(
         label_parts.append(batch["label"].detach().cpu())
         order_parts.append(batch["is_order"].detach().cpu())
         order_complete_parts.append(batch["order_complete"].detach().cpu())
+    return {
+        "logits": torch.cat(logits_parts),
+        "labels": torch.cat(label_parts),
+        "is_order": torch.cat(order_parts),
+        "order_complete": torch.cat(order_complete_parts),
+    }
+
+
+@torch.no_grad()
+def evaluate(
+    model: nn.Module,
+    loader: DataLoader,
+    device: torch.device,
+    n_bins: int,
+    shuffle_order: bool = False,
+    phase_mode: str = "learned",
+    seed: int = 0,
+) -> dict[str, float]:
+    outputs = collect_outputs(
+        model,
+        loader,
+        device,
+        shuffle_order=shuffle_order,
+        phase_mode=phase_mode,
+        seed=seed,
+    )
     return classification_metrics(
-        torch.cat(logits_parts),
-        torch.cat(label_parts),
-        torch.cat(order_parts),
-        torch.cat(order_complete_parts),
+        outputs["logits"],
+        outputs["labels"],
+        outputs["is_order"],
+        outputs["order_complete"],
         n_bins=n_bins,
     )
 

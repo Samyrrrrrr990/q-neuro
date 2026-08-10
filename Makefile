@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift analyses figures
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep analyses figures
 
 sync:
 	uv sync --extra dev
@@ -25,6 +25,10 @@ sample-efficiency:
 generator-shift:
 	uv run python -m experiments.run_generator_shift \
 		--config experiments/configs/experiment_zero_generator_shift.yaml
+
+robustness-sweep:
+	uv run python -m experiments.run_robustness_sweep \
+		--config experiments/configs/robustness_world_sweep.yaml
 
 analyses:
 	uv run python research/analyses/analyze_generator_shift.py
