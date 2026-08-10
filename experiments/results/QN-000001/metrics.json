@@ -192,6 +192,7 @@
       "counterfactual_case_accuracy": {
         "ci95_high": 0.5,
         "ci95_low": 0.5,
+        "ci_method": "student_t",
         "mean": 0.5,
         "n": 1,
         "std": 0.0
@@ -199,6 +200,7 @@
       "counterfactual_flip_rate": {
         "ci95_high": 0.019999999552965164,
         "ci95_low": 0.019999999552965164,
+        "ci_method": "student_t",
         "mean": 0.019999999552965164,
         "n": 1,
         "std": 0.0
@@ -206,6 +208,7 @@
       "counterfactual_pair_accuracy": {
         "ci95_high": 0.019999999552965164,
         "ci95_low": 0.019999999552965164,
+        "ci_method": "student_t",
         "mean": 0.019999999552965164,
         "n": 1,
         "std": 0.0
@@ -213,6 +216,7 @@
       "ece": {
         "ci95_high": 0.28664636611938477,
         "ci95_low": 0.28664636611938477,
+        "ci_method": "student_t",
         "mean": 0.28664636611938477,
         "n": 1,
         "std": 0.0
@@ -220,6 +224,7 @@
       "mean_order_marker_commutator_norm": {
         "ci95_high": 0.0013135019689798355,
         "ci95_low": 0.0013135019689798355,
+        "ci_method": "student_t",
         "mean": 0.0013135019689798355,
         "n": 1,
         "std": 0.0
@@ -227,6 +232,7 @@
       "nll": {
         "ci95_high": 2.3462870121002197,
         "ci95_low": 2.3462870121002197,
+        "ci_method": "student_t",
         "mean": 2.3462870121002197,
         "n": 1,
         "std": 0.0
@@ -234,6 +240,7 @@
       "order_accuracy": {
         "ci95_high": 0.523809552192688,
         "ci95_low": 0.523809552192688,
+        "ci_method": "student_t",
         "mean": 0.523809552192688,
         "n": 1,
         "std": 0.0
@@ -241,6 +248,7 @@
       "parameter_count": {
         "ci95_high": 20208.0,
         "ci95_low": 20208.0,
+        "ci_method": "student_t",
         "mean": 20208.0,
         "n": 1,
         "std": 0.0
@@ -248,6 +256,7 @@
       "peak_rss_gib": {
         "ci95_high": 0.3690185546875,
         "ci95_low": 0.3690185546875,
+        "ci_method": "student_t",
         "mean": 0.3690185546875,
         "n": 1,
         "std": 0.0
@@ -255,6 +264,7 @@
       "randomized_phase_top1": {
         "ci95_high": 0.04333333298563957,
         "ci95_low": 0.04333333298563957,
+        "ci_method": "student_t",
         "mean": 0.04333333298563957,
         "n": 1,
         "std": 0.0
@@ -262,6 +272,7 @@
       "shuffle_delta": {
         "ci95_high": -0.0033333301544189453,
         "ci95_low": -0.0033333301544189453,
+        "ci_method": "student_t",
         "mean": -0.0033333301544189453,
         "n": 1,
         "std": 0.0
@@ -269,6 +280,7 @@
       "shuffled_top1": {
         "ci95_high": 0.41333332657814026,
         "ci95_low": 0.41333332657814026,
+        "ci_method": "student_t",
         "mean": 0.41333332657814026,
         "n": 1,
         "std": 0.0
@@ -276,6 +288,7 @@
       "top1": {
         "ci95_high": 0.4099999964237213,
         "ci95_low": 0.4099999964237213,
+        "ci_method": "student_t",
         "mean": 0.4099999964237213,
         "n": 1,
         "std": 0.0
@@ -283,6 +296,7 @@
       "top3": {
         "ci95_high": 0.8066666722297668,
         "ci95_low": 0.8066666722297668,
+        "ci_method": "student_t",
         "mean": 0.8066666722297668,
         "n": 1,
         "std": 0.0
@@ -290,6 +304,7 @@
       "training_seconds": {
         "ci95_high": 0.31528862500272226,
         "ci95_low": 0.31528862500272226,
+        "ci_method": "student_t",
         "mean": 0.31528862500272226,
         "n": 1,
         "std": 0.0
@@ -297,6 +312,7 @@
       "zero_phase_top1": {
         "ci95_high": 0.04333333298563957,
         "ci95_low": 0.04333333298563957,
+        "ci_method": "student_t",
         "mean": 0.04333333298563957,
         "n": 1,
         "std": 0.0
@@ -306,6 +322,7 @@
       "counterfactual_case_accuracy": {
         "ci95_high": 0.49000000953674316,
         "ci95_low": 0.49000000953674316,
+        "ci_method": "student_t",
         "mean": 0.49000000953674316,
         "n": 1,
         "std": 0.0
@@ -313,6 +330,7 @@
       "counterfactual_flip_rate": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -320,6 +338,7 @@
       "counterfactual_pair_accuracy": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -327,6 +346,7 @@
       "ece": {
         "ci95_high": 0.3409552574157715,
         "ci95_low": 0.3409552574157715,
+        "ci_method": "student_t",
         "mean": 0.3409552574157715,
         "n": 1,
         "std": 0.0
@@ -334,6 +354,7 @@
       "nll": {
         "ci95_high": 1.9975600242614746,
         "ci95_low": 1.9975600242614746,
+        "ci_method": "student_t",
         "mean": 1.9975600242614746,
         "n": 1,
         "std": 0.0
@@ -341,6 +362,7 @@
       "order_accuracy": {
         "ci95_high": 0.4841269850730896,
         "ci95_low": 0.4841269850730896,
+        "ci_method": "student_t",
         "mean": 0.4841269850730896,
         "n": 1,
         "std": 0.0
@@ -348,6 +370,7 @@
       "parameter_count": {
         "ci95_high": 20002.0,
         "ci95_low": 20002.0,
+        "ci_method": "student_t",
         "mean": 20002.0,
         "n": 1,
         "std": 0.0
@@ -355,6 +378,7 @@
       "peak_rss_gib": {
         "ci95_high": 0.3354339599609375,
         "ci95_low": 0.3354339599609375,
+        "ci_method": "student_t",
         "mean": 0.3354339599609375,
         "n": 1,
         "std": 0.0
@@ -362,6 +386,7 @@
       "shuffle_delta": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -369,6 +394,7 @@
       "shuffled_top1": {
         "ci95_high": 0.5166666507720947,
         "ci95_low": 0.5166666507720947,
+        "ci_method": "student_t",
         "mean": 0.5166666507720947,
         "n": 1,
         "std": 0.0
@@ -376,6 +402,7 @@
       "top1": {
         "ci95_high": 0.5166666507720947,
         "ci95_low": 0.5166666507720947,
+        "ci_method": "student_t",
         "mean": 0.5166666507720947,
         "n": 1,
         "std": 0.0
@@ -383,6 +410,7 @@
       "top3": {
         "ci95_high": 0.8533333539962769,
         "ci95_low": 0.8533333539962769,
+        "ci_method": "student_t",
         "mean": 0.8533333539962769,
         "n": 1,
         "std": 0.0
@@ -390,6 +418,7 @@
       "training_seconds": {
         "ci95_high": 0.11812916599956225,
         "ci95_low": 0.11812916599956225,
+        "ci_method": "student_t",
         "mean": 0.11812916599956225,
         "n": 1,
         "std": 0.0
@@ -399,6 +428,7 @@
       "counterfactual_case_accuracy": {
         "ci95_high": 0.3400000035762787,
         "ci95_low": 0.3400000035762787,
+        "ci_method": "student_t",
         "mean": 0.3400000035762787,
         "n": 1,
         "std": 0.0
@@ -406,6 +436,7 @@
       "counterfactual_flip_rate": {
         "ci95_high": 0.03999999910593033,
         "ci95_low": 0.03999999910593033,
+        "ci_method": "student_t",
         "mean": 0.03999999910593033,
         "n": 1,
         "std": 0.0
@@ -413,6 +444,7 @@
       "counterfactual_pair_accuracy": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -420,6 +452,7 @@
       "ece": {
         "ci95_high": 0.14983642101287842,
         "ci95_low": 0.14983642101287842,
+        "ci_method": "student_t",
         "mean": 0.14983642101287842,
         "n": 1,
         "std": 0.0
@@ -427,6 +460,7 @@
       "mean_order_marker_commutator_norm": {
         "ci95_high": 0.002249826124170795,
         "ci95_low": 0.002249826124170795,
+        "ci_method": "student_t",
         "mean": 0.002249826124170795,
         "n": 1,
         "std": 0.0
@@ -434,6 +468,7 @@
       "nll": {
         "ci95_high": 2.5925729274749756,
         "ci95_low": 2.5925729274749756,
+        "ci_method": "student_t",
         "mean": 2.5925729274749756,
         "n": 1,
         "std": 0.0
@@ -441,6 +476,7 @@
       "order_accuracy": {
         "ci95_high": 0.3650793731212616,
         "ci95_low": 0.3650793731212616,
+        "ci_method": "student_t",
         "mean": 0.3650793731212616,
         "n": 1,
         "std": 0.0
@@ -448,6 +484,7 @@
       "parameter_count": {
         "ci95_high": 19807.0,
         "ci95_low": 19807.0,
+        "ci_method": "student_t",
         "mean": 19807.0,
         "n": 1,
         "std": 0.0
@@ -455,6 +492,7 @@
       "peak_rss_gib": {
         "ci95_high": 0.3616485595703125,
         "ci95_low": 0.3616485595703125,
+        "ci_method": "student_t",
         "mean": 0.3616485595703125,
         "n": 1,
         "std": 0.0
@@ -462,6 +500,7 @@
       "shuffle_delta": {
         "ci95_high": 0.013333350419998169,
         "ci95_low": 0.013333350419998169,
+        "ci_method": "student_t",
         "mean": 0.013333350419998169,
         "n": 1,
         "std": 0.0
@@ -469,6 +508,7 @@
       "shuffled_top1": {
         "ci95_high": 0.2633333206176758,
         "ci95_low": 0.2633333206176758,
+        "ci_method": "student_t",
         "mean": 0.2633333206176758,
         "n": 1,
         "std": 0.0
@@ -476,6 +516,7 @@
       "top1": {
         "ci95_high": 0.27666667103767395,
         "ci95_low": 0.27666667103767395,
+        "ci_method": "student_t",
         "mean": 0.27666667103767395,
         "n": 1,
         "std": 0.0
@@ -483,6 +524,7 @@
       "top3": {
         "ci95_high": 0.5566666722297668,
         "ci95_low": 0.5566666722297668,
+        "ci_method": "student_t",
         "mean": 0.5566666722297668,
         "n": 1,
         "std": 0.0
@@ -490,6 +532,7 @@
       "training_seconds": {
         "ci95_high": 0.19236050000108662,
         "ci95_low": 0.19236050000108662,
+        "ci_method": "student_t",
         "mean": 0.19236050000108662,
         "n": 1,
         "std": 0.0
@@ -499,6 +542,7 @@
       "counterfactual_case_accuracy": {
         "ci95_high": 0.18000000715255737,
         "ci95_low": 0.18000000715255737,
+        "ci_method": "student_t",
         "mean": 0.18000000715255737,
         "n": 1,
         "std": 0.0
@@ -506,6 +550,7 @@
       "counterfactual_flip_rate": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -513,6 +558,7 @@
       "counterfactual_pair_accuracy": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -520,6 +566,7 @@
       "ece": {
         "ci95_high": 0.028523726388812065,
         "ci95_low": 0.028523726388812065,
+        "ci_method": "student_t",
         "mean": 0.028523726388812065,
         "n": 1,
         "std": 0.0
@@ -527,6 +574,7 @@
       "nll": {
         "ci95_high": 2.8174631595611572,
         "ci95_low": 2.8174631595611572,
+        "ci_method": "student_t",
         "mean": 2.8174631595611572,
         "n": 1,
         "std": 0.0
@@ -534,6 +582,7 @@
       "order_accuracy": {
         "ci95_high": 0.1984127014875412,
         "ci95_low": 0.1984127014875412,
+        "ci_method": "student_t",
         "mean": 0.1984127014875412,
         "n": 1,
         "std": 0.0
@@ -541,6 +590,7 @@
       "parameter_count": {
         "ci95_high": 18900.0,
         "ci95_low": 18900.0,
+        "ci_method": "student_t",
         "mean": 18900.0,
         "n": 1,
         "std": 0.0
@@ -548,6 +598,7 @@
       "peak_rss_gib": {
         "ci95_high": 0.34588623046875,
         "ci95_low": 0.34588623046875,
+        "ci_method": "student_t",
         "mean": 0.34588623046875,
         "n": 1,
         "std": 0.0
@@ -555,6 +606,7 @@
       "shuffle_delta": {
         "ci95_high": 0.0,
         "ci95_low": 0.0,
+        "ci_method": "student_t",
         "mean": 0.0,
         "n": 1,
         "std": 0.0
@@ -562,6 +614,7 @@
       "shuffled_top1": {
         "ci95_high": 0.1133333370089531,
         "ci95_low": 0.1133333370089531,
+        "ci_method": "student_t",
         "mean": 0.1133333370089531,
         "n": 1,
         "std": 0.0
@@ -569,6 +622,7 @@
       "top1": {
         "ci95_high": 0.1133333370089531,
         "ci95_low": 0.1133333370089531,
+        "ci_method": "student_t",
         "mean": 0.1133333370089531,
         "n": 1,
         "std": 0.0
@@ -576,6 +630,7 @@
       "top3": {
         "ci95_high": 0.41333332657814026,
         "ci95_low": 0.41333332657814026,
+        "ci_method": "student_t",
         "mean": 0.41333332657814026,
         "n": 1,
         "std": 0.0
@@ -583,6 +638,7 @@
       "training_seconds": {
         "ci95_high": 0.1331255830009468,
         "ci95_low": 0.1331255830009468,
+        "ci_method": "student_t",
         "mean": 0.1331255830009468,
         "n": 1,
         "std": 0.0

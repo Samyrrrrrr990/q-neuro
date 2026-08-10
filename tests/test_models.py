@@ -4,6 +4,7 @@ import torch
 
 from neuroworld import NeuroWorld
 from qneuro.data import collate_cases
+from qneuro.metrics import aggregate_seed_metrics
 from qneuro.model_factory import build_model, parameter_count
 from qneuro.models import ComplexOperatorState, RealOperatorState
 
@@ -61,3 +62,12 @@ def test_operator_order_can_change_state() -> None:
         assert model.commutator_norm(0, 1) > 0.0
         norm = torch.sqrt(torch.sum(torch.abs(state_ab).square(), dim=-1))
         assert torch.allclose(norm, torch.tensor([math.sqrt(model.state_dim)]), atol=1e-5)
+
+
+def test_seed_summary_uses_student_t_interval() -> None:
+    summary = aggregate_seed_metrics([{"score": 0.0}, {"score": 1.0}, {"score": 2.0}])["score"]
+    expected_half_width = 4.303 / math.sqrt(3)
+    assert summary["ci_method"] == "student_t"
+    assert math.isclose(summary["mean"], 1.0)
+    assert math.isclose(summary["std"], 1.0)
+    assert math.isclose(summary["ci95_high"], 1.0 + expected_half_width, rel_tol=1e-6)

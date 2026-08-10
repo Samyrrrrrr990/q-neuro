@@ -77,6 +77,11 @@ to a configured budget. Parameter matching is reported, never assumed.
 - Order accuracy: top-1 accuracy restricted to generator-marked order-dependent cases.
 - Shuffle delta: ordered accuracy minus accuracy after independently permuting observed tokens.
 
+Across seeds, the repository reports the arithmetic mean, sample standard deviation, and a
+two-sided 95% Student-`t` confidence interval. With only three seeds these intervals are necessarily
+wide; they describe seed variability under the tested setup, not population-level clinical
+uncertainty.
+
 ## Invariants tested
 
 - Generator values distinguish missing and observed-negative evidence.
