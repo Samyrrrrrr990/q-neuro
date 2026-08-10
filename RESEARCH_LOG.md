@@ -313,3 +313,37 @@ RSS is too coarse for memory claims; only one architecture and simulator family 
 
 **Next:** Add realized hard halting and trajectory-level state visualizations, then build automated
 mechanism search and surprise detection around the now-complete experiment matrix.
+
+## 2026-08-10 — QN-000022 hard-halting smoke profile
+
+**Purpose:** Verify checkpoint reconstruction, validation-only threshold selection, active-index
+execution, step histograms, paired evaluation, latency timing, and registry persistence.
+
+**Result:** All three source checkpoints completed and reduced mean execution to about 3.2/8 states
+without an obvious source-accuracy loss. The sparse candidate grid is integration-only.
+
+## 2026-08-10 — QN-000023 realized hard velocity halting
+
+**Question:** Can soft expected diagnostic depth be converted into actual state-update and latency
+savings without degrading diagnosis?
+
+**Method:** Applied active-index velocity stopping to the three frozen QN-000014 adaptive-attractor
+checkpoints. Selected thresholds from 12 velocity quantiles on source validation, constrained
+against the eight-state final readout. Evaluated source, three unseen worlds, chronology pairs,
+state counts, and 15-repeat CPU latency.
+
+**Result:** Every selected threshold halts every case at two states. Source/shift top-1 is
+0.722/0.432 versus 0.724/0.431 for the soft mixture. Latency falls from 0.0171 to 0.0035 ms/case,
+and shifted NLL/ECE fall from 2.518/0.330 to 2.127/0.172. Hard inference uses 20.2% of soft-path
+latency across seeds. Chronology-pair accuracy remains zero.
+
+**Interpretation:** The compute saving is real, but it is fixed truncation rather than adaptive
+reasoning. Later attractor steps are actively harmful to calibration and add no accuracy. The
+appropriate architecture change is a shallower attractor, not a more elaborate halting network.
+
+**Caveats:** Millisecond timings are CPU- and batch-specific; thresholds were selected on the source
+world; the attractor model is weaker than the complex operator; all active cases happen to stop at
+the same boundary; latency does not include data loading.
+
+**Next:** Render evidence-level complex trajectories and counterfactual paths, then turn the
+experiment space into a configuration-search and surprise-detection system.

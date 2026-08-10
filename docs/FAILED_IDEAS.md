@@ -144,6 +144,15 @@ early exit or sparse per-case execution, the wall-clock graph is unchanged.
 **Decision:** Do not report compute reduction. Implement a hard validation-tuned velocity exit and
 measure actual operator calls and latency before revisiting.
 
+**Follow-up:** QN-000023 implements that exit and does realize a 75% state reduction and roughly
+80% latency reduction versus soft ACT. However, all cases halt at the minimum of two states. The
+compute result is therefore fixed truncation, not evidence for adaptive per-case reasoning. Later
+steps worsen calibration without improving accuracy.
+
+**Revised decision:** Replace the eight-state attractor with a fixed two-state control in future
+comparisons. Reopen adaptive time only on a task where validation selects a non-degenerate halt-step
+distribution and where difficulty predicts the executed depth.
+
 ## Fixed NeuroWorld factor graph
 
 **Why it seemed plausible:** Message passing over mechanism, localization, temporality, and context

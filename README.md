@@ -83,6 +83,10 @@ ordinary multi-objective AdamW and cost almost twice as much CPU time. Backprop-
 plasticity learns source structure but fails under shift; local pretraining makes source accuracy
 nearly perfect while reducing shifted accuracy. ZeroBackprop is fast and noncompetitive.
 
+Hard velocity exit (`QN-000023`) converts eight attractor states into two executed states and about
+an 80% CPU-latency reduction without changing top-1; it also improves shifted calibration. Every
+case stops at the same boundary, so this supports shallow truncation—not adaptive per-case thought.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -100,6 +104,8 @@ nearly perfect while reducing shifted accuracy. ZeroBackprop is fast and noncomp
 ![Emergent hierarchical observables](research/figures/generated/observable_probe.png)
 
 ![Unconventional training-law suite](research/figures/generated/training_law_suite.png)
+
+![Realized hard halting](research/figures/generated/hard_halting.png)
 
 ## Quick start
 

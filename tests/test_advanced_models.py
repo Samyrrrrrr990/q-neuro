@@ -60,6 +60,31 @@ def test_density_invariants_and_attractor_trajectory() -> None:
     assert diagnostics["entropy"].shape == (5, attractor.steps)
 
 
+def test_hard_halt_matches_final_state_when_threshold_is_unreachable() -> None:
+    batch = collate_cases(NeuroWorld().generate(5, seed=54))
+    model = EnergyAttractorState(80, 12, 20, steps=5, adaptive=True)
+    _, final_logits = model.trajectory(batch["tokens"], batch["mask"], batch["vector"])
+    hard_logits, steps = model.hard_halt(
+        batch["tokens"], batch["mask"], batch["vector"], velocity_threshold=-1.0
+    )
+    assert torch.allclose(hard_logits, final_logits[-1])
+    assert bool(steps.eq(5).all())
+
+
+def test_hard_halt_executes_minimum_steps_at_large_threshold() -> None:
+    batch = collate_cases(NeuroWorld().generate(5, seed=55))
+    model = EnergyAttractorState(80, 12, 20, steps=5, adaptive=True)
+    logits, steps = model.hard_halt(
+        batch["tokens"],
+        batch["mask"],
+        batch["vector"],
+        velocity_threshold=1e6,
+        min_steps=2,
+    )
+    assert logits.shape == (5, 20)
+    assert bool(steps.eq(2).all())
+
+
 def test_advanced_model_gradients_are_finite() -> None:
     batch = collate_cases(NeuroWorld().generate(4, seed=53))
     for name in ADVANCED_MODELS:

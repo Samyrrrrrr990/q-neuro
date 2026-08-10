@@ -449,6 +449,55 @@ class EnergyAttractorState(nn.Module):
         return self.ponder_cost * self._last_expected_steps.mean() / self.steps
 
     @torch.no_grad()
+    def hard_halt(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        velocity_threshold: float = 0.0,
+        min_steps: int = 2,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Execute only active cases and stop when state velocity crosses a threshold."""
+
+        if not 1 <= min_steps <= self.steps:
+            raise ValueError("min_steps must be within the configured trajectory")
+        force = self._force(tokens, mask, vector)
+        state = _bounded_norm_real(self.initial_state[None] + force)
+        output = torch.empty(tokens.shape[0], self.num_classes, device=tokens.device)
+        executed_steps = torch.ones(tokens.shape[0], dtype=torch.long, device=tokens.device)
+        if min_steps == 1 and velocity_threshold >= 0.0:
+            output.copy_(self._logits(state))
+            return output, executed_steps
+        active_indices = torch.arange(tokens.shape[0], device=tokens.device)
+        temperature = F.softplus(self.log_temperature) + 0.05
+        for step_index in range(1, self.steps):
+            active_state = state[active_indices]
+            active_force = force[active_indices]
+            distance = torch.cdist(active_state, self.attractors).square()
+            weights = torch.softmax(-distance / temperature, dim=-1)
+            target = weights @ self.attractors
+            candidate = _bounded_norm_real(
+                active_state + self.step_size * torch.tanh(active_force + target - active_state)
+            )
+            velocity = torch.linalg.vector_norm(candidate - active_state, dim=-1) / math.sqrt(
+                self.state_dim
+            )
+            state[active_indices] = candidate
+            executed_steps[active_indices] = step_index + 1
+            should_halt = velocity <= velocity_threshold
+            if step_index + 1 < min_steps:
+                should_halt.fill_(False)
+            if step_index == self.steps - 1:
+                should_halt.fill_(True)
+            halted_indices = active_indices[should_halt]
+            if halted_indices.numel():
+                output[halted_indices] = self._logits(state[halted_indices])
+            active_indices = active_indices[~should_halt]
+            if active_indices.numel() == 0:
+                break
+        return output, executed_steps
+
+    @torch.no_grad()
     def trajectory_diagnostics(
         self, tokens: torch.Tensor, mask: torch.Tensor, vector: torch.Tensor | None = None
     ) -> dict[str, torch.Tensor]:

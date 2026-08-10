@@ -470,3 +470,33 @@ of SGD. CPU RSS deltas were quantized and often zero, so this run supports no me
 training-time Pareto result is descriptive for one CPU, one architecture, and small synthetic data.
 
 ![Unconventional training-law suite](research/figures/generated/training_law_suite.png)
+
+## Realized hard halting
+
+Primary artifact: `experiments/results/QN-000023/metrics.json`. Paired analysis:
+`research/analyses/generated/hard_halting_effects.json`. `QN-000022` is the integration smoke run.
+
+The QN-000014 adaptive-attractor checkpoints originally reported a soft expected depth of 5.25/8,
+but still evaluated all eight states. QN-000023 implements active-index execution: once a case
+crosses a validation-selected state-velocity threshold, it is removed from subsequent attractor
+updates. Thresholds are selected separately per training seed using source-world validation only,
+subject to top-1 loss ≤0.01 and NLL increase ≤0.05 relative to the eight-state final readout.
+
+| Inference law | In-domain top-1 | Shifted top-1 | Shifted NLL ↓ | Shifted ECE ↓ | States | CPU ms/case |
+|---|---:|---:|---:|---:|---:|---:|
+| Soft ACT mixture | **0.724** | 0.431 | 2.518 | 0.330 | 8 | 0.0171 |
+| Fixed final state | 0.722 | 0.431 | 2.965 | 0.396 | 8 | 0.0130 |
+| Validation-selected hard halt | 0.722 | **0.432** | **2.127** | **0.172** | **2** | **0.0035** |
+
+Hard halting executes 75% fewer states. Measured latency is 0.202× the soft path (paired-seed
+interval 0.194–0.210) and 0.266× fixed-final latency (0.260–0.272). Shifted top-1 is unchanged:
+hard-minus-soft is +0.002 across worlds (interval −0.006 to +0.009). Shifted NLL improves by 0.391
+versus soft and 0.838 versus the final state; ECE improves by 0.158 and 0.224. Later attractor
+iterations sharpen a weak state without adding correct decisions, amplifying confident errors.
+
+However, every case under every seed exits at the minimum of two states. The result is realized
+compute reduction, but not case-adaptive diagnostic time. A fixed two-state attractor is the simpler
+equivalent, and the learned soft halting head is unnecessary under this task. The attractor remains
+order-invariant and its chronology-pair accuracy remains zero.
+
+![Realized hard halting](research/figures/generated/hard_halting.png)
