@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite analyses figures
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence analyses figures
 
 sync:
 	uv sync --extra dev
@@ -33,6 +33,10 @@ robustness-sweep:
 neuro-task-suite:
 	uv run python -m experiments.run_neuro_task_suite \
 		--config experiments/configs/neuro_task_suite.yaml
+
+active-evidence:
+	uv run python -m experiments.run_active_evidence \
+		--config experiments/configs/active_evidence.yaml
 
 analyses:
 	uv run python research/analyses/analyze_generator_shift.py
