@@ -63,24 +63,74 @@ complex NLL and ECE are worse than real at every tested size. At 1,000 cases, fo
 
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
+## Generator-shift replication with stronger controls
+
+Primary artifact: `experiments/results/QN-000006/metrics.json`.
+
+This study repeats the 250/500/1,000-case range and adds two controls: a GRU whose learning rate is
+selected by validation NLL, and a two-channel real operator with the complex model's paired
+magnitude-squared measurement but no complex multiplication or conjugation. Evaluation includes:
+
+- **in-domain:** original NeuroWorld seed and observation process;
+- **nuisance-seed shift:** new secondary findings and nuisance evidence stages, with the core
+  disease-factor map unchanged;
+- **noisy/sparse shift:** a different seed, probabilities mixed 18% toward 0.5, observation rate
+  reduced from 0.72 to 0.55, temporal jitter increased, and each chronology marker visible with
+  probability 0.70.
+
+### Mean top-1 accuracy at 1,000 training cases
+
+| Model | Parameters | In-domain | Nuisance-seed shift | Noisy/sparse shift | Shift NLL | Shift ECE | Shifted counterfactual pairs |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| MLP | 20,002 | 0.733 | 0.615 | 0.415 | 1.929 | 0.120 | 0.000 |
+| Tiny Transformer | 18,980 | 0.910 | 0.752 | 0.506 | 2.416 | 0.256 | 0.587 |
+| Tuned GRU | 19,656 | 0.981 | 0.315 | 0.263 | 3.633 | 0.384 | 0.460 |
+| Real operator | 19,901 | 0.984 | 0.773 | 0.531 | 1.794 | 0.118 | 0.663 |
+| Two-channel real operator | 19,975 | 0.986 | 0.828 | 0.597 | 1.639 | 0.206 | 0.844 |
+| Complex operator | 20,304 | **0.995** | **0.896** | **0.660** | **1.451** | 0.210 | **0.991** |
+
+The tuned GRU invalidates the earlier implication that operator states are the most sample-efficient
+in-domain mechanism: at 250 cases it reaches 0.920 top-1 versus 0.774 real operator and 0.699
+complex operator. Its performance falls to 0.322 on the nuisance-seed shift and 0.272 on the
+noisy/sparse shift, suggesting that it exploits simulator-specific temporal regularities.
+
+The complex model is strongest under both shifts from 500 cases onward. At 1,000 cases its paired
+top-1 difference over the two-channel real control is +0.068 on the nuisance shift (three-seed
+Student-`t` 95% CI +0.006 to +0.130) and +0.064 on the noisy/sparse shift (CI +0.016 to +0.112).
+The corresponding difference over the ordinary real operator is +0.123 and +0.129. These are
+interesting exploratory signals, but three seeds and two hand-designed shifts are not enough for a
+headline claim.
+
+In the noisy/sparse condition, both chronology markers are observed in 49.1% of order-twin cases.
+At 1,000 cases the complex model scores 0.998 when marker evidence is complete and 0.380 when it is
+incomplete. Counterfactual pairs deliberately expose both markers and vary only their order; the
+complex model solves 0.991 of those pairs versus 0.844 for the two-channel control.
+
+Calibration remains a weakness. Although complex has the best shifted NLL at 1,000 cases, its ECE
+is 0.210 versus 0.118 for the ordinary real operator. The complex model therefore improves shifted
+ranking and likelihood without establishing a calibration Pareto frontier.
+
+![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
+
 ## What can be claimed now
 
 - Ordered computation is necessary for the deliberately order-dependent twin task.
-- The tested low-rank operator-state models are more sample-efficient than this small Transformer
-  on this specific simulator and budget.
+- The tested low-rank operator-state models are more sample-efficient than the tiny Transformer,
+  but not the tuned GRU, in-domain on this simulator.
 - The complex model learns phase-dependent solutions.
-- Complex arithmetic has not demonstrated an overall advantage: its small medium-data top-1 gain
-  trades against worse calibration, worse likelihood, more runtime, and worse performance at 250
-  cases.
+- Complex operators are more robust than the tested real, two-channel, Transformer, and GRU controls
+  on the two declared generator shifts at 1,000 cases.
+- Complex arithmetic has still not demonstrated an overall advantage: the robustness signal trades
+  against worse in-domain sample efficiency than the GRU, imperfect calibration, more runtime, and
+  dependence on hand-designed synthetic shifts.
 
 ## What cannot be claimed
 
 - Novelty, clinical validity, or real neurological diagnostic ability.
-- Superiority over tuned modern sequence models or other recurrent baselines.
+- Superiority over tuned modern sequence models across distributions.
 - Generalization beyond the fixed NeuroWorld generator.
 - A quantum-mechanical interpretation.
-- A stable complex advantage without generator-shift replication, stronger baselines, and a
-  two-channel real control.
+- A stable complex advantage across independently designed simulators or real data.
 
 ## Validity notes
 
@@ -90,3 +140,6 @@ intervals summarize three-seed variability and are stored with every aggregate; 
 provide limited power. Peak process RSS remained below 0.36 GiB in these runs, but in-process cache
 reuse makes cross-model memory deltas approximate rather than definitive.
 
+`QN-000006` uses validation-only learning-rate selection and never selects against shifted test
+metrics. The two shift definitions were designed by the same project that produced the models, so
+replication over independently varied causal templates is mandatory.

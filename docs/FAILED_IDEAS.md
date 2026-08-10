@@ -37,3 +37,16 @@ changed causal generators.
 the qualitative result. The failure is methodological, not architectural, and remains documented to
 prevent accidental citation of the wrong run.
 
+## Operator states as the strongest low-data baseline
+
+**Why it seemed plausible:** QN-000004 showed both operator models learning the chronology task with
+far fewer examples than the tiny Transformer.
+
+**What happened:** After validation tuning, a 19,656-parameter GRU reached 0.920 in-domain top-1 at
+250 cases, compared with 0.774 real operator and 0.699 complex operator.
+
+**Why the idea failed:** The original Transformer was not a sufficient proxy for conventional
+sequence learning. A compact recurrent inductive bias matches this task extremely well.
+
+**Scientific value:** The GRU then collapses under generator shift, revealing that in-domain sample
+efficiency and robustness are different questions. Future claims must report both.
