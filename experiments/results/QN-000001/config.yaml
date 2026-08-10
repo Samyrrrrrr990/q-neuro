@@ -1,0 +1,34 @@
+experiment: experiment_zero
+description: Parameter-budgeted comparison of aggregate, sequence, real operator-state,
+  and complex operator-state models on controlled synthetic neurological evidence.
+  [SMOKE PROFILE]
+dataset:
+  world_seed: 314159
+  observation_probability: 0.72
+  train_cases: 800
+  validation_cases: 200
+  test_cases: 300
+  counterfactual_pairs: 50
+models:
+  names:
+  - mlp
+  - transformer
+  - real_operator
+  - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+training:
+  seeds:
+  - 11
+  batch_size: 128
+  epochs: 2
+  patience: 2
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
+  shuffled_order: true
+  complex_phase_ablations: true
