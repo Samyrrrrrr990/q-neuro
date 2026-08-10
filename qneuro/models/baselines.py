@@ -39,6 +39,7 @@ class TinyTransformer(nn.Module):
         self.pad_token = pad_token
         self.token_embedding = nn.Embedding(num_tokens + 1, model_dim, padding_idx=pad_token)
         self.position_embedding = nn.Parameter(torch.zeros(max_length, model_dim))
+        self.demographic_projection = nn.Linear(2, model_dim, bias=False)
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=model_dim,
             nhead=num_heads,
@@ -48,7 +49,9 @@ class TinyTransformer(nn.Module):
             batch_first=True,
             norm_first=False,
         )
-        self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=1)
+        self.encoder = nn.TransformerEncoder(
+            encoder_layer, num_layers=1, enable_nested_tensor=False
+        )
         self.readout = nn.Linear(model_dim, num_classes)
         nn.init.normal_(self.position_embedding, std=0.02)
 
@@ -56,12 +59,14 @@ class TinyTransformer(nn.Module):
         self,
         tokens: torch.Tensor,
         mask: torch.Tensor,
+        vector: torch.Tensor,
         **_: torch.Tensor,
     ) -> torch.Tensor:
         length = tokens.shape[1]
         if length > self.position_embedding.shape[0]:
             raise ValueError("sequence exceeds configured max_length")
-        hidden = self.token_embedding(tokens) + self.position_embedding[:length]
+        context = self.demographic_projection(vector[:, -2:]).unsqueeze(1)
+        hidden = self.token_embedding(tokens) + self.position_embedding[:length] + context
         hidden = self.encoder(hidden, src_key_padding_mask=~mask)
         weights = mask.unsqueeze(-1).to(hidden.dtype)
         pooled = (hidden * weights).sum(dim=1) / weights.sum(dim=1).clamp_min(1.0)

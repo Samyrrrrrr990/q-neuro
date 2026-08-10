@@ -42,6 +42,7 @@ class RealOperatorState(nn.Module):
         self.injection = nn.Parameter(torch.empty(num_tokens, state_dim))
         self.left = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
         self.right = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
+        self.demographic_projection = nn.Linear(2, state_dim, bias=False)
         self.readout = nn.Linear(state_dim, num_classes)
         self.reset_parameters()
 
@@ -53,9 +54,17 @@ class RealOperatorState(nn.Module):
         nn.init.xavier_uniform_(self.readout.weight)
         nn.init.zeros_(self.readout.bias)
 
-    def evolve(self, tokens: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+    def evolve(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         batch_size, sequence_length = tokens.shape
-        state = _bounded_norm_real(self.initial_state).expand(batch_size, -1)
+        state = self.initial_state.expand(batch_size, -1)
+        if vector is not None:
+            state = state + self.demographic_projection(vector[:, -2:])
+        state = _bounded_norm_real(state)
         for position in range(sequence_length):
             active = mask[:, position]
             token = tokens[:, position].clamp_max(self.num_tokens - 1)
@@ -68,8 +77,14 @@ class RealOperatorState(nn.Module):
             state = torch.where(active.unsqueeze(-1), candidate, state)
         return state
 
-    def forward(self, tokens: torch.Tensor, mask: torch.Tensor, **_: torch.Tensor) -> torch.Tensor:
-        return self.readout(self.evolve(tokens, mask))
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.readout(self.evolve(tokens, mask, vector))
 
     @torch.no_grad()
     def commutator_norm(self, token_a: int, token_b: int) -> float:
@@ -108,6 +123,8 @@ class ComplexOperatorState(nn.Module):
         self.left_imag = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
         self.right_real = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
         self.right_imag = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
+        self.demographic_real = nn.Parameter(torch.empty(2, state_dim))
+        self.demographic_imag = nn.Parameter(torch.empty(2, state_dim))
         self.readout_real = nn.Parameter(torch.empty(num_classes, state_dim))
         self.readout_imag = nn.Parameter(torch.empty(num_classes, state_dim))
         self.reset_parameters()
@@ -122,6 +139,8 @@ class ComplexOperatorState(nn.Module):
             self.left_imag,
             self.right_real,
             self.right_imag,
+            self.demographic_real,
+            self.demographic_imag,
         ):
             nn.init.normal_(parameter, std=0.045)
         nn.init.normal_(self.readout_real, std=1.0 / math.sqrt(self.state_dim))
@@ -131,10 +150,19 @@ class ComplexOperatorState(nn.Module):
     def _complex(real: torch.Tensor, imag: torch.Tensor) -> torch.Tensor:
         return torch.complex(real, imag)
 
-    def evolve(self, tokens: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+    def evolve(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         batch_size, sequence_length = tokens.shape
         initial = self._complex(self.initial_real, self.initial_imag)
-        state = _bounded_norm_complex(initial).expand(batch_size, -1)
+        state = initial.expand(batch_size, -1)
+        if vector is not None:
+            demographic = self._complex(self.demographic_real, self.demographic_imag)
+            state = state + vector[:, -2:].to(demographic.dtype) @ demographic
+        state = _bounded_norm_complex(state)
         for position in range(sequence_length):
             active = mask[:, position]
             token = tokens[:, position].clamp_max(self.num_tokens - 1)
@@ -163,14 +191,20 @@ class ComplexOperatorState(nn.Module):
         self,
         tokens: torch.Tensor,
         mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
         phase_mode: str = "learned",
         **_: torch.Tensor,
     ) -> torch.Tensor:
-        return self.measure(self.evolve(tokens, mask), phase_mode=phase_mode)
+        return self.measure(self.evolve(tokens, mask, vector), phase_mode=phase_mode)
 
     @torch.no_grad()
-    def probabilities(self, tokens: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
-        return torch.softmax(self.forward(tokens=tokens, mask=mask), dim=-1)
+    def probabilities(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        return torch.softmax(self.forward(tokens=tokens, mask=mask, vector=vector), dim=-1)
 
     @torch.no_grad()
     def commutator_norm(self, token_a: int, token_b: int) -> float:
