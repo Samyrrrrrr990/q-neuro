@@ -285,3 +285,24 @@ Updates are averaged per active token and norm clipped. No autograd graph or bac
 This is supervised local credit, not biologically validated Hebbian learning. The ZeroBackprop
 prototype freezes dynamics entirely and sets each complex readout vector to the normalized class
 centroid of its frozen states. The hybrid applies local updates before ordinary global AdamW.
+
+## Evidence-level trajectory diagnostics
+
+For complex states `z_0, ..., z_T`, the stored diagnostic path is the actual sequence computed by
+the trained operator model. Hypothesis amplitudes and probabilities at every step are
+
+`a_d(t) = <w_d, z_t>`,
+
+`p_d(t) = |a_d(t)|^2 / sum_j |a_j(t)|^2`.
+
+State velocity and normalized path length are
+
+`v_t = ||z_t-z_(t-1)||_2 / sqrt(S)`,
+
+`ell = sum_(t=1)^T v_t`.
+
+The displayed complex-plane curve is `(Re a_d(t), Im a_d(t))`, not a projection fitted for the
+figure. For a chronology pair, distance is `||z_t^AB-z_t^BA||_2/sqrt(S)`. Operational revival is
+defined only when an observed-negative token first decreases true-label probability by more than
+0.05 and a later step returns to the pre-drop level. These are state diagnostics, not textual
+reasoning or clinical explanations.

@@ -1,0 +1,16 @@
+experiment: complex_state_trajectory_study
+description: 'Evidence-by-evidence audit of trained complex operator states: hypothesis
+  amplitudes, entropy, velocity, signed evidence influence, contradiction/revival
+  events, and chronology-counterfactual state divergence. Visual cases are selected
+  by a deterministic non-performance rule.'
+source_experiment: QN-000014
+seeds:
+- 11
+- 23
+- 37
+dataset:
+  cases: 1000
+  case_seed: 9103
+  counterfactual_pairs: 200
+  pair_seed: 9105
+  batch_size: 128

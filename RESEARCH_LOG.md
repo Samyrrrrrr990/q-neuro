@@ -347,3 +347,38 @@ the same boundary; latency does not include data loading.
 
 **Next:** Render evidence-level complex trajectories and counterfactual paths, then turn the
 experiment space into a configuration-search and surprise-detection system.
+
+## 2026-08-10 — QN-000024 failed trajectory extraction
+
+**Failure:** The first registered trajectory run called `torch.flatnonzero`, which does not exist in
+the supported PyTorch API. The registry marks the run failed and its configuration/environment are
+preserved. Replaced it with `torch.nonzero(...).flatten()` and reran under a new experiment ID.
+
+**Scientific impact:** None; failure occurred before any completed seed or metrics artifact.
+
+## 2026-08-10 — QN-000025 complex-state trajectory study
+
+**Question:** What does the trained complex state actually do as ordered positive and negative
+evidence arrives?
+
+**Method:** Replayed 1,000 cases and 200 chronology pairs through all three frozen QN-000014
+complex checkpoints. Logged state path length, final velocity, entropy, per-token true-label
+probability changes, operational negative-evidence drops/revivals, and counterfactual state
+distance. Selected visual examples by deterministic generation order, not outcome.
+
+**Result:** Entropy falls by 1.266 nats while normalized path length is 2.956 and final velocity is
+0.175. Positive/observed-negative tokens change true-label probability by +0.0467/+0.0109 on
+average. A >0.05 drop after negative evidence occurs in 5.0% of cases, with 75.9% later recovery.
+Chronology pairs are all correct and finish 0.841 normalized state distance apart.
+
+**Interpretation:** The state exposes real, reversible evidence dynamics and order-dependent
+bifurcation. Observed-negative evidence commonly helps by excluding alternatives; the rare drop
+and recovery pattern is measurable but not a semantic contradiction label. Final states remain
+dynamic rather than demonstrably converged attractors.
+
+**Caveats:** Synthetic evidence order and labels; no human interpretability study; probability
+changes are context-dependent and not causal token effects; one deterministic example is a visual
+illustration, while aggregate metrics use all cases.
+
+**Next:** Build configuration-level computational-law search, Pareto ranking, and anomaly flags,
+then consolidate the complete evidence into the dashboard and paper.
