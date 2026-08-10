@@ -71,3 +71,37 @@ class TinyTransformer(nn.Module):
         weights = mask.unsqueeze(-1).to(hidden.dtype)
         pooled = (hidden * weights).sum(dim=1) / weights.sum(dim=1).clamp_min(1.0)
         return self.readout(pooled)
+
+
+class TinyGRU(nn.Module):
+    """Validation-tunable recurrent baseline with demographic initial context."""
+
+    def __init__(
+        self,
+        num_tokens: int,
+        pad_token: int,
+        num_classes: int,
+        hidden_dim: int,
+        embedding_dim: int,
+    ):
+        super().__init__()
+        self.embedding = nn.Embedding(num_tokens + 1, embedding_dim, padding_idx=pad_token)
+        self.demographic_projection = nn.Linear(2, hidden_dim)
+        self.gru = nn.GRU(embedding_dim, hidden_dim, batch_first=True)
+        self.readout = nn.Linear(hidden_dim, num_classes)
+
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        lengths = mask.sum(dim=1).clamp_min(1).cpu()
+        embedded = self.embedding(tokens)
+        packed = nn.utils.rnn.pack_padded_sequence(
+            embedded, lengths, batch_first=True, enforce_sorted=False
+        )
+        initial = torch.tanh(self.demographic_projection(vector[:, -2:])).unsqueeze(0)
+        _, final = self.gru(packed, initial)
+        return self.readout(final.squeeze(0))

@@ -29,6 +29,7 @@ def collate_cases(cases: Sequence[Case]) -> dict[str, torch.Tensor]:
     vectors = np.stack([NeuroWorld.vector_features(case) for case in cases])
     labels = np.array([case.label for case in cases], dtype=np.int64)
     is_order = np.array([case.is_order_dependent for case in cases], dtype=np.bool_)
+    order_complete = np.array([case.order_evidence_complete for case in cases], dtype=np.bool_)
     case_ids = np.array([case.case_id for case in cases], dtype=np.int64)
     for row, case in enumerate(cases):
         length = len(case.tokens)
@@ -40,6 +41,7 @@ def collate_cases(cases: Sequence[Case]) -> dict[str, torch.Tensor]:
         "vector": torch.from_numpy(vectors),
         "label": torch.from_numpy(labels),
         "is_order": torch.from_numpy(is_order),
+        "order_complete": torch.from_numpy(order_complete),
         "case_id": torch.from_numpy(case_ids),
     }
 

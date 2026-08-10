@@ -15,7 +15,14 @@ def sample_batch() -> dict[str, torch.Tensor]:
 
 def test_parameter_budget_matching() -> None:
     batch = sample_batch()
-    for name in ("mlp", "transformer", "real_operator", "complex_operator"):
+    for name in (
+        "mlp",
+        "transformer",
+        "gru",
+        "real_operator",
+        "two_channel_operator",
+        "complex_operator",
+    ):
         model, metadata = build_model(name, 20_000, rank=2, max_length=40, step_size=0.35)
         assert metadata["parameter_count"] == parameter_count(model)
         assert abs(parameter_count(model) - 20_000) / 20_000 < 0.08

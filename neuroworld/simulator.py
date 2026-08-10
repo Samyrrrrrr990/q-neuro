@@ -22,6 +22,7 @@ class Case:
     age_scaled: float
     sex_binary: float
     is_order_dependent: bool
+    order_evidence_complete: bool
 
 
 @dataclass(frozen=True)
@@ -58,14 +59,33 @@ class NeuroWorld:
         + [f"context_signal_{idx}" for idx in range(8)]
     )
 
-    def __init__(self, world_seed: int = 314159, observation_probability: float = 0.72):
+    def __init__(
+        self,
+        world_seed: int = 314159,
+        observation_probability: float = 0.72,
+        probability_mixing: float = 0.0,
+        temporal_jitter: float = 0.025,
+        order_marker_visibility: float = 1.0,
+    ):
         if not 0.0 < observation_probability <= 1.0:
             raise ValueError("observation_probability must be in (0, 1]")
+        if not 0.0 <= probability_mixing < 1.0:
+            raise ValueError("probability_mixing must be in [0, 1)")
+        if temporal_jitter < 0.0:
+            raise ValueError("temporal_jitter must be non-negative")
+        if not 0.0 <= order_marker_visibility <= 1.0:
+            raise ValueError("order_marker_visibility must be in [0, 1]")
         self.world_seed = int(world_seed)
         self.observation_probability = float(observation_probability)
+        self.probability_mixing = float(probability_mixing)
+        self.temporal_jitter = float(temporal_jitter)
+        self.order_marker_visibility = float(order_marker_visibility)
         self._probabilities, self._stages, self._age_means, self._sex_probs = (
             self._build_causal_templates()
         )
+        self._probabilities = (
+            (1.0 - self.probability_mixing) * self._probabilities + self.probability_mixing * 0.5
+        ).astype(np.float32)
 
     def _build_causal_templates(self) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         rng = np.random.default_rng(self.world_seed)
@@ -138,7 +158,13 @@ class NeuroWorld:
         labels = rng.integers(0, self.num_diagnoses, size=n_cases)
         return [self._sample_case(int(label), idx, rng) for idx, label in enumerate(labels)]
 
-    def _sample_case(self, label: int, case_id: int, rng: np.random.Generator) -> Case:
+    def _sample_case(
+        self,
+        label: int,
+        case_id: int,
+        rng: np.random.Generator,
+        force_order_visible: bool = False,
+    ) -> Case:
         present = rng.random(self.num_findings) < self._probabilities[label]
         observed = rng.random(self.num_findings) < self.observation_probability
 
@@ -146,15 +172,21 @@ class NeuroWorld:
         if is_order:
             marker_a = 2 * (label // 2)
             marker_b = marker_a + 1
-            present[[marker_a, marker_b]] = True
-            observed[[marker_a, marker_b]] = True
+            markers = [marker_a, marker_b]
+            present[markers] = True
+            if force_order_visible or self.order_marker_visibility == 1.0:
+                observed[markers] = True
+            else:
+                observed[markers] = rng.random(2) < self.order_marker_visibility
+
+        order_evidence_complete = not is_order or bool(observed[[marker_a, marker_b]].all())
 
         evidence = np.zeros(self.num_findings, dtype=np.int8)
         evidence[observed & present] = 1
         evidence[observed & ~present] = -1
 
         finding_ids = np.flatnonzero(observed)
-        jitter = rng.normal(0.0, 0.025, size=finding_ids.size)
+        jitter = rng.normal(0.0, self.temporal_jitter, size=finding_ids.size)
         times = self._stages[label, finding_ids] + jitter
         ordered_findings = finding_ids[np.argsort(times, kind="stable")]
         token_ids = ordered_findings + (evidence[ordered_findings] < 0) * self.num_findings
@@ -169,6 +201,7 @@ class NeuroWorld:
             age_scaled=age_scaled,
             sex_binary=sex_binary,
             is_order_dependent=is_order,
+            order_evidence_complete=order_evidence_complete,
         )
 
     def counterfactual_pairs(self, n_pairs: int, seed: int) -> list[CounterfactualPair]:
@@ -182,7 +215,7 @@ class NeuroWorld:
             pair_index = int(rng.integers(0, 4))
             label_ab = 2 * pair_index
             label_ba = label_ab + 1
-            first = self._sample_case(label_ab, 2 * pair_id, rng)
+            first = self._sample_case(label_ab, 2 * pair_id, rng, force_order_visible=True)
             marker_a = 2 * pair_index
             marker_b = marker_a + 1
 
@@ -201,6 +234,7 @@ class NeuroWorld:
                 age_scaled=first.age_scaled,
                 sex_binary=first.sex_binary,
                 is_order_dependent=True,
+                order_evidence_complete=True,
             )
             pairs.append(CounterfactualPair(first, second, "evidence_order"))
         return pairs

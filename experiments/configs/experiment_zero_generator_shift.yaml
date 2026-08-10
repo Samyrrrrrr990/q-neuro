@@ -1,0 +1,64 @@
+experiment: experiment_zero_generator_shift
+description: >-
+  Generator-shift replication of the 250/500/1000-case crossover, adding a validation-tuned GRU
+  and a parameter-matched two-channel real magnitude control.
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+dataset:
+  train_sizes: [250, 500, 1000]
+  validation_cases: 1500
+  test_cases: 3000
+  counterfactual_pairs: 500
+evaluation_worlds:
+  in_domain:
+    world_seed: 314159
+    observation_probability: 0.72
+    probability_mixing: 0.0
+    temporal_jitter: 0.025
+    order_marker_visibility: 1.0
+  nuisance_seed_shift:
+    world_seed: 271828
+    observation_probability: 0.72
+    probability_mixing: 0.0
+    temporal_jitter: 0.025
+    order_marker_visibility: 1.0
+  noisy_sparse_shift:
+    world_seed: 161803
+    observation_probability: 0.55
+    probability_mixing: 0.18
+    temporal_jitter: 0.08
+    order_marker_visibility: 0.70
+models:
+  names:
+    - mlp
+    - transformer
+    - gru
+    - real_operator
+    - two_channel_operator
+    - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+  learning_rates:
+    mlp: [0.003]
+    transformer: [0.0015, 0.003]
+    gru: [0.001, 0.003, 0.006]
+    real_operator: [0.003]
+    two_channel_operator: [0.003]
+    complex_operator: [0.003]
+training:
+  seeds: [11, 23, 37]
+  batch_size: 128
+  epochs: 25
+  patience: 5
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
+

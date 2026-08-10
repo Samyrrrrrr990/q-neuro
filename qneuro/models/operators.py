@@ -218,3 +218,45 @@ class ComplexOperatorState(nn.Module):
         operator_b = identity + self.step_size * left_b @ right_b.conj().T
         commutator = operator_a @ operator_b - operator_b @ operator_a
         return float(torch.linalg.matrix_norm(commutator).real.cpu())
+
+
+class TwoChannelRealOperatorState(RealOperatorState):
+    """Real operator control with paired outputs and magnitude-squared measurement.
+
+    The hidden dynamics are an unconstrained real low-rank operator over a flat state. The readout
+    produces two real amplitudes per diagnosis and applies the same squared-magnitude measurement
+    used by the complex model. It controls for paired channels and nonlinear measurement without
+    imposing complex multiplication or conjugation.
+    """
+
+    def __init__(
+        self,
+        num_tokens: int,
+        pad_token: int,
+        state_dim: int,
+        rank: int,
+        num_classes: int,
+        step_size: float = 0.35,
+        eps: float = 1e-8,
+    ):
+        self.output_classes = int(num_classes)
+        self.eps = float(eps)
+        super().__init__(
+            num_tokens=num_tokens,
+            pad_token=pad_token,
+            state_dim=state_dim,
+            rank=rank,
+            num_classes=2 * num_classes,
+            step_size=step_size,
+        )
+
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        amplitude = self.readout(self.evolve(tokens, mask, vector))
+        paired = amplitude.reshape(amplitude.shape[0], self.output_classes, 2)
+        return torch.log(paired.square().sum(dim=-1) + self.eps)

@@ -42,6 +42,7 @@ def classification_metrics(
     logits: torch.Tensor,
     labels: torch.Tensor,
     is_order: torch.Tensor,
+    order_complete: torch.Tensor | None = None,
     n_bins: int = 10,
 ) -> dict[str, float]:
     probabilities = torch.softmax(logits.float(), dim=-1)
@@ -64,13 +65,26 @@ def classification_metrics(
         order_accuracy = correct[is_order].float().mean()
     else:
         order_accuracy = torch.tensor(float("nan"))
-    return {
+    metrics = {
         "top1": float(correct.float().mean()),
         "top3": float((top_k == labels[:, None]).any(dim=1).float().mean()),
         "nll": float(-torch.log(target_probability).mean()),
         "ece": float(ece),
         "order_accuracy": float(order_accuracy),
     }
+    if order_complete is not None:
+        resolvable = is_order & order_complete
+        ambiguous = is_order & ~order_complete
+        metrics["resolvable_order_accuracy"] = (
+            float(correct[resolvable].float().mean()) if resolvable.any() else float("nan")
+        )
+        metrics["ambiguous_order_accuracy"] = (
+            float(correct[ambiguous].float().mean()) if ambiguous.any() else float("nan")
+        )
+        metrics["order_evidence_complete_rate"] = (
+            float(order_complete[is_order].float().mean()) if is_order.any() else float("nan")
+        )
+    return metrics
 
 
 def aggregate_seed_metrics(seed_results: list[dict[str, float]]) -> dict[str, dict[str, float]]:
