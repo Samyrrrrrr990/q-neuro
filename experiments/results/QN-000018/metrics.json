@@ -1,0 +1,666 @@
+{
+  "experiment_id": "QN-000018",
+  "probe_scope": "frozen representations; factorial labels 8-19 only",
+  "runs": [
+    {
+      "model": "real_operator",
+      "model_metadata": {
+        "name": "real_operator",
+        "parameter_budget": 20000,
+        "parameter_count": 19901,
+        "rank": 2,
+        "width": 47
+      },
+      "probe_seconds": 0.7357739999933983,
+      "probes": {
+        "context": {
+          "linear": {
+            "accuracy": 0.8958333134651184,
+            "nll": 0.25965559482574463,
+            "validation_nll": 0.14460496604442596
+          }
+        },
+        "localization": {
+          "linear": {
+            "accuracy": 0.9184027910232544,
+            "nll": 0.25292178988456726,
+            "validation_nll": 0.15102419257164001
+          }
+        },
+        "mechanism": {
+          "linear": {
+            "accuracy": 0.9097222089767456,
+            "nll": 0.2535184621810913,
+            "validation_nll": 0.1582726538181305
+          }
+        },
+        "temporality": {
+          "linear": {
+            "accuracy": 0.8663194179534912,
+            "nll": 0.35118576884269714,
+            "validation_nll": 0.3267170190811157
+          }
+        }
+      },
+      "seed": 11,
+      "test_factorial_cases": 576,
+      "train_factorial_cases": 589
+    },
+    {
+      "model": "real_operator",
+      "model_metadata": {
+        "name": "real_operator",
+        "parameter_budget": 20000,
+        "parameter_count": 19901,
+        "rank": 2,
+        "width": 47
+      },
+      "probe_seconds": 0.014966124996135477,
+      "probes": {
+        "context": {
+          "linear": {
+            "accuracy": 0.875,
+            "nll": 0.3438311815261841,
+            "validation_nll": 0.21493424475193024
+          }
+        },
+        "localization": {
+          "linear": {
+            "accuracy": 0.9201388955116272,
+            "nll": 0.24518857896327972,
+            "validation_nll": 0.11596283316612244
+          }
+        },
+        "mechanism": {
+          "linear": {
+            "accuracy": 0.8871527910232544,
+            "nll": 0.2951696813106537,
+            "validation_nll": 0.1478385329246521
+          }
+        },
+        "temporality": {
+          "linear": {
+            "accuracy": 0.8802083134651184,
+            "nll": 0.3303776979446411,
+            "validation_nll": 0.33684805035591125
+          }
+        }
+      },
+      "seed": 23,
+      "test_factorial_cases": 576,
+      "train_factorial_cases": 589
+    },
+    {
+      "model": "real_operator",
+      "model_metadata": {
+        "name": "real_operator",
+        "parameter_budget": 20000,
+        "parameter_count": 19901,
+        "rank": 2,
+        "width": 47
+      },
+      "probe_seconds": 0.015859125000133645,
+      "probes": {
+        "context": {
+          "linear": {
+            "accuracy": 0.9027777910232544,
+            "nll": 0.33704036474227905,
+            "validation_nll": 0.2523293197154999
+          }
+        },
+        "localization": {
+          "linear": {
+            "accuracy": 0.9236111044883728,
+            "nll": 0.25816547870635986,
+            "validation_nll": 0.13270515203475952
+          }
+        },
+        "mechanism": {
+          "linear": {
+            "accuracy": 0.9079861044883728,
+            "nll": 0.25743985176086426,
+            "validation_nll": 0.14897607266902924
+          }
+        },
+        "temporality": {
+          "linear": {
+            "accuracy": 0.8975694179534912,
+            "nll": 0.2741610109806061,
+            "validation_nll": 0.2397763729095459
+          }
+        }
+      },
+      "seed": 37,
+      "test_factorial_cases": 576,
+      "train_factorial_cases": 589
+    },
+    {
+      "model": "complex_operator",
+      "model_metadata": {
+        "name": "complex_operator",
+        "parameter_budget": 20000,
+        "parameter_count": 20304,
+        "rank": 2,
+        "width": 24
+      },
+      "probe_seconds": 0.05275345799600473,
+      "probes": {
+        "context": {
+          "hermitian": {
+            "accuracy": 0.9322916865348816,
+            "nll": 0.5423044562339783,
+            "validation_nll": 0.0342959463596344
+          },
+          "linear": {
+            "accuracy": 0.9131944179534912,
+            "nll": 0.29147806763648987,
+            "validation_nll": 0.17538969218730927
+          }
+        },
+        "localization": {
+          "hermitian": {
+            "accuracy": 0.9288194179534912,
+            "nll": 0.2865866422653198,
+            "validation_nll": 0.0741492509841919
+          },
+          "linear": {
+            "accuracy": 0.9201388955116272,
+            "nll": 0.21427525579929352,
+            "validation_nll": 0.0879131406545639
+          }
+        },
+        "mechanism": {
+          "hermitian": {
+            "accuracy": 0.9253472089767456,
+            "nll": 0.7709785103797913,
+            "validation_nll": 0.06939791142940521
+          },
+          "linear": {
+            "accuracy": 0.9010416865348816,
+            "nll": 0.2679140865802765,
+            "validation_nll": 0.13116802275180817
+          }
+        },
+        "temporality": {
+          "hermitian": {
+            "accuracy": 0.9340277910232544,
+            "nll": 0.40210944414138794,
+            "validation_nll": 0.29057300090789795
+          },
+          "linear": {
+            "accuracy": 0.8784722089767456,
+            "nll": 0.3295682370662689,
+            "validation_nll": 0.2903992831707001
+          }
+        }
+      },
+      "seed": 11,
+      "test_factorial_cases": 576,
+      "train_factorial_cases": 589
+    },
+    {
+      "model": "complex_operator",
+      "model_metadata": {
+        "name": "complex_operator",
+        "parameter_budget": 20000,
+        "parameter_count": 20304,
+        "rank": 2,
+        "width": 24
+      },
+      "probe_seconds": 0.04436895799881313,
+      "probes": {
+        "context": {
+          "hermitian": {
+            "accuracy": 0.9375,
+            "nll": 0.3762713074684143,
+            "validation_nll": 0.0023605090100318193
+          },
+          "linear": {
+            "accuracy": 0.9045138955116272,
+            "nll": 0.27098286151885986,
+            "validation_nll": 0.10897020995616913
+          }
+        },
+        "localization": {
+          "hermitian": {
+            "accuracy": 0.9375,
+            "nll": 0.3824233412742615,
+            "validation_nll": 0.0012382096610963345
+          },
+          "linear": {
+            "accuracy": 0.921875,
+            "nll": 0.2426961213350296,
+            "validation_nll": 0.08523666113615036
+          }
+        },
+        "mechanism": {
+          "hermitian": {
+            "accuracy": 0.9253472089767456,
+            "nll": 0.5227106213569641,
+            "validation_nll": 0.08719989657402039
+          },
+          "linear": {
+            "accuracy": 0.9166666865348816,
+            "nll": 0.23053070902824402,
+            "validation_nll": 0.07049646228551865
+          }
+        },
+        "temporality": {
+          "hermitian": {
+            "accuracy": 0.9444444179534912,
+            "nll": 0.175057053565979,
+            "validation_nll": 0.12071972340345383
+          },
+          "linear": {
+            "accuracy": 0.90625,
+            "nll": 0.25029146671295166,
+            "validation_nll": 0.2474897801876068
+          }
+        }
+      },
+      "seed": 23,
+      "test_factorial_cases": 576,
+      "train_factorial_cases": 589
+    },
+    {
+      "model": "complex_operator",
+      "model_metadata": {
+        "name": "complex_operator",
+        "parameter_budget": 20000,
+        "parameter_count": 20304,
+        "rank": 2,
+        "width": 24
+      },
+      "probe_seconds": 0.06206570799986366,
+      "probes": {
+        "context": {
+          "hermitian": {
+            "accuracy": 0.9427083134651184,
+            "nll": 0.43122363090515137,
+            "validation_nll": 0.0007574110641144216
+          },
+          "linear": {
+            "accuracy": 0.8975694179534912,
+            "nll": 0.28824323415756226,
+            "validation_nll": 0.18839074671268463
+          }
+        },
+        "localization": {
+          "hermitian": {
+            "accuracy": 0.9496527910232544,
+            "nll": 0.488886296749115,
+            "validation_nll": 0.006619027350097895
+          },
+          "linear": {
+            "accuracy": 0.9444444179534912,
+            "nll": 0.21613743901252747,
+            "validation_nll": 0.09545888751745224
+          }
+        },
+        "mechanism": {
+          "hermitian": {
+            "accuracy": 0.9409722089767456,
+            "nll": 0.48117658495903015,
+            "validation_nll": 0.009100120514631271
+          },
+          "linear": {
+            "accuracy": 0.90625,
+            "nll": 0.23340553045272827,
+            "validation_nll": 0.10674578696489334
+          }
+        },
+        "temporality": {
+          "hermitian": {
+            "accuracy": 0.9253472089767456,
+            "nll": 0.22092905640602112,
+            "validation_nll": 0.07656935602426529
+          },
+          "linear": {
+            "accuracy": 0.9131944179534912,
+            "nll": 0.2384585738182068,
+            "validation_nll": 0.11833228170871735
+          }
+        }
+      },
+      "seed": 37,
+      "test_factorial_cases": 576,
+      "train_factorial_cases": 589
+    }
+  ],
+  "source_experiment": "QN-000014",
+  "status": "complete",
+  "summary": {
+    "complex_operator": {
+      "context": {
+        "hermitian": {
+          "accuracy": {
+            "ci95_high": 0.9504392121423166,
+            "ci95_low": 0.9245607878576834,
+            "ci_method": "student_t",
+            "mean": 0.9375,
+            "n": 3,
+            "std": 0.005208313465118408
+          },
+          "nll": {
+            "ci95_high": 0.66006593655146,
+            "ci95_low": 0.23980032652023595,
+            "ci_method": "student_t",
+            "mean": 0.44993313153584796,
+            "n": 3,
+            "std": 0.08458301060283621
+          },
+          "validation_nll": {
+            "ci95_high": 0.059469244889814074,
+            "ci95_low": -0.03452666726729364,
+            "ci_method": "student_t",
+            "mean": 0.012471288811260214,
+            "n": 3,
+            "std": 0.018917696439680647
+          }
+        },
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9245413613416934,
+            "ci95_low": 0.8856437929373796,
+            "ci_method": "student_t",
+            "mean": 0.9050925771395365,
+            "n": 3,
+            "std": 0.007828557374756849
+          },
+          "nll": {
+            "ci95_high": 0.310941622844074,
+            "ci95_low": 0.25619448603120065,
+            "ci_method": "student_t",
+            "mean": 0.28356805443763733,
+            "n": 3,
+            "std": 0.01101845486042542
+          },
+          "validation_nll": {
+            "ci95_high": 0.26341459169417114,
+            "ci95_low": 0.05175250754327085,
+            "ci_method": "student_t",
+            "mean": 0.157583549618721,
+            "n": 3,
+            "std": 0.04259928930807327
+          }
+        }
+      },
+      "localization": {
+        "hermitian": {
+          "accuracy": {
+            "ci95_high": 0.9646555061383371,
+            "ci95_low": 0.91265929984616,
+            "ci_method": "student_t",
+            "mean": 0.9386574029922485,
+            "n": 3,
+            "std": 0.010464800267125639
+          },
+          "nll": {
+            "ci95_high": 0.6373713374313507,
+            "ci95_low": 0.13455951609444683,
+            "ci_method": "student_t",
+            "mean": 0.38596542676289874,
+            "n": 3,
+            "std": 0.10119633060675835
+          },
+          "validation_nll": {
+            "ci95_high": 0.1282768215235944,
+            "ci95_low": -0.07360582952667032,
+            "ci_method": "student_t",
+            "mean": 0.02733549599846204,
+            "n": 3,
+            "std": 0.040631072366460234
+          }
+        },
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9625056822862704,
+            "ci95_low": 0.8951331933571419,
+            "ci_method": "student_t",
+            "mean": 0.9288194378217062,
+            "n": 3,
+            "std": 0.013559443859821309
+          },
+          "nll": {
+            "ci95_high": 0.2638668969807172,
+            "ci95_low": 0.18487231378384986,
+            "ci_method": "student_t",
+            "mean": 0.22436960538228354,
+            "n": 3,
+            "std": 0.01589851633972821
+          },
+          "validation_nll": {
+            "ci95_high": 0.10270539981595007,
+            "ci95_low": 0.0763670597228276,
+            "ci_method": "student_t",
+            "mean": 0.08953622976938884,
+            "n": 3,
+            "std": 0.005300876508054438
+          }
+        }
+      },
+      "mechanism": {
+        "hermitian": {
+          "accuracy": {
+            "ci95_high": 0.9529670006434123,
+            "ci95_low": 0.9081440839767456,
+            "ci_method": "student_t",
+            "mean": 0.930555542310079,
+            "n": 3,
+            "std": 0.009021097956087902
+          },
+          "nll": {
+            "ci95_high": 0.9809412677391407,
+            "ci95_low": 0.20230254339138293,
+            "ci_method": "student_t",
+            "mean": 0.5916219055652618,
+            "n": 3,
+            "std": 0.15670948539518176
+          },
+          "validation_nll": {
+            "ci95_high": 0.15692024689286996,
+            "ci95_low": -0.04645496121416539,
+            "ci_method": "student_t",
+            "mean": 0.05523264283935229,
+            "n": 3,
+            "std": 0.04093146565666733
+          }
+        },
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9277511781649179,
+            "ci95_low": 0.8882210705482576,
+            "ci_method": "student_t",
+            "mean": 0.9079861243565878,
+            "n": 3,
+            "std": 0.007955862749328501
+          },
+          "nll": {
+            "ci95_high": 0.29563212591369764,
+            "ci95_low": 0.19226809146046822,
+            "ci_method": "student_t",
+            "mean": 0.24395010868708292,
+            "n": 3,
+            "std": 0.020803132622390568
+          },
+          "validation_nll": {
+            "ci95_high": 0.17864356937113318,
+            "ci95_low": 0.026963278630346907,
+            "ci_method": "student_t",
+            "mean": 0.10280342400074005,
+            "n": 3,
+            "std": 0.030527303052505343
+          }
+        }
+      },
+      "temporality": {
+        "hermitian": {
+          "accuracy": {
+            "ci95_high": 0.958361085581332,
+            "ci95_low": 0.9108518597209954,
+            "ci_method": "student_t",
+            "mean": 0.9346064726511637,
+            "n": 3,
+            "std": 0.009561746806689303
+          },
+          "nll": {
+            "ci95_high": 0.5642962200534185,
+            "ci95_low": -0.032232517311159836,
+            "ci_method": "student_t",
+            "mean": 0.26603185137112934,
+            "n": 3,
+            "std": 0.12005787605047183
+          },
+          "validation_nll": {
+            "ci95_high": 0.4433196733523639,
+            "ci95_low": -0.11807828646195251,
+            "ci_method": "student_t",
+            "mean": 0.1626206934452057,
+            "n": 3,
+            "std": 0.11298742617521575
+          }
+        },
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9449509602011055,
+            "ci95_low": 0.8536601244190525,
+            "ci_method": "student_t",
+            "mean": 0.899305542310079,
+            "n": 3,
+            "std": 0.01837327049034891
+          },
+          "nll": {
+            "ci95_high": 0.39584906720264434,
+            "ci95_low": 0.14969645119564057,
+            "ci_method": "student_t",
+            "mean": 0.27277275919914246,
+            "n": 3,
+            "std": 0.04954088279573816
+          },
+          "validation_nll": {
+            "ci95_high": 0.44124696966384247,
+            "ci95_low": -0.0037660729524929826,
+            "ci_method": "student_t",
+            "mean": 0.21874044835567474,
+            "n": 3,
+            "std": 0.08956369972604078
+          }
+        }
+      }
+    },
+    "real_operator": {
+      "context": {
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9271173344003674,
+            "ci95_low": 0.8552900685918812,
+            "ci_method": "student_t",
+            "mean": 0.8912037014961243,
+            "n": 3,
+            "std": 0.014456016006164647
+          },
+          "nll": {
+            "ci95_high": 0.4296814017702122,
+            "ci95_low": 0.197336692292593,
+            "ci_method": "student_t",
+            "mean": 0.3135090470314026,
+            "n": 3,
+            "std": 0.046761891899264045
+          },
+          "validation_nll": {
+            "ci95_high": 0.3398365906999804,
+            "ci95_low": 0.06807576297459036,
+            "ci_method": "student_t",
+            "mean": 0.20395617683728537,
+            "n": 3,
+            "std": 0.054694813052213374
+          }
+        }
+      },
+      "localization": {
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9273059213494468,
+            "ci95_low": 0.9141292726660561,
+            "ci_method": "student_t",
+            "mean": 0.9207175970077515,
+            "n": 3,
+            "std": 0.00265194341077365
+          },
+          "nll": {
+            "ci95_high": 0.26831002762073575,
+            "ci95_low": 0.23587387074873545,
+            "ci_method": "student_t",
+            "mean": 0.2520919491847356,
+            "n": 3,
+            "std": 0.006528128248266202
+          },
+          "validation_nll": {
+            "ci95_high": 0.17679754033868217,
+            "ci95_low": 0.0896639115096658,
+            "ci_method": "student_t",
+            "mean": 0.13323072592417398,
+            "n": 3,
+            "std": 0.01753658751797637
+          }
+        }
+      },
+      "mechanism": {
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9328219753192062,
+            "ci95_low": 0.8704187610063756,
+            "ci_method": "student_t",
+            "mean": 0.9016203681627909,
+            "n": 3,
+            "std": 0.012559323465655595
+          },
+          "nll": {
+            "ci95_high": 0.3258467826796217,
+            "ci95_low": 0.21157188082211784,
+            "ci_method": "student_t",
+            "mean": 0.26870933175086975,
+            "n": 3,
+            "std": 0.02299906298479476
+          },
+          "validation_nll": {
+            "ci95_high": 0.165916330750972,
+            "ci95_low": 0.1374751755235692,
+            "ci_method": "student_t",
+            "mean": 0.1516957531372706,
+            "n": 3,
+            "std": 0.005724090852871817
+          }
+        }
+      },
+      "temporality": {
+        "linear": {
+          "accuracy": {
+            "ci95_high": 0.9202632903346903,
+            "ci95_low": 0.8424681425800435,
+            "ci_method": "student_t",
+            "mean": 0.8813657164573669,
+            "n": 3,
+            "std": 0.01565711695251873
+          },
+          "nll": {
+            "ci95_high": 0.4175651568971082,
+            "ci95_low": 0.21958449494818805,
+            "ci_method": "student_t",
+            "mean": 0.31857482592264813,
+            "n": 3,
+            "std": 0.03984575475385174
+          },
+          "validation_nll": {
+            "ci95_high": 0.43367998926864676,
+            "ci95_low": 0.16854763896240182,
+            "ci_method": "student_t",
+            "mean": 0.3011138141155243,
+            "n": 3,
+            "std": 0.05336076010464397
+          }
+        }
+      }
+    }
+  }
+}
