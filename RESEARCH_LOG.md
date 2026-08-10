@@ -165,3 +165,31 @@ of 0.25. All task-suite effects remain exploratory.
 
 **Next:** Add active evidence acquisition and explicit trajectory diagnostics. Then test whether
 adaptive dynamics or uncertainty-aware objectives repair ambiguity without sacrificing robustness.
+
+## 2026-08-09 — QN-000012 active evidence acquisition
+
+**Question:** Can hypothesis-state models reach a correct differential with fewer findings, and
+does model-conditioned expected information beat random or fixed acquisition?
+
+**Method:** Restricted the benchmark to factorial labels 8–19 so evidence order is not an outcome.
+Trained all models on 3,000 partially observed cases over three seeds. For 200 fully specified test
+cases, sequentially revealed 12 of 40 outcomes using random order, a global mutual-information
+order, or counterfactual expected-entropy minimization. Recorded predictive curves and runtime.
+
+**Result:** Full-information top-1 is 0.950–0.997 and poorly predicts active performance. Complex
+expected-information AUC is 0.590 and final 12-query accuracy is 0.833. MLP is 0.585/0.803 and
+two-channel is 0.568/0.807, so complex does not separate from those controls. Expected information
+improves complex AUC by 0.073 over fixed ordering but lowers Transformer AUC by 0.169. GRU has
+0.950 full-case top-1 yet only 0.282 expected-information AUC.
+
+**Interpretation:** Evidence acquisition is a distinct computational law. Model uncertainty can
+guide acquisition only when its partial-evidence geometry is trustworthy. Complex is promising
+but not uniquely efficient; the MLP result rules out a broad hypothesis-state claim.
+
+**Confounders:** Binary findings have equal query cost; conditional outcome probabilities use a
+naive diagnosis-weighted approximation; policies do not model real clinical questions; only 12
+synthetic diagnoses and three seeds are used.
+
+**Next:** Expose trajectories and implement adaptive diagnostic time, energy/attractor, and
+Hamiltonian/dissipative variants. Use active AUC and ambiguity NLL as gates rather than optimizing
+saturated full-case accuracy.

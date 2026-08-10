@@ -243,3 +243,40 @@ Student-`t` intervals and standardized effects are descriptive, not confirmatory
 claims.
 
 ![Orthogonal NeuroWorld task suite](research/figures/generated/neuro_task_suite.png)
+
+## Active evidence acquisition
+
+Primary artifact: `experiments/results/QN-000012/metrics.json`. Paired exploratory analysis:
+`research/analyses/generated/active_evidence_paired_effects.json`.
+
+This benchmark excludes chronology-twin labels and trains on 3,000 factorial cases with canonical
+evidence order. At test time all 40 binary outcomes exist, but a policy reveals one per query. We
+compare random order, a fixed training-set mutual-information ranking, and a model-conditioned
+policy minimizing expected entropy under positive/negative counterfactual outcomes. Accuracy AUC
+below is mean top-1 across query budgets 1–12, not an ROC area.
+
+| Model | Full top-1 | Random AUC | Fixed-info AUC | Expected-info AUC | 12-query expected-info accuracy |
+|---|---:|---:|---:|---:|---:|
+| MLP | 0.987 | 0.426 | 0.528 | 0.585 | 0.803 |
+| Tiny Transformer | 0.982 | 0.459 | **0.528** | 0.359 | 0.488 |
+| GRU | 0.950 | 0.265 | 0.236 | 0.282 | 0.392 |
+| Real operator | **0.997** | 0.446 | **0.511** | 0.505 | 0.780 |
+| Two-channel real operator | 0.993 | 0.456 | 0.519 | **0.568** | 0.807 |
+| Complex operator | 0.988 | 0.463 | 0.517 | **0.590** | **0.833** |
+
+Complex expected-information querying has the highest mean AUC, 0.590, but does not separate from
+MLP (paired difference +0.005, interval −0.023 to +0.034) or two-channel (+0.022, interval −0.040
+to +0.083). It exceeds ordinary real by +0.085 (interval +0.032 to +0.138). Within complex,
+expected-information querying adds +0.073 over fixed order (interval +0.016 to +0.130), while
+requiring 5.43 versus 1.20 seconds to evaluate 200 cases.
+
+Expected information is not universally beneficial. It reduces Transformer AUC by 0.169 relative
+to fixed order (interval −0.264 to −0.074), despite 0.982 full-information accuracy. GRU similarly
+exposes a large gap between static full-case accuracy and partial-evidence competence. A policy
+that trusts a model's own entropy can amplify a miscalibrated state geometry.
+
+Accuracy integrated over a declared evidence budget distinguishes models that look equivalent
+after all findings are supplied. The present benchmark does not yet model unequal test costs,
+conditional finding dependencies, or real clinical question semantics.
+
+![Active evidence acquisition](research/figures/generated/active_evidence.png)

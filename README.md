@@ -55,6 +55,12 @@ ambiguous, observationally identical cases, complex is worse: ambiguous-pair NLL
 1.148 for the ordinary real operator. The current complex architecture is robust under shift but
 does not automatically maintain a calibrated differential when evidence cannot resolve the case.
 
+The active-evidence benchmark (`QN-000012`) reveals one of 40 findings per query. Complex reaches
+0.590 mean accuracy over budgets 1–12 under expected-information acquisition, compared with 0.568
+two-channel and 0.585 MLP; those differences do not separate with three seeds. The same policy
+harms the Transformer even though its full-information accuracy is 0.982. Active evidence
+efficiency is a distinct target, not a consequence of high static accuracy.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -62,6 +68,8 @@ does not automatically maintain a calibrated differential when evidence cannot r
 ![Multi-world robustness sweep](research/figures/generated/robustness_world_sweep.png)
 
 ![Orthogonal NeuroWorld task suite](research/figures/generated/neuro_task_suite.png)
+
+![Active evidence acquisition](research/figures/generated/active_evidence.png)
 
 ## Quick start
 
