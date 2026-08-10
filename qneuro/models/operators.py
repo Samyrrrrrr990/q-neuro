@@ -184,6 +184,35 @@ class ComplexOperatorState(nn.Module):
             state = torch.where(active.unsqueeze(-1), candidate, state)
         return state
 
+    def trajectory(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        """Return the actual complex state after initialization and each evidence position."""
+
+        batch_size, sequence_length = tokens.shape
+        initial = self._complex(self.initial_real, self.initial_imag)
+        state = initial.expand(batch_size, -1)
+        if vector is not None:
+            demographic = self._complex(self.demographic_real, self.demographic_imag)
+            state = state + vector[:, -2:].to(demographic.dtype) @ demographic
+        state = _bounded_norm_complex(state)
+        states = [state]
+        for position in range(sequence_length):
+            active = mask[:, position]
+            token = tokens[:, position].clamp_max(self.num_tokens - 1)
+            injection = self._complex(self.injection_real[token], self.injection_imag[token])
+            left = self._complex(self.left_real[token], self.left_imag[token])
+            right = self._complex(self.right_real[token], self.right_imag[token])
+            projection = torch.einsum("bs,bsr->br", state, right.conj())
+            delta = injection + torch.einsum("bsr,br->bs", left, projection)
+            candidate = _bounded_norm_complex(state + self.step_size * torch.tanh(delta))
+            state = torch.where(active.unsqueeze(-1), candidate, state)
+            states.append(state)
+        return torch.stack(states, dim=1)
+
     def measure(self, state: torch.Tensor, phase_mode: str = "learned") -> torch.Tensor:
         if phase_mode == "zero":
             state = torch.complex(torch.abs(state), torch.zeros_like(state.real))

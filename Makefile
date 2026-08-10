@@ -54,6 +54,10 @@ training-laws:
 	uv run python -m experiments.run_training_laws \
 		--config experiments/configs/training_laws.yaml
 
+hard-halting:
+	uv run python -m experiments.run_hard_halting \
+		--config experiments/configs/hard_halting.yaml
+
 analyses:
 	uv run python -m research.analyses.analyze_generator_shift
 	uv run python -m research.analyses.analyze_neuro_task_suite
@@ -62,6 +66,7 @@ analyses:
 	uv run python -m research.analyses.analyze_ablation_suite
 	uv run python -m research.analyses.analyze_observable_probe
 	uv run python -m research.analyses.analyze_training_laws
+	uv run python -m research.analyses.analyze_hard_halting
 
 figures:
 	uv run python -m research.figures.generate_experiment_zero
@@ -73,3 +78,4 @@ figures:
 	uv run python -m research.figures.generate_ablation_suite
 	uv run python -m research.figures.generate_observable_probe
 	uv run python -m research.figures.generate_training_laws
+	uv run python -m research.figures.generate_hard_halting

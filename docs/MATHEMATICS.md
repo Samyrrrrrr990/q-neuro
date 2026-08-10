@@ -147,6 +147,16 @@ ACT-style allocation weights combine step logits and define a soft expected dept
 penalty is included. This is differentiable, but the current implementation evaluates all steps;
 soft expected depth must not be described as realized compute savings.
 
+The hard follow-up maintains an active index set `A_t`. For each active case it computes
+
+`v_t = ||h_t-h_(t-1)|| / sqrt(S)`
+
+and exits when `t >= t_min` and `v_t <= delta`, where `delta` is selected on source validation under
+explicit accuracy/NLL tolerances. Halted cases are removed from subsequent tensor operations, so
+`sum_i t_i` is an executed state count rather than a soft expectation. In QN-000023, `t_i=2` for
+every case. This makes the selected law algebraically equivalent to fixed two-state truncation; it
+does not exhibit case-adaptive depth.
+
 ### Hamiltonian–dissipative state
 
 For complex state `z` and evidence token `e`, define a Hermitian low-rank action

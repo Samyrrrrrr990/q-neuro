@@ -56,6 +56,16 @@ def test_padding_does_not_change_operator_state() -> None:
         assert torch.allclose(original, padded, atol=1e-6)
 
 
+def test_complex_trajectory_ends_at_evolved_state() -> None:
+    model = ComplexOperatorState(80, 80, 12, 2, 20)
+    tokens = torch.tensor([[1, 4, 7, 80], [2, 5, 80, 80]])
+    mask = tokens.ne(80)
+    vector = torch.zeros(2, 82)
+    trajectory = model.trajectory(tokens, mask, vector)
+    assert trajectory.shape == (2, 5, 12)
+    assert torch.allclose(trajectory[:, -1], model.evolve(tokens, mask, vector), atol=1e-6)
+
+
 def test_operator_order_can_change_state() -> None:
     tokens_ab = torch.tensor([[0, 1]])
     tokens_ba = torch.tensor([[1, 0]])
