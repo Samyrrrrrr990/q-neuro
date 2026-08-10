@@ -1,0 +1,83 @@
+experiment: robustness_world_sweep
+description: Confirmatory robustness gate over five unseen NeuroWorld seeds and four
+  preregistered shift severities, with validation-only temperature calibration and
+  world-level hierarchical summaries.
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+dataset:
+  train_cases: 1000
+  validation_cases: 1500
+  test_cases_per_world: 2000
+  counterfactual_pairs_per_world: 300
+  unseen_world_seeds:
+  - 141421
+  - 161803
+  - 173205
+  - 223607
+  - 271828
+shift_severities:
+  nuisance:
+    observation_probability: 0.72
+    probability_mixing: 0.0
+    temporal_jitter: 0.025
+    order_marker_visibility: 1.0
+  mild:
+    observation_probability: 0.65
+    probability_mixing: 0.08
+    temporal_jitter: 0.045
+    order_marker_visibility: 0.9
+  moderate:
+    observation_probability: 0.55
+    probability_mixing: 0.18
+    temporal_jitter: 0.08
+    order_marker_visibility: 0.7
+  severe:
+    observation_probability: 0.45
+    probability_mixing: 0.3
+    temporal_jitter: 0.12
+    order_marker_visibility: 0.5
+models:
+  names:
+  - mlp
+  - transformer
+  - gru
+  - real_operator
+  - two_channel_operator
+  - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+  learning_rates:
+    mlp:
+    - 0.003
+    transformer:
+    - 0.0015
+    - 0.003
+    gru:
+    - 0.001
+    - 0.003
+    - 0.006
+    real_operator:
+    - 0.003
+    two_channel_operator:
+    - 0.003
+    complex_operator:
+    - 0.003
+training:
+  seeds:
+  - 11
+  - 23
+  - 37
+  batch_size: 128
+  epochs: 25
+  patience: 5
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
