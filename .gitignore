@@ -1,0 +1,16 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+checkpoints/
+experiments/results/QN-*/checkpoints/
+results/*.pt
+results/*.npz
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.pdf
+
