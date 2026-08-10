@@ -36,3 +36,4 @@ analyses:
 figures:
 	uv run python research/figures/generate_experiment_zero.py
 	uv run python research/figures/generate_generator_shift.py
+	uv run python research/figures/generate_robustness_sweep.py
