@@ -87,6 +87,10 @@ Hard velocity exit (`QN-000023`) converts eight attractor states into two execut
 an 80% CPU-latency reduction without changing top-1; it also improves shifted calibration. Every
 case stops at the same boundary, so this supports shallow truncation—not adaptive per-case thought.
 
+Trajectory replay (`QN-000025`) exposes the model's real evidence-by-evidence amplitudes,
+probabilities, entropy, velocity, and chronology bifurcation. The figure is a computation trace,
+not generated chain-of-thought, and visibility alone is not semantic interpretability.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -106,6 +110,8 @@ case stops at the same boundary, so this supports shallow truncation—not adapt
 ![Unconventional training-law suite](research/figures/generated/training_law_suite.png)
 
 ![Realized hard halting](research/figures/generated/hard_halting.png)
+
+![Q-Neuro trajectory signature](research/figures/generated/trajectory_signature.png)
 
 ## Quick start
 

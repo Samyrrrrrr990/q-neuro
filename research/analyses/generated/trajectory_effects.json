@@ -1,0 +1,114 @@
+{
+  "checkpoint_source": "QN-000014",
+  "guardrails": [
+    "Observed-negative tokens are not guaranteed to contradict the true diagnosis; they may exclude alternatives.",
+    "Revival means later true-label probability returns to its pre-drop level, not clinical belief revision.",
+    "The visual case and pair use deterministic generation order, not performance-based selection."
+  ],
+  "positive_minus_negative_token_delta_true_probability": {
+    "ci95_high": 0.044715720765112175,
+    "ci95_low": 0.026955110020930644,
+    "ci_method": "student_t",
+    "differences": [
+      0.03438284353300626,
+      0.03990754757299228,
+      0.0332158550730657
+    ],
+    "exact_two_sided_sign_flip_p": 0.25,
+    "mean": 0.03583541539302141,
+    "n": 3,
+    "std": 0.0035745154755259237
+  },
+  "source_experiment": "QN-000025",
+  "summary": {
+    "counterfactual_pair_accuracy": {
+      "ci95_high": 1.0,
+      "ci95_low": 1.0,
+      "ci_method": "student_t",
+      "mean": 1.0,
+      "n": 3,
+      "std": 0.0
+    },
+    "final_top1": {
+      "ci95_high": 0.9803846678915109,
+      "ci95_low": 0.957615332108489,
+      "ci_method": "student_t",
+      "mean": 0.969,
+      "n": 3,
+      "std": 0.004582575694955844
+    },
+    "mean_counterfactual_final_state_distance": {
+      "ci95_high": 0.9671248453933337,
+      "ci95_low": 0.7149099186978398,
+      "ci_method": "student_t",
+      "mean": 0.8410173820455867,
+      "n": 3,
+      "std": 0.05076098855029694
+    },
+    "mean_counterfactual_maximum_state_distance": {
+      "ci95_high": 0.966510392400334,
+      "ci95_low": 0.7688980606469418,
+      "ci_method": "student_t",
+      "mean": 0.8677042265236379,
+      "n": 3,
+      "std": 0.03977162430850938
+    },
+    "mean_entropy_change": {
+      "ci95_high": -1.2291316215378691,
+      "ci95_low": -1.3030690305846286,
+      "ci_method": "student_t",
+      "mean": -1.266100326061249,
+      "n": 3,
+      "std": 0.01488070521136299
+    },
+    "mean_final_state_velocity": {
+      "ci95_high": 0.24082129966318805,
+      "ci95_low": 0.10855939193963808,
+      "ci_method": "student_t",
+      "mean": 0.17469034580141307,
+      "n": 3,
+      "std": 0.02661914293320649
+    },
+    "mean_negative_token_delta_true_probability": {
+      "ci95_high": 0.01254930043469449,
+      "ci95_low": 0.009197711898925204,
+      "ci_method": "student_t",
+      "mean": 0.010873506166809847,
+      "n": 3,
+      "std": 0.0006745435312593286
+    },
+    "mean_normalized_path_length": {
+      "ci95_high": 3.3446588243753723,
+      "ci95_low": 2.56665457748264,
+      "ci_method": "student_t",
+      "mean": 2.9556567009290062,
+      "n": 3,
+      "std": 0.15658178992825622
+    },
+    "mean_positive_token_delta_true_probability": {
+      "ci95_high": 0.05454047173794546,
+      "ci95_low": 0.038877371381717055,
+      "ci_method": "student_t",
+      "mean": 0.04670892155983126,
+      "n": 3,
+      "std": 0.003152368768421775
+    },
+    "negative_contradiction_drop_case_fraction": {
+      "ci95_high": 0.08769679175338063,
+      "ci95_low": 0.011636541579952697,
+      "ci_method": "student_t",
+      "mean": 0.049666666666666665,
+      "n": 3,
+      "std": 0.015307950004273378
+    },
+    "revival_given_negative_drop_fraction": {
+      "ci95_high": 0.9831984838590069,
+      "ci95_low": 0.5339576626440126,
+      "ci_method": "student_t",
+      "mean": 0.7585780732515097,
+      "n": 3,
+      "std": 0.09041458600724338
+    }
+  },
+  "unit": "training seed (n=3); token changes are averaged within seed before comparison"
+}

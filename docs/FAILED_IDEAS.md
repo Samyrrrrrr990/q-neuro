@@ -243,3 +243,15 @@ closed-form class prototype readout, eliminating reverse-mode differentiation.
 **Decision:** The centroid version is refuted. Further ZeroBackprop work requires plastic dynamics,
 contrastive negative phases, random feedback, or perturbation-based credit assignment—not another
 readout-only variation.
+
+## Final complex state as a converged disease attractor
+
+**Why it seemed plausible:** Repeated noncommutative evidence updates might settle into stable
+hypothesis basins, making the final state an attractor-like diagnostic object.
+
+**What happened:** QN-000025 measures a mean normalized final-token velocity of 0.175. States follow
+long paths (2.956 normalized units) and remain sensitive to the final observation. Chronology twins
+separate reliably, but that is path dependence rather than convergence.
+
+**Decision:** Use “operator state,” not “attractor,” for the complex model. Reserve attractor claims
+for an explicit fixed-point, basin, perturbation-recovery, or Lyapunov experiment.

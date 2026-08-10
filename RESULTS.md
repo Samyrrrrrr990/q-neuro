@@ -500,3 +500,47 @@ equivalent, and the learned soft halting head is unnecessary under this task. Th
 order-invariant and its chronology-pair accuracy remains zero.
 
 ![Realized hard halting](research/figures/generated/hard_halting.png)
+
+## Actual complex-state trajectories
+
+Primary artifacts: `experiments/results/QN-000025/metrics.json` and
+`experiments/results/QN-000025/selected_trajectories.json`. Derived analysis:
+`research/analyses/generated/trajectory_effects.json`.
+
+QN-000025 replays 1,000 source-world cases and 200 chronology pairs through each of the three
+frozen QN-000014 complex checkpoints, recording the state after every evidence token. Visual cases
+are selected without reference to performance: the first generated factorial case and first
+generated chronology pair. `QN-000024` is a preserved failed run caused by use of a nonexistent
+PyTorch convenience function; no scientific result was produced.
+
+| Trajectory diagnostic | Mean over checkpoint seeds |
+|---|---:|
+| Final top-1 | 0.969 |
+| Entropy change, final minus initial | −1.266 nats |
+| Normalized state-path length | 2.956 |
+| Final state velocity | 0.175 |
+| Positive-token change in true-label probability | +0.0467 |
+| Observed-negative-token change in true-label probability | +0.0109 |
+| Cases with >0.05 drop after an observed-negative token | 0.050 |
+| Recovery to pre-drop probability, conditional on drop | 0.759 |
+| Chronology-pair accuracy | 1.000 |
+| Twin final-state distance | 0.841 |
+
+Positive tokens increase true-label probability 0.0358 more per token than observed-negative tokens
+after averaging within each seed (descriptive interval 0.0270–0.0447). Negative observations still
+have a positive mean effect because absence of a finding can eliminate competing diagnoses. They
+are not semantically guaranteed contradictions to the true class.
+
+In roughly 5% of cases, an observed-negative token reduces true-label probability by more than
+0.05; 75.9% of those cases later return to their pre-drop probability. This operational
+"revival" demonstrates reversible belief dynamics but does not establish a clinical contradiction
+mechanism. The nonzero final velocity also shows that the last observed token often still moves the
+state; it is not evidence of convergence to a stable attractor.
+
+Chronology twins separate to normalized final distance 0.841 and maximum distance 0.868 even though
+their aggregate evidence is identical. The signature figure exposes hypothesis probability,
+complex readout-amplitude paths, entropy, state velocity, and counterfactual bifurcation directly
+from computation. It is not a generated narrative and does not prove that individual state axes
+have human semantics.
+
+![Q-Neuro trajectory signature](research/figures/generated/trajectory_signature.png)
