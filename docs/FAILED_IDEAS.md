@@ -157,3 +157,18 @@ oversmooth finding identity. Matching the generator's broad groups is not equiva
 its label-specific causal parameters.
 
 **Decision:** Retain as a negative baseline; do not tune the graph against test worlds.
+
+## Density rank as useful relational capacity
+
+**Why it seemed plausible:** A higher-rank density factor can represent more independent coherent
+hypothesis relations and should reduce the restriction of a nearly pure state.
+
+**What happened:** Ranks 1, 2, and 4 reach 0.449, 0.453, and 0.441 shifted top-1. Rank 4 has more
+parameters but lower in-domain accuracy, worse ambiguity NLL, and lower chronology-pair accuracy.
+
+**Why it failed:** Cross-entropy supervises only the diagonal measurement. Off-diagonal capacity is
+free to vary without a target that makes relational state predictive, and extra factor channels can
+make optimization less identifiable.
+
+**Decision:** Do not scale density rank. Revisit only with a later-resolution or multi-observable
+objective that can falsify whether off-diagonals contain useful information.

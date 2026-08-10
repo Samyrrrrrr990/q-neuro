@@ -67,6 +67,12 @@ under moderate unseen-world shift at 0.647 top-1. Hamiltonian-style evolution re
 dynamics preserve Hermiticity, PSD, and unit trace but do not beat the real operator. These are
 exploratory synthetic mechanism results, not physical or novelty claims.
 
+Retrained ablations (`QN-000016`) show that the robustness signal is distributed: replacing complex
+operators with a commutative complex accumulator costs 0.232 shifted top-1, a phase-insensitive
+readout costs 0.104, and dropping negative evidence costs 0.072. Density ranks above one do not
+help. These effects isolate functional components but still do not establish novelty or external
+validity.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -78,6 +84,8 @@ exploratory synthetic mechanism results, not physical or novelty claims.
 ![Active evidence acquisition](research/figures/generated/active_evidence.png)
 
 ![Computational-law mechanism suite](research/figures/generated/dynamics_suite.png)
+
+![Critical Q-Neuro ablations](research/figures/generated/critical_ablation_suite.png)
 
 ## Quick start
 

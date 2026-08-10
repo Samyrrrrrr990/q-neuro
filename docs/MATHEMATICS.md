@@ -191,3 +191,21 @@ channel before readout. It controls for multiplicative feature interaction witho
 The associative-memory baseline uses learned disease queries to retrieve a weighted sum of token
 embeddings, while the factor-graph model performs shared message passing over a fixed declared
 NeuroWorld adjacency. These are controls, not novelty claims.
+
+### Critical ablation laws
+
+The commutative complex accumulator removes operator composition:
+
+`z = N_C(z_0 + sum_t b_(e_t) + W_c c)`.
+
+Because addition commutes, any chronology information is exactly absent. It retains a complex state
+and the same form of magnitude-squared readout.
+
+The phase-insensitive readout retains full complex evolution but replaces the complex inner product
+with a constructive magnitude sum:
+
+`a_d = sum_j |z_j| |w_dj|`, `logit_d = log(a_d^2 + epsilon)`.
+
+It cannot express destructive readout interference. The negative-evidence ablation prevents tokens
+40–79 from acting on the state, while retaining the observation process and all positive tokens.
+This tests information removal, not a fully specified contradiction operator.

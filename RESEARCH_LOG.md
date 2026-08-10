@@ -221,3 +221,30 @@ real operators; complex and Transformer remain badly calibrated on irreducible a
 
 **Next:** Run targeted ablations for phase, ordering, interference, damping, density rank, and hard
 adaptive halting. Then evaluate unconventional learning rules against AdamW.
+
+## 2026-08-09 — QN-000016 critical mechanism ablations
+
+**Question:** Which parts of the complex operator robustness signal survive retrained ablations?
+
+**Method:** Compared a commutative complex accumulator, two-channel real operator, phase-insensitive
+magnitude readout, removal of negative evidence, and the full complex operator. Repeated
+attractor/Hamiltonian controls and trained D3 at ranks 1/2/4. Used the same three seeds and unseen
+worlds as QN-000014.
+
+**Result:** Full complex shifted top-1 is 0.647 versus 0.415 commutative, 0.499 two-channel, 0.543
+magnitude-only readout, and 0.575 without negative evidence. World-paired effects are +0.232,
++0.148, +0.104, and +0.072 respectively, with all descriptive intervals above zero. Density ranks
+1/2/4 reach 0.449/0.453/0.441; higher rank does not help. Hamiltonian again exceeds dissipative by
+0.119, while hybrid does not exceed Hamiltonian.
+
+**Interpretation:** The robustness phenomenon depends jointly on ordered state-conditioned
+composition, phase-sensitive measurement, and negative evidence. No single removed mechanism
+accounts for the full effect. Higher density rank is not beneficial without an objective that uses
+relational state.
+
+**Caveats:** Accumulator versus operator changes more than commutator structure; the magnitude-only
+readout also changes optimization geometry; density ranks are not parameter-matched; only three
+worlds and one simulator family are used.
+
+**Next:** Implement observable probes, hard halting, and targeted contradiction/revival tests before
+moving to local and nonstandard learning laws.
