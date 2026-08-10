@@ -190,3 +190,47 @@ architecture-specific decomposition or show that the final head relies on the pr
 **Decision:** Retain factor probes as state diagnostics. Do not describe them as uniquely
 Q-Neuro, disentangled, or intrinsically interpretable. Require causal interventions on observables
 before claiming that a factor controls a diagnosis.
+
+## Phase-coded gradients as a robustness optimizer
+
+**Why it seemed plausible:** Mechanism, localization, and diagnosis gradients could conflict, and
+rotating auxiliary updates in explicit real/imaginary parameter planes might preserve orthogonal
+information that scalar gradient averaging cancels.
+
+**What happened:** PGO reaches 0.633 shifted top-1, slightly above diagnosis-only AdamW but below
+ordinary multi-objective AdamW (0.635) and PCGrad (0.635). It takes 5.43 seconds versus 2.96 for the
+same-objective AdamW control. Task-gradient cosines are weakly positive, so the proposed conflict
+mechanism is mostly solving a conflict that is not present.
+
+**Decision:** Do not promote PGO. Retain it as a tested optimizer and revisit only on a preregistered
+task with measured negative gradient cosines. A future version also needs a real/two-channel
+control to isolate whether complex rotation matters.
+
+## Local pretraining as a benign initialization
+
+**Why it seemed plausible:** Fast transition-local association followed by slow global learning
+could combine continual plasticity with end-to-end refinement.
+
+**What happened:** The hybrid reaches almost perfect source accuracy and materially better
+ambiguous-pair NLL, but its 1,000-case shifted top-1 is 0.419 versus 0.620 for AdamW. At 250 cases it
+reaches 0.845 source accuracy and only 0.087 shifted accuracy. The failure repeats across seeds.
+
+**Why it failed:** The local prototype target strongly associates source-world tokens with class
+codes. Global cross-entropy sharpens that basin rather than rebuilding a transferable evidence
+geometry.
+
+**Decision:** Treat local initialization as a potential source-locking risk. Future local rules must
+use counterfactual or multi-world signals and be evaluated before global fine-tuning, not merely
+after it.
+
+## Centroid ZeroBackprop as an end-to-end alternative
+
+**Why it seemed plausible:** Random complex dynamics may provide enough nonlinear features for a
+closed-form class prototype readout, eliminating reverse-mode differentiation.
+
+**What happened:** The prototype is fast and gradient-free but reaches only 0.133 in-domain top-1,
+0.139 shifted top-1, and zero chronology-pair accuracy at 1,000 cases.
+
+**Decision:** The centroid version is refuted. Further ZeroBackprop work requires plastic dynamics,
+contrastive negative phases, random feedback, or perturbation-based credit assignment—not another
+readout-only variation.

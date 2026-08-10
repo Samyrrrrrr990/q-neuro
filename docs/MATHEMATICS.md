@@ -225,3 +225,53 @@ precision. Probe regularization is selected without test labels, and the diagnos
 frozen. The resulting accuracy measures whether the factor can be decoded by the chosen function
 class. It does not imply independence of factors, causal use by the diagnosis head, or a physical
 measurement interpretation.
+
+## Experimental learning laws
+
+### Multi-objective diagnosis
+
+Experiment Six uses only three controlled losses:
+
+`L = L_diagnosis + lambda (L_mechanism + L_localization)`.
+
+The factor losses are defined only for factorial diagnoses 8–19; chronology twins do not receive
+fabricated factor labels. The auxiliary heads are discarded at deployment. This tests targeted
+factor supervision, not the eleven-loss omnibus objective proposed as a possibility in the research
+directive.
+
+### Phase Gradient Optimization
+
+Let `g_0` be the diagnosis gradient and `g_k` an auxiliary task gradient. The measured task
+relationship is
+
+`c_k = <g_0, g_k> / (||g_0|| ||g_k||)`.
+
+PGO assigns `phi_0 = 0` and `phi_k = 1/2 arccos(c_k)`. For every explicit real/imaginary parameter
+pair, form `G_k = g_(k,real) + i g_(k,imag)` and combine
+
+`G = (1/K) sum_k exp(i phi_k) G_k`.
+
+The real and imaginary parts of `G` are installed as the corresponding parameter gradients before
+an AdamW step. Agreement (`c=1`) remains phase aligned; full opposition (`c=-1`) moves an auxiliary
+update into quadrature instead of letting it directly cancel diagnosis. Unpaired real parameters
+receive `sum_k cos(phi_k) g_k / K`. PGO still requires reverse-mode task gradients and is not a
+local or quantum algorithm.
+
+### Transition-local plasticity
+
+Each diagnosis is assigned a fixed normalized complex prototype `p_y`. At evidence step `t`, the
+usual complex operator produces `z_t` and a locally available error observable
+
+`e_t = p_y - z_t`.
+
+The token injection receives a class-conditional delta update. Low-rank factors use local pre/post
+signals, schematically
+
+`Delta L_e proportional to e_t (R_e^H z_(t-1))^H`,
+
+`Delta R_e proportional to z_(t-1) (L_e^H e_t)^H`.
+
+Updates are averaged per active token and norm clipped. No autograd graph or backward call is used.
+This is supervised local credit, not biologically validated Hebbian learning. The ZeroBackprop
+prototype freezes dynamics entirely and sets each complex readout vector to the normalized class
+centroid of its frozen states. The hybrid applies local updates before ordinary global AdamW.

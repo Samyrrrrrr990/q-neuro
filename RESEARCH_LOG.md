@@ -276,3 +276,40 @@ states may encode nuisance correlations.
 
 **Next:** Measure realized hard halting and state trajectories, then compare global, local,
 phase-coded, and zero-backprop learning laws.
+
+## 2026-08-10 — QN-000020 training-law smoke profile
+
+**Purpose:** Integration-only validation of nine training paths, checkpoint persistence, resource
+counters, ambiguity/shift evaluation, and registry writes.
+
+**Result:** Every method completed. Local plasticity and ZeroBackprop recorded zero backward and
+zero autograd-gradient calls. Two training epochs are intentionally inadequate for global methods;
+the metrics are not used scientifically.
+
+## 2026-08-10 — QN-000021 Experiment Six training-law suite
+
+**Question:** Can local, hybrid, phase-coded, or no-backprop learning preserve diagnosis while
+changing compute or transfer behavior?
+
+**Method:** Held architecture fixed to the 20,304-scalar complex operator. Compared AdamW, SGD,
+equal-effective-batch gradient accumulation, multi-objective AdamW, PCGrad, PGO, local complex
+delta/Hebbian updates, local→global training, and a frozen-random centroid ZeroBackprop prototype.
+Evaluated 250/1,000 cases, three seeds, three unseen worlds, chronology twins, and ambiguity.
+
+**Result:** At 1,000 cases, AdamW shifted top-1 is 0.620; multi-objective AdamW/PCGrad/PGO reach
+0.635/0.635/0.633. PGO costs 5.43 s versus 2.96 s for multi-objective AdamW. Its gradient cosines
+are weakly positive, and it does not exceed the same-objective control. Local/ZeroBackprop reach
+0.642/0.133 in-domain and 0.137/0.139 shifted. The hybrid reaches 0.998 in-domain and ambiguity NLL
+1.317 but only 0.419 shifted top-1, 0.201 below AdamW across worlds.
+
+**Interpretation:** Auxiliary labels modestly help robustness; phase rotation and conflict
+projection do not. Pure local learning acquires source structure without useful scaling. Local
+pretraining creates a reproducible source-specialization basin that global fine-tuning retains—a
+negative result relevant to two-timescale learning.
+
+**Caveats:** Fixed method-specific learning rates were not exhaustively tuned; auxiliary methods
+receive extra labels; local rules are prototypes rather than an exhaustive local-learning family;
+RSS is too coarse for memory claims; only one architecture and simulator family are tested.
+
+**Next:** Add realized hard halting and trajectory-level state visualizations, then build automated
+mechanism search and surprise detection around the now-complete experiment matrix.

@@ -424,3 +424,49 @@ interpretability. A high-capacity state can linearly retain a factor without usi
 diagnosis.
 
 ![Emergent hierarchical observables](research/figures/generated/observable_probe.png)
+
+## Experiment Six: unconventional training laws
+
+Primary artifact: `experiments/results/QN-000021/metrics.json`. Paired analysis:
+`research/analyses/generated/training_law_effects.json`. The preceding `QN-000020` is an explicitly
+marked one-seed smoke profile and is not used for claims.
+
+All methods deploy the same 20,304-real-scalar complex operator. Multi-objective methods add
+disposable mechanism and localization heads only during training. Local plasticity updates complex
+token injection/operator factors from transition-local pre/post/error signals and never calls
+autograd. ZeroBackprop freezes randomly initialized dynamics and fits only a class-centroid complex
+readout. The hybrid applies three local epochs before ordinary end-to-end AdamW.
+
+| Training law, 1,000 cases | In-domain top-1 | Moderate-shift top-1 | Counterfactual pairs | Ambiguous-pair NLL ↓ | CPU train s |
+|---|---:|---:|---:|---:|---:|
+| AdamW backprop | 0.971 | 0.620 | 1.000 | 2.368 | 2.96 |
+| SGD backprop | 0.238 | 0.188 | 0.000 | 2.400 | 2.91 |
+| Accumulated AdamW | 0.971 | 0.622 | 1.000 | 2.362 | 3.91 |
+| Multi-objective AdamW | **0.978** | **0.635** | 1.000 | 2.363 | 2.96 |
+| PCGrad | **0.978** | **0.635** | 1.000 | 2.389 | 5.48 |
+| Phase Gradient Optimization | **0.978** | 0.633 | 1.000 | 2.340 | 5.43 |
+| Local plasticity | 0.642 | 0.137 | 0.213 | 2.010 | 1.25 |
+| Local→global hybrid | **0.998** | 0.419 | 0.991 | **1.317** | 3.74 |
+| ZeroBackprop centroid | 0.133 | 0.139 | 0.000 | 2.924 | **0.11** |
+
+PGO rotates auxiliary gradients in paired real/imaginary parameter planes. Diagnosis–mechanism and
+diagnosis–localization gradient cosines average +0.119 and +0.089, producing phases of 0.725 and
+0.740 radians. Because gradients are weakly aligned rather than conflicting, neither PGO nor
+PCGrad has much conflict to resolve. PGO is +0.013 shifted top-1 over diagnosis-only AdamW across
+worlds (descriptive interval +0.002 to +0.024), but is −0.002 versus multi-objective AdamW and
+−0.002 versus PCGrad. The shared small gain comes from auxiliary supervision, not the combination
+law. PGO also requires 360 task-gradient calls and 5.43 seconds versus 120 backward passes and 2.96
+seconds for multi-objective AdamW.
+
+Local plasticity learns above chance without any backward pass, but additional data does not yield
+transfer: its shifted top-1 falls from 0.175 at 250 cases to 0.137 at 1,000. The hybrid is the most
+revealing failure. It reaches 0.845/0.998 in-domain at 250/1,000 cases and improves ambiguity NLL,
+yet trails AdamW under shift by 0.201 at 1,000 cases (world interval −0.236 to −0.165). Local
+prototype pressure appears to lock in source-world token associations that global fine-tuning does
+not erase.
+
+The SGD result applies only to the preregistered fixed learning rate and is not a general rejection
+of SGD. CPU RSS deltas were quantized and often zero, so this run supports no memory claim. The
+training-time Pareto result is descriptive for one CPU, one architecture, and small synthetic data.
+
+![Unconventional training-law suite](research/figures/generated/training_law_suite.png)
