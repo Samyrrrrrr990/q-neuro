@@ -1,0 +1,33 @@
+experiment: experiment_zero_sample_efficiency
+description: >-
+  Nested-data learning curves for the same parameter-budgeted models used in corrected Experiment
+  Zero. This run tests whether any architecture reaches the ordered-evidence solution with fewer
+  cases; it is exploratory because the full-data task is saturated.
+dataset:
+  world_seed: 314159
+  observation_probability: 0.72
+  train_sizes: [250, 500, 1000, 2000, 5000]
+  validation_cases: 1500
+  test_cases: 3000
+  counterfactual_pairs: 500
+models:
+  names:
+    - mlp
+    - transformer
+    - real_operator
+    - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+training:
+  seeds: [11, 23, 37]
+  batch_size: 128
+  epochs: 25
+  patience: 5
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
+
