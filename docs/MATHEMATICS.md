@@ -9,7 +9,8 @@ There are `F` binary findings. A case has a partially observed vector
 `x in {-1, 0, +1}^F`, where `-1` is observed absent, `0` is missing, and `+1` is observed present.
 Missing is never treated as negative. The sequential representation is an ordered list of signed
 tokens `e_1, ..., e_T` drawn from `2F` possible tokens. Padding has its own masked identifier and
-never acts on the state.
+never acts on the state. Every compared model also receives the same two demographic covariates
+`c` (scaled age and binary sex) so input asymmetry cannot explain a result.
 
 ## Conventional baseline
 
@@ -20,7 +21,8 @@ prevents absence and missingness from being conflated:
 
 ## Low-rank operator state
 
-Let `h_t in R^S`, `U_e,V_e in R^(S x r)`, and `b_e in R^S`. For evidence token `e_t`,
+Let `h_t in R^S`, `U_e,V_e in R^(S x r)`, and `b_e in R^S`. Initialize with
+`h_0 = N(theta_0 + W_c c)`. For evidence token `e_t`,
 
 `q_t = V_e^T h_t`,
 
@@ -39,7 +41,8 @@ evidence that the mechanism is useful.
 
 ## Complex operator state
 
-Let `z_t in C^S` with complex `U_e,V_e,b_e`. Evolution uses the Hermitian inner product:
+Let `z_t in C^S` with complex `U_e,V_e,b_e`, initialized by a complex affine map of the same
+demographic context. Evolution uses the Hermitian inner product:
 
 `q_t = V_e^H z_t`,
 
@@ -82,4 +85,3 @@ to a configured budget. Parameter matching is reported, never assumed.
 - State norms remain finite and bounded.
 - Complex probabilities are finite, non-negative, and sum to one.
 - Swapping two operators with a nonzero commutator can change the state.
-

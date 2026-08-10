@@ -13,16 +13,20 @@ def sample_batch() -> dict[str, torch.Tensor]:
 
 
 def test_parameter_budget_matching() -> None:
+    batch = sample_batch()
     for name in ("mlp", "transformer", "real_operator", "complex_operator"):
         model, metadata = build_model(name, 20_000, rank=2, max_length=40, step_size=0.35)
         assert metadata["parameter_count"] == parameter_count(model)
         assert abs(parameter_count(model) - 20_000) / 20_000 < 0.08
+        logits = model(**batch)
+        assert logits.shape == (8, NeuroWorld.num_diagnoses)
+        assert torch.isfinite(logits).all()
 
 
 def test_complex_probabilities_are_normalized_and_finite() -> None:
     batch = sample_batch()
     model = ComplexOperatorState(80, 80, state_dim=12, rank=2, num_classes=20)
-    probabilities = model.probabilities(batch["tokens"], batch["mask"])
+    probabilities = model.probabilities(batch["tokens"], batch["mask"], batch["vector"])
     assert torch.isfinite(probabilities).all()
     assert (probabilities >= 0).all()
     assert torch.allclose(probabilities.sum(dim=-1), torch.ones(8), atol=1e-6)

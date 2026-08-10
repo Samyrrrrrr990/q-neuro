@@ -126,7 +126,8 @@ def train_one(
     )
     model.to(device)
     process = psutil.Process(os.getpid())
-    peak_rss = process.memory_info().rss
+    starting_rss = process.memory_info().rss
+    peak_rss = starting_rss
     best_nll = float("inf")
     best_state: dict[str, torch.Tensor] | None = None
     best_epoch = 0
@@ -181,6 +182,7 @@ def train_one(
         "best_epoch": best_epoch,
         "training_seconds": elapsed,
         "peak_rss_bytes": peak_rss,
+        "peak_rss_delta_bytes": max(0, peak_rss - starting_rss),
         "history": history,
     }
 
@@ -235,6 +237,7 @@ def smoke_config(config: dict[str, Any]) -> dict[str, Any]:
 
 
 def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
+    environment = environment_metadata()
     result_root = ROOT / "experiments" / "results"
     registry = ExperimentRegistry(ROOT / "experiments" / "registry.sqlite3")
     experiment_id, result_directory = registry.reserve(config, result_root)
@@ -243,7 +246,6 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
         (result_directory / "config.yaml").write_text(
             yaml.safe_dump(config, sort_keys=False), encoding="utf-8"
         )
-        environment = environment_metadata()
         (result_directory / "environment.json").write_text(
             json.dumps(environment, indent=2, sort_keys=True), encoding="utf-8"
         )
@@ -316,6 +318,9 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                     {
                         "training_seconds": float(resource_metrics["training_seconds"]),
                         "peak_rss_gib": float(resource_metrics["peak_rss_bytes"] / 1024**3),
+                        "peak_rss_delta_gib": float(
+                            resource_metrics["peak_rss_delta_bytes"] / 1024**3
+                        ),
                         "parameter_count": float(model_metadata["parameter_count"]),
                     }
                 )
