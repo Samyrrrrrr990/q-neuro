@@ -3,6 +3,7 @@ import math
 import torch
 
 from neuroworld import NeuroWorld
+from qneuro.calibration import apply_temperature, fit_temperature
 from qneuro.data import collate_cases
 from qneuro.metrics import aggregate_seed_metrics, classification_metrics
 from qneuro.model_factory import build_model, parameter_count
@@ -89,3 +90,15 @@ def test_order_metrics_separate_complete_and_incomplete_evidence() -> None:
     assert metrics["complete_order_accuracy"] == 1.0
     assert metrics["incomplete_order_accuracy"] == 0.5
     assert math.isclose(metrics["order_evidence_complete_rate"], 1.0 / 3.0, rel_tol=1e-6)
+
+
+def test_temperature_scaling_preserves_predictions_and_improves_validation_nll() -> None:
+    logits = torch.tensor([[8.0, 0.0], [8.0, 0.0], [0.0, 8.0], [0.0, 8.0]])
+    labels = torch.tensor([0, 1, 1, 0])
+    temperature = fit_temperature(logits, labels)
+    calibrated = apply_temperature(logits, temperature)
+    assert temperature > 0.0
+    assert torch.equal(logits.argmax(dim=-1), calibrated.argmax(dim=-1))
+    assert torch.nn.functional.cross_entropy(
+        calibrated, labels
+    ) <= torch.nn.functional.cross_entropy(logits, labels)
