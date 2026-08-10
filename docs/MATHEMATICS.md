@@ -115,3 +115,79 @@ uncertainty.
 - State norms remain finite and bounded.
 - Complex probabilities are finite, non-negative, and sum to one.
 - Swapping two operators with a nonzero commutator can change the state.
+
+## Mechanism-suite extensions
+
+These laws were introduced only after the original complex robustness signal replicated. They are
+quantum-inspired mathematical parameterizations, not physical models of diagnosis.
+
+### Energy-attractor dynamics
+
+Let `a_d in R^S` be learned disease attractors and let `f(x)` be the mean signed-evidence embedding
+plus demographic context. With temperature `T`,
+
+`q_t(d) = softmax_d(-||h_t - a_d||^2 / T)`,
+
+`a_bar_t = sum_d q_t(d) a_d`,
+
+`h_(t+1) = N(h_t + eta tanh(f(x) + a_bar_t - h_t))`.
+
+Measurement is `logit_d = -||h_T-a_d||^2/T`. This model is deliberately order-invariant because
+`f(x)` averages evidence. Its chronology failure is therefore an intended falsification check.
+
+The adaptive variant computes velocity, entropy, and top-two separation at each step:
+
+`v_t = ||h_t-h_(t-1)|| / sqrt(S)`,
+
+`r_t = [v_t, H(q_t), q_t^(1)-q_t^(2)]`,
+
+`p_t = sigmoid(w^T r_t + b)`.
+
+ACT-style allocation weights combine step logits and define a soft expected depth. A small ponder
+penalty is included. This is differentiable, but the current implementation evaluates all steps;
+soft expected depth must not be described as realized compute savings.
+
+### Hamiltonian–dissipative state
+
+For complex state `z` and evidence token `e`, define a Hermitian low-rank action
+
+`H_e z = diag(d_e) z + U_e U_e^H z`,
+
+where `d_e` is real. The discrete update is
+
+`z' = N_C(z + dt (b_e - i H_e z - softplus(g_e) odot z))`.
+
+Pure Hamiltonian, pure dissipative, and hybrid variants remove the corresponding term before
+training. All retain complex evidence injection and magnitude-squared measurement so the ablation
+targets the evolution law. The normalization bounds explicit-Euler drift; it is not claimed to be
+an exact unitary integrator.
+
+### Low-rank Diagnostic Density Dynamics
+
+Rather than optimizing a dense density matrix, D3 evolves a rank-`K` complex factor
+`L in C^(D x K)` and measures
+
+`rho = L L^H / tr(L L^H)`.
+
+The token update uses a diagnosis-space Hermitian action, damping, and factor injection:
+
+`L' = N_F(L + dt(-i H_e L - Gamma_e odot L + B_e))`.
+
+This construction guarantees, up to floating-point error:
+
+- `rho = rho^H` (Hermiticity),
+- `u^H rho u >= 0` (positive semidefiniteness),
+- `tr(rho) = 1`.
+
+The measured diagnosis probability is the diagonal `rho_dd = sum_k |L_dk|^2`. Off-diagonal
+Frobenius norm is logged as coherence. Nonzero coherence is only a state descriptor; predictive
+usefulness requires a separate later-resolution experiment.
+
+### Factorized and associative controls
+
+The coupled-tensor model forms `tanh(W_L x) odot tanh(W_R x)` and concatenates a linear nonlinear
+channel before readout. It controls for multiplicative feature interaction without phase.
+
+The associative-memory baseline uses learned disease queries to retrieve a weighted sum of token
+embeddings, while the factor-graph model performs shared message passing over a fixed declared
+NeuroWorld adjacency. These are controls, not novelty claims.

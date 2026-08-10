@@ -280,3 +280,69 @@ after all findings are supplied. The present benchmark does not yet model unequa
 conditional finding dependencies, or real clinical question semantics.
 
 ![Active evidence acquisition](research/figures/generated/active_evidence.png)
+
+## Computational-law mechanism suite
+
+Primary artifact: `experiments/results/QN-000014/metrics.json`. Paired exploratory analysis:
+`research/analyses/generated/dynamics_suite_paired_effects.json`.
+
+Eighteen model laws are trained on the same 1,000 cases over three seeds and evaluated in-domain,
+on irreducible ambiguity, on chronology counterfactuals, and across three unseen moderately shifted
+worlds. Models are approximately 20,000 real scalars except logistic regression (1,660) and D3
+(16,240). Shift intervals use unseen world seed after averaging training seeds.
+
+| Model | In-domain top-1 | Moderate-shift top-1 | Ambiguous-pair NLL ↓ | Counterfactual pair accuracy |
+|---|---:|---:|---:|---:|
+| Logistic regression | 0.725 | 0.352 | **1.445** | 0.000 |
+| MLP | 0.726 | 0.379 | 1.533 | 0.000 |
+| Complex MLP | 0.708 | 0.400 | 2.107 | 0.000 |
+| Transformer | 0.867 | 0.493 | 4.345 | 0.843 |
+| GRU | **0.987** | 0.247 | 2.296 | 0.997 |
+| Diagonal state-space | 0.978 | 0.337 | 2.077 | **1.000** |
+| Modern-Hopfield-style | 0.602 | 0.354 | 1.446 | 0.000 |
+| Factor-graph GNN | 0.319 | 0.184 | 2.304 | 0.000 |
+| Coupled tensor | 0.719 | 0.383 | 1.530 | 0.000 |
+| Real operator | 0.976 | 0.495 | **1.418** | 0.998 |
+| Two-channel real | 0.877 | 0.499 | 2.037 | 0.663 |
+| Complex operator | 0.969 | **0.647** | 2.352 | **1.000** |
+| Energy attractor | 0.717 | 0.420 | 1.729 | 0.000 |
+| Adaptive attractor | 0.724 | 0.431 | 1.751 | 0.000 |
+| Hamiltonian | 0.964 | 0.556 | 1.870 | 0.983 |
+| Dissipative | 0.723 | 0.438 | 1.894 | 0.008 |
+| Hybrid Hamiltonian–dissipative | 0.932 | 0.550 | 1.867 | 0.923 |
+| Low-rank density dynamics (D3) | 0.891 | 0.453 | 1.468 | 0.635 |
+
+### Coherent evolution helps; the hybrid does not
+
+The pure Hamiltonian-style model reaches 0.556 moderate-shift top-1 and hybrid reaches 0.550,
+versus 0.438 for dissipative-only. Hybrid-minus-dissipative is +0.112 across world means (95%
+Student-`t` interval +0.108 to +0.117), while hybrid-minus-Hamiltonian is −0.006 (interval −0.020
+to +0.007). Under this parameterization, the coherent Hermitian low-rank action carries the useful
+signal; adding learned damping does not improve it.
+
+Hamiltonian-minus-real is +0.061 under shift, but its three-world interval crosses zero (−0.021 to
++0.144), and its ambiguity NLL is 0.452 worse. The complex operator remains 0.091 above Hamiltonian
+(interval +0.081 to +0.101). This is an exploratory mechanism result, not evidence for a physical
+Hamiltonian interpretation.
+
+### Attractors, adaptive time, and density dynamics
+
+The adaptive attractor allocates an average soft expected depth of 5.25 out of eight steps, but its
+shift gain over the fixed attractor is only +0.011 with an interval crossing zero. Because the
+current implementation still computes all steps before mixing them, expected depth is a learned
+pondering proxy—not realized wall-clock savings. Both attractor variants sum evidence into a force
+and therefore fail chronology counterfactuals by construction.
+
+D3 represents `rho = L L† / tr(L L†)`, so Hermiticity, positive semidefiniteness, and unit trace are
+preserved. Its mean off-diagonal coherence is 0.620, but nonzero coherence is not usefulness. D3
+obtains 1.468 ambiguity NLL and 0.453 shifted top-1: a better ambiguity/robustness compromise than
+complex, but no improvement over real on ambiguity and worse robustness. The experiment does not
+test whether off-diagonal entries predict later resolution, so the motivating density claim remains
+open.
+
+The GRU and diagonal state-space model again demonstrate simulator specialization: both nearly
+solve in-domain chronology and collapse under changed worlds. Conversely, the fixed factor-graph
+GNN underfits badly, showing that declared causal grouping alone is not a competitive inductive
+bias in its present message-passing form.
+
+![Computational-law mechanism suite](research/figures/generated/dynamics_suite.png)

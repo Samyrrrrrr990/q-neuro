@@ -114,3 +114,46 @@ dependencies.
 **Decision:** Treat acquisition policy and predictor as a coupled system. Future variants require
 held-out policy validation, calibrated outcome models, and query-cost sensitivity; never infer
 active competence from full-information accuracy alone.
+
+## Dissipation as an automatic diagnostic-elimination advantage
+
+**Why it seemed plausible:** Diagnosis must eliminate hypotheses, so learned damping could provide
+the irreversible component absent from coherent evolution.
+
+**What happened:** Dissipative-only dynamics reach 0.438 moderate-shift top-1 and almost completely
+fail chronology pairs (0.008). Hamiltonian reaches 0.556/0.983. Adding dissipation to Hamiltonian
+produces 0.550/0.923, not an improvement.
+
+**Why it failed:** Elementwise damping plus renormalization does not encode targeted contradiction;
+it can erase path information without shaping a useful energy landscape.
+
+**Decision:** Remove generic damping from headline variants. Revisit only as diagnosis-conditional
+Lindblad-like channels or explicit contradiction operators with a matched ablation.
+
+## Soft adaptive depth as compute savings
+
+**Why it seemed plausible:** ACT-style halting weights provide a differentiable way to assign less
+diagnostic time to easy cases.
+
+**What happened:** The adaptive attractor learns 5.25 expected steps out of eight, but all eight are
+still evaluated and then mixed. Shift accuracy differs from fixed attractor by only +0.011.
+
+**Why it failed as a compute claim:** Expected depth is not executed depth. Without hard batched
+early exit or sparse per-case execution, the wall-clock graph is unchanged.
+
+**Decision:** Do not report compute reduction. Implement a hard validation-tuned velocity exit and
+measure actual operator calls and latency before revisiting.
+
+## Fixed NeuroWorld factor graph
+
+**Why it seemed plausible:** Message passing over mechanism, localization, temporality, and context
+groups should align with the simulator's causal construction.
+
+**What happened:** The GNN obtains 0.319 in-domain and 0.184 shifted top-1, below logistic, MLP, and
+operator controls.
+
+**Why it probably failed:** The hand-built adjacency is coarse and shared message updates
+oversmooth finding identity. Matching the generator's broad groups is not equivalent to recovering
+its label-specific causal parameters.
+
+**Decision:** Retain as a negative baseline; do not tune the graph against test worlds.
