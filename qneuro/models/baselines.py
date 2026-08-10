@@ -11,14 +11,15 @@ class EvidenceMLP(nn.Module):
 
     def __init__(self, input_dim: int, hidden_dim: int, num_classes: int):
         super().__init__()
-        self.network = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.GELU(),
-            nn.Linear(hidden_dim, num_classes),
-        )
+        self.input_layer = nn.Linear(input_dim, hidden_dim)
+        self.activation = nn.GELU()
+        self.readout = nn.Linear(hidden_dim, num_classes)
+
+    def encode(self, vector: torch.Tensor, **_: torch.Tensor) -> torch.Tensor:
+        return self.activation(self.input_layer(vector))
 
     def forward(self, vector: torch.Tensor, **_: torch.Tensor) -> torch.Tensor:
-        return self.network(vector)
+        return self.readout(self.encode(vector))
 
 
 class TinyTransformer(nn.Module):
@@ -55,7 +56,7 @@ class TinyTransformer(nn.Module):
         self.readout = nn.Linear(model_dim, num_classes)
         nn.init.normal_(self.position_embedding, std=0.02)
 
-    def forward(
+    def encode(
         self,
         tokens: torch.Tensor,
         mask: torch.Tensor,
@@ -70,7 +71,16 @@ class TinyTransformer(nn.Module):
         hidden = self.encoder(hidden, src_key_padding_mask=~mask)
         weights = mask.unsqueeze(-1).to(hidden.dtype)
         pooled = (hidden * weights).sum(dim=1) / weights.sum(dim=1).clamp_min(1.0)
-        return self.readout(pooled)
+        return pooled
+
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor,
+        **kwargs: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.readout(self.encode(tokens, mask, vector, **kwargs))
 
 
 class TinyGRU(nn.Module):
@@ -90,7 +100,7 @@ class TinyGRU(nn.Module):
         self.gru = nn.GRU(embedding_dim, hidden_dim, batch_first=True)
         self.readout = nn.Linear(hidden_dim, num_classes)
 
-    def forward(
+    def encode(
         self,
         tokens: torch.Tensor,
         mask: torch.Tensor,
@@ -104,4 +114,13 @@ class TinyGRU(nn.Module):
         )
         initial = torch.tanh(self.demographic_projection(vector[:, -2:])).unsqueeze(0)
         _, final = self.gru(packed, initial)
-        return self.readout(final.squeeze(0))
+        return final.squeeze(0)
+
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor,
+        **kwargs: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.readout(self.encode(tokens, mask, vector, **kwargs))

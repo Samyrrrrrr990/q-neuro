@@ -1,0 +1,58 @@
+experiment: neuro_task_suite
+description: >-
+  Orthogonal NeuroWorld evaluation suite covering held-out evidence compositions, irreducible
+  ambiguity, a completely unseen disease class, and an unlabeled hidden syndrome.
+world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+models:
+  names:
+    - mlp
+    - transformer
+    - gru
+    - real_operator
+    - two_channel_operator
+    - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+  learning_rates:
+    mlp: [0.003]
+    transformer: [0.003]
+    gru: [0.006]
+    real_operator: [0.003]
+    two_channel_operator: [0.003]
+    complex_operator: [0.003]
+training:
+  seeds: [11, 23, 37]
+  batch_size: 128
+  epochs: 20
+  patience: 4
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
+tasks:
+  base:
+    train_cases: 3000
+    validation_cases: 800
+    test_cases: 1000
+    ambiguity_pairs: 300
+    hidden_syndrome_cases: 400
+  composition:
+    train_cases: 3000
+    validation_cases: 800
+    test_cases: 1200
+    reference_cases: 800
+  unknown_disease:
+    heldout_label: 19
+    train_cases: 3000
+    validation_cases: 800
+    id_test_cases: 1000
+    ood_test_cases: 800
+

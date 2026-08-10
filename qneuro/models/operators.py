@@ -86,6 +86,15 @@ class RealOperatorState(nn.Module):
     ) -> torch.Tensor:
         return self.readout(self.evolve(tokens, mask, vector))
 
+    def encode(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.evolve(tokens, mask, vector)
+
     @torch.no_grad()
     def commutator_norm(self, token_a: int, token_b: int) -> float:
         identity = torch.eye(self.state_dim, device=self.left.device, dtype=self.left.dtype)
@@ -196,6 +205,16 @@ class ComplexOperatorState(nn.Module):
         **_: torch.Tensor,
     ) -> torch.Tensor:
         return self.measure(self.evolve(tokens, mask, vector), phase_mode=phase_mode)
+
+    def encode(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        state = self.evolve(tokens, mask, vector)
+        return torch.cat([state.real, state.imag], dim=-1)
 
     @torch.no_grad()
     def probabilities(
