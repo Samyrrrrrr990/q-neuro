@@ -248,3 +248,31 @@ worlds and one simulator family are used.
 
 **Next:** Implement observable probes, hard halting, and targeted contradiction/revival tests before
 moving to local and nonstandard learning laws.
+
+## 2026-08-09 — QN-000019 emergent hierarchical observable probes
+
+**Question:** Do diagnosis-trained latent states expose mechanism, localization, temporality, and
+context, and are Hermitian quadratic observables useful on complex states?
+
+**Method:** Froze all 54 QN-000014 checkpoints (18 architectures × three seeds), extracted final
+states on factorial-label test cases, and selected linear-probe regularization using a training-only
+validation split. For complex operator, Hamiltonian, and hybrid states, also fitted constrained
+Hermitian observables `z†Az`. No simulator-factor label entered end-to-end diagnostic training.
+
+**Result:** Complex linear-probe accuracy is 0.932/0.933/0.907/0.918 across the four factors, but
+GRU reaches 0.969/0.954/0.964/0.981 and state-space reaches 0.948/0.922/0.908/0.992. Hermitian
+observables improve complex-state accuracy most for temporality (+0.039) and context (+0.023), but
+usually worsen NLL. Mean probe accuracy correlates only descriptively with moderate-shift top-1
+across models (`r=+0.45`).
+
+**Interpretation:** Hierarchical simulator information is accessible from Q-Neuro states, yet it is
+neither unique to complex arithmetic nor sufficient for robustness. Quadratic Hermitian readouts
+can expose additional structure, but need calibration-aware training before they qualify as useful
+diagnostic observables.
+
+**Caveats:** Probe labels come from the same simulator; models are non-independent; three seeds
+limit inference; probe accessibility does not show that the diagnosis head uses the factor; final
+states may encode nuisance correlations.
+
+**Next:** Measure realized hard halting and state trajectories, then compare global, local,
+phase-coded, and zero-backprop learning laws.

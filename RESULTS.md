@@ -382,3 +382,45 @@ ambiguity NLL. More off-diagonal capacity does not help. Because rank changes pa
 is a capacity trend rather than a perfectly parameter-matched causal ablation.
 
 ![Critical Q-Neuro ablations](research/figures/generated/critical_ablation_suite.png)
+
+## Emergent hierarchical observables
+
+Primary artifact: `experiments/results/QN-000019/metrics.json`. Paired analysis:
+`research/analyses/generated/observable_probe_effects.json`.
+
+Linear probes were fitted to frozen final states from every QN-000014 checkpoint. Probe
+hyperparameters were selected on a training-only validation split; the diagnostic models and their
+states were not updated. The four targets—mechanism, localization, temporality, and context—are
+simulator factors that were never supplied as auxiliary labels during diagnostic training.
+
+| Frozen state | Mechanism | Localization | Temporality | Context |
+|---|---:|---:|---:|---:|
+| GRU | **0.969** | **0.954** | **0.964** | 0.981 |
+| Diagonal state-space | 0.948 | 0.922 | 0.908 | **0.992** |
+| Real operator | 0.913 | 0.918 | 0.896 | 0.907 |
+| Two-channel real | 0.879 | 0.913 | 0.830 | 0.848 |
+| Complex operator | 0.932 | 0.933 | 0.907 | 0.918 |
+| Adaptive attractor | 0.900 | 0.929 | 0.922 | 0.903 |
+| Hamiltonian | 0.885 | 0.911 | 0.846 | 0.865 |
+| Low-rank density dynamics | 0.789 | 0.822 | 0.785 | 0.806 |
+
+The complex operator state supports accurate linear recovery of all four factors, but does not
+uniquely organize them. GRU exceeds complex by 0.021–0.063 depending on the factor, and state-space
+is also stronger on context. Across all 18 architectures, mean probe accuracy and moderate-shift
+top-1 have only a descriptive Pearson correlation of +0.45; the models are non-independent and
+this is not an inferential test. Linear extractability and robustness are therefore distinct
+measurements.
+
+For the complex, Hamiltonian, and hybrid states, learned Hermitian observables of the form
+`z†Az` were also trained. On complex state they improve accuracy by +0.006 mechanism, +0.008
+localization, +0.039 temporality, and +0.023 context across seeds. With only three paired seeds the
+smallest possible nonzero exact two-sided sign-flip p-value is 0.25, so these are descriptive
+effects. Hermitian probes generally have worse NLL—for complex mechanism the increase is +0.522—
+showing that a more accurate quadratic decision surface is not automatically a calibrated
+observable.
+
+These probes establish accessibility, not semantic disentanglement, causality, or clinical
+interpretability. A high-capacity state can linearly retain a factor without using it for the final
+diagnosis.
+
+![Emergent hierarchical observables](research/figures/generated/observable_probe.png)

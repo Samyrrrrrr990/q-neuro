@@ -4,7 +4,7 @@ sync:
 	uv sync --extra dev
 
 test:
-	uv run pytest
+	uv run python -m pytest
 
 lint:
 	uv run ruff check .
@@ -51,17 +51,19 @@ observable-probe:
 		--config experiments/configs/observable_probe.yaml
 
 analyses:
-	uv run python research/analyses/analyze_generator_shift.py
-	uv run python research/analyses/analyze_neuro_task_suite.py
-	uv run python research/analyses/analyze_active_evidence.py
-	uv run python research/analyses/analyze_dynamics_suite.py
-	uv run python research/analyses/analyze_ablation_suite.py
+	uv run python -m research.analyses.analyze_generator_shift
+	uv run python -m research.analyses.analyze_neuro_task_suite
+	uv run python -m research.analyses.analyze_active_evidence
+	uv run python -m research.analyses.analyze_dynamics_suite
+	uv run python -m research.analyses.analyze_ablation_suite
+	uv run python -m research.analyses.analyze_observable_probe
 
 figures:
-	uv run python research/figures/generate_experiment_zero.py
-	uv run python research/figures/generate_generator_shift.py
-	uv run python research/figures/generate_robustness_sweep.py
-	uv run python research/figures/generate_neuro_task_suite.py
-	uv run python research/figures/generate_active_evidence.py
-	uv run python research/figures/generate_dynamics_suite.py
-	uv run python research/figures/generate_ablation_suite.py
+	uv run python -m research.figures.generate_experiment_zero
+	uv run python -m research.figures.generate_generator_shift
+	uv run python -m research.figures.generate_robustness_sweep
+	uv run python -m research.figures.generate_neuro_task_suite
+	uv run python -m research.figures.generate_active_evidence
+	uv run python -m research.figures.generate_dynamics_suite
+	uv run python -m research.figures.generate_ablation_suite
+	uv run python -m research.figures.generate_observable_probe

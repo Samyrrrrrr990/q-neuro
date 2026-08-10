@@ -172,3 +172,21 @@ make optimization less identifiable.
 
 **Decision:** Do not scale density rank. Revisit only with a later-resolution or multi-observable
 objective that can falsify whether off-diagonals contain useful information.
+
+## Complex state as a uniquely hierarchical representation
+
+**Why it seemed plausible:** Phase-sensitive composition might separate mechanism, localization,
+temporality, and context into readable observables even though only diagnosis is supervised.
+
+**What happened:** Linear probes recover every factor accurately from the complex operator state,
+but GRU and diagonal state-space representations are generally stronger. Complex-minus-GRU probe
+accuracy is negative on all four factors. Across architectures, probe strength and shift robustness
+are only moderately related (`r=+0.45`).
+
+**Why the uniqueness claim failed:** The simulator makes its causal factors broadly predictive, so
+many sufficiently expressive sequence models retain them. Linear accessibility does not imply an
+architecture-specific decomposition or show that the final head relies on the probed factor.
+
+**Decision:** Retain factor probes as state diagnostics. Do not describe them as uniquely
+Q-Neuro, disentangled, or intrinsically interpretable. Require causal interventions on observables
+before claiming that a factor controls a diagnosis.
