@@ -33,6 +33,7 @@ class TinyTransformer(nn.Module):
         model_dim: int,
         max_length: int,
         num_heads: int = 4,
+        feedforward_dim: int | None = None,
     ):
         super().__init__()
         if model_dim % num_heads:
@@ -44,7 +45,7 @@ class TinyTransformer(nn.Module):
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=model_dim,
             nhead=num_heads,
-            dim_feedforward=2 * model_dim,
+            dim_feedforward=feedforward_dim or 2 * model_dim,
             dropout=0.0,
             activation="gelu",
             batch_first=True,
@@ -212,6 +213,7 @@ class CausalTransformer(nn.Module):
         model_dim: int,
         max_length: int,
         num_heads: int = 4,
+        feedforward_dim: int | None = None,
     ):
         super().__init__()
         if model_dim % num_heads:
@@ -222,7 +224,7 @@ class CausalTransformer(nn.Module):
         layer = nn.TransformerEncoderLayer(
             d_model=model_dim,
             nhead=num_heads,
-            dim_feedforward=2 * model_dim,
+            dim_feedforward=feedforward_dim or 2 * model_dim,
             dropout=0.0,
             activation="gelu",
             batch_first=True,
@@ -306,7 +308,14 @@ class ResidualGatedRecurrent(nn.Module):
 class DenseRealMatrixRecurrence(nn.Module):
     """Token-conditioned unrestricted dense real state transition."""
 
-    def __init__(self, num_tokens: int, num_classes: int, state_dim: int, step_size: float):
+    def __init__(
+        self,
+        num_tokens: int,
+        num_classes: int,
+        state_dim: int,
+        step_size: float,
+        readout_dim: int | None = None,
+    ):
         super().__init__()
         self.num_tokens = int(num_tokens)
         self.state_dim = int(state_dim)
@@ -315,7 +324,15 @@ class DenseRealMatrixRecurrence(nn.Module):
         self.injection = nn.Parameter(torch.empty(num_tokens, state_dim))
         self.transition = nn.Parameter(torch.empty(num_tokens, state_dim, state_dim))
         self.demographic_projection = nn.Linear(2, state_dim, bias=False)
-        self.readout = nn.Linear(state_dim, num_classes)
+        self.readout = (
+            nn.Sequential(
+                nn.Linear(state_dim, readout_dim),
+                nn.GELU(),
+                nn.Linear(readout_dim, num_classes),
+            )
+            if readout_dim is not None
+            else nn.Linear(state_dim, num_classes)
+        )
         nn.init.normal_(self.initial_state, std=0.05)
         nn.init.normal_(self.injection, std=0.06)
         nn.init.normal_(self.transition, std=0.03)

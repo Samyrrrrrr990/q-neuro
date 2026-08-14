@@ -16,6 +16,7 @@ def sample_batch() -> dict[str, torch.Tensor]:
 
 def test_parameter_budget_matching() -> None:
     batch = sample_batch()
+    parameter_budget = 20_304
     for name in (
         "mlp",
         "transformer",
@@ -34,12 +35,24 @@ def test_parameter_budget_matching() -> None:
         "real_polar_operator",
         "real_rotation_block_operator",
     ):
-        model, metadata = build_model(name, 20_000, rank=2, max_length=40, step_size=0.35)
+        model, metadata = build_model(name, parameter_budget, rank=2, max_length=40, step_size=0.35)
         assert metadata["parameter_count"] == parameter_count(model)
-        assert abs(parameter_count(model) - 20_000) / 20_000 < 0.08
+        assert abs(parameter_count(model) - parameter_budget) / parameter_budget <= 0.02
         logits = model(**batch)
         assert logits.shape == (8, NeuroWorld.num_diagnoses)
         assert torch.isfinite(logits).all()
+
+    complex_metadata = build_model(
+        "complex_operator", parameter_budget, rank=2, max_length=40, step_size=0.35
+    )[1]
+    exact_metadata = build_model(
+        "exact_real_block_operator", parameter_budget, rank=2, max_length=40, step_size=0.35
+    )[1]
+    polar_metadata = build_model(
+        "real_polar_operator", parameter_budget, rank=2, max_length=40, step_size=0.35
+    )[1]
+    assert complex_metadata["state_real_dof"] == 48
+    assert exact_metadata["state_real_dof"] == polar_metadata["state_real_dof"] == 48
 
 
 def test_complex_probabilities_are_normalized_and_finite() -> None:

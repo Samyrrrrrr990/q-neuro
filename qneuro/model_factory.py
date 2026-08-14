@@ -102,6 +102,7 @@ def build_model(
                 NeuroWorld.num_diagnoses,
                 value,
                 max_length,
+                feedforward_dim=max(8, round(2.4 * value)),
             ),
             list(range(8, 129, 4)),
             parameter_budget,
@@ -114,6 +115,7 @@ def build_model(
                 NeuroWorld.num_diagnoses,
                 value,
                 max_length,
+                feedforward_dim=max(8, round(2.4 * value)),
             ),
             list(range(8, 129, 4)),
             parameter_budget,
@@ -154,6 +156,7 @@ def build_model(
                 NeuroWorld.num_diagnoses,
                 value,
                 step_size,
+                readout_dim=max(20, 2 * value - 1),
             ),
             list(range(4, 65)),
             parameter_budget,
@@ -335,6 +338,15 @@ def build_model(
         width = NeuroWorld.num_diagnoses
     else:
         raise ValueError(f"unknown model: {name}")
+    if name in {
+        "complex_operator",
+        "exact_real_block_operator",
+        "real_polar_operator",
+        "real_rotation_block_operator",
+    }:
+        state_real_dof = 2 * int(width)
+    else:
+        state_real_dof = int(width)
     return model, {
         "name": name,
         "width": width,
@@ -343,4 +355,5 @@ def build_model(
         else 0,
         "parameter_count": parameter_count(model),
         "parameter_budget": parameter_budget,
+        "state_real_dof": state_real_dof,
     }
