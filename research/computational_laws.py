@@ -25,6 +25,37 @@ class FrozenLaw:
         return asdict(self)
 
 
+def frozen_law_from_dict(value: Mapping[str, Any]) -> FrozenLaw:
+    """Parse a serialized law while rejecting unknown families and malformed coefficients."""
+
+    family = str(value.get("family", ""))
+    allowed = {
+        "linear",
+        "logarithmic",
+        "saturating",
+        "threshold",
+        "interaction",
+        "quadratic",
+    }
+    if family not in allowed:
+        raise ValueError(f"unknown frozen law family: {family}")
+    coefficients = tuple(float(item) for item in value.get("coefficients", ()))
+    if not coefficients or not np.isfinite(coefficients).all():
+        raise ValueError("frozen law coefficients must be non-empty and finite")
+    hyperparameter_value = value.get("hyperparameter")
+    hyperparameter = None if hyperparameter_value is None else float(hyperparameter_value)
+    if hyperparameter is not None and not math.isfinite(hyperparameter):
+        raise ValueError("frozen law hyperparameter must be finite")
+    return FrozenLaw(
+        family=family,  # type: ignore[arg-type]
+        coefficients=coefficients,
+        hyperparameter=hyperparameter,
+        discovery_r2=float(value["discovery_r2"]),
+        discovery_mae=float(value["discovery_mae"]),
+        discovery_n=int(value["discovery_n"]),
+    )
+
+
 def _matrix(value: np.ndarray) -> np.ndarray:
     matrix = np.asarray(value)
     if matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1]:

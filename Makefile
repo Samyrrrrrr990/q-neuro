@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -105,6 +105,17 @@ smoke-independent-discovery:
 independent-discovery:
 	uv run python -m experiments.run_independent_discovery \
 		--config experiments/configs/independent_discovery.yaml
+
+freeze-candidate-law:
+	uv run python -m research.freeze_candidate_law
+
+smoke-independent-confirmation:
+	uv run python -m experiments.run_independent_confirmation \
+		--config experiments/configs/independent_confirmation.yaml --smoke
+
+independent-confirmation:
+	uv run python -m experiments.run_independent_confirmation \
+		--config experiments/configs/independent_confirmation.yaml
 
 dashboard:
 	uv run python scripts/build_dashboard_data.py

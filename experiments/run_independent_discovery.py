@@ -20,7 +20,12 @@ from experiments.run_generator_shift import train_with_validation_tuning
 from independent_tasks import GENERATOR_VERSION, build_independent_task
 from qneuro.provenance import environment_record, file_sha256, require_clean_worktree
 from qneuro.registry import ExperimentRegistry
-from research.computational_laws import fit_candidate_laws
+from research.computational_laws import (
+    FrozenLaw,
+    evaluate_frozen_law,
+    fit_candidate_laws,
+    frozen_law_from_dict,
+)
 
 
 def _metric_subset(metrics: dict[str, float]) -> dict[str, float]:
@@ -31,9 +36,7 @@ def _metric_subset(metrics: dict[str, float]) -> dict[str, float]:
     }
 
 
-def _effects_and_laws(
-    records: list[dict[str, Any]], model_names: list[str]
-) -> tuple[list[dict[str, Any]], dict[str, Any], list[dict[str, float]]]:
+def _paired_effects(records: list[dict[str, Any]], model_names: list[str]) -> list[dict[str, Any]]:
     index = {
         (
             record["family"],
@@ -72,6 +75,10 @@ def _effects_and_laws(
             }
         )
 
+    return effects
+
+
+def _aggregate_law_cells(effects: list[dict[str, Any]]) -> list[dict[str, float]]:
     aggregate: dict[tuple[str, float], list[dict[str, Any]]] = defaultdict(list)
     for effect in effects:
         aggregate[(effect["family"], float(effect["severity"]))].append(effect)
@@ -87,12 +94,28 @@ def _effects_and_laws(
         }
         for (family, severity), values in sorted(aggregate.items())
     ]
+    return law_cells
+
+
+def _effects_and_laws(
+    records: list[dict[str, Any]], model_names: list[str]
+) -> tuple[list[dict[str, Any]], dict[str, Any], list[dict[str, float]]]:
+    effects = _paired_effects(records, model_names)
+    law_cells = _aggregate_law_cells(effects)
     candidates = fit_candidate_laws(
         [cell["order_information"] for cell in law_cells],
         [cell["severity"] for cell in law_cells],
         [cell["advantage"] for cell in law_cells],
     )
     return effects, {name: law.to_dict() for name, law in candidates.items()}, law_cells
+
+
+def _load_frozen_law(config: dict[str, Any]) -> tuple[dict[str, Any], FrozenLaw]:
+    path = ROOT / str(config["frozen_law_artifact"])
+    artifact = json.loads(path.read_text(encoding="utf-8"))
+    if artifact.get("status") != "frozen_provisional":
+        raise ValueError("confirmation requires a frozen provisional law artifact")
+    return artifact, frozen_law_from_dict(artifact["law"])
 
 
 def smoke_config(config: dict[str, Any]) -> dict[str, Any]:
@@ -126,9 +149,14 @@ def smoke_config(config: dict[str, Any]) -> dict[str, Any]:
     return output
 
 
-def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path, dict[str, Any]]:
+def run(
+    config: dict[str, Any],
+    *,
+    allow_dirty: bool = False,
+    command_module: str = "experiments.run_independent_discovery",
+) -> tuple[str, Path, dict[str, Any]]:
     require_clean_worktree(ROOT, allow_dirty=allow_dirty)
-    command = [sys.executable, "-m", "experiments.run_independent_discovery"]
+    command = [sys.executable, "-m", command_module]
     source_environment = environment_record(ROOT, command=command)
     registry = ExperimentRegistry(ROOT / "experiments" / "registry.sqlite3")
     preregistration_document = str(config["preregistration_document"])
@@ -286,12 +314,14 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
                         )
                         del model
                         gc.collect()
-        effects, candidates, law_cells = _effects_and_laws(records, list(config["models"]["names"]))
+        split = str(config.get("split", "discovery"))
+        effects = _paired_effects(records, list(config["models"]["names"]))
+        law_cells = _aggregate_law_cells(effects)
         result = {
             "experiment_id": experiment_id,
             "status": "complete",
             "profile": config.get("profile", "reduced_discovery"),
-            "split": "discovery",
+            "split": split,
             "outcome_eligible": False,
             "general_law_claim_permitted": False,
             "protocol_deviations": config["protocol_deviations"],
@@ -300,19 +330,66 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
             "counterfactual_records": counterfactual_records,
             "paired_effects": effects,
             "law_cells": law_cells,
-            "candidate_laws": candidates,
-            "scientific_interpretation": (
+        }
+        if split == "discovery":
+            candidates = fit_candidate_laws(
+                [cell["order_information"] for cell in law_cells],
+                [cell["severity"] for cell in law_cells],
+                [cell["advantage"] for cell in law_cells],
+            )
+            result["candidate_laws"] = {name: law.to_dict() for name, law in candidates.items()}
+            result["scientific_interpretation"] = (
                 "Reduced discovery results may propose a provisional law but cannot satisfy the "
                 "preregistered general-law or primary architecture claim."
-            ),
-        }
+            )
+        elif split == "confirmation":
+            artifact, frozen = _load_frozen_law(config)
+            law_evaluation = evaluate_frozen_law(
+                frozen,
+                [cell["order_information"] for cell in law_cells],
+                [cell["severity"] for cell in law_cells],
+                [cell["advantage"] for cell in law_cells],
+            )
+            thresholds = artifact["confirmation"]["thresholds"]
+            threshold_checks = {
+                "r2_at_least_minimum": law_evaluation["r2"] >= float(thresholds["minimum_r2"]),
+                "sign_accuracy_at_least_minimum": law_evaluation["effect_sign_accuracy"]
+                >= float(thresholds["minimum_sign_accuracy"]),
+                "mae_at_most_maximum": law_evaluation["mean_absolute_error"]
+                <= float(thresholds["maximum_mae"]),
+            }
+            mean_advantage = float(np.mean([cell["advantage"] for cell in law_cells]))
+            result.update(
+                frozen_law_id=artifact["candidate_id"],
+                frozen_law=artifact["law"],
+                frozen_source=artifact["source"],
+                law_confirmation={
+                    **law_evaluation,
+                    "thresholds": thresholds,
+                    "threshold_checks": threshold_checks,
+                    "all_thresholds_pass": all(threshold_checks.values()),
+                },
+                architecture_effect={
+                    "mean_complex_minus_best_real": mean_advantage,
+                    "positive": mean_advantage > 0.0,
+                    "exceeds_practical_threshold": mean_advantage
+                    > float(config["minimum_practical_effect"]),
+                },
+                outcome_e_permitted=False,
+                scientific_interpretation=(
+                    "This reduced held-out confirmation evaluates a frozen provisional law. It "
+                    "cannot establish Outcome E or rescue a non-positive architecture effect."
+                ),
+            )
+        else:
+            raise ValueError(f"unsupported independent-study split: {split}")
         metrics_path.write_text(
             json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
         registry.complete(
             experiment_id,
             {
-                "discovery": {
+                split: {
                     "training_runs": {"mean": float(len(training_runs)), "std": 0.0},
                     "law_cells": {"mean": float(len(law_cells)), "std": 0.0},
                 }
@@ -329,7 +406,7 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
             json.dumps(
                 {
                     "status": "failed",
-                    "stage": "independent_discovery",
+                    "stage": str(config.get("split", "discovery")),
                     "error_type": type(error).__name__,
                     "message": str(error),
                 },
@@ -341,7 +418,7 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
         )
         registry.record_failure(
             experiment_id,
-            "independent_discovery",
+            str(config.get("split", "discovery")),
             type(error).__name__,
             str(error),
         )

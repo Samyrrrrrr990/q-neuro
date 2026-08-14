@@ -12,6 +12,7 @@ from research.computational_laws import (
     evaluate_frozen_law,
     fit_candidate_laws,
     freeze_best_candidate,
+    frozen_law_from_dict,
     normalized_commutator,
     order_sensitivity_index,
     state_conditioned_commutator,
@@ -78,3 +79,18 @@ def test_discovery_fit_and_untouched_evaluation_recover_interaction_law() -> Non
     assert metrics["r2"] > 0.999
     assert metrics["mean_absolute_error"] < 1e-10
     assert metrics["effect_sign_accuracy"] == 1.0
+
+
+def test_frozen_law_round_trip_and_validation() -> None:
+    value = {
+        "family": "linear",
+        "coefficients": [0.1, -0.2, 0.3],
+        "hyperparameter": None,
+        "discovery_r2": 0.6,
+        "discovery_mae": 0.01,
+        "discovery_n": 12,
+    }
+    parsed = frozen_law_from_dict(value)
+    assert parsed.family == value["family"]
+    assert parsed.coefficients == tuple(value["coefficients"])
+    assert parsed.to_dict()["discovery_n"] == value["discovery_n"]
