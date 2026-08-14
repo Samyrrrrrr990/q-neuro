@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -97,6 +97,14 @@ computational-law-suite:
 independent-task-audit:
 	uv run python -m experiments.run_independent_task_audit \
 		--config experiments/configs/independent_task_audit.yaml
+
+smoke-independent-discovery:
+	uv run python -m experiments.run_independent_discovery \
+		--config experiments/configs/independent_discovery.yaml --smoke
+
+independent-discovery:
+	uv run python -m experiments.run_independent_discovery \
+		--config experiments/configs/independent_discovery.yaml
 
 dashboard:
 	uv run python scripts/build_dashboard_data.py
