@@ -92,3 +92,4 @@ figures:
 	uv run python -m research.figures.generate_training_laws
 	uv run python -m research.figures.generate_hard_halting
 	uv run python -m research.figures.generate_trajectory_signature
+	uv run python -m research.figures.generate_paper_extended
