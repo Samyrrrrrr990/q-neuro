@@ -83,9 +83,9 @@ def aggregate_trajectories(
             )
             path_lengths.append(float(velocity.sum().cpu()))
             final_velocities.append(float(velocity[-1].cpu()))
-            entropy = -(
-                case_probabilities * torch.log(case_probabilities.clamp_min(1e-12))
-            ).sum(dim=-1)
+            entropy = -(case_probabilities * torch.log(case_probabilities.clamp_min(1e-12))).sum(
+                dim=-1
+            )
             entropy_changes.append(float((entropy[-1] - entropy[0]).cpu()))
             delta = true_probability[1:] - true_probability[:-1]
             tokens = batch["tokens"][row, :length]
@@ -96,7 +96,9 @@ def aggregate_trajectories(
                 negative_drop_cases += 1
                 revived = False
                 for drop_index in drop_indices.tolist():
-                    if bool((true_probability[drop_index + 2 :] >= true_probability[drop_index]).any()):
+                    if bool(
+                        (true_probability[drop_index + 2 :] >= true_probability[drop_index]).any()
+                    ):
                         revived = True
                         break
                 revival_cases += int(revived)
@@ -156,9 +158,7 @@ def selected_case_artifact(
     raw_batch = next(iter(make_loader([case], 1, False, 0)))
     batch = to_device(raw_batch, device)
     length = int(batch["mask"].sum())
-    trajectory = model.trajectory(batch["tokens"], batch["mask"], batch["vector"])[
-        0, : length + 1
-    ]
+    trajectory = model.trajectory(batch["tokens"], batch["mask"], batch["vector"])[0, : length + 1]
     probabilities = _probabilities(model, trajectory[None])[0]
     readout = torch.complex(model.readout_real, model.readout_imag)
     amplitudes = torch.einsum("ts,ds->td", trajectory, readout.conj())
@@ -194,9 +194,7 @@ def selected_pair_artifact(
     raw_batch = next(iter(make_loader([pair.first, pair.second], 2, False, 0)))
     batch = to_device(raw_batch, device)
     length = int(batch["mask"][0].sum())
-    trajectory = model.trajectory(batch["tokens"], batch["mask"], batch["vector"])[
-        :, : length + 1
-    ]
+    trajectory = model.trajectory(batch["tokens"], batch["mask"], batch["vector"])[:, : length + 1]
     probabilities = _probabilities(model, trajectory)
     return {
         "labels": batch["label"].cpu().tolist(),
@@ -225,11 +223,15 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
             json.dumps(environment, indent=2, sort_keys=True), encoding="utf-8"
         )
         source_directory = ROOT / "experiments" / "results" / config["source_experiment"]
-        source_config = yaml.safe_load((source_directory / "config.yaml").read_text(encoding="utf-8"))
+        source_config = yaml.safe_load(
+            (source_directory / "config.yaml").read_text(encoding="utf-8")
+        )
         world = build_world(source_config["train_world"])
         dataset = config["dataset"]
         cases = world.generate(int(dataset["cases"]), seed=int(dataset["case_seed"]))
-        pairs = world.counterfactual_pairs(int(dataset["counterfactual_pairs"]), seed=int(dataset["pair_seed"]))
+        pairs = world.counterfactual_pairs(
+            int(dataset["counterfactual_pairs"]), seed=int(dataset["pair_seed"])
+        )
         selected_case = next(case for case in cases if case.label >= 8)
         selected_pair = pairs[0]
         device = torch.device(source_config["training"]["device"])
@@ -239,9 +241,7 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
         for seed_value in config["seeds"]:
             seed = int(seed_value)
             model = load_source_model(source_directory, source_config, seed, device)
-            metrics = aggregate_trajectories(
-                model, cases, int(dataset["batch_size"]), device
-            )
+            metrics = aggregate_trajectories(model, cases, int(dataset["batch_size"]), device)
             metrics.update(counterfactual_diagnostics(model, pairs, device))
             seed_records.append(metrics)
             runs.append({"seed": seed, "metrics": metrics})

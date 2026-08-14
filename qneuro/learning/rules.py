@@ -65,7 +65,9 @@ def multi_objective_losses(
 
 
 def _named_trainable_parameters(model: nn.Module) -> list[tuple[str, nn.Parameter]]:
-    return [(name, parameter) for name, parameter in model.named_parameters() if parameter.requires_grad]
+    return [
+        (name, parameter) for name, parameter in model.named_parameters() if parameter.requires_grad
+    ]
 
 
 def _task_gradients(
@@ -81,18 +83,25 @@ def _task_gradients(
             allow_unused=True,
         )
         output.append(
-            [torch.zeros_like(parameter) if value is None else value for parameter, value in zip(parameters, raw, strict=True)]
+            [
+                torch.zeros_like(parameter) if value is None else value
+                for parameter, value in zip(parameters, raw, strict=True)
+            ]
         )
     return task_names, output
 
 
 def _global_dot(first: list[torch.Tensor], second: list[torch.Tensor]) -> torch.Tensor:
-    return sum((left.float() * right.float()).sum() for left, right in zip(first, second, strict=True))
+    return sum(
+        (left.float() * right.float()).sum() for left, right in zip(first, second, strict=True)
+    )
 
 
 def _cosine(first: list[torch.Tensor], second: list[torch.Tensor]) -> float:
     dot = _global_dot(first, second)
-    norm = torch.sqrt(_global_dot(first, first).clamp_min(1e-20) * _global_dot(second, second).clamp_min(1e-20))
+    norm = torch.sqrt(
+        _global_dot(first, first).clamp_min(1e-20) * _global_dot(second, second).clamp_min(1e-20)
+    )
     return float((dot / norm).clamp(-1.0, 1.0).detach().cpu())
 
 
@@ -122,9 +131,9 @@ def apply_pcgrad(losses: dict[str, torch.Tensor], model: nn.Module) -> dict[str,
                 ]
         projected.append(current)
     for parameter_index, parameter in enumerate(parameters):
-        parameter.grad = torch.stack(
-            [gradients[parameter_index] for gradients in projected]
-        ).mean(dim=0)
+        parameter.grad = torch.stack([gradients[parameter_index] for gradients in projected]).mean(
+            dim=0
+        )
     return diagnostics
 
 
@@ -191,12 +200,16 @@ def _complex_parameters(model: ComplexOperatorState) -> dict[str, torch.Tensor]:
     }
 
 
-def _write_complex(target_real: nn.Parameter, target_imag: nn.Parameter, value: torch.Tensor) -> None:
+def _write_complex(
+    target_real: nn.Parameter, target_imag: nn.Parameter, value: torch.Tensor
+) -> None:
     target_real.copy_(value.real)
     target_imag.copy_(value.imag)
 
 
-def _prototype_codes(num_classes: int, state_dim: int, seed: int, device: torch.device) -> torch.Tensor:
+def _prototype_codes(
+    num_classes: int, state_dim: int, seed: int, device: torch.device
+) -> torch.Tensor:
     generator = torch.Generator(device=device).manual_seed(seed)
     real = torch.randn(num_classes, state_dim, generator=generator, device=device)
     imag = torch.randn(num_classes, state_dim, generator=generator, device=device)
@@ -249,9 +262,10 @@ def local_plasticity_epoch(
             left_active = left[active]
             projection_active = projection[active]
             left_signal = error_active[:, :, None] * projection_active.conj()[:, None, :]
-            right_signal = previous_active[:, :, None] * torch.einsum(
-                "bsr,bs->br", left_active.conj(), error_active
-            ).conj()[:, None, :]
+            right_signal = (
+                previous_active[:, :, None]
+                * torch.einsum("bsr,bs->br", left_active.conj(), error_active).conj()[:, None, :]
+            )
             counts = torch.bincount(token_active, minlength=model.num_tokens).clamp_min(1)
             injection_update = torch.zeros_like(values["injection"])
             left_update = torch.zeros_like(values["left"])
@@ -265,12 +279,18 @@ def local_plasticity_epoch(
             injection_update = injection_update / torch.linalg.vector_norm(
                 injection_update, dim=-1, keepdim=True
             ).clamp_min(1.0)
-            left_update = left_update / torch.linalg.vector_norm(
-                left_update.flatten(1), dim=-1, keepdim=True
-            ).clamp_min(1.0)[:, None]
-            right_update = right_update / torch.linalg.vector_norm(
-                right_update.flatten(1), dim=-1, keepdim=True
-            ).clamp_min(1.0)[:, None]
+            left_update = (
+                left_update
+                / torch.linalg.vector_norm(left_update.flatten(1), dim=-1, keepdim=True).clamp_min(
+                    1.0
+                )[:, None]
+            )
+            right_update = (
+                right_update
+                / torch.linalg.vector_norm(right_update.flatten(1), dim=-1, keepdim=True).clamp_min(
+                    1.0
+                )[:, None]
+            )
             values["injection"] = values["injection"] + learning_rate * injection_update
             values["left"] = values["left"] + 0.25 * learning_rate * left_update
             values["right"] = values["right"] + 0.25 * learning_rate * right_update

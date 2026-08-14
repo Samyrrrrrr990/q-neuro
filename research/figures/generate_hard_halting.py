@@ -19,9 +19,9 @@ def latest_result() -> Path:
     candidates: list[tuple[int, Path]] = []
     for config_path in (ROOT / "experiments" / "results").glob("QN-*/config.yaml"):
         config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-        if config.get("experiment") == "hard_velocity_halting" and "SMOKE PROFILE" not in config.get(
-            "description", ""
-        ):
+        if config.get(
+            "experiment"
+        ) == "hard_velocity_halting" and "SMOKE PROFILE" not in config.get("description", ""):
             candidates.append((int(config_path.parent.name.split("-")[1]), config_path.parent))
     if not candidates:
         raise FileNotFoundError("no completed full hard-halting experiment found")
@@ -55,7 +55,9 @@ def main() -> None:
         curve = sorted(run["calibration_curve"], key=lambda value: value["mean_executed_steps"])
         steps = [value["mean_executed_steps"] for value in curve]
         top1 = [value["top1"] for value in curve]
-        axes[0, 0].plot(steps, top1, marker="o", markersize=3, alpha=0.75, label=f"seed {run['seed']}")
+        axes[0, 0].plot(
+            steps, top1, marker="o", markersize=3, alpha=0.75, label=f"seed {run['seed']}"
+        )
         selected = min(
             curve,
             key=lambda value: abs(value["threshold"] - run["selected_velocity_threshold"]),
@@ -70,7 +72,9 @@ def main() -> None:
         )
     axes[0, 0].set_xlabel("Mean validation states executed")
     axes[0, 0].set_ylabel("Validation top-1")
-    axes[0, 0].set_title("A  Validation selects the two-state boundary", loc="left", fontweight="bold")
+    axes[0, 0].set_title(
+        "A  Validation selects the two-state boundary", loc="left", fontweight="bold"
+    )
     axes[0, 0].legend(frameon=False)
 
     modes = ("soft", "fixed_final", "hard")
@@ -111,7 +115,9 @@ def main() -> None:
     axes[1, 1].bar(x + width / 2, ece, width, color="#E07A5F", label="ECE")
     axes[1, 1].set_xticks(x, labels)
     axes[1, 1].set_ylabel("Shifted calibration error")
-    axes[1, 1].set_title("D  Later attraction amplifies overconfidence", loc="left", fontweight="bold")
+    axes[1, 1].set_title(
+        "D  Later attraction amplifies overconfidence", loc="left", fontweight="bold"
+    )
     axes[1, 1].legend(frameon=False)
     for axis in axes.flat:
         axis.grid(True, axis="y", color="#DADADA", linewidth=0.6, alpha=0.8)

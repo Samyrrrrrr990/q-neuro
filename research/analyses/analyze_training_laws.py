@@ -76,9 +76,7 @@ def main() -> None:
     result_directory = latest_result()
     result = json.loads((result_directory / "metrics.json").read_text(encoding="utf-8"))
     methods = list(result["summary"])
-    train_sizes = sorted(
-        {int(size) for values in result["summary"].values() for size in values}
-    )
+    train_sizes = sorted({int(size) for values in result["summary"].values() for size in values})
     largest = str(max(train_sizes))
     reference = "adamw"
     world_effects: dict[str, Any] = {}
@@ -91,8 +89,7 @@ def main() -> None:
         world_effects[method] = {
             metric: summarize(
                 [
-                    method_worlds[world][metric]["mean"]
-                    - reference_worlds[world][metric]["mean"]
+                    method_worlds[world][metric]["mean"] - reference_worlds[world][metric]["mean"]
                     for world in reference_worlds
                 ]
             )
@@ -117,8 +114,7 @@ def main() -> None:
         seed_effects[method] = {
             metric: summarize(
                 [
-                    candidate["in_domain_metrics"][metric]
-                    - baseline["in_domain_metrics"][metric]
+                    candidate["in_domain_metrics"][metric] - baseline["in_domain_metrics"][metric]
                     for candidate, baseline in zip(method_runs, reference_runs, strict=True)
                 ]
             )
@@ -127,12 +123,12 @@ def main() -> None:
     resource_scaling = {
         method: {
             "time_ratio_largest_to_smallest": (
-                result["summary"][method][str(max(train_sizes))]["in_domain"][
-                    "training_seconds"
-                ]["mean"]
-                / result["summary"][method][str(min(train_sizes))]["in_domain"][
-                    "training_seconds"
-                ]["mean"]
+                result["summary"][method][str(max(train_sizes))]["in_domain"]["training_seconds"][
+                    "mean"
+                ]
+                / result["summary"][method][str(min(train_sizes))]["in_domain"]["training_seconds"][
+                    "mean"
+                ]
             ),
             "backward_passes_largest": result["summary"][method][largest]["in_domain"][
                 "backward_passes"

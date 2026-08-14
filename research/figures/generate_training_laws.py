@@ -79,8 +79,7 @@ def main() -> None:
     y = np.arange(len(methods))
     width = 0.34
     in_domain = [
-        result["summary"][method][largest]["in_domain"]["top1"]["mean"]
-        for method in methods
+        result["summary"][method][largest]["in_domain"]["top1"]["mean"] for method in methods
     ]
     shifted = [
         result["summary"][method][largest]["shifted"]["across_worlds"]["top1"]["mean"]
@@ -92,7 +91,9 @@ def main() -> None:
     axes[0, 0].invert_yaxis()
     axes[0, 0].set_xlim(0, 1.03)
     axes[0, 0].set_xlabel("Top-1 accuracy")
-    axes[0, 0].set_title("A  Backprop-free laws do learn—but do not transfer", loc="left", fontweight="bold")
+    axes[0, 0].set_title(
+        "A  Backprop-free laws do learn—but do not transfer", loc="left", fontweight="bold"
+    )
     axes[0, 0].legend(frameon=False, loc="lower right")
 
     compute_offsets = {
@@ -116,7 +117,9 @@ def main() -> None:
         )
     axes[0, 1].set_xlabel("Mean CPU training time (s)")
     axes[0, 1].set_ylabel("Moderate-shift top-1")
-    axes[0, 1].set_title("B  PGO adds compute without a frontier gain", loc="left", fontweight="bold")
+    axes[0, 1].set_title(
+        "B  PGO adds compute without a frontier gain", loc="left", fontweight="bold"
+    )
 
     ambiguity = [
         result["summary"][method][largest]["in_domain"]["ambiguity_pair_nll"]["mean"]
@@ -147,7 +150,9 @@ def main() -> None:
             )
     axes[1, 0].set_xlabel("Ambiguous-pair NLL (lower is better)")
     axes[1, 0].set_ylabel("Shifted NLL (lower is better)")
-    axes[1, 0].set_title("C  Local pretraining changes the error tradeoff", loc="left", fontweight="bold")
+    axes[1, 0].set_title(
+        "C  Local pretraining changes the error tradeoff", loc="left", fontweight="bold"
+    )
 
     selected = ("adamw", "multiobjective_adamw", "pcgrad", "phase_gradient")
     size_colors = ("#B9C9D6", "#315A7D")
@@ -163,10 +168,14 @@ def main() -> None:
             color=size_colors[size_index],
             label=f"n={size}",
         )
-    axes[1, 1].set_xticks(np.arange(len(selected)), [METHODS[value] for value in selected], rotation=12)
+    axes[1, 1].set_xticks(
+        np.arange(len(selected)), [METHODS[value] for value in selected], rotation=12
+    )
     axes[1, 1].set_ylim(0.25, 0.68)
     axes[1, 1].set_ylabel("Moderate-shift top-1")
-    axes[1, 1].set_title("D  Auxiliary supervision helps; gradient law does not", loc="left", fontweight="bold")
+    axes[1, 1].set_title(
+        "D  Auxiliary supervision helps; gradient law does not", loc="left", fontweight="bold"
+    )
     axes[1, 1].legend(frameon=False)
     for axis in axes.flat:
         axis.grid(True, color="#DADADA", linewidth=0.6, alpha=0.8)
