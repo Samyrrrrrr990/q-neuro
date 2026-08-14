@@ -1,0 +1,13 @@
+experiment: hard_velocity_halting
+description: >-
+  Validation-calibrated hard early exit for the trained QN-000014 adaptive attractor. Active cases
+  are removed from later state updates; executed steps and wall-clock latency are both measured.
+source_experiment: QN-000014
+calibration:
+  min_steps: 2
+  top1_tolerance: 0.01
+  nll_tolerance: 0.05
+  velocity_quantiles: [0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95, 1.00]
+evaluation:
+  calibration_bins: 10
+  latency_repetitions: 15

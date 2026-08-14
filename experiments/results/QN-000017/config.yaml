@@ -1,0 +1,23 @@
+experiment: hierarchical_observable_probe
+description: Frozen-state evaluation of emergent mechanism, localization, temporality,
+  and context structure using identical linear probes and Hermitian quadratic observables
+  where the state is complex. [SMOKE PROFILE]
+source_experiment: QN-000014
+models:
+  names:
+  - real_operator
+  - complex_operator
+  hermitian_observable_models:
+  - complex_operator
+probe:
+  epochs: 10
+  learning_rate: 0.03
+  weight_decay: 0.001
+  properties:
+    mechanism: 5
+    localization: 4
+    temporality: 3
+    context: 4
+evaluation:
+  batch_size: 128
+  device: cpu

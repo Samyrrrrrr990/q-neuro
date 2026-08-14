@@ -1,0 +1,56 @@
+experiment: active_evidence_acquisition
+description: Factorial NeuroWorld active-diagnosis benchmark comparing random, fixed
+  global-information, and model-conditioned expected-information-gain evidence acquisition.
+world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+models:
+  names:
+  - mlp
+  - transformer
+  - gru
+  - real_operator
+  - two_channel_operator
+  - complex_operator
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.35
+  max_sequence_length: 40
+  learning_rates:
+    mlp:
+    - 0.003
+    transformer:
+    - 0.003
+    gru:
+    - 0.006
+    real_operator:
+    - 0.003
+    two_channel_operator:
+    - 0.003
+    complex_operator:
+    - 0.003
+training:
+  seeds:
+  - 11
+  - 23
+  - 37
+  train_cases: 3000
+  validation_cases: 800
+  batch_size: 128
+  epochs: 20
+  patience: 4
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  test_cases: 200
+  max_queries: 12
+  confidence_threshold: 0.8
+  calibration_bins: 10
+  strategies:
+  - random
+  - fixed_information
+  - expected_information_gain

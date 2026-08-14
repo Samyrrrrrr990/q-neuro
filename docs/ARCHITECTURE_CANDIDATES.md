@@ -63,3 +63,41 @@ Experiment Zero begins with a matched MLP, Candidate 1, and Candidate 2. The fir
 order and randomize complex phase. No Hamiltonian, density, attractor, optimizer, or UI work is
 justified until this minimal comparison yields a replicated signal or a clear negative result.
 
+## Post-Experiment-Zero control gate
+
+The initial learning curve produced a real/complex crossover but did not establish a complex Pareto
+advantage. Before adding more Q-Neuro machinery, the next comparison adds:
+
+1. a validation-tuned GRU to strengthen the conventional sequential baseline;
+2. a two-channel real magnitude model to control for paired amplitudes and squared measurement;
+3. nuisance-seed and noisy/sparse-order NeuroWorld shifts;
+4. separate accuracy for cases with complete versus incomplete chronology evidence.
+
+Hamiltonian and density dynamics remain deferred until this control gate is passed.
+
+## Post-robustness mechanism gate — implemented in QN-000014
+
+The five-world robustness result passed the declared expansion gate. The following computational
+laws are now implemented as independently selectable configurations:
+
+1. **Diagonal state-space:** token injection with learned diagonal decay, providing a compact
+   conventional recurrent control.
+2. **Modern-Hopfield-style retrieval:** disease queries retrieve signed evidence through one
+   associative softmax update.
+3. **Factor-graph GNN:** shared message passing over declared mechanism/localization/time/context
+   groups.
+4. **Coupled tensor control:** multiplicative factor channels test non-separability without complex
+   arithmetic.
+5. **Energy attractor:** evidence force plus descent toward a soft mixture of learned disease
+   attractors.
+6. **Adaptive attractor:** differentiable ACT weights over eight attractor states using velocity,
+   entropy, and hypothesis separation.
+7. **Hamiltonian:** complex evidence injection plus a token-conditioned low-rank Hermitian action.
+8. **Dissipative:** the same complex state and measurement with learned damping but no coherent
+   action.
+9. **Hybrid:** coherent and dissipative terms together.
+10. **Diagnostic Density Dynamics (D3):** rank-two factor `L` with `rho = L L† / tr(L L†)`.
+
+The result does not promote all of these families. Hamiltonian dynamics survive as a follow-up
+candidate; generic dissipation, the fixed graph, and soft adaptive compute fail their initial gates.
+D3 remains useful as an inspectable state representation but not yet as a performance candidate.

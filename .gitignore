@@ -6,6 +6,7 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 checkpoints/
+experiments/registry.sqlite3
 experiments/results/QN-*/checkpoints/
 results/*.pt
 results/*.npz
@@ -13,4 +14,5 @@ paper/*.aux
 paper/*.log
 paper/*.out
 paper/*.pdf
-
+!paper/qneuro.pdf
+paper/rendered/

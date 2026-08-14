@@ -1,0 +1,38 @@
+{
+  "candidate_count": 36,
+  "context_counts": {
+    "architecture": 24,
+    "halting": 3,
+    "training_law": 9
+  },
+  "experiment_id": "QN-000026",
+  "pareto_frontiers": {
+    "architecture": [
+      "adaptive_attractor",
+      "complex_no_negative",
+      "complex_operator",
+      "logistic",
+      "mlp",
+      "real_accumulator",
+      "real_operator",
+      "state_space",
+      "transformer",
+      "two_channel_operator"
+    ],
+    "halting": [
+      "adaptive_attractor::hard"
+    ],
+    "training_law": [
+      "complex_operator::adamw",
+      "complex_operator::local_plasticity",
+      "complex_operator::multiobjective_adamw",
+      "complex_operator::pcgrad",
+      "complex_operator::phase_gradient",
+      "complex_operator::sgd",
+      "complex_operator::zerobackprop"
+    ]
+  },
+  "proposal_count": 5,
+  "status": "complete",
+  "surprise_count": 26
+}

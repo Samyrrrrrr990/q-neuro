@@ -1,0 +1,11 @@
+{
+  "git_commit": "3cd5157f32b6aa17a6a1f1acab41db819c3090f4",
+  "git_dirty": true,
+  "logical_cpu_count": 8,
+  "machine": "arm64",
+  "numpy": "2.5.2",
+  "physical_memory_bytes": 8589934592,
+  "platform": "macOS-26.5-arm64-arm-64bit",
+  "python": "3.12.13",
+  "torch": "2.13.0"
+}

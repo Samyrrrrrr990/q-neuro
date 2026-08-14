@@ -1,0 +1,57 @@
+{
+  "identifier": "trajectory_metrics",
+  "caption": "Evidence-level trajectory diagnostics for the trained complex operator.",
+  "columns": [
+    "Quantity",
+    "Mean",
+    "95% Student-t interval"
+  ],
+  "rows": [
+    [
+      "Final top-1",
+      "0.969",
+      "[0.958, 0.980]"
+    ],
+    [
+      "Entropy change",
+      "-1.266",
+      "[-1.303, -1.229]"
+    ],
+    [
+      "Normalized path length",
+      "2.956",
+      "[2.567, 3.345]"
+    ],
+    [
+      "Final state velocity",
+      "0.175",
+      "[0.109, 0.241]"
+    ],
+    [
+      "Positive-token \u0394 true probability",
+      "0.047",
+      "[0.039, 0.055]"
+    ],
+    [
+      "Observed-negative \u0394 true probability",
+      "0.011",
+      "[0.009, 0.013]"
+    ],
+    [
+      "Chronology-twin final distance",
+      "0.841",
+      "[0.715, 0.967]"
+    ],
+    [
+      "Contradiction drops >0.05",
+      "0.050",
+      "[0.012, 0.088]"
+    ],
+    [
+      "Recovery after a qualifying drop",
+      "0.759",
+      "[0.534, 0.983]"
+    ]
+  ],
+  "note": "Trajectories are actual recurrent states; they are diagnostics, not textual explanations."
+}

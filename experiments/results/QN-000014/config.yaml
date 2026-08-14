@@ -1,0 +1,100 @@
+experiment: dynamics_mechanism_suite
+description: Exploratory mechanism comparison spanning stronger conventional controls,
+  factorized and graph baselines, attractor/adaptive-time dynamics, Hamiltonian/dissipative
+  ablations, and low-rank diagnostic density dynamics under in-domain, ambiguity,
+  counterfactual, and unseen-world shift.
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+dataset:
+  train_cases: 1000
+  validation_cases: 800
+  test_cases: 1000
+  ambiguity_pairs: 300
+  counterfactual_pairs: 200
+  unseen_world_seeds:
+  - 141421
+  - 173205
+  - 271828
+shift:
+  observation_probability: 0.55
+  probability_mixing: 0.18
+  temporal_jitter: 0.08
+  order_marker_visibility: 0.7
+models:
+  names:
+  - logistic
+  - mlp
+  - complex_mlp
+  - transformer
+  - gru
+  - state_space
+  - hopfield
+  - graph_network
+  - coupled_tensor
+  - real_operator
+  - two_channel_operator
+  - complex_operator
+  - energy_attractor
+  - adaptive_attractor
+  - hamiltonian
+  - dissipative
+  - hybrid_dynamics
+  - density_dynamics
+  parameter_budget: 20000
+  operator_rank: 2
+  step_size: 0.25
+  max_sequence_length: 40
+  learning_rates:
+    logistic:
+    - 0.03
+    mlp:
+    - 0.003
+    complex_mlp:
+    - 0.003
+    transformer:
+    - 0.003
+    gru:
+    - 0.006
+    state_space:
+    - 0.003
+    hopfield:
+    - 0.003
+    graph_network:
+    - 0.003
+    coupled_tensor:
+    - 0.003
+    real_operator:
+    - 0.003
+    two_channel_operator:
+    - 0.003
+    complex_operator:
+    - 0.003
+    energy_attractor:
+    - 0.003
+    adaptive_attractor:
+    - 0.003
+    hamiltonian:
+    - 0.001
+    dissipative:
+    - 0.003
+    hybrid_dynamics:
+    - 0.001
+    density_dynamics:
+    - 0.001
+training:
+  seeds:
+  - 11
+  - 23
+  - 37
+  batch_size: 128
+  epochs: 18
+  patience: 4
+  learning_rate: 0.003
+  weight_decay: 0.0001
+  device: cpu
+evaluation:
+  calibration_bins: 10
