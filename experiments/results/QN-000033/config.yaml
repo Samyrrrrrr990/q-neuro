@@ -1,0 +1,129 @@
+experiment: preregistered_mechanism_discovery_suite
+description: Outcome-ineligible causal interventions on commutation, phase, magnitude,
+  conjugation, learned dynamics, readout, explicit real mechanisms, and ambiguity-preserving
+  heads.
+profile: mechanism_discovery
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H3
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+evaluation_world:
+  world_seed: 0
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+dataset:
+  train_cases: 1000
+  validation_cases: 300
+  test_cases_per_world: 160
+  ambiguity_pairs: 120
+  world_seeds:
+  - 6101
+  - 6113
+  - 6121
+training:
+  seeds:
+  - 1103
+  - 2203
+  - 3301
+  epochs: 6
+  patience: 3
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  device: cpu
+models:
+  names:
+  - complex_operator
+  - exact_real_block_operator
+  - commuting_operator
+  - commutator_penalty_operator
+  - noncommutative_real_operator
+  - phase_destroyed_training
+  - magnitude_destroyed
+  - no_conjugation_operator
+  - fixed_random_complex_operator
+  - frozen_dynamics
+  - frozen_readout
+  - fixed_two_state_attractor
+  - ambiguity_aware_real
+  - ambiguity_aware_complex
+  - real_polar_operator
+  - real_rotation_block_operator
+  - complex_magnitude_readout
+  - complex_no_negative
+  - state_space
+  parameter_budget: 20304
+  operator_rank: 2
+  max_sequence_length: 96
+  step_size: 0.28
+  learning_rates:
+    complex_operator:
+    - 0.001
+    exact_real_block_operator:
+    - 0.001
+    commuting_operator:
+    - 0.001
+    commutator_penalty_operator:
+    - 0.001
+    noncommutative_real_operator:
+    - 0.001
+    phase_destroyed_training:
+    - 0.001
+    magnitude_destroyed:
+    - 0.001
+    no_conjugation_operator:
+    - 0.001
+    fixed_random_complex_operator:
+    - 0.001
+    frozen_dynamics:
+    - 0.001
+    frozen_readout:
+    - 0.001
+    fixed_two_state_attractor:
+    - 0.001
+    ambiguity_aware_real:
+    - 0.001
+    ambiguity_aware_complex:
+    - 0.001
+    real_polar_operator:
+    - 0.001
+    real_rotation_block_operator:
+    - 0.001
+    complex_magnitude_readout:
+    - 0.001
+    complex_no_negative:
+    - 0.001
+    state_space:
+    - 0.001
+severities:
+- 0.0
+- 0.5
+- 1.0
+shift_seed: 41017
+shift_variants:
+  adversarial_order:
+    family: evidence_order
+    mode: adversarial
+  mnar_missingness:
+    family: missingness
+    mode: mnar_like
+  unseen_factor_combinations:
+    family: unseen_factor_combinations
+  contradiction:
+    family: contradictory_evidence
+  irreducible_ambiguity:
+    family: irreducible_ambiguity
+evaluation:
+  calibration_bins: 10
