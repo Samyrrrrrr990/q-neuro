@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -89,6 +89,10 @@ smoke-mechanism-suite:
 mechanism-suite:
 	uv run python -m experiments.run_mechanism_suite \
 		--config experiments/configs/mechanism_suite.yaml
+
+computational-law-suite:
+	uv run python -m experiments.run_computational_law_suite \
+		--config experiments/configs/computational_law_suite.yaml
 
 dashboard:
 	uv run python scripts/build_dashboard_data.py
