@@ -1199,9 +1199,9 @@ window.QNEURO_DATA = {
     {
       "claim": "Q-Neuro is novel",
       "confidence": "Very low",
-      "counterevidence": "Many components have direct prior art; combinations may also exist",
-      "evidence": "No systematic novelty review completed",
-      "status": "Unresolved"
+      "counterevidence": "Every major mechanism has close prior work; the review is not systematic and combination novelty is unproved",
+      "evidence": "A primary-source mechanism review is documented in `docs/PRIOR_ART.md`",
+      "status": "Not established"
     },
     {
       "claim": "Q-Neuro has clinical diagnostic value",
