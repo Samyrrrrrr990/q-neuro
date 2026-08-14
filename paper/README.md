@@ -1,21 +1,21 @@
 # Manuscript and reproducibility package
 
-**Hypothesis-State Computing Under Causal Shift** is the research manuscript for Q-Neuro v0.1.0.
-It reports a synthetic causal-benchmark study of ordered hypothesis-state computation. It is not a
-clinical study, a medical device evaluation, or evidence of diagnostic performance on patients.
+**Exact Real Controls Overturn an Apparent Complex-Valued Robustness Advantage** is the Q-Neuro
+v1.0.0 results article. It reports a preregistered falsification study on synthetic sequential task
+families. It is not a clinical study, a medical-device evaluation, or evidence of quantum
+computation in cognition.
 
 ## Deliverables
 
-- [`qneuro.docx`](qneuro.docx): editable Word manuscript
-- [`qneuro.pdf`](qneuro.pdf): rendered publication PDF
+- [`qneuro.docx`](qneuro.docx): editable, accessibility-audited Word manuscript
+- [`qneuro.pdf`](qneuro.pdf): verified 25-page publication PDF
 - [`main.tex`](main.tex): modular LaTeX master with one generated file per major section
 - [`source/`](source/): canonical Markdown prose
-- [`tables/`](tables/): synchronized JSON and LaTeX tables generated from registered results
-- [`figures/`](figures/): synchronized PNG and vector-PDF figures with a SHA-256 manifest
+- [`figures/`](figures/): synchronized PNG and vector-PDF figure with a SHA-256 manifest
 - [`MANUSCRIPT_METADATA.json`](MANUSCRIPT_METADATA.json): counts, scope, and source checksums
 
-The current package contains 13,291 source words, 20 data figures, nine generated tables, and 25
-references. Word and PDF are 54 pages in the verified LibreOffice rendering.
+The release contains 6,957 source words, one four-panel central figure, no data tables, and 14
+primary references. The Word and PDF versions share the same 25-page LibreOffice-verified layout.
 
 ## Build
 
@@ -23,25 +23,24 @@ From the repository root:
 
 ```bash
 uv sync --extra dev --extra paper --frozen
-make paper-source      # tables, LaTeX modules, and DOCX
-make paper             # all sources plus an ignored verification PDF in paper/rendered/
+make paper-source      # LaTeX modules, staged figure, and DOCX
+make paper             # source plus an ignored verification PDF
 make paper-release     # intentionally refresh the checked-in release PDF
-make reproduce-paper   # tests, lint, dashboard, figures, and full manuscript
+make reproduce-paper   # tests, lint, dashboard, figures, and manuscript
 ```
 
-`make latex` compiles `main.tex` when `latexmk` is installed. The checked-in PDF is generated from
-the Word manuscript with LibreOffice so the PDF and requested editable document share one layout.
-LibreOffice can vary PDF timestamps and internal font-object order between visually identical
-exports, so routine reproduction writes an ignored verification render; `make paper-release` is
-the explicit operation that refreshes the audited release binary.
+`make latex` compiles `main.tex` when `latexmk` is installed. Routine reproduction writes an
+ignored verification PDF; `make paper-release` is the explicit operation that refreshes the
+audited release binary.
 
-## Artifact chain
+## Evidence boundary
 
-Registered JSON results under `experiments/results/QN-XXXXXX/` are the numeric source of truth.
-Figure scripts read those artifacts and emit PNG/PDF pairs. `build_tables.py` emits JSON/LaTeX
-tables. `build_manuscript.py` consumes the canonical prose, generated tables, figures, and
-references to emit modular LaTeX and Word. LibreOffice renders the final PDF.
+Registered artifacts under `experiments/results/` are the numeric source of truth. The central
+figure reads those artifacts directly, and `build_manuscript.py` consumes canonical prose,
+references, and the generated figure. The paper preserves the historical positive result, the
+exact-real falsification, the failed frozen law, every outcome-eligibility limit, and the unopened
+QN-GRAND-001 benchmark.
 
-The paper preserves negative findings, superseded runs, limits on statistical power, and the
-synthetic-only evidence boundary. AI assistance is disclosed in the manuscript; the human author
-remains responsible for every claim and any future submission.
+The manuscript has not undergone peer review, independent replication, or external statistical
+audit. AI coding and writing assistance is disclosed; the human author remains responsible for
+every claim and any submission.

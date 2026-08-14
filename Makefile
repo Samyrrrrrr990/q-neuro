@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -176,5 +176,8 @@ paper-release: figures paper-source
 	@command -v soffice >/dev/null 2>&1 || { echo "LibreOffice (soffice) is required to render qneuro.pdf"; exit 1; }
 	soffice --headless --convert-to pdf --outdir paper paper/qneuro.docx
 
-reproduce-paper: test lint dashboard figures paper
+verify-release:
+	uv run python scripts/verify_release.py
+
+reproduce-paper: test lint dashboard figures paper verify-release
 	@echo "Rebuilt tests, dashboard data, figures, tables, LaTeX, DOCX, and an ignored verification PDF from locked sources."

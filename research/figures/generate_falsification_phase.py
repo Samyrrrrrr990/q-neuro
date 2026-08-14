@@ -108,12 +108,12 @@ def main() -> None:
     axes[1, 0].set_xlabel("Held-out nested cells won")
     axes[1, 0].set_title("C  Real controls define the envelope", loc="left", fontweight="bold")
     axes[1, 0].text(
-        0.98,
+        0.92,
         0.06,
         "Complex top-1 = exact-real top-1\nin all 1,920 held-out cells",
         transform=axes[1, 0].transAxes,
         ha="right",
-        fontsize=9,
+        fontsize=8.5,
         color="white",
         fontweight="bold",
     )

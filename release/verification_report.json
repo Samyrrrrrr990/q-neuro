@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0.0",
+  "status": "pass",
+  "scope": "cached registered artifacts; no model retraining or independent replication",
+  "summary": {
+    "discovery_effects": 2880,
+    "heldout_effects": 1920,
+    "total_independent_task_effects": 4800,
+    "heldout_mean_complex_minus_best_real": -0.009157985999869804,
+    "heldout_hierarchical_ci": [
+      -0.013250867711224905,
+      -0.004570204104723728
+    ],
+    "exact_real_maximum_absolute_difference": {
+      "top1": 0.0,
+      "nll": 3.5762786865234375e-07,
+      "ece": 1.1920928955078125e-07
+    },
+    "frozen_law_heldout_r2": -30.936351721073724,
+    "frozen_law_heldout_mae": 0.031264674238761815,
+    "grand_status": "blocked_before_execution"
+  },
+  "checks": [
+    {
+      "check_id": "discovery_effect_count",
+      "passed": true,
+      "evidence": 2880
+    },
+    {
+      "check_id": "discovery_no_positive_effects",
+      "passed": true,
+      "evidence": {
+        "positive": 0
+      }
+    },
+    {
+      "check_id": "discovery_mean_effect",
+      "passed": true,
+      "evidence": -0.03695312475028913
+    },
+    {
+      "check_id": "discovery_outcome_ineligible",
+      "passed": true,
+      "evidence": false
+    },
+    {
+      "check_id": "heldout_effect_count",
+      "passed": true,
+      "evidence": 1920
+    },
+    {
+      "check_id": "heldout_no_positive_effects",
+      "passed": true,
+      "evidence": {
+        "positive": 0,
+        "zero": 1538
+      }
+    },
+    {
+      "check_id": "heldout_mean_effect",
+      "passed": true,
+      "evidence": -0.009157985999869804
+    },
+    {
+      "check_id": "heldout_outcome_ineligible",
+      "passed": true,
+      "evidence": false
+    },
+    {
+      "check_id": "heldout_best_real_winners",
+      "passed": true,
+      "evidence": {
+        "exact_real_block_operator": 1478,
+        "real_polar_operator": 442
+      }
+    },
+    {
+      "check_id": "exact_real_equivalence",
+      "passed": true,
+      "evidence": {
+        "top1": 0.0,
+        "nll": 3.5762786865234375e-07,
+        "ece": 1.1920928955078125e-07
+      }
+    },
+    {
+      "check_id": "hierarchical_interval_nonpositive",
+      "passed": true,
+      "evidence": {
+        "low": -0.013250867711224905,
+        "high": -0.004570204104723728
+      }
+    },
+    {
+      "check_id": "frozen_law_fails_magnitude",
+      "passed": true,
+      "evidence": {
+        "r2": -30.936351721073724,
+        "mae": 0.031264674238761815
+      }
+    },
+    {
+      "check_id": "law_prohibited_from_grand_use",
+      "passed": true,
+      "evidence": {
+        "outcome_e_permitted": false,
+        "provisional_confirmation_only": true,
+        "qn_grand_001_permitted": false,
+        "reason": "QN-000040 is a reduced, outcome-ineligible discovery profile and all observed complex-minus-best-real effects were non-positive.",
+        "synthetic_nonclinical_only": true
+      }
+    },
+    {
+      "check_id": "grand_benchmark_sealed",
+      "passed": true,
+      "evidence": {
+        "blocking_failures": [
+          "complete_preregistered_real_envelope",
+          "equal_or_real_favoring_search_budgets",
+          "compute_matching_records",
+          "full_shiftgauntlet_outcome_grid",
+          "full_discovery_protocol",
+          "raw_predictions_preserved"
+        ],
+        "decision_rule": "Any failed required preflight gate blocks sealed data access.",
+        "experiment_id": "QN-GRAND-001",
+        "primary_confirmatory_effect_estimated": false,
+        "qn_grand_001_executed": false,
+        "scientific_interpretation": "QN-GRAND-001 was not executed. The primary confirmatory architecture claim remains untested under the grand protocol; reduced prior evidence cannot be relabeled.",
+        "sealed_benchmark_opened": false,
+        "status": "blocked_before_execution"
+      }
+    },
+    {
+      "check_id": "adversarial_claim_review",
+      "passed": true,
+      "evidence": {
+        "claims_checked": 6,
+        "errors": [],
+        "failures_checked": 5,
+        "status": "pass",
+        "warnings": []
+      }
+    },
+    {
+      "check_id": "docx_container_valid",
+      "passed": true,
+      "evidence": "paper/qneuro.docx"
+    },
+    {
+      "check_id": "docx_matches_manuscript_metadata",
+      "passed": true,
+      "evidence": "6bf82474f0957c471471bc25aee8de34337c175afd772af72bf05766849eb5e5"
+    },
+    {
+      "check_id": "manuscript_counts",
+      "passed": true,
+      "evidence": {
+        "source_word_count": 6957,
+        "figure_count": 1,
+        "table_count": 0,
+        "reference_count": 14
+      }
+    },
+    {
+      "check_id": "pdf_container_present",
+      "passed": true,
+      "evidence": 520972
+    },
+    {
+      "check_id": "dashboard_contains_frozen_synthesis",
+      "passed": true,
+      "evidence": [
+        "A_falsified_intrinsic_complex_advantage",
+        "blocked_before_execution",
+        "\"exact_real_block_operator\": 1478",
+        "\"r2\": -30.936351721073724"
+      ]
+    },
+    {
+      "check_id": "manifest_artifact_set",
+      "passed": true,
+      "evidence": {
+        "expected": 50,
+        "recorded": 50
+      }
+    },
+    {
+      "check_id": "manifest_hashes",
+      "passed": true,
+      "evidence": []
+    }
+  ]
+}

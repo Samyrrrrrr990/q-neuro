@@ -1,41 +1,23 @@
-# Training laws
+# Training and model selection
 
-## Global optimization
+## Shared optimization protocol
 
-The reference training law is AdamW on diagnosis cross-entropy. Data splits, training seeds, batch sizes, epoch budgets, and learning rates are configuration-controlled and written to the experiment artifact. Model selection uses source validation data only. Shifted worlds, ambiguity twins, omitted diagnoses, and hidden syndromes are never used for optimizer or hyperparameter selection. The training-law suite fixes the complex architecture and changes only how updates are constructed.
+Independent-task models were trained on CPU with AdamW, batch size 128, learning rate 0.001, weight decay 0.0001, at most six epochs, and patience three. Five fixed training seeds were used in discovery and five new seeds in held-out evaluation. Model selection used source-world validation data only. Each trained checkpoint was evaluated without adaptation across the registered shifted worlds and severities.
 
-Ordinary SGD is included as an optimizer control. Gradient accumulation changes the number of optimizer steps while preserving the effective batch. Multi-objective AdamW adds mechanism and localization losses only where those factor labels are defined. PCGrad supplies a direct established control for modifying conflicting task gradients [@yu2020]. All auxiliary heads are discarded at deployment, and both training and deployment parameter counts are recorded.
+Discovery used training sizes 250 and 1,000. Held-out evaluation used size 1,000. The original full protocol additionally required 5,000 and 25,000 examples, a primary grand-test size of 5,000, and a substantially larger hyperparameter search. Because those conditions were deferred, the independent studies are labeled reduced and outcome-ineligible throughout this paper.
 
-## Phase Gradient Optimization
+## Comparator selection within evaluation cells
 
-Phase Gradient Optimization begins with the cosine ck between the diagnosis gradient g0 and an auxiliary gradient gk. It maps ck to an angle phik = 0.5 arccos(ck). For each explicit real/imaginary parameter pair, the two real gradients form a complex update and each task contribution is rotated before averaging. Agreement stays aligned; full opposition moves the auxiliary contribution into quadrature instead of allowing direct cancellation.
+For each family, training size, training seed, world seed, and severity, the best-real model was selected by top-1 accuracy within that same cell. Ties were resolved deterministically by model name. This procedure is transparent and reproducible, but it is more stringent than selecting a single real model globally. Its role is to challenge the complex-advantage claim, not to estimate the expected performance of a deployed model-selection procedure.
 
-{{equation:G=\frac{1}{K}\sum_k e^{i\phi_k}G_k,\qquad \phi_k=\tfrac{1}{2}\arccos(c_k)|G = (1/K) Σₖ exp(iφₖ)Gₖ,  φₖ = ½ arccos(cₖ)}}
+## Calibration and auxiliary metrics
 
-This law was worth testing because it makes a falsifiable prediction: if auxiliary gradients conflict and phase rotation preserves complementary information, it should improve shifted accuracy or the multi-objective Pareto frontier relative to ordinary averaging and PCGrad. The observed gradient cosines are weakly positive. Multi-objective AdamW and PCGrad both reach 0.635 shifted top-1, while phase rotation reaches 0.633 and roughly doubles training time relative to diagnosis-only AdamW. The mechanism is therefore solving little measured conflict and does not earn a performance claim.
+Each evaluation records top-1 accuracy, NLL, expected calibration error, Brier score, and separate accuracy for order-dependent and non-order-dependent examples where defined. Counterfactual order pairs were also generated for structural checks. The primary effect in the current falsification analysis is top-1 accuracy; calibration metrics are descriptive because no favorable complex primary effect survived to support a secondary claim.
 
-## Transition-local plasticity
+## Reproducibility controls
 
-The local rule assigns each diagnosis a fixed normalized complex prototype. At an evidence transition, a locally available prototype error updates the token injection and low-rank factors from pre- and post-state terms. Updates are averaged over active tokens and norm-clipped. The implementation deliberately builds no autograd graph and makes no backward call. It is supervised local credit, not a biologically validated synaptic rule.
+Every run reserved an immutable result directory, stored its configuration and environment record, and registered its hypothesis and preregistration identifiers in SQLite. The pipeline rejected dirty worktrees for evidence-generating runs unless an explicitly ineligible smoke mode was used. Discovery and confirmation used disjoint family names, world seeds, training seeds, and configuration files. The frozen law artifact stores code and configuration hashes as well as the commit preceding held-out execution.
 
-At 1,000 cases, transition-local plasticity reaches 0.642 source top-1 but only 0.137 shifted top-1 and 0.213 chronology-pair accuracy. This is substantially above the frozen ZeroBackprop construction, yet far below global optimization. The hybrid that performs local pretraining and then AdamW reaches 0.998 source top-1 but only 0.419 shifted top-1, worse than AdamW from scratch. The local stage therefore imprints a source-specific solution rather than providing a benign initialization.
+## Deferred compute accounting
 
-{{figure:training_law_suite|Unconventional training laws do not create a new accuracy–compute frontier. Multi-objective AdamW and PCGrad slightly improve shifted top-1; phase rotation matches them within noise at higher cost, while local and zero-backprop rules fail strongly under shift.|Multi-panel comparison of optimization methods showing accuracy, ambiguity, runtime, and backward-call tradeoffs.}}
-
-{{table:training_laws}}
-
-## Calibration
-
-Raw model probabilities are retained as the primary output. A scalar temperature is fitted by minimizing source validation NLL and then frozen for all shifted evaluations, following the standard calibration setting [@guo2017]. This protocol tests transport rather than allowing post hoc access to shifted labels. It fails: under moderate shift, the complex operator’s NLL worsens from 1.459 to 4.341, and ECE increases from 0.204 to 0.257. The same direction occurs for the real and two-channel operators.
-
-The failure is mechanistically plausible. A single source temperature corrects one global sharpness distortion, whereas the evidence distribution and class-conditional confidence geometry both change under causal shift. Magnitude-squared readout may amplify those changes, but the real controls show that the problem is not exclusively complex. Future work requires shift-aware calibration validated without target labels; the current study makes no claim that temperature scaling solves uncertainty.
-
-## Hard execution versus soft pondering
-
-The soft attractor learns an expected depth of approximately 5.25 of eight states, but all states are evaluated. The hard follow-up chooses a velocity threshold on source validation and physically removes halted cases from the active batch. Hard inference executes two states instead of eight and reduces in-domain per-case latency from approximately 0.0171 ms for the soft path to 0.00346 ms. Accuracy is essentially unchanged.
-
-{{figure:hard_halting|Hard velocity exit reduces executed states and measured latency, but the halt distribution is degenerate: every case exits at step two. The result is fixed truncation, not adaptive reasoning.|Comparison of soft, fixed-final, and hard-halting inference on accuracy, calibration, executed steps, latency, and halt-step distribution.}}
-
-{{table:hard_halting}}
-
-The same result refutes the motivating adaptive-time claim. No case-dependent compute allocation emerges, and later steps worsen calibration without improving top-1. The correct engineering action is to replace the eight-state attractor with a fixed two-state version on this task. Adaptive inference should be revisited only when difficulty predicts depth and a preregistered validation criterion selects a non-degenerate exit distribution.
+The repository preserves CPU device selection and runtime environment, but the reduced studies do not contain per-trial FLOPs or optimizer-step records. Search budgets also favor neither side because each executed model received one configuration, yet this is not the prospectively required equal-or-real-favoring search. These missing records are reported as blockers rather than estimated after the fact.

@@ -1,7 +1,47 @@
 # Results
 
-Last updated: 2026-08-09. All results use synthetic NeuroWorld cases and are exploratory unless
-explicitly marked otherwise.
+Last updated: 2026-08-14. All results are synthetic and nonclinical. The current headline is a
+preregistered falsification result; reduced discovery and held-out studies remain explicitly
+outcome-ineligible for the deferred grand protocol.
+
+## Current conclusion — exact controls reverse the claim
+
+Primary artifacts: `experiments/results/QN-000040/`, `experiments/results/QN-000042/`,
+`research/laws/FROZEN_CANDIDATE_001.json`, and `experiments/results/QN-GRAND-001/`.
+
+The historical result compared the complex operator with a non-equivalent two-channel real model
+and found a +0.0602 moderate-shift top-1 effect across five NeuroWorld seeds. The next-phase program
+introduced a tied exact-real implementation of the same complex computation, a cellwise best-real
+envelope, independent synthetic generator families, a prospectively frozen candidate law, and a
+mandatory preflight before any grand benchmark could open.
+
+Reduced discovery crossed four generator families, two training sizes, five training seeds, 24
+world seeds, and three severities. None of 2,880 complex-minus-best-real effects was positive; the
+mean was −0.036953. A quadratic candidate relationship fit the 12 family-by-severity discovery
+aggregates with R² 0.9487 and MAE 0.002604, then was frozen without access to the held-out families.
+
+Held-out confirmation used four untouched generator families, 32 world seeds, five training seeds,
+and three severities. None of 1,920 nested effects was positive: 1,538 were exactly zero at stored
+precision and 382 were negative. The mean was −0.009158, and the family/world/seed hierarchical
+bootstrap interval was [−0.01325, −0.00457]. The exact-real block matched complex top-1 in all
+1,920 cells; maximum absolute differences were 3.58 × 10⁻⁷ for NLL and 1.19 × 10⁻⁷ for ECE.
+
+The frozen law transferred the non-positive sign but failed magnitude prediction: held-out R² was
+−30.94 and MAE was 0.03126, outside both frozen thresholds. It remains registered as QN-LAW-001, a
+failed candidate rather than a post-hoc refit.
+
+QN-GRAND-001 did not execute. Its preflight passed eight readiness checks but failed six mandatory
+gates: incomplete 14-control envelope, inadequate per-model search, missing FLOP/optimizer-step
+records, incomplete ShiftGauntlet outcomes, reduced rather than full discovery, and missing raw
+predictions. The registered status is `blocked_before_execution`; both `executed` and
+`sealed_benchmark_opened` are false, and no primary effect estimate exists.
+
+The defensible conclusion is narrow: for the implemented linear complex operator and executed
+synthetic profiles, an intrinsic complex-arithmetic robustness advantage does not survive exact or
+strongest-tested real controls. This does not establish universal real-model superiority, clinical
+validity, or a statement about all nonlinear complex networks.
+
+![Comparator-sensitive falsification phase](research/figures/generated/falsification_phase.png)
 
 ## Experiment Zero — corrected full-data comparison
 

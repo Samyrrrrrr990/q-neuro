@@ -1,106 +1,11 @@
 {
-  "manuscript_date": "2026-08-13",
-  "count": 20,
+  "manuscript_date": "2026-08-14",
+  "count": 1,
   "figures": [
     {
-      "name": "architecture_overview",
-      "png_sha256": "5caa99907ab2e8319fcef2d9dddbc23f6166a33373923fb7ef31ae3b507c0785",
-      "pdf_sha256": "438cb8b50f8370a8d37b7880f0592f15ef3eb6255dbc864bcfdaf86000bdfe90"
-    },
-    {
-      "name": "claim_status_audit",
-      "png_sha256": "82cff34ea6753284da93c643298d6f5b90516afac8ad5afa3c38455b0b1e792e",
-      "pdf_sha256": "b264c92011d25e7fe12f09f20646225371d30ce6b5cbe1d67d5d548e908aef87"
-    },
-    {
-      "name": "trajectory_signature",
-      "png_sha256": "882f70b876009aeeeaecb77c01e9891630978da6af94e41fe8b781889f4e1814",
-      "pdf_sha256": "0ffdb1c1e3f7eb05ec287b1d34bb2ac0f7c22e7c6384749b06efd099c7b72f0b"
-    },
-    {
-      "name": "dynamics_suite",
-      "png_sha256": "f2a0e2ba797af1a7b67ac880091264d1a3cd6b67a16de6124344108f11b74ad7",
-      "pdf_sha256": "bcbec4fa8099777d51419a061f0d56a880b76c62208c2eaac0bac86e72f2ae8b"
-    },
-    {
-      "name": "training_law_suite",
-      "png_sha256": "b7198053773ef2293780102ff0f6b289fcfeeb7a750cce49b69d7dcf44099332",
-      "pdf_sha256": "c2a6229e38e983c665abad73cf7227c5b6f0a8feed9846bef01542ee9bc17a3d"
-    },
-    {
-      "name": "hard_halting",
-      "png_sha256": "b860023f32a87bd018a60ff77b909e1ee51c0c60659d99df6ad037c662fa722b",
-      "pdf_sha256": "17b4f7e81ae2ca07b0d7b74b2c97e583fe6119bc705c3103f36fcee6f303f51a"
-    },
-    {
-      "name": "generator_shift_replication",
-      "png_sha256": "e77498ac372914cc43a37395f8515223ce8254259e5be7886e5b1f4124482330",
-      "pdf_sha256": "af9f0a9c33465cd5a39d43633ca35d2cf579dd7bd4b62d19d71ecefbd2920ab8"
-    },
-    {
-      "name": "neuro_task_suite",
-      "png_sha256": "af2d9a5dbd2e8fb57c612f5f3ef118ad1e7c0e972055657f170ca021e364b45b",
-      "pdf_sha256": "84df83bb428b607714b83afd5770fb70316e06863573ffbd57aa9519a1727bfd"
-    },
-    {
-      "name": "experiment_evidence_map",
-      "png_sha256": "a495030f3ef89194655927e206b0e8ffd09a14067668e88474d3e60ea0cbd01b",
-      "pdf_sha256": "82bc6929e7f89fa253723f41751e95249f58d7dabd778570119aa900505f8146"
-    },
-    {
-      "name": "experiment_zero_learning_curves",
-      "png_sha256": "eeaa2d4567e49650825c85eb3d79601c079b0154310fd9d1bc9c08ae1f2c4ccf",
-      "pdf_sha256": "567f6d321fac714b5dccfdc0b0617c981dd60a66e2e3ce2e73e82430c6a4210a"
-    },
-    {
-      "name": "robustness_world_sweep",
-      "png_sha256": "5bfe14e9c03b5f587fc4c10458a115faaede686362109785d8eb75cb02d1e4a4",
-      "pdf_sha256": "b9139d2f09899d58955f9a22a09b393cd03472307681ebc281cea5697e2b3881"
-    },
-    {
-      "name": "architecture_pareto_field",
-      "png_sha256": "58d449e912c5a86859fee7089c23245db281e8dd0c5bd40427b7d9cd3f6e1d74",
-      "pdf_sha256": "3f06f6b321db73b80111a82b49170e97324ef112decb64f80fe4aa818a2188c6"
-    },
-    {
-      "name": "sample_compute_frontier",
-      "png_sha256": "06aac5fb518aeccdf83784cdb149b6702d309dc10702012812953c362561d27c",
-      "pdf_sha256": "d31450fd089875e76730bc7449cdf0566cf63621d61e4d741f45cc6a1e815da2"
-    },
-    {
-      "name": "calibration_transport",
-      "png_sha256": "96d1a0e5ac195465de53e7557a5bf1f175d5905520c938549975bc7155180e0d",
-      "pdf_sha256": "3334fae246d11e0114a397f33908e067d9a6eba8a61c817f550d5e9a2df30d69"
-    },
-    {
-      "name": "ood_separability",
-      "png_sha256": "67fc9e03ade3fed664ac41c35dfda3b3bf1de2e66b497d46460c62a7207c87ad",
-      "pdf_sha256": "cbd38eed7c028cc134a5164851399e345a8d054980847ab268877524db2b2b13"
-    },
-    {
-      "name": "active_evidence",
-      "png_sha256": "0561ac80d44901654d41daf005c7d801a467dfd94eed2eb4c56f4323dadc51bf",
-      "pdf_sha256": "3e549061a8bb339d5a2fe2a7c460939c8fb9c66c32d87db0ef23b600cbf1f665"
-    },
-    {
-      "name": "critical_ablation_suite",
-      "png_sha256": "f9951baad59010d5c50227040246963cccdfd4edb998ca23209c0391d9b1055c",
-      "pdf_sha256": "cfd308ef6b76f6c9fda972ee858799545e1b047a30aed327e2410dba1d0fd49a"
-    },
-    {
-      "name": "ambiguity_differential",
-      "png_sha256": "984bfe8c1e95593256258f3ac4d260dab616d80439e22eccebbfb2782a8fa004",
-      "pdf_sha256": "28007815cc716cee660df4ce155823429bd86b957077abdeff3c703df158f4f9"
-    },
-    {
-      "name": "observable_probe",
-      "png_sha256": "530b71d3ff7030d8d8b05dc7c824bb1c197b2ac85899003c84b8ca32cbfc5be7",
-      "pdf_sha256": "ba423f747ce315c7190c2e17979e043d52f0b4e6e628bf71070c92591b35f0bd"
-    },
-    {
-      "name": "surprise_taxonomy",
-      "png_sha256": "15c18196c624b8c7b4df76ef26d63949bfd418613d023f2f1cb11b367faf6596",
-      "pdf_sha256": "d88d8af093a0d9e6d694d8b32456d15c08268d481396a2b97517ff7ef233f985"
+      "name": "falsification_phase",
+      "png_sha256": "a7464023ed528fccb795542994c84907e4cfc38aef435168be677c89c137ca48",
+      "pdf_sha256": "9a10b22f45712801637175e312700709aad37e5968e4ae3cf4842bb842523487"
     }
   ]
 }
