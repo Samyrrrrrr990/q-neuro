@@ -1,5 +1,21 @@
 # Claim Ledger
 
+## Next-phase adjudication
+
+The machine-readable authoritative ledger is `research/claims.json`. The strongest next-phase
+conclusion is a scoped negative result: exact-real equivalence and a stronger best-real envelope
+remove the intrinsic complex-arithmetic interpretation. QN-GRAND-001 did not execute.
+
+| Claim | Evidence | Counterevidence / confounders | Confidence | Status |
+|---|---|---|---|---|
+| The implemented complex operator has an exact structured-real equivalent | QN-000033 and QN-000042; held-out top-1 difference is zero in 1,920 nested cells | Does not equate every possible complex and real network or optimizer | High | Supported within implementation |
+| Complex retains a best-real robustness advantage on independent tasks | None | QN-000040 and QN-000042 contain zero positive nested effects; held-out hierarchical mean −0.00916 | High within reduced scope | Falsified |
+| QN-LAW-001 generalizes quantitatively | Sign transfers | Held-out R2 −30.94 and MAE 0.0313 fail frozen thresholds | High | Falsified |
+| QN-GRAND-001 provides confirmatory evidence | None | Six mandatory preflight gates failed; sealed benchmark unopened | High | Not executed |
+| Q-Neuro has clinical validity or reveals quantum cognition | None | Synthetic and nonclinical evidence only | High | Unsupported |
+
+## Historical ledger
+
 | Claim | Evidence | Counterevidence / confounders | Confidence | Status |
 |---|---|---|---|---|
 | Ordered computation is required for the chronology-twin task | QN-000003: ordered models 1.0 pair accuracy; MLP 0.0; twin vectors are identical by construction | This is true by task construction and does not establish a broad medical phenomenon | High | Replicated in simulator |

@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "failures": [
+    {
+      "failure_id": "FAIL-001",
+      "experiment_id": "QN-000027",
+      "stage": "simulator_red_team",
+      "failure": "Metadata and unintended order-token shortcuts crossed frozen thresholds.",
+      "response": "Artifact preserved; generator repaired under PREREGISTRATION_AMENDMENT_001; QN-000028 passed the rerun.",
+      "claim_impact": "No pre-repair simulator result can be treated as leakage-cleared."
+    },
+    {
+      "failure_id": "FAIL-002",
+      "experiment_id": "QN-000038",
+      "stage": "independent_discovery_smoke",
+      "failure": "Smoke profile produced too few law cells for the frozen candidate fitter.",
+      "response": "Failure preserved; smoke grid repaired without outcome interpretation; QN-000039 passed.",
+      "claim_impact": "None; smoke artifacts are not evidence."
+    },
+    {
+      "failure_id": "FAIL-003",
+      "experiment_id": "QN-000042",
+      "stage": "heldout_law_confirmation",
+      "failure": "QN-LAW-001 failed R2 and MAE thresholds on untouched task families.",
+      "response": "No refit or threshold change; failure preserved as the prospective result.",
+      "claim_impact": "Outcome E is not established."
+    },
+    {
+      "failure_id": "FAIL-004",
+      "experiment_id": "QN-GRAND-001",
+      "stage": "grand_preflight",
+      "failure": "Six mandatory readiness gates failed before sealed benchmark access.",
+      "response": "Grand test blocked and sealed; no substitute run labeled confirmatory.",
+      "claim_impact": "No QN-GRAND primary estimate exists."
+    },
+    {
+      "failure_id": "FAIL-005",
+      "experiment_id": "QN-000040/QN-000042",
+      "stage": "architecture_hypothesis",
+      "failure": "The best-real envelope eliminates the complex advantage, and exact-real computation matches complex predictions.",
+      "response": "Final synthesis classifies the intrinsic complex-arithmetic hypothesis as falsified within tested scope.",
+      "claim_impact": "The paper is a negative result about controls and parameterization, not a superiority claim."
+    }
+  ]
+}

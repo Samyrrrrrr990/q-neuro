@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "synthetic and nonclinical computational evidence",
+  "claims": [
+    {
+      "claim_id": "CLAIM-001",
+      "exact_wording": "The evaluated complex operator has an exact structured real-block implementation that reproduces its top-1 predictions at numerical precision.",
+      "evidence": [
+        "QN-000033 mapped mechanism runs differ by at most approximately 4.8e-7 across recorded metrics.",
+        "QN-000042 complex and exact-real top-1 are identical in all 1,920 held-out nested cells; maximum NLL difference is 3.58e-7."
+      ],
+      "counterevidence": [
+        "This does not imply that every complex-valued architecture or optimization trajectory is equivalent to every unconstrained real network.",
+        "Different parameterizations can impose different inductive biases even when the represented mapped function is the same."
+      ],
+      "supporting_experiments": ["QN-000033", "QN-000042"],
+      "effect_size": {"metric": "maximum_absolute_top1_difference", "value": 0.0, "cells": 1920},
+      "uncertainty": "Deterministic mapped equivalence plus floating-point tolerance; not a population estimate.",
+      "assumptions": ["Mapped initialization", "same data order", "same optimizer policy", "implemented architecture only"],
+      "scope": "Q-Neuro complex_operator and exact_real_block_operator implementations",
+      "external_validity": "Algebraic mapping is general; empirical tolerance was tested only in this codebase.",
+      "novelty_status": "Known algebraic representation applied as a stringent project control.",
+      "replication_status": "Internally repeated across mechanism discovery and four held-out task families; no independent team replication.",
+      "falsifier": "A mapped forward, loss, gradient, or prediction comparison exceeding the frozen numerical tolerance.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-002",
+      "exact_wording": "Within the reduced independent-task studies, the cellwise best-real envelope removes the observed complex robustness advantage.",
+      "evidence": [
+        "QN-000040 has zero positive complex-minus-best-real effects among 2,880 nested discovery cells.",
+        "QN-000042 has zero positive effects among 1,920 held-out nested cells and a family/world/seed hierarchical mean of -0.00916 with 95% interval [-0.01325, -0.00457]."
+      ],
+      "counterevidence": [
+        "The independent discovery and confirmation profiles are outcome-ineligible and compute-reduced.",
+        "The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run."
+      ],
+      "supporting_experiments": ["QN-000040", "QN-000042"],
+      "effect_size": {"metric": "mean_complex_minus_best_real_top1", "value": -0.009157985999869804},
+      "uncertainty": {"method": "hierarchical_bootstrap", "confidence": 0.95, "low": -0.013250867711224905, "high": -0.004570204104723728},
+      "assumptions": ["Equal family weighting", "world is the top-level unit", "best-real selection is cellwise and prespecified"],
+      "scope": "Four held-out and four discovery synthetic nonmedical generator families under the reduced profile",
+      "external_validity": "Unknown beyond the implemented synthetic generators.",
+      "novelty_status": "Negative empirical result; priority not claimed.",
+      "replication_status": "Direction repeats in pilot, discovery, and held-out reduced confirmation; no external replication.",
+      "falsifier": "A fully preregistered clean run in which the complex-minus-best-real aggregate is positive and its adjusted interval exceeds +0.02.",
+      "confidence": "high within tested scope"
+    },
+    {
+      "claim_id": "CLAIM-003",
+      "exact_wording": "The frozen quadratic relationship selected on reduced discovery data fails quantitative prediction on held-out task families.",
+      "evidence": [
+        "QN-LAW-001 discovery R2 is 0.949 with MAE 0.00260 across 12 aggregate cells.",
+        "QN-000042 held-out R2 is -30.94 and MAE 0.0313; the frozen requirements were R2 at least 0.50 and MAE at most 0.015."
+      ],
+      "counterevidence": ["Effect-sign accuracy is 1.0 because all observed and predicted gaps are non-positive."],
+      "supporting_experiments": ["QN-000040", "QN-000042"],
+      "effect_size": {"metric": "heldout_law_r2", "value": -30.936351721073724},
+      "uncertainty": "Twelve held-out family-by-severity aggregates; no refitting permitted.",
+      "assumptions": ["Frozen predictors and coefficients", "untouched family split", "unchanged confirmation thresholds"],
+      "scope": "QN-LAW-001 only",
+      "external_validity": "No general computational law established.",
+      "novelty_status": "Failed candidate law.",
+      "replication_status": "Prospective held-out failure preserved.",
+      "falsifier": "Not applicable after prospective failure; a new law requires a new preregistration and split.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-004",
+      "exact_wording": "The earlier positive NeuroWorld result is comparator-dependent rather than evidence of intrinsically complex arithmetic.",
+      "evidence": [
+        "QN-000008 reports +0.0602 moderate-shift top-1 versus a two-channel real control.",
+        "Later exact-real and best-real comparisons reverse the sign in QN-000031, QN-000040, and QN-000042."
+      ],
+      "counterevidence": ["The later studies use different generator families and reduced profiles, so the four point estimates are not one meta-analysis."],
+      "supporting_experiments": ["QN-000008", "QN-000031", "QN-000040", "QN-000042"],
+      "effect_size": {"metric": "historical_complex_minus_two_channel_moderate_top1", "value": 0.06016665697097778},
+      "uncertainty": {"low": 0.05293366263940652, "high": 0.06739965130254905, "units": "five NeuroWorld worlds"},
+      "assumptions": ["Historical result is retained unchanged", "comparator identity is stated with every estimate"],
+      "scope": "Interpretation of the QN-000008 within-simulator result",
+      "external_validity": "None established.",
+      "novelty_status": "Comparator audit.",
+      "replication_status": "Historical result replicated within NeuroWorld; intrinsic interpretation refuted by stronger controls.",
+      "falsifier": "A same-task parameter/compute-matched study in which complex exceeds the exact-real and strongest structured-real controls.",
+      "confidence": "medium-high"
+    },
+    {
+      "claim_id": "CLAIM-005",
+      "exact_wording": "QN-GRAND-001 did not execute and provides no primary confirmatory effect estimate.",
+      "evidence": ["The registered preflight records six blocking failures and sealed_benchmark_opened=false."],
+      "counterevidence": ["Eight readiness checks passed, including the shortcut gate, power plan, exact-real equivalence, and held-out family separation."],
+      "supporting_experiments": ["QN-GRAND-001"],
+      "effect_size": null,
+      "uncertainty": "No primary outcome was observed.",
+      "assumptions": ["Any failed mandatory gate blocks sealed access", "single-use grand experiment"],
+      "scope": "QNF-PREREG-002 grand confirmation",
+      "external_validity": "Not applicable.",
+      "novelty_status": "Registered stop decision.",
+      "replication_status": "Not applicable; no execution.",
+      "falsifier": "Artifact evidence that all gates passed and the sealed benchmark was executed, which does not exist.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-006",
+      "exact_wording": "The repository contains no evidence of clinical validity, patient benefit, safety, or a quantum mechanism of cognition.",
+      "evidence": ["All next-phase tasks are synthetic and nonclinical; no patient dataset was selected or evaluated."],
+      "counterevidence": [],
+      "supporting_experiments": [],
+      "effect_size": null,
+      "uncertainty": "This is a scope statement, not an efficacy estimate.",
+      "assumptions": ["Repository artifact inventory is complete"],
+      "scope": "Entire Q-Neuro release",
+      "external_validity": "No medical external validity.",
+      "novelty_status": "Safety boundary.",
+      "replication_status": "Not applicable.",
+      "falsifier": "A separately approved and preregistered clinical validation program with valid patient evidence.",
+      "confidence": "high"
+    }
+  ]
+}
