@@ -106,6 +106,12 @@ context-specific Pareto field, expandable claim ledger, failed-idea register, an
 next-study queue. Rebuild its payload with `make dashboard`; charts, candidates, claims, failures,
 and proposals are generated from versioned research artifacts.
 
+The expanded [prior-art ledger](docs/PRIOR_ART.md) materially narrows the novelty position.
+Complex/unitary recurrence, quantum-probability order effects, density states for ambiguity,
+Lindblad-inspired neural evolution, adaptive computation, and local learning all have direct
+precedent. Q-Neuro is presented as an integrated falsification framework and synthetic empirical
+result—not as the invention of those mechanisms.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)

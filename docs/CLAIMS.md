@@ -46,5 +46,5 @@
 | The discovery engine identifies a universally superior candidate | QN-000026 computes explicit multi-objective Pareto fronts | Fronts remain broad in every context; objectives and proposals are human-declared; outputs are decision support | High | Refuted by tradeoffs |
 | The QN-000026 proposals are scientific discoveries | They are reproducible transformations of registered measurements | No proposal has been tested; automated ranking cannot promote a hypothesis into evidence | None | Unsupported |
 | Complex arithmetic is superior overall | Shift robustness supports one dimension | GRU wins low-data in-domain; real is better calibrated; complex is slower; evidence is synthetic | Low | Not supported |
-| Q-Neuro is novel | No systematic novelty review completed | Many components have direct prior art; combinations may also exist | Very low | Unresolved |
+| Q-Neuro is novel | A primary-source mechanism review is documented in `docs/PRIOR_ART.md` | Every major mechanism has close prior work; the review is not systematic and combination novelty is unproved | Very low | Not established |
 | Q-Neuro has clinical diagnostic value | None; only synthetic archetypes tested | No real data, external validation, prospective study, or medical-device evaluation | None | Unsupported |
