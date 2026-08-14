@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Critical ablations of order, phase-sensitive measurement, negative evidence, and density rank.}
+\label{tab:critical_ablations}
+\begin{tabular}{lrrrr}
+\toprule
+Law & ID top-1 & Shift top-1 & Ambiguity NLL $\downarrow$ & Order pairs \\
+\midrule
+Commutative accumulator & 0.704 & 0.415 & 2.422 & 0.000 \\
+Two-channel real & 0.877 & 0.499 & 2.037 & 0.663 \\
+Magnitude-only readout & 0.861 & 0.543 & 2.467 & 0.825 \\
+No observed-negative channel & 0.915 & 0.575 & 3.274 & 0.972 \\
+Complex operator & 0.969 & 0.647 & 2.352 & 1.000 \\
+Density dynamics (rank 1) & 0.895 & 0.449 & 1.435 & 0.675 \\
+Density dynamics (rank 2) & 0.891 & 0.453 & 1.468 & 0.635 \\
+Density dynamics (rank 4) & 0.835 & 0.441 & 1.513 & 0.428 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\linewidth}\footnotesize Each row is retrained from scratch with the same data split and three seeds.\end{minipage}
+\end{table}

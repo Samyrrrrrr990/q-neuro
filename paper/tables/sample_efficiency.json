@@ -1,0 +1,49 @@
+{
+  "identifier": "sample_efficiency",
+  "caption": "Source-world top-1 accuracy under nested training-set sizes.",
+  "columns": [
+    "Cases",
+    "MLP",
+    "Transformer",
+    "Real operator",
+    "Complex operator"
+  ],
+  "rows": [
+    [
+      "250",
+      "0.663",
+      "0.462",
+      "0.716",
+      "0.673"
+    ],
+    [
+      "500",
+      "0.706",
+      "0.673",
+      "0.940",
+      "0.949"
+    ],
+    [
+      "1,000",
+      "0.726",
+      "0.907",
+      "0.985",
+      "0.997"
+    ],
+    [
+      "2,000",
+      "0.733",
+      "0.963",
+      "0.995",
+      "1.000"
+    ],
+    [
+      "5,000",
+      "0.742",
+      "0.989",
+      "0.999",
+      "1.000"
+    ]
+  ],
+  "note": "The same validation/test generator and seed set is reused across sizes."
+}

@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Training-law comparison for the complex operator at 1,000 cases.}
+\label{tab:training_laws}
+\begin{tabular}{lrrrrr}
+\toprule
+Training law & ID top-1 & Shift top-1 & Ambiguity NLL $\downarrow$ & Train s & Reverse-mode calls \\
+\midrule
+AdamW & 0.971 & 0.620 & 2.368 & 2.96 & 120 \\
+SGD & 0.238 & 0.188 & 2.400 & 2.91 & 120 \\
+Gradient accumulation & 0.971 & 0.622 & 2.362 & 3.91 & 240 \\
+Multi-objective AdamW & 0.978 & 0.635 & 2.363 & 2.96 & 120 \\
+PCGrad & 0.978 & 0.635 & 2.389 & 5.48 & 360 \\
+Phase Gradient Optimization & 0.978 & 0.633 & 2.340 & 5.43 & 360 \\
+Transition-local plasticity & 0.642 & 0.137 & 2.010 & 1.25 & 0 \\
+Local + global hybrid & 0.998 & 0.419 & 1.317 & 3.74 & 120 \\
+ZeroBackprop & 0.133 & 0.139 & 2.924 & 0.11 & 0 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\linewidth}\footnotesize Shift top-1 is averaged across the declared unseen worlds; timing is CPU wall time.\end{minipage}
+\end{table}

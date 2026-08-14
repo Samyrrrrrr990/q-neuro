@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Hard-halting audit of executed states and measured inference latency.}
+\label{tab:hard_halting}
+\begin{tabular}{lrrrrrr}
+\toprule
+Inference law & ID top-1 & Shift top-1 & Shift NLL & Shift ECE & States & ms/case \\
+\midrule
+Soft ACT & 0.724 & 0.431 & 2.518 & 0.330 & 8.00 & 0.0171 \\
+Fixed eight states & 0.722 & 0.431 & 2.965 & 0.396 & 8.00 & 0.0130 \\
+Hard velocity exit & 0.722 & 0.432 & 2.127 & 0.172 & 2.00 & 0.0035 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\linewidth}\footnotesize The hard exit removes halted examples from subsequent computation; it selected two states for every case.\end{minipage}
+\end{table}

@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Irreducible ambiguity and out-of-distribution separation.}
+\label{tab:uncertainty_ood}
+\begin{tabular}{lrrrr}
+\toprule
+Model & Ambiguity NLL $\downarrow$ & Valid-twin mass & Omitted-disease AUROC & Hidden-syndrome AUROC \\
+\midrule
+MLP & 1.681 & 0.547 & 0.709 & 0.741 \\
+Tiny Transformer & 6.171 & 0.188 & 0.887 & 0.941 \\
+Tuned GRU & 2.450 & 0.532 & 0.985 & 0.983 \\
+Real operator & 1.148 & 0.836 & 0.952 & 0.992 \\
+Two-channel real & 1.453 & 0.560 & 0.997 & 0.852 \\
+Complex operator & 2.581 & 0.212 & 0.999 & 0.999 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\linewidth}\footnotesize OOD AUROC measures separation on synthetic held-out constructs, not clinical disease discovery.\end{minipage}
+\end{table}

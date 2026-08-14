@@ -1,0 +1,74 @@
+% Generated from paper/source. Do not edit by hand.
+\section{Mathematical framework}
+\subsection{Problem definition}
+Let a case be a sequence x = ((e1, s1, t1), …, (eT, sT, tT), c), where et identifies a finding, st records observed-positive or observed-negative sign, tt is a normalized time, and c contains demographic context. Missing findings do not appear in the sequence. The target y belongs to D synthetic diagnostic classes. A model returns a categorical differential p(y | x), optional intermediate states, and---when enabled---query or halt decisions. The core causal test constructs twin cases xAB and xBA with identical multisets of observations and contexts but reversed order for two chronology-defining markers.
+
+An unordered predictor receives a signed vector with explicit missingness channels. It has no information that distinguishes xAB from xBA and therefore cannot solve both twins above chance without leakage. An ordered predictor receives the evidence tokens and timestamps. Counterfactual pair accuracy requires both members of a twin pair to be correct, making it stricter than ordinary case accuracy. This provides an impossibility-style control for chronology rather than a generic benchmark advantage.
+
+\subsection{Complex hypothesis state}
+Q-Neuro maintains zt in C\textasciicircum{}H. Each evidence token selects a learned diagonal term de, low-rank factors Le and Re, and injection be. A residual update is
+
+\begin{equation}
+z_{t+1}=\mathcal{N}_{\mathbb{C}}\!\left[z_t+b(e_t,t,c)+d_{e_t}\odot z_t+L_{e_t}(R_{e_t}^{H}z_t)\right]
+\end{equation}
+
+where NC denotes norm control and padding tokens leave the state unchanged. The low-rank form avoids materializing an H by H matrix for every evidence type. Operator composition is generally noncommutative: Oa(Ob(z)) need not equal Ob(Oa(z)). The model can therefore distinguish chronology twins even when their aggregate signed features are identical.
+
+A complex readout W produces amplitudes ad = wdᴴ zT and diagnosis probabilities
+
+\begin{equation}
+p(d\mid x)=\frac{\lvert a_d\rvert^2}{\sum_j\lvert a_j\rvert^2}
+\end{equation}
+
+This measurement is a learned normalized classifier. It is not a physical Born measurement. Its inductive bias differs from an unconstrained linear softmax because real and imaginary components interact through squared magnitude, allowing constructive and destructive readout effects. A trained model’s dependence on phase is tested by setting relative phase to zero or random values at evaluation; functional dependence does not by itself establish comparative benefit.
+
+\subsection{Matched real controls}
+The ordinary real operator replaces complex vectors and conjugate products with real-valued counterparts while retaining sequential evidence-conditioned low-rank updates. It tests whether operator order alone explains performance. The two-channel real control stores paired real channels and uses a sum-of-squares measurement. It approximately matches the real scalar budget and output nonlinearity of the complex model while removing complex multiplication and conjugation. This is a stronger control than comparing against an MLP, but it is not an exhaustive real reparameterization theorem.
+
+The commutative accumulator removes composition entirely:
+
+\begin{equation}
+z=\mathcal{N}_{\mathbb{C}}\!\left[z_0+\sum_t b(e_t)+W_c c\right]
+\end{equation}
+
+Because addition commutes, chronology is absent by construction. The phase-insensitive readout retains complex evolution but replaces the inner product with a constructive magnitude sum. The negative-evidence ablation removes observed-negative tokens while keeping missingness and observation rates unchanged. Together these interventions test order, measurement, and signed evidence separately.
+
+\subsection{Hamiltonian and dissipative dynamics}
+For a Hermitian low-rank evidence action He, the Hamiltonian-style update is
+
+\begin{equation}
+z'=\mathcal{N}_{\mathbb{C}}\!\left[z+\Delta t\left(b_e-iH_ez-\operatorname{softplus}(\gamma_e)\odot z\right)\right]
+\end{equation}
+
+Pure Hamiltonian, pure dissipative, and hybrid variants remove terms before training while preserving injection and readout. The normalization limits numerical drift under explicit discretization; it is not an exact unitary integrator. “Hamiltonian” and “dissipative” describe parameterizations, not physical claims. A useful comparison must therefore ask whether the coherent term changes held-out behavior relative to matched controls, not whether the state has visually rotating trajectories.
+
+\subsection{Diagnostic density dynamics}
+Diagnostic Density Dynamics represents a rank-K factor L in C\textasciicircum{}(D$\times$K) and constructs
+
+\begin{equation}
+\rho=\frac{LL^{H}}{\operatorname{tr}(LL^{H})}
+\end{equation}
+
+The measured differential is diag(rho). Evidence-specific Hermitian action, damping, and injection update L before renormalization. The factorization enforces valid-state invariants, but it does not make off-diagonal coherence predictive. The experiment varies K = 1, 2, and 4. If additional relational capacity matters, rank should improve ambiguity or robustness under a matched objective. The observed rank sweep does not show that pattern.
+
+\subsection{Attractors and inference time}
+Energy-attractor models maintain a real state h and disease prototypes ad. Soft assignment q(d) is proportional to exp(--||h--ad||²/T), and the state moves toward a mixture of prototypes plus evidence force. An ACT-style head observes velocity, entropy, and the top-two margin to allocate soft weights across steps. Because the complete trajectory must be evaluated before mixing, soft expected depth is only a diagnostic.
+
+The hard follow-up maintains an active index set. At step t, a case exits when t is at least a declared minimum and normalized state velocity falls below a threshold selected on source validation data subject to accuracy and NLL tolerances. Halted cases are removed from later operator calls. The sum of per-case steps is therefore executed computation. Case-dependent reasoning would require a non-degenerate halt distribution associated with difficulty. If every example exits at the same step, the result is fixed truncation even if the code supports adaptivity.
+
+\subsection{Observables and trajectory quantities}
+The true recurrent path z0,…,zT supports diagnosis amplitudes, probabilities, entropy, state velocity, and normalized path length. For a chronology pair, state distance at matched step t measures how far reversed evidence order separates the computation. A contradiction drop is defined before analysis as an observed-negative step that lowers true-label probability by more than 0.05. Revival occurs only if a later step returns to the pre-drop probability. These operational definitions prevent visual anecdotes from becoming post hoc mechanisms.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/trajectory_signature.pdf}
+\caption{Actual complex-operator trajectories expose changes in probability, entropy, velocity, and paired-state separation across evidence. The plotted path is not a fitted explanatory projection.}
+\label{fig:trajectory_signature}
+\end{figure}
+
+Frozen linear probes test whether mechanism, localization, temporality, and context can be decoded from a final state. Complex states also admit Hermitian quadratic probes. High probe accuracy establishes accessibility to that probe family, not disentanglement, causal use, or human interpretability. Comparing probes across conventional and complex states is essential because the simulator’s factors are broadly predictive.
+
+\subsection{Statistical estimands}
+Most model-level summaries average three training seeds. Paired differences reuse the same data and initialization seeds. Unseen-world intervals first average training seeds within each world and then treat world seed as the replication unit, avoiding case-level pseudoreplication. The repository reports arithmetic means, sample standard deviations, and two-sided Student-t 95\% intervals. With three seeds, these intervals are descriptive and low-powered; the smallest two-sided exact sign-flip p-value is 0.25. Consequently, the manuscript uses “replicated within NeuroWorld” for world-level consistency and avoids population-level significance claims.
+
+The primary metrics are top-1 and top-3 accuracy, counterfactual pair accuracy, negative log-likelihood, expected calibration error, OOD AUROC, parameter count, CPU training time, process RSS, executed state count, and per-case latency. Pareto status is evaluated over several objectives rather than a single accuracy number. An architecture that improves shifted ranking while degrading calibration, ambiguity, or runtime is reported as a tradeoff, not a winner.

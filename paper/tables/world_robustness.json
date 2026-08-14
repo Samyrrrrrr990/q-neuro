@@ -1,0 +1,63 @@
+{
+  "identifier": "world_robustness",
+  "caption": "Top-1 accuracy across the preregistered unseen-world severity sweep.",
+  "columns": [
+    "Model",
+    "In-domain",
+    "Nuisance",
+    "Mild",
+    "Moderate",
+    "Severe"
+  ],
+  "rows": [
+    [
+      "MLP",
+      "0.722",
+      "0.584",
+      "0.510",
+      "0.399",
+      "0.288"
+    ],
+    [
+      "Tiny Transformer",
+      "0.910",
+      "0.747",
+      "0.632",
+      "0.491",
+      "0.359"
+    ],
+    [
+      "Tuned GRU",
+      "0.982",
+      "0.373",
+      "0.337",
+      "0.256",
+      "0.181"
+    ],
+    [
+      "Real operator",
+      "0.984",
+      "0.788",
+      "0.672",
+      "0.523",
+      "0.377"
+    ],
+    [
+      "Two-channel real",
+      "0.986",
+      "0.846",
+      "0.745",
+      "0.585",
+      "0.414"
+    ],
+    [
+      "Complex operator",
+      "0.996",
+      "0.909",
+      "0.806",
+      "0.645",
+      "0.468"
+    ]
+  ],
+  "note": "World intervals treat the unseen simulator seed as the replication unit after averaging training seeds."
+}
