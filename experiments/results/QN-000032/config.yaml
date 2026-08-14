@@ -1,0 +1,82 @@
+experiment: preregistered_mechanism_discovery_suite
+description: Outcome-ineligible causal interventions on commutation, phase, magnitude,
+  conjugation, learned dynamics, readout, explicit real mechanisms, and ambiguity-preserving
+  heads. [SMOKE PROFILE; OUTCOME-INELIGIBLE]
+profile: smoke
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H3
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+evaluation_world:
+  world_seed: 0
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+dataset:
+  train_cases: 150
+  validation_cases: 80
+  test_cases_per_world: 60
+  ambiguity_pairs: 20
+  world_seeds:
+  - 6101
+training:
+  seeds:
+  - 1103
+  epochs: 2
+  patience: 2
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  device: cpu
+models:
+  names:
+  - complex_operator
+  - commuting_operator
+  - phase_destroyed_training
+  - noncommutative_real_operator
+  - ambiguity_aware_real
+  parameter_budget: 20304
+  operator_rank: 2
+  max_sequence_length: 96
+  step_size: 0.28
+  learning_rates:
+    complex_operator:
+    - 0.001
+    commuting_operator:
+    - 0.001
+    phase_destroyed_training:
+    - 0.001
+    noncommutative_real_operator:
+    - 0.001
+    ambiguity_aware_real:
+    - 0.001
+severities:
+- 0.0
+- 1.0
+shift_seed: 41017
+shift_variants:
+  adversarial_order:
+    family: evidence_order
+    mode: adversarial
+  mnar_missingness:
+    family: missingness
+    mode: mnar_like
+  unseen_factor_combinations:
+    family: unseen_factor_combinations
+  contradiction:
+    family: contradictory_evidence
+  irreducible_ambiguity:
+    family: irreducible_ambiguity
+evaluation:
+  calibration_bins: 10
