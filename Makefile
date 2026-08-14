@@ -134,6 +134,7 @@ analyses:
 	uv run python -m research.analyses.analyze_training_laws
 	uv run python -m research.analyses.analyze_hard_halting
 	uv run python -m research.analyses.analyze_trajectories
+	uv run python -m research.analyses.analyze_falsification_phase
 
 figures:
 	uv run python -m research.figures.generate_experiment_zero
@@ -148,6 +149,7 @@ figures:
 	uv run python -m research.figures.generate_hard_halting
 	uv run python -m research.figures.generate_trajectory_signature
 	uv run python -m research.figures.generate_paper_extended
+	uv run python -m research.figures.generate_falsification_phase
 
 paper-tables:
 	uv run python paper/build_tables.py

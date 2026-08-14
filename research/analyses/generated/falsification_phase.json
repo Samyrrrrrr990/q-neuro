@@ -1,0 +1,131 @@
+{
+  "comparator_warning": "QN-000008 compares complex with two-channel real; later studies compare complex with a cellwise best-real envelope containing an exact real implementation.",
+  "final_interpretation": "The evaluated evidence falsifies an intrinsic complex-arithmetic advantage: an exact real block is functionally equivalent and stronger real controls remove the observed robustness gain. The selected quantitative law fails held-out magnitude prediction. QN-GRAND-001 remains unexecuted because mandatory readiness gates failed.",
+  "heldout_confirmation": {
+    "architecture_effect": {
+      "exceeds_practical_threshold": false,
+      "mean_complex_minus_best_real": -0.009157985999869804,
+      "positive": false
+    },
+    "best_real_winner_counts": {
+      "exact_real_block_operator": 1478,
+      "real_polar_operator": 442
+    },
+    "exact_real_equivalence": {
+      "maximum_absolute_ece_difference": 1.1920928955078125e-07,
+      "maximum_absolute_nll_difference": 3.5762786865234375e-07,
+      "maximum_absolute_top1_difference": 0.0
+    },
+    "experiment_id": "QN-000042",
+    "families": [
+      "bayesian_urn",
+      "hidden_rule_relational",
+      "machine_fault_diagnosis",
+      "network_intrusion_reasoning"
+    ],
+    "hierarchical_bootstrap": {
+      "ci_high": -0.004570204104723728,
+      "ci_low": -0.013250867711224905,
+      "confidence": 0.95,
+      "estimate": -0.009157985999869804,
+      "generator_families": 4,
+      "observations": 640,
+      "resamples": 20000,
+      "worlds": 128
+    },
+    "law_confirmation": {
+      "all_thresholds_pass": false,
+      "confirmation_n": 12,
+      "effect_sign_accuracy": 1.0,
+      "mean_absolute_error": 0.031264674238761815,
+      "r2": -30.936351721073724,
+      "threshold_checks": {
+        "mae_at_most_maximum": false,
+        "r2_at_least_minimum": false,
+        "sign_accuracy_at_least_minimum": true
+      },
+      "thresholds": {
+        "maximum_mae": 0.015,
+        "minimum_r2": 0.5,
+        "minimum_sign_accuracy": 0.8
+      }
+    },
+    "nested_effects": 1920,
+    "nested_summary": {
+      "mean": -0.009157985999869804,
+      "median": 0.0,
+      "n": 1920,
+      "probability_of_superiority": 0.0,
+      "standard_deviation": 0.023548105463035745,
+      "trimmed_mean_10pct": -0.0024848088020614036,
+      "worst_decile": -0.041666656732559204
+    },
+    "outcome_eligible": false,
+    "positive_nested_effects": 0,
+    "training_seeds": 5,
+    "world_sign_flip_pvalue_two_sided": 4.9999750001249995e-06,
+    "world_summary": {
+      "mean": -0.009157985999869804,
+      "median": -0.008055555820465087,
+      "n": 128,
+      "probability_of_superiority": 0.0,
+      "standard_deviation": 0.007361363690879325,
+      "trimmed_mean_10pct": -0.008397435798094823,
+      "worst_decile": -0.019444445073604585
+    },
+    "worlds": 128,
+    "zero_nested_effects": 1538
+  },
+  "historical_within_neuroworld": {
+    "ci_high": 0.06739965130254905,
+    "ci_low": 0.05293366263940652,
+    "comparator": "two_channel_operator",
+    "experiment_id": "QN-000008",
+    "moderate_shift_mean_difference": 0.06016665697097778
+  },
+  "mechanism_discovery": {
+    "experiment_id": "QN-000033",
+    "interpretation": "Exact real-block computation reproduces complex computation; destructive phase interventions show phase use but not uniquely complex capacity.",
+    "outcome_eligible": false
+  },
+  "outcome_category": "A_falsified_intrinsic_complex_advantage",
+  "power_pilot": {
+    "estimated_power": 1.0,
+    "experiment_id": "QN-000031",
+    "outcome_eligible": false,
+    "selected_worlds": 32,
+    "train_size_1000": {
+      "mean": -0.05519245126334431,
+      "median": -0.054528985384251064,
+      "n": 8,
+      "probability_of_superiority": 0.0,
+      "standard_deviation": 0.010049786576161244,
+      "trimmed_mean_10pct": -0.05519245126334431,
+      "worst_decile": -0.06487130236312531
+    }
+  },
+  "qn_grand_001": {
+    "blocking_failures": [
+      "complete_preregistered_real_envelope",
+      "equal_or_real_favoring_search_budgets",
+      "compute_matching_records",
+      "full_shiftgauntlet_outcome_grid",
+      "full_discovery_protocol",
+      "raw_predictions_preserved"
+    ],
+    "executed": false,
+    "sealed_benchmark_opened": false,
+    "status": "blocked_before_execution"
+  },
+  "reduced_discovery": {
+    "candidate_discovery_mae": 0.0026041648454527134,
+    "candidate_discovery_r2": 0.9487095562816686,
+    "experiment_id": "QN-000040",
+    "frozen_candidate": "quadratic",
+    "mean_nested_effect": -0.03695312475028913,
+    "nested_effects": 2880,
+    "outcome_eligible": false,
+    "positive_nested_effects": 0
+  },
+  "scope": "synthetic and nonclinical computational evidence"
+}
