@@ -1,0 +1,44 @@
+architectures:
+  logistic: {family: linear, state: none, transition: none, measurement: affine}
+  mlp: {family: feedforward, state: real, transition: none, measurement: affine}
+  complex_mlp: {family: feedforward, state: complex, transition: none, measurement: born}
+  transformer: {family: attention, state: real_sequence, transition: self_attention, measurement: affine}
+  gru: {family: recurrent, state: real, transition: gated_recurrence, measurement: affine}
+  state_space: {family: state_space, state: real, transition: diagonal_recurrence, measurement: affine}
+  hopfield: {family: associative, state: real, transition: retrieval, measurement: similarity}
+  graph_network: {family: graph, state: real_nodes, transition: message_passing, measurement: affine}
+  coupled_tensor: {family: factorized, state: real, transition: multiplicative, measurement: affine}
+  real_accumulator: {family: accumulator, state: real, transition: additive_commutative, measurement: affine}
+  complex_accumulator: {family: accumulator, state: complex, transition: additive_commutative, measurement: born}
+  real_operator: {family: operator, state: real, transition: low_rank_noncommutative, measurement: affine}
+  two_channel_operator: {family: operator, state: paired_real, transition: low_rank_noncommutative, measurement: squared_norm}
+  complex_operator: {family: operator, state: complex, transition: low_rank_noncommutative, measurement: born}
+  complex_magnitude_readout: {family: operator, state: complex, transition: low_rank_noncommutative, measurement: magnitude_only}
+  complex_no_negative: {family: operator, state: complex, transition: low_rank_noncommutative, measurement: born_no_negative}
+  energy_attractor: {family: attractor, state: real, transition: energy_descent, measurement: distance_energy}
+  adaptive_attractor: {family: attractor, state: real, transition: energy_descent_soft_act, measurement: distance_energy}
+  adaptive_attractor_hard2: {family: attractor, state: real, transition: energy_descent_fixed2, measurement: distance_energy}
+  hamiltonian: {family: dynamical, state: complex, transition: hamiltonian, measurement: born}
+  dissipative: {family: dynamical, state: complex, transition: dissipative, measurement: born}
+  hybrid_dynamics: {family: dynamical, state: complex, transition: hamiltonian_dissipative, measurement: born}
+  density_rank1: {family: density, state: density_complex_rank1, transition: hamiltonian_dissipative, measurement: diagonal}
+  density_rank2: {family: density, state: density_complex_rank2, transition: hamiltonian_dissipative, measurement: diagonal}
+  density_rank4: {family: density, state: density_complex_rank4, transition: hamiltonian_dissipative, measurement: diagonal}
+
+mutation_graph:
+  real_operator: [two_channel_operator, complex_operator]
+  complex_operator: [complex_accumulator, complex_magnitude_readout, complex_no_negative, hamiltonian]
+  energy_attractor: [adaptive_attractor, adaptive_attractor_hard2]
+  hamiltonian: [dissipative, hybrid_dynamics, density_rank2]
+  density_rank2: [density_rank1, density_rank4]
+
+training_laws:
+  adamw: backprop
+  sgd: backprop
+  gradient_accumulation: backprop_accumulated
+  multiobjective_adamw: backprop_auxiliary
+  pcgrad: projected_multitask_backprop
+  phase_gradient: phase_rotated_multitask_backprop
+  local_plasticity: transition_local
+  hybrid_local_global: local_then_backprop
+  zerobackprop: frozen_state_centroid

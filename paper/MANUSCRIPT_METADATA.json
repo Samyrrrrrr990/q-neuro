@@ -1,0 +1,30 @@
+{
+  "title": "Hypothesis-State Computing Under Causal Shift",
+  "subtitle": "A falsification-led study of complex evidence dynamics for synthetic diagnostic reasoning",
+  "author": "Samyar Shafiee",
+  "version": "Research manuscript \u00b7 v0.1.0 \u00b7 13 August 2026",
+  "scope": "Synthetic research only; no clinical validation.",
+  "source_word_count": 13299,
+  "figure_count": 20,
+  "table_count": 9,
+  "reference_count": 25,
+  "source_sha256": {
+    "abstract.md": "22b11c7be7cda3d7ee26818baf43d315b201288a2fe15f834164032bf10b7fcf",
+    "introduction.md": "1d1eee7af4749c852f19aed52e681419747ecb14c17e4039284c8141e09e538b",
+    "related_work.md": "97a1470b8d82895b47fb5dc8696554a5deaa235bfab622b18d0856b85862aac2",
+    "theory.md": "1869b42acca231fc4c4e6604dff66c5bb89d74c0c6d37a498cab5ff896bb0197",
+    "architecture.md": "83068a328193ce0a86a12a2c5602bfa5e9e33b96d65079140bd1df730f4f52b4",
+    "training.md": "d448b38048da788d928770f9843d071db8e8bbe79cefd2d13f6ad574bbf33f47",
+    "neuroworld.md": "397c70dee1337e7a91c977a33df66df02bfb73e452faeb4a28a9b4031f916433",
+    "experiments.md": "92007431fd298cae873203b89be732d6acf34fead59c2dc9ce909f4a4e5dced4",
+    "results.md": "d6afe123e0a1774197c771eacb0b78e8c9933921f10f63ad08f25ff4a3ebb124",
+    "ablations.md": "87e8610fc5578a7c8acca6c3da01439a728c7b0dfde38f7634eb1014007a93c1",
+    "interpretability.md": "c571bcd84750ea61d2b7ae6b3a0173bcfb7fa96555fc09661609d64361982437",
+    "limitations.md": "53b637696f4330bdf6584bb65fcc5536334b64039f3dacc037b1ecda503e338d",
+    "safety.md": "3cc72aaeea3592c24e7ea8f07feddb7726f8ab8229610a644ed5821c16a247e1",
+    "discussion.md": "9e399e23caa6216cb03ede796c5d0a5d942938caf7ab444b54bde4436164f2d4",
+    "conclusion.md": "0871d497c5c7e58c25ab1609abcea308610724b78c6d31a116123105af2d67cd",
+    "appendices.md": "c0018d84bf5fcdaa238ea8193e06e8f7bce12f9ddbaa7828a180be08403e577c"
+  },
+  "docx_sha256": "67503ad5ffa73264afb7a94ddf44df464f5e62da9381b52017af17ce848b19db"
+}

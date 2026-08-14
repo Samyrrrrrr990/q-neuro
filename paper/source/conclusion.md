@@ -1,0 +1,7 @@
+# Conclusion
+
+Q-Neuro tests whether an ordered complex hypothesis state is a useful computational bias for sequential synthetic diagnosis. Across a registered program of corrected baselines, unseen worlds, orthogonal tasks, eighteen dynamical laws, ablations, probes, training laws, hard execution, and trajectories, one result persists: the complex operator is more robust than the tested real and conventional controls under the declared NeuroWorld shifts, and order, phase-sensitive measurement, and negative evidence each contribute.
+
+The same evidence rejects a general superiority claim. GRU is more source-data-efficient, real operators are much better on irreducible ambiguity, source calibration does not transport, OOD separation is not unique, adaptive depth degenerates, and unconventional learning laws do not improve the frontier. Complex dynamics are a conditional tradeoff, not a universal replacement for neural networks.
+
+The scientific contribution is a reproducible way to ask the question without hiding the answer’s boundaries. Every table and figure is generated from registered artifacts; failed ideas and superseded runs remain visible; the paper, Word document, PDF, dashboard, and repository are synchronized. The next claim must come from independent causal replication, not stronger language applied to the same simulator.
