@@ -24,7 +24,11 @@ from qneuro.models.baselines import (
     TinyRNN,
     TinyTransformer,
 )
-from qneuro.models.equivalent import ExactRealBlockOperatorState
+from qneuro.models.equivalent import (
+    ExactRealBlockOperatorState,
+    RealPolarOperatorState,
+    RealRotationBlockOperator,
+)
 from qneuro.models.operators import (
     ComplexMagnitudeReadoutOperator,
     ComplexNoNegativeEvidenceOperator,
@@ -54,6 +58,8 @@ __all__ = [
     "OrthogonalRealRecurrence",
     "RealEvidenceAccumulator",
     "RealOperatorState",
+    "RealPolarOperatorState",
+    "RealRotationBlockOperator",
     "ResidualGatedRecurrent",
     "TinyGRU",
     "TinyLSTM",

@@ -162,3 +162,177 @@ class ExactRealBlockOperatorState(nn.Module):
         amplitude_real = real @ self.readout_real.T + imag @ self.readout_imag.T
         amplitude_imag = imag @ self.readout_real.T - real @ self.readout_imag.T
         return torch.log(amplitude_real.square() + amplitude_imag.square() + self.eps)
+
+
+class RealRotationBlockOperator(nn.Module):
+    """Real paired state with token-specific SO(2) blocks and affine evidence injection."""
+
+    def __init__(
+        self,
+        num_tokens: int,
+        pad_token: int,
+        pair_dim: int,
+        num_classes: int,
+        step_size: float = 0.35,
+        eps: float = 1e-8,
+    ):
+        super().__init__()
+        self.num_tokens = int(num_tokens)
+        self.pad_token = int(pad_token)
+        self.pair_dim = int(pair_dim)
+        self.state_dim = 2 * self.pair_dim
+        self.step_size = float(step_size)
+        self.eps = float(eps)
+        self.initial = nn.Parameter(torch.empty(pair_dim, 2))
+        self.injection = nn.Parameter(torch.empty(num_tokens, pair_dim, 2))
+        self.angle = nn.Parameter(torch.empty(num_tokens, pair_dim))
+        self.gate = nn.Parameter(torch.empty(num_tokens, pair_dim))
+        self.demographic_projection = nn.Linear(2, self.state_dim, bias=False)
+        self.readout = nn.Linear(self.state_dim, 2 * num_classes)
+        self.num_classes = int(num_classes)
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        nn.init.normal_(self.initial, std=0.05)
+        nn.init.normal_(self.injection, std=0.05)
+        nn.init.normal_(self.angle, std=0.08)
+        nn.init.zeros_(self.gate)
+        nn.init.xavier_uniform_(self.readout.weight)
+        nn.init.zeros_(self.readout.bias)
+
+    def _normalize(self, state: torch.Tensor) -> torch.Tensor:
+        norm = torch.linalg.vector_norm(state.flatten(1), dim=-1, keepdim=True).clamp_min(self.eps)
+        return state * (math.sqrt(self.pair_dim) / norm)[:, None]
+
+    def evolve(
+        self, tokens: torch.Tensor, mask: torch.Tensor, vector: torch.Tensor | None = None
+    ) -> torch.Tensor:
+        state = self.initial[None].expand(tokens.shape[0], -1, -1)
+        if vector is not None:
+            state = state + self.demographic_projection(vector[:, -2:]).reshape(
+                tokens.shape[0], self.pair_dim, 2
+            )
+        state = self._normalize(state)
+        for position in range(tokens.shape[1]):
+            token = tokens[:, position].clamp_max(self.num_tokens - 1)
+            theta = self.angle[token]
+            cosine, sine = torch.cos(theta), torch.sin(theta)
+            first, second = state[..., 0], state[..., 1]
+            rotated = torch.stack(
+                [cosine * first - sine * second, sine * first + cosine * second], dim=-1
+            )
+            gate = torch.sigmoid(self.gate[token])[..., None]
+            candidate = self._normalize(
+                state
+                + self.step_size * torch.tanh(gate * (rotated - state) + self.injection[token])
+            )
+            state = torch.where(mask[:, position, None, None], candidate, state)
+        return state
+
+    def encode(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        return self.evolve(tokens, mask, vector).flatten(1)
+
+    def forward(self, **batch: torch.Tensor) -> torch.Tensor:
+        amplitude = self.readout(self.encode(**batch)).reshape(-1, self.num_classes, 2)
+        return torch.log(amplitude.square().sum(dim=-1) + self.eps)
+
+
+class RealPolarOperatorState(nn.Module):
+    """Explicit real magnitude/angle state testing whether phase-like memory is sufficient."""
+
+    def __init__(
+        self,
+        num_tokens: int,
+        pad_token: int,
+        state_dim: int,
+        rank: int,
+        num_classes: int,
+        step_size: float = 0.35,
+        eps: float = 1e-8,
+    ):
+        super().__init__()
+        self.num_tokens = int(num_tokens)
+        self.pad_token = int(pad_token)
+        self.state_dim = int(state_dim)
+        self.rank = int(rank)
+        self.num_classes = int(num_classes)
+        self.step_size = float(step_size)
+        self.eps = float(eps)
+        self.initial_log_magnitude = nn.Parameter(torch.empty(state_dim))
+        self.initial_phase = nn.Parameter(torch.empty(state_dim))
+        self.radial_injection = nn.Parameter(torch.empty(num_tokens, state_dim))
+        self.phase_injection = nn.Parameter(torch.empty(num_tokens, state_dim))
+        self.radial_left = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
+        self.radial_right = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
+        self.phase_left = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
+        self.phase_right = nn.Parameter(torch.empty(num_tokens, state_dim, rank))
+        self.demographic_magnitude = nn.Parameter(torch.empty(2, state_dim))
+        self.demographic_phase = nn.Parameter(torch.empty(2, state_dim))
+        self.readout_real = nn.Parameter(torch.empty(num_classes, state_dim))
+        self.readout_imag = nn.Parameter(torch.empty(num_classes, state_dim))
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        for parameter in self.parameters():
+            nn.init.normal_(parameter, std=0.05)
+        nn.init.normal_(self.readout_real, std=1.0 / math.sqrt(self.state_dim))
+        nn.init.normal_(self.readout_imag, std=1.0 / math.sqrt(self.state_dim))
+
+    def evolve_polar(
+        self, tokens: torch.Tensor, mask: torch.Tensor, vector: torch.Tensor | None = None
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        log_magnitude = self.initial_log_magnitude[None].expand(tokens.shape[0], -1)
+        phase = self.initial_phase[None].expand(tokens.shape[0], -1)
+        if vector is not None:
+            log_magnitude = log_magnitude + vector[:, -2:] @ self.demographic_magnitude
+            phase = phase + vector[:, -2:] @ self.demographic_phase
+        for position in range(tokens.shape[1]):
+            token = tokens[:, position].clamp_max(self.num_tokens - 1)
+            radial_projection = torch.einsum("bs,bsr->br", log_magnitude, self.radial_right[token])
+            phase_projection = torch.einsum("bs,bsr->br", torch.sin(phase), self.phase_right[token])
+            radial_delta = self.radial_injection[token] + torch.einsum(
+                "bsr,br->bs", self.radial_left[token], radial_projection
+            )
+            phase_delta = self.phase_injection[token] + torch.einsum(
+                "bsr,br->bs", self.phase_left[token], phase_projection
+            )
+            candidate_magnitude = log_magnitude + self.step_size * torch.tanh(radial_delta)
+            candidate_phase = phase + math.pi * self.step_size * torch.tanh(phase_delta)
+            active = mask[:, position, None]
+            log_magnitude = torch.where(active, candidate_magnitude, log_magnitude)
+            phase = torch.where(active, candidate_phase, phase)
+        magnitude = torch.nn.functional.softplus(log_magnitude) + self.eps
+        magnitude = magnitude * (
+            math.sqrt(self.state_dim)
+            / torch.linalg.vector_norm(magnitude, dim=-1, keepdim=True).clamp_min(self.eps)
+        )
+        return magnitude, phase
+
+    def encode(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        magnitude, phase = self.evolve_polar(tokens, mask, vector)
+        return torch.cat([magnitude, torch.sin(phase), torch.cos(phase)], dim=-1)
+
+    def forward(
+        self,
+        tokens: torch.Tensor,
+        mask: torch.Tensor,
+        vector: torch.Tensor | None = None,
+        **_: torch.Tensor,
+    ) -> torch.Tensor:
+        magnitude, phase = self.evolve_polar(tokens, mask, vector)
+        real, imag = magnitude * torch.cos(phase), magnitude * torch.sin(phase)
+        amplitude_real = real @ self.readout_real.T + imag @ self.readout_imag.T
+        amplitude_imag = imag @ self.readout_real.T - real @ self.readout_imag.T
+        return torch.log(amplitude_real.square() + amplitude_imag.square() + self.eps)

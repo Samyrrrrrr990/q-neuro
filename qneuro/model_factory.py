@@ -28,6 +28,8 @@ from qneuro.models import (
     OrthogonalRealRecurrence,
     RealEvidenceAccumulator,
     RealOperatorState,
+    RealPolarOperatorState,
+    RealRotationBlockOperator,
     ResidualGatedRecurrent,
     TinyGRU,
     TinyLSTM,
@@ -234,6 +236,31 @@ def build_model(
             list(range(4, 129)),
             parameter_budget,
         )
+    elif name == "real_polar_operator":
+        model, width = _nearest_width(
+            lambda value: RealPolarOperatorState(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                rank,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 129)),
+            parameter_budget,
+        )
+    elif name == "real_rotation_block_operator":
+        model, width = _nearest_width(
+            lambda value: RealRotationBlockOperator(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 257)),
+            parameter_budget,
+        )
     elif name in {"complex_magnitude_readout", "complex_no_negative"}:
         model_class = (
             ComplexMagnitudeReadoutOperator
@@ -252,7 +279,7 @@ def build_model(
             list(range(4, 129)),
             parameter_budget,
         )
-    elif name == "two_channel_operator":
+    elif name in {"two_channel_operator", "unrestricted_paired_real_operator"}:
         model, width = _nearest_width(
             lambda value: TwoChannelRealOperatorState(
                 NeuroWorld.num_tokens,
@@ -262,7 +289,7 @@ def build_model(
                 NeuroWorld.num_diagnoses,
                 step_size,
             ),
-            list(range(4, 257)),
+            list(range(4, 257)) if name == "two_channel_operator" else list(range(4, 257, 2)),
             parameter_budget,
         )
     elif name in {"energy_attractor", "adaptive_attractor"}:
