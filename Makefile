@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -69,6 +69,10 @@ discovery:
 simulator-red-team:
 	uv run python -m experiments.run_simulator_red_team \
 		--config experiments/configs/simulator_red_team_v2.yaml
+
+shift-gauntlet:
+	uv run python -m experiments.run_shift_gauntlet \
+		--config experiments/configs/shift_gauntlet.yaml
 
 dashboard:
 	uv run python scripts/build_dashboard_data.py
