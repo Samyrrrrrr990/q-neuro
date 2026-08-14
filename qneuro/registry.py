@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
@@ -143,6 +144,35 @@ class ExperimentRegistry:
             )
         return experiment_id, result_directory
 
+    def reserve_named(
+        self, experiment_id: str, config: dict[str, Any], result_root: Path
+    ) -> tuple[str, Path]:
+        """Reserve a preregistered named experiment without permitting arbitrary identifiers."""
+
+        if re.fullmatch(r"QN-GRAND-\d{3}", experiment_id) is None:
+            raise ValueError("named experiment IDs must match QN-GRAND-NNN")
+        result_directory = result_root / experiment_id
+        if result_directory.exists():
+            raise FileExistsError(f"refusing to overwrite {result_directory}")
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO experiments(experiment_id, created_at, status, config_json, "
+                "result_directory) VALUES(?,?,?,?,?)",
+                (
+                    experiment_id,
+                    datetime.now(UTC).isoformat(),
+                    "running",
+                    json.dumps(config, sort_keys=True),
+                    str(result_directory),
+                ),
+            )
+            connection.execute(
+                "INSERT INTO experiment_provenance VALUES(?,?,?,?,?)",
+                (experiment_id, canonical_sha256(config), None, None, "[]"),
+            )
+        result_directory.mkdir(parents=True)
+        return experiment_id, result_directory
+
     def complete(
         self,
         experiment_id: str,
@@ -181,6 +211,31 @@ class ExperimentRegistry:
         with self._connect() as connection:
             connection.execute(
                 "UPDATE experiments SET status=? WHERE experiment_id=?", ("failed", experiment_id)
+            )
+
+    def block(self, experiment_id: str, artifacts: list[tuple[str, Path]]) -> None:
+        """Record immutable preflight artifacts for a study blocked before outcome access."""
+
+        with self._connect() as connection:
+            repository_root = self.path.resolve().parents[1]
+            for kind, path in artifacts:
+                record = artifact_record(path, repository_root)
+                connection.execute(
+                    "INSERT INTO artifacts(experiment_id, kind, path) VALUES(?,?,?)",
+                    (experiment_id, kind, record["path"]),
+                )
+                connection.execute(
+                    "INSERT INTO artifact_digests VALUES(?,?,?,?,?)",
+                    (
+                        experiment_id,
+                        kind,
+                        record["path"],
+                        record["size_bytes"],
+                        record["sha256"],
+                    ),
+                )
+            connection.execute(
+                "UPDATE experiments SET status=? WHERE experiment_id=?", ("blocked", experiment_id)
             )
 
     def register_hypothesis(

@@ -70,3 +70,26 @@ def test_registry_tracks_research_entities_and_ranked_metrics(tmp_path) -> None:
             {},
             "complete",
         )
+
+
+def test_registry_named_grand_experiment_can_be_blocked(tmp_path) -> None:
+    registry = ExperimentRegistry(tmp_path / "experiments" / "registry.sqlite3")
+    experiment_id, result_directory = registry.reserve_named(
+        "QN-GRAND-001", {"stage": "preflight"}, tmp_path / "experiments" / "results"
+    )
+    artifact = result_directory / "preflight.json"
+    artifact.write_text('{"passed": false}\n')
+    registry.block(experiment_id, [("preflight", artifact)])
+    with sqlite3.connect(registry.path) as connection:
+        status = connection.execute(
+            "SELECT status FROM experiments WHERE experiment_id=?", (experiment_id,)
+        ).fetchone()[0]
+    assert status == "blocked"
+    with pytest.raises(FileExistsError):
+        registry.reserve_named(
+            "QN-GRAND-001", {"stage": "preflight"}, tmp_path / "experiments" / "results"
+        )
+    with pytest.raises(ValueError, match="QN-GRAND"):
+        registry.reserve_named(
+            "arbitrary", {"stage": "preflight"}, tmp_path / "experiments" / "results"
+        )
