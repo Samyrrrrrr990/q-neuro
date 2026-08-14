@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe analyses figures
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery dashboard analyses figures
 
 sync:
 	uv sync --extra dev
@@ -65,6 +65,9 @@ trajectories:
 discovery:
 	uv run python -m experiments.run_discovery_engine \
 		--config experiments/configs/discovery_engine.yaml
+
+dashboard:
+	uv run python scripts/build_dashboard_data.py
 
 analyses:
 	uv run python -m research.analyses.analyze_generator_shift

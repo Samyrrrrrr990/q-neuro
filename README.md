@@ -100,6 +100,12 @@ recommendations are a fixed two-state attractor control and an ambiguity-aware c
 measurement. Generated rankings are decision support, not evidence of autonomous scientific
 discovery.
 
+The static [`dashboard`](dashboard/index.html) turns the same versioned artifacts into an
+interactive evidence audit. It includes the safety boundary, unseen-world robustness curve,
+context-specific Pareto field, expandable claim ledger, failed-idea register, and falsifiable
+next-study queue. Rebuild its payload with `make dashboard`; charts, candidates, claims, failures,
+and proposals are generated from versioned research artifacts.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -133,6 +139,7 @@ uv run python -m experiments.run_experiment_zero \
 make neuro-task-suite
 make analyses figures
 make discovery
+make dashboard
 ```
 
 Run artifacts are written to a never-overwritten `experiments/results/QN-XXXXXX/` directory and
