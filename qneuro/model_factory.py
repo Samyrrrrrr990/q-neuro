@@ -8,12 +8,14 @@ from torch import nn
 
 from neuroworld import NeuroWorld
 from qneuro.models import (
+    CausalTransformer,
     ComplexEvidenceAccumulator,
     ComplexEvidenceMLP,
     ComplexMagnitudeReadoutOperator,
     ComplexNoNegativeEvidenceOperator,
     ComplexOperatorState,
     CoupledTensorState,
+    DenseRealMatrixRecurrence,
     DiagnosticDensityDynamics,
     DiagonalStateSpace,
     EnergyAttractorState,
@@ -23,9 +25,13 @@ from qneuro.models import (
     HamiltonianDissipativeState,
     LogisticEvidence,
     ModernHopfieldMemory,
+    OrthogonalRealRecurrence,
     RealEvidenceAccumulator,
     RealOperatorState,
+    ResidualGatedRecurrent,
     TinyGRU,
+    TinyLSTM,
+    TinyRNN,
     TinyTransformer,
     TwoChannelRealOperatorState,
 )
@@ -98,6 +104,18 @@ def build_model(
             list(range(8, 129, 4)),
             parameter_budget,
         )
+    elif name == "causal_transformer":
+        model, width = _nearest_width(
+            lambda value: CausalTransformer(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                NeuroWorld.num_diagnoses,
+                value,
+                max_length,
+            ),
+            list(range(8, 129, 4)),
+            parameter_budget,
+        )
     elif name == "gru":
         model, width = _nearest_width(
             lambda value: TinyGRU(
@@ -108,6 +126,45 @@ def build_model(
                 embedding_dim=max(8, value // 2),
             ),
             list(range(8, 193)),
+            parameter_budget,
+        )
+    elif name in {"vanilla_rnn", "lstm", "residual_gated_recurrence"}:
+        model_class = {
+            "vanilla_rnn": TinyRNN,
+            "lstm": TinyLSTM,
+            "residual_gated_recurrence": ResidualGatedRecurrent,
+        }[name]
+        model, width = _nearest_width(
+            lambda value: model_class(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                NeuroWorld.num_diagnoses,
+                hidden_dim=value,
+                embedding_dim=max(8, value // 2),
+            ),
+            list(range(8, 257)),
+            parameter_budget,
+        )
+    elif name == "dense_real_recurrence":
+        model, width = _nearest_width(
+            lambda value: DenseRealMatrixRecurrence(
+                NeuroWorld.num_tokens,
+                NeuroWorld.num_diagnoses,
+                value,
+                step_size,
+            ),
+            list(range(4, 65)),
+            parameter_budget,
+        )
+    elif name == "orthogonal_real_recurrence":
+        model, width = _nearest_width(
+            lambda value: OrthogonalRealRecurrence(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                NeuroWorld.num_diagnoses,
+                value,
+            ),
+            list(range(4, 257)),
             parameter_budget,
         )
     elif name == "state_space":

@@ -13,7 +13,17 @@ from qneuro.models.advanced import (
     ModernHopfieldMemory,
     RealEvidenceAccumulator,
 )
-from qneuro.models.baselines import EvidenceMLP, TinyGRU, TinyTransformer
+from qneuro.models.baselines import (
+    CausalTransformer,
+    DenseRealMatrixRecurrence,
+    EvidenceMLP,
+    OrthogonalRealRecurrence,
+    ResidualGatedRecurrent,
+    TinyGRU,
+    TinyLSTM,
+    TinyRNN,
+    TinyTransformer,
+)
 from qneuro.models.equivalent import ExactRealBlockOperatorState
 from qneuro.models.operators import (
     ComplexMagnitudeReadoutOperator,
@@ -24,12 +34,14 @@ from qneuro.models.operators import (
 )
 
 __all__ = [
+    "CausalTransformer",
     "ComplexEvidenceAccumulator",
     "ComplexEvidenceMLP",
     "ComplexMagnitudeReadoutOperator",
     "ComplexNoNegativeEvidenceOperator",
     "ComplexOperatorState",
     "CoupledTensorState",
+    "DenseRealMatrixRecurrence",
     "DiagnosticDensityDynamics",
     "DiagonalStateSpace",
     "EnergyAttractorState",
@@ -39,9 +51,13 @@ __all__ = [
     "HamiltonianDissipativeState",
     "LogisticEvidence",
     "ModernHopfieldMemory",
+    "OrthogonalRealRecurrence",
     "RealEvidenceAccumulator",
     "RealOperatorState",
+    "ResidualGatedRecurrent",
     "TinyGRU",
+    "TinyLSTM",
+    "TinyRNN",
     "TinyTransformer",
     "TwoChannelRealOperatorState",
 ]

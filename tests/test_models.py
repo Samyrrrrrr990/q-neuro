@@ -19,7 +19,13 @@ def test_parameter_budget_matching() -> None:
     for name in (
         "mlp",
         "transformer",
+        "causal_transformer",
         "gru",
+        "vanilla_rnn",
+        "lstm",
+        "residual_gated_recurrence",
+        "dense_real_recurrence",
+        "orthogonal_real_recurrence",
         "real_operator",
         "two_channel_operator",
         "complex_operator",
