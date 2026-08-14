@@ -1243,77 +1243,77 @@ window.QNEURO_DATA = {
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000007",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000008",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000009",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000010",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000011",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000012",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000013",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000014",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000015",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000016",
       "status": "complete"
     },
     {
-      "artifact_count": 5,
+      "artifact_count": 4,
       "id": "QN-000017",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000018",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000019",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000020",
       "status": "complete"
     },
     {
-      "artifact_count": 4,
+      "artifact_count": 3,
       "id": "QN-000021",
       "status": "complete"
     },
