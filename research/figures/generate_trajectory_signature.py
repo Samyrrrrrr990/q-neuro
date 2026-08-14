@@ -19,9 +19,10 @@ def latest_result() -> Path:
     candidates: list[tuple[int, Path]] = []
     for config_path in (ROOT / "experiments" / "results").glob("QN-*/config.yaml"):
         config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-        if config.get("experiment") == "complex_state_trajectory_study" and (
-            config_path.parent / "metrics.json"
-        ).exists():
+        if (
+            config.get("experiment") == "complex_state_trajectory_study"
+            and (config_path.parent / "metrics.json").exists()
+        ):
             candidates.append((int(config_path.parent.name.split("-")[1]), config_path.parent))
     if not candidates:
         raise FileNotFoundError("no completed trajectory study found")
@@ -77,10 +78,14 @@ def main() -> None:
     image = axes[0, 0].imshow(probabilities.T, aspect="auto", cmap="magma", vmin=0.0, vmax=1.0)
     axes[0, 0].set_yticks(np.arange(20), [f"D{value:02d}" for value in range(20)])
     tick_positions = np.arange(0, len(token_labels), 2)
-    axes[0, 0].set_xticks(tick_positions, [token_labels[value] for value in tick_positions], rotation=70)
+    axes[0, 0].set_xticks(
+        tick_positions, [token_labels[value] for value in tick_positions], rotation=70
+    )
     axes[0, 0].set_xlabel("Observed evidence step (+ present, − observed absent)")
     axes[0, 0].set_ylabel("Diagnostic hypothesis")
-    axes[0, 0].set_title("A  Hypothesis intensity evolves with evidence", loc="left", fontweight="bold")
+    axes[0, 0].set_title(
+        "A  Hypothesis intensity evolves with evidence", loc="left", fontweight="bold"
+    )
     figure.colorbar(image, ax=axes[0, 0], label="Measured probability", fraction=0.046)
 
     top_diagnoses = np.argsort(probabilities[-1])[-5:][::-1]
@@ -90,12 +95,19 @@ def main() -> None:
         axes[0, 1].plot(path.real, path.imag, color=color, alpha=0.85, linewidth=1.2)
         axes[0, 1].scatter(path.real, path.imag, color=color, s=8, alpha=0.65)
         axes[0, 1].scatter(path.real[-1], path.imag[-1], color=color, s=45, marker="*")
-        axes[0, 1].annotate(f"D{diagnosis:02d}", (path.real[-1], path.imag[-1]), xytext=(3, 2), textcoords="offset points")
+        axes[0, 1].annotate(
+            f"D{diagnosis:02d}",
+            (path.real[-1], path.imag[-1]),
+            xytext=(3, 2),
+            textcoords="offset points",
+        )
     axes[0, 1].axhline(0.0, color="#BBBBBB", linewidth=0.6)
     axes[0, 1].axvline(0.0, color="#BBBBBB", linewidth=0.6)
     axes[0, 1].set_xlabel("Real hypothesis amplitude")
     axes[0, 1].set_ylabel("Imaginary hypothesis amplitude")
-    axes[0, 1].set_title("B  Top hypotheses trace complex-plane paths", loc="left", fontweight="bold")
+    axes[0, 1].set_title(
+        "B  Top hypotheses trace complex-plane paths", loc="left", fontweight="bold"
+    )
 
     steps = np.arange(probabilities.shape[0])
     entropy = np.asarray(case["entropy"]) / np.log(20.0)
@@ -112,22 +124,42 @@ def main() -> None:
     axes[1, 0].set_ylim(0, 1.03)
     axes[1, 0].set_xlabel("Evidence step")
     axes[1, 0].set_ylabel("Probability / normalized diagnostic")
-    axes[1, 0].set_title("C  Confidence, entropy, and motion are visible", loc="left", fontweight="bold")
+    axes[1, 0].set_title(
+        "C  Confidence, entropy, and motion are visible", loc="left", fontweight="bold"
+    )
     axes[1, 0].legend(frameon=False, fontsize=7)
 
     first = np.asarray(pair["first_probabilities"])
     second = np.asarray(pair["second_probabilities"])
     label_a, label_b = [int(value) for value in pair["labels"]]
     pair_steps = np.arange(first.shape[0])
-    axes[1, 1].plot(pair_steps, first[:, label_a], color="#315A7D", label=f"AB case → D{label_a:02d}")
-    axes[1, 1].plot(pair_steps, first[:, label_b], color="#D05A2D", label=f"AB case → D{label_b:02d}")
-    axes[1, 1].plot(pair_steps, second[:, label_a], color="#315A7D", linestyle="--", label=f"BA case → D{label_a:02d}")
-    axes[1, 1].plot(pair_steps, second[:, label_b], color="#D05A2D", linestyle="--", label=f"BA case → D{label_b:02d}")
+    axes[1, 1].plot(
+        pair_steps, first[:, label_a], color="#315A7D", label=f"AB case → D{label_a:02d}"
+    )
+    axes[1, 1].plot(
+        pair_steps, first[:, label_b], color="#D05A2D", label=f"AB case → D{label_b:02d}"
+    )
+    axes[1, 1].plot(
+        pair_steps,
+        second[:, label_a],
+        color="#315A7D",
+        linestyle="--",
+        label=f"BA case → D{label_a:02d}",
+    )
+    axes[1, 1].plot(
+        pair_steps,
+        second[:, label_b],
+        color="#D05A2D",
+        linestyle="--",
+        label=f"BA case → D{label_b:02d}",
+    )
     axes[1, 1].set_xlim(0, pair_steps[-1])
     axes[1, 1].set_ylim(0, 1.03)
     axes[1, 1].set_xlabel("Evidence step")
     axes[1, 1].set_ylabel("Twin-hypothesis probability")
-    axes[1, 1].set_title("D  Reversing marker order bifurcates diagnosis", loc="left", fontweight="bold")
+    axes[1, 1].set_title(
+        "D  Reversing marker order bifurcates diagnosis", loc="left", fontweight="bold"
+    )
     axes[1, 1].legend(frameon=False, fontsize=7, ncols=2)
     for axis in axes.flat[1:]:
         axis.grid(True, color="#DADADA", linewidth=0.6, alpha=0.8)

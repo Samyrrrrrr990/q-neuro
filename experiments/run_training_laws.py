@@ -61,9 +61,7 @@ def _clone_state(model: nn.Module) -> dict[str, torch.Tensor]:
 
 def _mean_diagnostics(values: list[dict[str, float]]) -> dict[str, float]:
     keys = sorted({key for value in values for key in value})
-    return {
-        key: float(np.mean([value[key] for value in values if key in value])) for key in keys
-    }
+    return {key: float(np.mean([value[key] for value in values if key in value])) for key in keys}
 
 
 def _train_global(
@@ -80,9 +78,7 @@ def _train_global(
     accumulation_steps = int(method_config.get("accumulation_steps", 1))
     batch_size = int(training["batch_size"]) // accumulation_steps
     train_loader = make_loader(train_cases, batch_size, True, seed)
-    validation_loader = make_loader(
-        validation_cases, int(training["batch_size"]), False, seed
-    )
+    validation_loader = make_loader(validation_cases, int(training["batch_size"]), False, seed)
     auxiliary = method in {"multiobjective_adamw", "pcgrad", "phase_gradient"}
     training_model: nn.Module = AuxiliaryTrainingModel(base) if auxiliary else base
     training_model.to(device)
@@ -205,9 +201,7 @@ def _train_local_or_hybrid(
     method_config = config["methods"][method]
     train_loader = make_loader(train_cases, int(training["batch_size"]), True, seed)
     centroid_loader = make_loader(train_cases, int(training["batch_size"]), False, seed)
-    validation_loader = make_loader(
-        validation_cases, int(training["batch_size"]), False, seed
-    )
+    validation_loader = make_loader(validation_cases, int(training["batch_size"]), False, seed)
     base.to(device)
     process = psutil.Process(os.getpid())
     starting_rss = process.memory_info().rss
@@ -395,9 +389,7 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                     )
                     ambiguity_outputs = collect_outputs(
                         model,
-                        make_loader(
-                            ambiguity_cases, int(training["batch_size"]), False, seed
-                        ),
+                        make_loader(ambiguity_cases, int(training["batch_size"]), False, seed),
                         device,
                         seed=seed,
                     )
@@ -414,9 +406,7 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                                 resources["peak_rss_delta_bytes"] / 1024**3
                             ),
                             "backward_passes": float(resources["backward_passes"]),
-                            "autograd_gradient_calls": float(
-                                resources["autograd_gradient_calls"]
-                            ),
+                            "autograd_gradient_calls": float(resources["autograd_gradient_calls"]),
                             "optimizer_steps": float(resources["optimizer_steps"]),
                             "deploy_parameter_count": float(metadata["parameter_count"]),
                             "training_parameter_count": float(
@@ -451,9 +441,7 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                         )
                         records[(method, train_size, f"world_{world_seed}")].append(metrics)
                         shifted_metrics[str(world_seed)] = metrics
-                    checkpoint_path = (
-                        checkpoint_directory / f"{method}_n{train_size}_seed{seed}.pt"
-                    )
+                    checkpoint_path = checkpoint_directory / f"{method}_n{train_size}_seed{seed}.pt"
                     torch.save(
                         {
                             "model_state_dict": _clone_state(model),
@@ -498,9 +486,7 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                 }
                 across_worlds: dict[str, Any] = {}
                 metric_names = sorted(
-                    set.intersection(
-                        *(set(values) for values in worlds.values())
-                    )
+                    set.intersection(*(set(values) for values in worlds.values()))
                 )
                 for metric_name in metric_names:
                     world_means = [worlds[str(seed)][metric_name]["mean"] for seed in shifted_sets]
@@ -508,9 +494,7 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                         [{metric_name: value} for value in world_means]
                     )[metric_name]
                 summary[method][str(train_size)] = {
-                    "in_domain": aggregate_seed_metrics(
-                        records[(method, train_size, "in_domain")]
-                    ),
+                    "in_domain": aggregate_seed_metrics(records[(method, train_size, "in_domain")]),
                     "shifted": {"by_world": worlds, "across_worlds": across_worlds},
                 }
         results = {

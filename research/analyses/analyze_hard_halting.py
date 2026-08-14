@@ -73,8 +73,7 @@ def main() -> None:
             baseline_worlds = result["summary"][baseline]["shifted"]["by_world"]
             comparisons[baseline]["shifted"][metric] = summarize(
                 [
-                    hard_worlds[world][metric]["mean"]
-                    - baseline_worlds[world][metric]["mean"]
+                    hard_worlds[world][metric]["mean"] - baseline_worlds[world][metric]["mean"]
                     for world in hard_worlds
                 ]
             )
@@ -93,16 +92,14 @@ def main() -> None:
         "latency_ratio_hard_over_baseline": {
             key: summarize(values) for key, values in latency_ratios.items()
         },
-        "selected_thresholds": [
-            run["selected_velocity_threshold"] for run in result["runs"]
-        ],
+        "selected_thresholds": [run["selected_velocity_threshold"] for run in result["runs"]],
         "validation_constraints_all_satisfied": all(
             run["validation_constraint_satisfied"] for run in result["runs"]
         ),
         "hard_halt_distribution": {
-            f"step_{step}": result["summary"]["hard"]["in_domain"][
-                f"halt_fraction_step_{step}"
-            ]["mean"]
+            f"step_{step}": result["summary"]["hard"]["in_domain"][f"halt_fraction_step_{step}"][
+                "mean"
+            ]
             for step in range(1, 9)
         },
         "interpretation_guardrail": (

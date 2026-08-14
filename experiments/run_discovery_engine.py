@@ -235,10 +235,30 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
                 genome,
             )
         for source, replication, relationship, notes in (
-            ("QN-000003", "QN-000006", "stronger-control replication", "Added GRU and paired-real control."),
-            ("QN-000006", "QN-000008", "multi-world confirmation", "Five held-out worlds across four severities."),
-            ("QN-000014", "QN-000016", "mechanism ablation", "Retrained phase, order, negative-evidence, and density-rank ablations."),
-            ("QN-000014", "QN-000019", "representation follow-up", "Frozen hierarchical observable probes."),
+            (
+                "QN-000003",
+                "QN-000006",
+                "stronger-control replication",
+                "Added GRU and paired-real control.",
+            ),
+            (
+                "QN-000006",
+                "QN-000008",
+                "multi-world confirmation",
+                "Five held-out worlds across four severities.",
+            ),
+            (
+                "QN-000014",
+                "QN-000016",
+                "mechanism ablation",
+                "Retrained phase, order, negative-evidence, and density-rank ablations.",
+            ),
+            (
+                "QN-000014",
+                "QN-000019",
+                "representation follow-up",
+                "Frozen hierarchical observable probes.",
+            ),
             ("QN-000014", "QN-000023", "compute follow-up", "Realized velocity-based hard exit."),
             ("QN-000014", "QN-000025", "trajectory follow-up", "Evidence-level state audit."),
         ):

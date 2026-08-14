@@ -144,9 +144,7 @@ def velocity_candidates(
     values: list[torch.Tensor] = []
     for raw_batch in make_loader(cases, batch_size, False, 0):
         batch = to_device(raw_batch, device)
-        diagnostics = model.trajectory_diagnostics(
-            batch["tokens"], batch["mask"], batch["vector"]
-        )
+        diagnostics = model.trajectory_diagnostics(batch["tokens"], batch["mask"], batch["vector"])
         values.append(diagnostics["velocity"][:, 1:].flatten().cpu())
     velocities = torch.cat(values)
     candidates = {-1.0}
@@ -246,7 +244,9 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
             json.dumps(environment, indent=2, sort_keys=True), encoding="utf-8"
         )
         source_directory = ROOT / "experiments" / "results" / config["source_experiment"]
-        source_config = yaml.safe_load((source_directory / "config.yaml").read_text(encoding="utf-8"))
+        source_config = yaml.safe_load(
+            (source_directory / "config.yaml").read_text(encoding="utf-8")
+        )
         dataset = source_config["dataset"]
         training = source_config["training"]
         train_world = build_world(source_config["train_world"])
@@ -427,7 +427,10 @@ def run(config: dict[str, Any]) -> tuple[str, Path, dict[str, Any]]:
         metrics_path.write_text(json.dumps(results, indent=2, sort_keys=True), encoding="utf-8")
         registry.complete(
             experiment_id,
-            {f"{mode}@shifted": values["shifted"]["across_worlds"] for mode, values in summary.items()},
+            {
+                f"{mode}@shifted": values["shifted"]["across_worlds"]
+                for mode, values in summary.items()
+            },
             [
                 ("configuration", result_directory / "config.yaml"),
                 ("environment", result_directory / "environment.json"),
