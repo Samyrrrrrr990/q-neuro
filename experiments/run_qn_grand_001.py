@@ -189,6 +189,9 @@ def build_preflight(config: dict[str, Any]) -> dict[str, Any]:
 
 def run(config: dict[str, Any]) -> tuple[Path, dict[str, Any]]:
     require_clean_worktree(ROOT)
+    source_environment = environment_record(
+        ROOT, command=[sys.executable, "-m", "experiments.run_qn_grand_001"]
+    )
     registry = ExperimentRegistry(ROOT / "experiments" / "registry.sqlite3")
     preregistration_document = str(config["preregistration_document"])
     registry.register_preregistration(
@@ -218,9 +221,7 @@ def run(config: dict[str, Any]) -> tuple[Path, dict[str, Any]]:
     config_path.write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
     environment_path.write_text(
         json.dumps(
-            environment_record(
-                ROOT, command=[sys.executable, "-m", "experiments.run_qn_grand_001"]
-            ),
+            source_environment,
             indent=2,
             sort_keys=True,
         )
