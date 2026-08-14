@@ -1,0 +1,43 @@
+{
+  "identifier": "hard_halting",
+  "caption": "Hard-halting audit of executed states and measured inference latency.",
+  "columns": [
+    "Inference law",
+    "ID top-1",
+    "Shift top-1",
+    "Shift NLL",
+    "Shift ECE",
+    "States",
+    "ms/case"
+  ],
+  "rows": [
+    [
+      "Soft ACT",
+      "0.724",
+      "0.431",
+      "2.518",
+      "0.330",
+      "8.00",
+      "0.0171"
+    ],
+    [
+      "Fixed eight states",
+      "0.722",
+      "0.431",
+      "2.965",
+      "0.396",
+      "8.00",
+      "0.0130"
+    ],
+    [
+      "Hard velocity exit",
+      "0.722",
+      "0.432",
+      "2.127",
+      "0.172",
+      "2.00",
+      "0.0035"
+    ]
+  ],
+  "note": "The hard exit removes halted examples from subsequent computation; it selected two states for every case."
+}

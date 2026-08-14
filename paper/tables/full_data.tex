@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Corrected full-data Experiment Zero comparison.}
+\label{tab:full_data}
+\begin{tabular}{lrrrrrr}
+\toprule
+Model & Parameters & Top-1 & Order pairs & NLL & ECE & Train s \\
+\midrule
+MLP & 20,002 & 0.752 & 0.000 & 0.437 & 0.037 & 1.07 \\
+Tiny Transformer & 18,980 & 0.995 & 1.000 & 0.017 & 0.003 & 12.69 \\
+Real operator & 19,901 & 0.999 & 1.000 & 0.003 & 0.002 & 14.65 \\
+Complex operator & 20,304 & 1.000 & 1.000 & 0.035 & 0.033 & 24.47 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\linewidth}\footnotesize Four matched models, 14,000 training cases, 3,000 validation cases, 3,000 test cases, and three seeds.\end{minipage}
+\end{table}

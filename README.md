@@ -1,5 +1,9 @@
 # Q-Neuro
 
+[![CI](https://github.com/Samyrrrrrr990/q-neuro/actions/workflows/ci.yml/badge.svg)](https://github.com/Samyrrrrrr990/q-neuro/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2E74B5.svg)](LICENSE)
+[![Research: synthetic only](https://img.shields.io/badge/research-synthetic%20only-148F88.svg)](docs/MODEL_CARD.md)
+
 Q-Neuro is a computational research project testing whether ordered evidence can act on an
 evolving diagnostic hypothesis state more effectively than conventional fixed-vector
 classification. Its first controlled study compares an MLP with real- and complex-valued
@@ -23,6 +27,23 @@ flowchart LR
 > **RESEARCH PROTOTYPE — NOT FOR CLINICAL USE.** All initial cases are synthetic. Outputs are
 > experimental measurements, not medical advice.
 
+## Publication package
+
+The complete manuscript, **Hypothesis-State Computing Under Causal Shift**, is available as
+[Word](paper/qneuro.docx), [PDF](paper/qneuro.pdf), and modular [LaTeX](paper/main.tex). Its 20
+figures and nine tables are generated from registered experiment artifacts rather than transcribed
+by hand. The canonical prose, build details, and artifact map are documented in
+[`paper/README.md`](paper/README.md).
+
+```bash
+make reproduce-paper  # tests, lint, dashboard, figures, tables, DOCX, and PDF
+make latex            # compile main.tex when latexmk is installed
+```
+
+The manuscript is structurally complete but has not undergone peer review, clinician review,
+independent statistical audit, or external replication. “Publication package” does not mean
+clinical validation or journal acceptance.
+
 ## Current milestone
 
 - Foundational research questions and mathematical definitions
@@ -33,6 +54,7 @@ flowchart LR
 - An auditable discovery engine that ranks context-specific Pareto fronts, flags metric tensions,
   and emits falsifiable next-experiment proposals
 - Mathematical-invariant, generator-validity, task-construction, and evaluation tests
+- A synchronized 54-page Word/PDF manuscript, modular LaTeX source, and release artifact set
 
 ## Current evidence
 

@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery dashboard analyses figures
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -93,3 +93,28 @@ figures:
 	uv run python -m research.figures.generate_hard_halting
 	uv run python -m research.figures.generate_trajectory_signature
 	uv run python -m research.figures.generate_paper_extended
+
+paper-tables:
+	uv run python paper/build_tables.py
+
+paper-source: paper-tables
+	uv run --extra paper python paper/build_manuscript.py
+
+latex: paper-source
+	@if command -v latexmk >/dev/null 2>&1; then \
+		(cd paper && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex && mv main.pdf qneuro.pdf); \
+	else \
+		echo "latexmk is not installed; modular LaTeX source was generated and DOCX rendering supplies qneuro.pdf."; \
+	fi
+
+paper: figures paper-source
+	@command -v soffice >/dev/null 2>&1 || { echo "LibreOffice (soffice) is required to render qneuro.pdf"; exit 1; }
+	@mkdir -p paper/rendered
+	soffice --headless --convert-to pdf --outdir paper/rendered paper/qneuro.docx
+
+paper-release: figures paper-source
+	@command -v soffice >/dev/null 2>&1 || { echo "LibreOffice (soffice) is required to render qneuro.pdf"; exit 1; }
+	soffice --headless --convert-to pdf --outdir paper paper/qneuro.docx
+
+reproduce-paper: test lint dashboard figures paper
+	@echo "Rebuilt tests, dashboard data, figures, tables, LaTeX, DOCX, and an ignored verification PDF from locked sources."

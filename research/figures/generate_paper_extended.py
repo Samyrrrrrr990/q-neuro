@@ -40,7 +40,12 @@ def metric(container: dict, name: str) -> float:
 def save(figure: plt.Figure, name: str) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     figure.savefig(OUT / f"{name}.png", dpi=220, bbox_inches="tight", facecolor="white")
-    figure.savefig(OUT / f"{name}.pdf", bbox_inches="tight", facecolor="white")
+    figure.savefig(
+        OUT / f"{name}.pdf",
+        bbox_inches="tight",
+        facecolor="white",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

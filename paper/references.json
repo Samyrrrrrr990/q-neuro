@@ -1,0 +1,127 @@
+[
+  {
+    "key": "trabelsi2018",
+    "text": "Trabelsi, C. et al. Deep complex networks. International Conference on Learning Representations (2018).",
+    "bibtex": "@inproceedings{trabelsi2018, title={Deep Complex Networks}, author={Trabelsi, Chiheb and others}, booktitle={International Conference on Learning Representations}, year={2018}, url={https://openreview.net/forum?id=H1T2hmZAb}}"
+  },
+  {
+    "key": "arjovsky2016",
+    "text": "Arjovsky, M., Shah, A. & Bengio, Y. Unitary evolution recurrent neural networks. Proceedings of ICML 48, 1120–1128 (2016).",
+    "bibtex": "@inproceedings{arjovsky2016, title={Unitary Evolution Recurrent Neural Networks}, author={Arjovsky, Martin and Shah, Amar and Bengio, Yoshua}, booktitle={Proceedings of the 33rd International Conference on Machine Learning}, volume={48}, pages={1120--1128}, year={2016}}"
+  },
+  {
+    "key": "jing2017",
+    "text": "Jing, L. et al. Tunable efficient unitary neural networks. Proceedings of ICML 70, 1733–1741 (2017).",
+    "bibtex": "@inproceedings{jing2017, title={Tunable Efficient Unitary Neural Networks}, author={Jing, Li and others}, booktitle={Proceedings of the 34th International Conference on Machine Learning}, volume={70}, pages={1733--1741}, year={2017}}"
+  },
+  {
+    "key": "helfrich2018",
+    "text": "Helfrich, K., Willmott, D. & Ye, Q. Orthogonal recurrent neural networks with scaled Cayley transform. Proceedings of ICML 80, 1969–1978 (2018).",
+    "bibtex": "@inproceedings{helfrich2018, title={Orthogonal Recurrent Neural Networks with Scaled Cayley Transform}, author={Helfrich, Kyle and Willmott, Devin and Ye, Qiang}, booktitle={Proceedings of the 35th International Conference on Machine Learning}, volume={80}, pages={1969--1978}, year={2018}}"
+  },
+  {
+    "key": "wang2014",
+    "text": "Wang, Z. et al. Context effects produced by question orders reveal quantum nature of human judgments. Proceedings of the National Academy of Sciences 111, 9431–9436 (2014).",
+    "bibtex": "@article{wang2014, title={Context effects produced by question orders reveal quantum nature of human judgments}, author={Wang, Zheng and others}, journal={Proceedings of the National Academy of Sciences}, volume={111}, pages={9431--9436}, year={2014}}"
+  },
+  {
+    "key": "trueblood2012",
+    "text": "Trueblood, J. S. & Busemeyer, J. R. A quantum probability model of causal reasoning. Frontiers in Psychology 3, 138 (2012).",
+    "bibtex": "@article{trueblood2012, title={A Quantum Probability Model of Causal Reasoning}, author={Trueblood, Jennifer S. and Busemeyer, Jerome R.}, journal={Frontiers in Psychology}, volume={3}, pages={138}, year={2012}}"
+  },
+  {
+    "key": "meyer2020",
+    "text": "Meyer, F. & Lewis, M. Modelling lexical ambiguity with density matrices. Proceedings of CoNLL, 276–290 (2020).",
+    "bibtex": "@inproceedings{meyer2020, title={Modelling Lexical Ambiguity with Density Matrices}, author={Meyer, Francois and Lewis, Martha}, booktitle={Proceedings of the 24th Conference on Computational Natural Language Learning}, pages={276--290}, year={2020}}"
+  },
+  {
+    "key": "yan2024",
+    "text": "Yan, H. et al. LI-QiLM: A quantum-inspired language model for text classification. Proceedings of NAACL, 1864–1878 (2024).",
+    "bibtex": "@inproceedings{yan2024, title={LI-QiLM: A Quantum-Inspired Language Model for Text Classification}, author={Yan, Han and others}, booktitle={Proceedings of NAACL}, pages={1864--1878}, year={2024}}"
+  },
+  {
+    "key": "srinivasan2018",
+    "text": "Srinivasan, S., Gordon, G. & Boots, B. Learning hidden quantum Markov models. Proceedings of AISTATS 84, 1979–1987 (2018).",
+    "bibtex": "@inproceedings{srinivasan2018, title={Learning Hidden Quantum Markov Models}, author={Srinivasan, Siddarth and Gordon, Geoff and Boots, Byron}, booktitle={Proceedings of AISTATS}, volume={84}, pages={1979--1987}, year={2018}}"
+  },
+  {
+    "key": "greydanus2019",
+    "text": "Greydanus, S., Dzamba, M. & Yosinski, J. Hamiltonian neural networks. Advances in Neural Information Processing Systems 32 (2019).",
+    "bibtex": "@inproceedings{greydanus2019, title={Hamiltonian Neural Networks}, author={Greydanus, Sam and Dzamba, Misko and Yosinski, Jason}, booktitle={Advances in Neural Information Processing Systems}, volume={32}, year={2019}}"
+  },
+  {
+    "key": "chen2018",
+    "text": "Chen, R. T. Q. et al. Neural ordinary differential equations. Advances in Neural Information Processing Systems 31 (2018).",
+    "bibtex": "@inproceedings{chen2018, title={Neural Ordinary Differential Equations}, author={Chen, Ricky T. Q. and others}, booktitle={Advances in Neural Information Processing Systems}, volume={31}, year={2018}}"
+  },
+  {
+    "key": "bai2019",
+    "text": "Bai, S., Kolter, J. Z. & Koltun, V. Deep equilibrium models. Advances in Neural Information Processing Systems 32 (2019).",
+    "bibtex": "@inproceedings{bai2019, title={Deep Equilibrium Models}, author={Bai, Shaojie and Kolter, J. Zico and Koltun, Vladlen}, booktitle={Advances in Neural Information Processing Systems}, volume={32}, year={2019}}"
+  },
+  {
+    "key": "ramsauer2021",
+    "text": "Ramsauer, H. et al. Hopfield networks is all you need. International Conference on Learning Representations (2021).",
+    "bibtex": "@inproceedings{ramsauer2021, title={Hopfield Networks is All You Need}, author={Ramsauer, Hubert and others}, booktitle={International Conference on Learning Representations}, year={2021}}"
+  },
+  {
+    "key": "gu2022",
+    "text": "Gu, A., Goel, K. & Ré, C. Efficiently modeling long sequences with structured state spaces. International Conference on Learning Representations (2022).",
+    "bibtex": "@inproceedings{gu2022, title={Efficiently Modeling Long Sequences with Structured State Spaces}, author={Gu, Albert and Goel, Karan and Re, Christopher}, booktitle={International Conference on Learning Representations}, year={2022}}"
+  },
+  {
+    "key": "graves2016",
+    "text": "Graves, A. Adaptive computation time for recurrent neural networks. arXiv:1603.08983 (2016).",
+    "bibtex": "@article{graves2016, title={Adaptive Computation Time for Recurrent Neural Networks}, author={Graves, Alex}, journal={arXiv preprint arXiv:1603.08983}, year={2016}}"
+  },
+  {
+    "key": "bolukbasi2017",
+    "text": "Bolukbasi, T. et al. Adaptive neural networks for efficient inference. Proceedings of ICML 70, 527–536 (2017).",
+    "bibtex": "@inproceedings{bolukbasi2017, title={Adaptive Neural Networks for Efficient Inference}, author={Bolukbasi, Tolga and others}, booktitle={Proceedings of the 34th International Conference on Machine Learning}, volume={70}, pages={527--536}, year={2017}}"
+  },
+  {
+    "key": "li2021",
+    "text": "Li, Y. & Oliva, J. B. Active feature acquisition with generative surrogate models. Proceedings of ICML 139, 6450–6459 (2021).",
+    "bibtex": "@inproceedings{li2021, title={Active Feature Acquisition with Generative Surrogate Models}, author={Li, Yang and Oliva, Junier B.}, booktitle={Proceedings of the 38th International Conference on Machine Learning}, volume={139}, pages={6450--6459}, year={2021}}"
+  },
+  {
+    "key": "yu2020",
+    "text": "Yu, T. et al. Gradient surgery for multi-task learning. Advances in Neural Information Processing Systems 33, 5824–5836 (2020).",
+    "bibtex": "@inproceedings{yu2020, title={Gradient Surgery for Multi-Task Learning}, author={Yu, Tianhe and others}, booktitle={Advances in Neural Information Processing Systems}, volume={33}, pages={5824--5836}, year={2020}}"
+  },
+  {
+    "key": "lillicrap2016",
+    "text": "Lillicrap, T. P. et al. Random synaptic feedback weights support error backpropagation for deep learning. Nature Communications 7, 13276 (2016).",
+    "bibtex": "@article{lillicrap2016, title={Random synaptic feedback weights support error backpropagation for deep learning}, author={Lillicrap, Timothy P. and others}, journal={Nature Communications}, volume={7}, pages={13276}, year={2016}}"
+  },
+  {
+    "key": "scellier2017",
+    "text": "Scellier, B. & Bengio, Y. Equilibrium propagation: bridging the gap between energy-based models and backpropagation. Frontiers in Computational Neuroscience 11, 24 (2017).",
+    "bibtex": "@article{scellier2017, title={Equilibrium Propagation: Bridging the Gap Between Energy-Based Models and Backpropagation}, author={Scellier, Benjamin and Bengio, Yoshua}, journal={Frontiers in Computational Neuroscience}, volume={11}, pages={24}, year={2017}}"
+  },
+  {
+    "key": "guo2017",
+    "text": "Guo, C. et al. On calibration of modern neural networks. Proceedings of ICML 70, 1321–1330 (2017).",
+    "bibtex": "@inproceedings{guo2017, title={On Calibration of Modern Neural Networks}, author={Guo, Chuan and others}, booktitle={Proceedings of the 34th International Conference on Machine Learning}, volume={70}, pages={1321--1330}, year={2017}}"
+  },
+  {
+    "key": "hendrycks2017",
+    "text": "Hendrycks, D. & Gimpel, K. A baseline for detecting misclassified and out-of-distribution examples in neural networks. International Conference on Learning Representations (2017).",
+    "bibtex": "@inproceedings{hendrycks2017, title={A Baseline for Detecting Misclassified and Out-of-Distribution Examples in Neural Networks}, author={Hendrycks, Dan and Gimpel, Kevin}, booktitle={International Conference on Learning Representations}, year={2017}}"
+  },
+  {
+    "key": "thiagarajan2020",
+    "text": "Thiagarajan, J. J. et al. DDxNet: a deep learning model for automatic interpretation of electronic health records. Scientific Reports 10, 16954 (2020).",
+    "bibtex": "@article{thiagarajan2020, title={DDxNet: a deep learning model for automatic interpretation of electronic health records}, author={Thiagarajan, Jayaraman J. and others}, journal={Scientific Reports}, volume={10}, pages={16954}, year={2020}}"
+  },
+  {
+    "key": "liang2019",
+    "text": "Liang, H. et al. Evaluation and accurate diagnoses of pediatric diseases using artificial intelligence. Nature Medicine 25, 433–438 (2019).",
+    "bibtex": "@article{liang2019, title={Evaluation and accurate diagnoses of pediatric diseases using artificial intelligence}, author={Liang, Huiying and others}, journal={Nature Medicine}, volume={25}, pages={433--438}, year={2019}}"
+  },
+  {
+    "key": "selvan2020",
+    "text": "Selvan, R. & Dam, E. B. Tensor networks for medical image classification. Proceedings of MIDL 121, 721–732 (2020).",
+    "bibtex": "@inproceedings{selvan2020, title={Tensor Networks for Medical Image Classification}, author={Selvan, Raghavendra and Dam, Erik B.}, booktitle={Proceedings of the Third Conference on Medical Imaging with Deep Learning}, volume={121}, pages={721--732}, year={2020}}"
+  }
+]

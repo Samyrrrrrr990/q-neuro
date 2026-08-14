@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\caption{Matched architecture comparison at 1,000 training cases.}
+\label{tab:architecture_results}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & Parameters & ID top-1 & Shift top-1 & Ambiguity NLL $\downarrow$ & Order pairs \\
+\midrule
+Logistic regression & 1,660 & 0.725 & 0.352 & 1.445 & 0.000 \\
+MLP & 20,002 & 0.726 & 0.379 & 1.533 & 0.000 \\
+Tiny Transformer & 18,980 & 0.867 & 0.493 & 4.345 & 0.843 \\
+Tuned GRU & 19,656 & 0.987 & 0.247 & 2.296 & 0.997 \\
+Diagonal state-space & 19,970 & 0.978 & 0.337 & 2.077 & 1.000 \\
+Real operator & 19,901 & 0.976 & 0.495 & 1.418 & 0.998 \\
+Two-channel real & 19,975 & 0.877 & 0.499 & 2.037 & 0.663 \\
+Complex operator & 20,304 & 0.969 & 0.647 & 2.352 & 1.000 \\
+Hamiltonian-style & 19,998 & 0.964 & 0.556 & 1.870 & 0.983 \\
+Dissipative & 20,020 & 0.723 & 0.438 & 1.894 & 0.008 \\
+Hamiltonian-dissipative & 19,894 & 0.932 & 0.550 & 1.867 & 0.923 \\
+Density dynamics (rank 2) & 16,240 & 0.891 & 0.453 & 1.468 & 0.635 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\linewidth}\footnotesize Means over three training seeds; shift values average three unseen moderate worlds.\end{minipage}
+\end{table}

@@ -1,0 +1,37 @@
+# Related work
+
+## Complex and norm-preserving recurrent computation
+
+Complex-valued networks provide native representations of magnitude and phase and require careful treatment of initialization, normalization, and nonlinearities [@trabelsi2018]. Unitary and orthogonal recurrent networks use constrained evolution to stabilize long-range dynamics [@arjovsky2016; @jing2017; @helfrich2018]. Q-Neuro belongs to this broad lineage. Its distinguishing engineering choice is an evidence-indexed low-rank operator acting on a diagnosis-oriented state, followed by a magnitude-squared readout. That combination is useful for controlled testing, but none of its ingredients justifies a claim that complex neural computation is new.
+
+Question-order and causal-judgment models based on quantum probability demonstrate that noncommuting projections can encode order effects without asserting a quantum brain [@wang2014; @trueblood2012]. Hidden quantum Markov models similarly evolve a quantum-probabilistic latent state across observations [@srinivasan2018]. The present work differs in optimization objective, benchmark, and controls: its operators are discriminatively trained, the hypothesis coordinates map to synthetic diagnoses, and chronology is evaluated with paired cases that differ only by event order. This is a new experimental combination, not a priority claim for noncommutativity.
+
+## Density, energy, and continuous state models
+
+Density matrices have represented lexical ambiguity, and more recent quantum-inspired language models combine density evolution with interference-style measurement [@meyer2020; @yan2024]. Q-Neuro’s Diagnostic Density Dynamics therefore cannot be presented as a new law. Its value here is as an invariant-preserving control: the factorization rho = L L† / tr(L L†) guarantees Hermiticity, positive semidefiniteness, and unit trace up to numerical precision. Varying the factor rank tests whether off-diagonal capacity improves ambiguity or shift robustness. It does not.
+
+Hamiltonian neural networks learn conservation-inspired vector fields, neural ordinary differential equations parameterize continuous hidden dynamics, and deep equilibrium models define representations as fixed points [@greydanus2019; @chen2018; @bai2019]. Modern Hopfield networks recover associative and metastable behavior with contemporary attention-like updates [@ramsauer2021]. Q-Neuro includes Hamiltonian-style, dissipative, hybrid, energy-attractor, adaptive-attractor, and associative controls. These implementations intentionally reduce each idea to a tractable CPU experiment; they are not substitutes for the full cited methods.
+
+Diagonal state-space models provide another relevant control because structured recurrence can preserve long histories with favorable compute [@gu2022]. The NeuroWorld sequences are short, so this experiment cannot speak to long-context scaling. It can answer a narrower question: whether generic learned state-space recurrence already explains order sensitivity and factor decodability. The answer is often yes for source-world and chronology metrics, but no for the tested moderate-shift robustness frontier.
+
+## Adaptive inference, active acquisition, and learning laws
+
+Adaptive Computation Time and early-exit networks learn or select input-dependent computation [@graves2016; @bolukbasi2017]. Q-Neuro first implements a soft ACT-style mixture and then a hard active-index exit based on state velocity. The distinction matters. Soft expected depth is not executed depth when all states are still evaluated. The hard implementation does remove halted cases, but validation selects step two for every example. Its latency reduction is real; its adaptivity claim is false.
+
+Active feature acquisition chooses which observation to request under a budget [@li2021]. NeuroWorld compares random order, a fixed mutual-information ranking, and predictor-conditioned expected information gain. The experiment shows that policy and predictor form a coupled system: the expected-information rule helps the complex model and MLP relative to fixed order, but harms the Transformer. This failure prevents a generic claim that entropy-minimizing queries are better.
+
+For multi-objective training, Projected Conflicting Gradients modifies gradients that oppose one another [@yu2020]. Q-Neuro compares ordinary multi-objective AdamW, PCGrad, and a phase-coded rotation in explicit real/imaginary parameter planes. Measured task-gradient cosines are weakly positive, and the phase method does not improve the accuracy–compute frontier. Local learning experiments are interpreted against work showing that alternatives to exact global weight transport can learn useful representations [@lillicrap2016; @scellier2017]. The tested transition-local rule obtains nontrivial performance without a backward call, but remains far below globally trained models.
+
+## Uncertainty, distribution shift, and medical diagnosis
+
+Temperature scaling can improve in-distribution calibration, and maximum softmax probability is a standard baseline for misclassification and OOD detection [@guo2017; @hendrycks2017]. The present study adds an explicit transport test. A temperature fitted only on source validation data worsens moderate-shift ECE for every operator family. Omitted-disease and hidden-syndrome AUROC can be high while ambiguity calibration remains poor, showing that anomaly separation and calibrated differential reasoning are distinct properties.
+
+Clinical diagnostic models have been evaluated on electronic records and large pediatric cohorts [@thiagarajan2020; @liang2019], while tensor methods have also appeared in medical machine learning [@selvan2020]. Those studies operate on clinical data and clinically meaningful endpoints. NeuroWorld does not. It exists to isolate causal mechanisms without privacy risk and to make counterfactual construction exact. Consequently, high synthetic accuracy cannot be compared numerically with clinical systems, and the model must not be used for patient decisions.
+
+## Novelty audit
+
+The literature review was primary-source-led but not systematic. It covered official proceedings, publisher pages, and archival records across complex networks, quantum cognition, density models, dynamical systems, adaptive compute, active acquisition, local learning, calibration, OOD detection, and diagnostic modeling. It did not include dual screening, patent literature, every thesis, non-English sources, or unpublished industrial work. “No exact match located” would not establish priority even if true.
+
+{{figure:claim_status_audit|The internal claim ledger contains substantially more refuted, unsupported, preliminary, or unresolved statements than supported statements. This asymmetry is intentional: the repository records boundaries rather than deleting them.|Horizontal bar chart counting supported or replicated, refuted or unsupported, and preliminary or unresolved claims in the project ledger.}}
+
+The defensible novelty is therefore the evidence package: one registry connects chronology, unseen-world robustness, ambiguity, active acquisition, hidden syndromes, dynamical laws, critical ablations, probes, training laws, executed compute, and trajectories. The potentially closest-to-new mechanism, phase-gradient rotation, carries low novelty confidence and no performance advantage. This manuscript makes no first-in-literature claim. Independent peer review and a formal systematic search would be required before stronger novelty language.
