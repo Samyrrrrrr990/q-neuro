@@ -1,0 +1,116 @@
+{
+  "candidate_id": "QN-LAW-001",
+  "confirmation": {
+    "code_sha256": {
+      "experiments/run_independent_confirmation.py": "488ff75e12cba2681c95b250024c87a0907639453202dd8c6e8e4300edc5bc48",
+      "experiments/run_independent_discovery.py": "0b11260d6ac045f16baa50b0eb0c6c865aa0207ee602432d08af1c34eba90638",
+      "independent_tasks/generators.py": "a7ee2b57646d9d2bf34ab62aa2111fa38a50b0a2e33f8a4bd2e63a37b1e41511",
+      "research/computational_laws.py": "6fc83b99da2182c3bb4d36824d8fb2715eb892ccd6e90c494922c6ea426ededc"
+    },
+    "config_path": "experiments/configs/independent_confirmation.yaml",
+    "config_sha256": "1bb9179546a2f2ba917a73ccda7ab347141822f6f9ddc93119763199e8bba0ac",
+    "families": [
+      "bayesian_urn",
+      "hidden_rule_relational",
+      "machine_fault_diagnosis",
+      "network_intrusion_reasoning"
+    ],
+    "thresholds": {
+      "maximum_mae": 0.015,
+      "minimum_r2": 0.5,
+      "minimum_sign_accuracy": 0.8
+    },
+    "training_seeds": [
+      6101,
+      6203,
+      6301,
+      6407,
+      6503
+    ],
+    "world_seeds": [
+      92009,
+      92033,
+      92041,
+      92051,
+      92077,
+      92083,
+      92107,
+      92111,
+      92119,
+      92143,
+      92153,
+      92173,
+      92177,
+      92189,
+      92203,
+      92219,
+      92221,
+      92227,
+      92233,
+      92237,
+      92243,
+      92251,
+      92269,
+      92297,
+      92311,
+      92317,
+      92333,
+      92347,
+      92353,
+      92363,
+      92369,
+      92377
+    ]
+  },
+  "freeze_commit": "7dbe4966a4353a2cb4e08b17cffc8cfeffb67fde",
+  "frozen_at": "2026-08-14T06:06:07.138613+00:00",
+  "law": {
+    "coefficients": [
+      -0.034488815444899144,
+      0.12543888576002413,
+      -0.028994308125608596,
+      -0.2107880246049661,
+      0.0059638387082152295,
+      0.02032166572225074
+    ],
+    "discovery_mae": 0.0026041648454527134,
+    "discovery_n": 12,
+    "discovery_r2": 0.9487095562816686,
+    "family": "quadratic",
+    "hyperparameter": null
+  },
+  "predictors": [
+    "empirical_observed_order_target_mutual_information",
+    "shift_severity"
+  ],
+  "schema_version": "1.0.0",
+  "scope": {
+    "outcome_e_permitted": false,
+    "provisional_confirmation_only": true,
+    "qn_grand_001_permitted": false,
+    "reason": "QN-000040 is a reduced, outcome-ineligible discovery profile and all observed complex-minus-best-real effects were non-positive.",
+    "synthetic_nonclinical_only": true
+  },
+  "selection_rule": "Minimum BIC proxy over the six prespecified candidate families, with complexity and family-name tie breaks implemented by research.computational_laws.freeze_best_candidate.",
+  "source": {
+    "experiment_id": "QN-000040",
+    "families": [
+      "analytic_commutative",
+      "analytic_noncommutative",
+      "hidden_causal_machine",
+      "sequential_detective"
+    ],
+    "general_law_claim_permitted": false,
+    "law_cells": 12,
+    "mean_effect": -0.03695312475028913,
+    "outcome_eligible": false,
+    "paired_effects": 2880,
+    "path": "experiments/results/QN-000040/metrics.json",
+    "positive_effect_cells": 0,
+    "profile": "reduced_discovery",
+    "sha256": "d06945ea7257b12c8b515c3f361e9e31925554ea5ee8a27e36ba65e3ddc1428b",
+    "source_git_commit": "30a5c5f36db1043e9cefd28aedca39478fd9ba22"
+  },
+  "status": "frozen_provisional",
+  "target": "complex_top1_minus_cellwise_best_real_top1"
+}
