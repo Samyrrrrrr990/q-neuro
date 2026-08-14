@@ -1,0 +1,108 @@
+{
+  "all_required_gates_pass": false,
+  "blocking_failures": [
+    "complete_preregistered_real_envelope",
+    "equal_or_real_favoring_search_budgets",
+    "compute_matching_records",
+    "full_shiftgauntlet_outcome_grid",
+    "full_discovery_protocol",
+    "raw_predictions_preserved"
+  ],
+  "checks": [
+    {
+      "blocking": true,
+      "check_id": "exact_real_equivalence",
+      "evidence": "QN-000042 max top1 difference=0; max NLL difference=3.58e-07",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "evaluated_parameter_matching",
+      "evidence": "Evaluated model parameter counts: {'complex_operator': {'name': 'complex_operator', 'parameter_budget': 20304, 'parameter_count': 20304, 'rank': 2, 'state_real_dof': 48, 'trainable_parameter_count': 20304, 'width': 24}, 'exact_real_block_operator': {'name': 'exact_real_block_operator', 'parameter_budget': 20304, 'parameter_count': 20304, 'rank': 2, 'state_real_dof': 48, 'trainable_parameter_count': 20304, 'width': 24}, 'state_space': {'name': 'state_space', 'parameter_budget': 20304, 'parameter_count': 20285, 'rank': 0, 'state_real_dof': 193, 'trainable_parameter_count': 20285, 'width': 193}, 'gru': {'name': 'gru', 'parameter_budget': 20304, 'parameter_count': 20390, 'rank': 0, 'state_real_dof': 60, 'trainable_parameter_count': 20390, 'width': 60}, 'real_polar_operator': {'name': 'real_polar_operator', 'parameter_budget': 20304, 'parameter_count': 20304, 'rank': 2, 'state_real_dof': 48, 'trainable_parameter_count': 20304, 'width': 24}}",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "simulator_red_team",
+      "evidence": "QN-000028 frozen shortcut gate",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "shift_gauntlet_structure",
+      "evidence": "QN-000029 structural ShiftGauntlet audit",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "power_target",
+      "evidence": "QN-000031 selected 32 worlds at estimated power 1.0",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "law_frozen_before_heldout_confirmation",
+      "evidence": "QN-LAW-001 source QN-000040; held-out evaluation QN-000042",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "untouched_nonmedical_family",
+      "evidence": "Held-out families: ['bayesian_urn', 'hidden_rule_relational', 'machine_fault_diagnosis', 'network_intrusion_reasoning']",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "clean_confirmatory_worktree",
+      "evidence": "QN-000042 environment.json",
+      "passed": true
+    },
+    {
+      "blocking": true,
+      "check_id": "complete_preregistered_real_envelope",
+      "evidence": "Evaluated 4 of 14 required real controls; missing=['causal_transformer', 'dense_real_recurrence', 'lstm', 'orthogonal_real_recurrence', 'real_operator', 'real_rotation_block_operator', 'residual_gated_recurrence', 'transformer_encoder', 'unrestricted_paired_real_operator', 'vanilla_rnn']",
+      "passed": false
+    },
+    {
+      "blocking": true,
+      "check_id": "equal_or_real_favoring_search_budgets",
+      "evidence": "Observed maximum tuning trials per evaluated model: {'complex_operator': 1, 'exact_real_block_operator': 1, 'state_space': 1, 'gru': 1, 'real_polar_operator': 1}",
+      "passed": false
+    },
+    {
+      "blocking": true,
+      "check_id": "compute_matching_records",
+      "evidence": "Per-trial FLOPs and optimizer-step records required by QNF-PREREG-002 are absent.",
+      "passed": false
+    },
+    {
+      "blocking": true,
+      "check_id": "full_shiftgauntlet_outcome_grid",
+      "evidence": "QN-000029 is structural and QN-000031 is a reduced pilot; no full confirmatory grid.",
+      "passed": false
+    },
+    {
+      "blocking": true,
+      "check_id": "full_discovery_protocol",
+      "evidence": "QN-000040 deviations=['Training sizes 5000 and 25000 are deferred; only 250 and 1000 are evaluated.', 'The full real envelope and 8/10-trial hyperparameter policy are not executed.', 'Results are provisional discovery evidence and cannot support Outcome E or QN-GRAND-001.']; frozen scope forbids grand use.",
+      "passed": false
+    },
+    {
+      "blocking": true,
+      "check_id": "raw_predictions_preserved",
+      "evidence": "Prediction artifacts found: []",
+      "passed": false
+    }
+  ],
+  "evidence_sha256": {
+    "experiments/results/QN-000028/metrics.json": "4486a29fbea3708361b941b3d89f442e7730ddb2b6fa92de59c5a1de767cb3f0",
+    "experiments/results/QN-000029/metrics.json": "b050b669607ae2705aacc78d109bc5e119610cb656c5301b694593e7b5545eb9",
+    "experiments/results/QN-000031/metrics.json": "f5d4c3e1816ab2e6fb15ee1263d8adb39754091033d30dd231d8bb04043b85b4",
+    "experiments/results/QN-000033/metrics.json": "a0acf17b778c7cb213cff0d20dd278b39e5d7db5fa6bfc94da35312211aa3a58",
+    "experiments/results/QN-000040/metrics.json": "d06945ea7257b12c8b515c3f361e9e31925554ea5ee8a27e36ba65e3ddc1428b",
+    "experiments/results/QN-000042/metrics.json": "3106fdbf324e80903eb1f6eec19a0db20f6c3eb45abdd49c58d58e26ab792d52"
+  },
+  "experiment_id": "QN-GRAND-001",
+  "sealed_benchmark_opened": false,
+  "status": "blocked"
+}
