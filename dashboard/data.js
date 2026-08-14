@@ -889,6 +889,469 @@ window.QNEURO_DATA = {
   ],
   "claims": [
     {
+      "claim": "The evaluated complex operator has an exact structured real-block implementation that reproduces its top-1 predictions at numerical precision.",
+      "confidence": "high",
+      "counterevidence": "This does not imply that every complex-valued architecture or optimization trajectory is equivalent to every unconstrained real network. Different parameterizations can impose different inductive biases even when the represented mapped function is the same.",
+      "evidence": "QN-000033 mapped mechanism runs differ by at most approximately 4.8e-7 across recorded metrics. QN-000042 complex and exact-real top-1 are identical in all 1,920 held-out nested cells; maximum NLL difference is 3.58e-7.",
+      "status": "supported within implementation"
+    },
+    {
+      "claim": "Within the reduced independent-task studies, the cellwise best-real envelope removes the observed complex robustness advantage.",
+      "confidence": "high within tested scope",
+      "counterevidence": "The independent discovery and confirmation profiles are outcome-ineligible and compute-reduced. The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run.",
+      "evidence": "QN-000040 has zero positive complex-minus-best-real effects among 2,880 nested discovery cells. QN-000042 has zero positive effects among 1,920 held-out nested cells and a family/world/seed hierarchical mean of -0.00916 with 95% interval [-0.01325, -0.00457].",
+      "status": "falsified"
+    },
+    {
+      "claim": "The frozen quadratic relationship selected on reduced discovery data fails quantitative prediction on held-out task families.",
+      "confidence": "high",
+      "counterevidence": "Effect-sign accuracy is 1.0 because all observed and predicted gaps are non-positive.",
+      "evidence": "QN-LAW-001 discovery R2 is 0.949 with MAE 0.00260 across 12 aggregate cells. QN-000042 held-out R2 is -30.94 and MAE 0.0313; the frozen requirements were R2 at least 0.50 and MAE at most 0.015.",
+      "status": "falsified"
+    },
+    {
+      "claim": "The earlier positive NeuroWorld result is comparator-dependent rather than evidence of intrinsically complex arithmetic.",
+      "confidence": "medium-high",
+      "counterevidence": "The later studies use different generator families and reduced profiles, so the four point estimates are not one meta-analysis.",
+      "evidence": "QN-000008 reports +0.0602 moderate-shift top-1 versus a two-channel real control. Later exact-real and best-real comparisons reverse the sign in QN-000031, QN-000040, and QN-000042.",
+      "status": "bounded reinterpretation"
+    },
+    {
+      "claim": "QN-GRAND-001 did not execute and provides no primary confirmatory effect estimate.",
+      "confidence": "high",
+      "counterevidence": "Eight readiness checks passed, including the shortcut gate, power plan, exact-real equivalence, and held-out family separation.",
+      "evidence": "The registered preflight records six blocking failures and sealed_benchmark_opened=false.",
+      "status": "not executed"
+    },
+    {
+      "claim": "The repository contains no evidence of clinical validity, patient benefit, safety, or a quantum mechanism of cognition.",
+      "confidence": "high",
+      "counterevidence": "",
+      "evidence": "All next-phase tasks are synthetic and nonclinical; no patient dataset was selected or evaluated.",
+      "status": "unsupported"
+    }
+  ],
+  "experiments": [
+    {
+      "artifact_count": 3,
+      "id": "QN-000001",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 4,
+      "id": "QN-000002",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000003",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000004",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000005",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000006",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000007",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000008",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000009",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000010",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000011",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000012",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000013",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000014",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000015",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000016",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 4,
+      "id": "QN-000017",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000018",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000019",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000020",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000021",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000022",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000023",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 4,
+      "id": "QN-000025",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 7,
+      "id": "QN-000026",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000027",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000028",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000029",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000030",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000031",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000032",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000033",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 4,
+      "id": "QN-000034",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000035",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000036",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000037",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000039",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000040",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000041",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 3,
+      "id": "QN-000042",
+      "status": "complete"
+    },
+    {
+      "artifact_count": 4,
+      "id": "QN-GRAND-001",
+      "status": "blocked_before_execution"
+    }
+  ],
+  "failures": [
+    "Metadata and unintended order-token shortcuts crossed frozen thresholds.",
+    "Smoke profile produced too few law cells for the frozen candidate fitter.",
+    "QN-LAW-001 failed R2 and MAE thresholds on untouched task families.",
+    "Six mandatory readiness gates failed before sealed benchmark access.",
+    "The best-real envelope eliminates the complex advantage, and exact-real computation matches complex predictions."
+  ],
+  "falsification": [
+    {
+      "comparator": "two-channel real",
+      "label": "initial NeuroWorld",
+      "value": 0.06016665697097778
+    },
+    {
+      "comparator": "best evaluated real",
+      "label": "power pilot",
+      "value": -0.05519245126334431
+    },
+    {
+      "comparator": "cellwise best real",
+      "label": "reduced discovery",
+      "value": -0.03695312475028913
+    },
+    {
+      "comparator": "cellwise best real",
+      "label": "held-out families",
+      "value": -0.009157985999869804
+    }
+  ],
+  "frontiers": {
+    "architecture": [
+      "adaptive_attractor",
+      "complex_no_negative",
+      "complex_operator",
+      "logistic",
+      "mlp",
+      "real_accumulator",
+      "real_operator",
+      "state_space",
+      "transformer",
+      "two_channel_operator"
+    ],
+    "halting": [
+      "adaptive_attractor::hard"
+    ],
+    "training_law": [
+      "complex_operator::adamw",
+      "complex_operator::local_plasticity",
+      "complex_operator::multiobjective_adamw",
+      "complex_operator::pcgrad",
+      "complex_operator::phase_gradient",
+      "complex_operator::sgd",
+      "complex_operator::zerobackprop"
+    ]
+  },
+  "generated_from": [
+    "QN-000008",
+    "QN-000014",
+    "QN-000016",
+    "QN-000021",
+    "QN-000023",
+    "QN-000025",
+    "QN-000026",
+    "QN-000031",
+    "QN-000033",
+    "QN-000040",
+    "QN-000042",
+    "QN-GRAND-001"
+  ],
+  "grand_preflight": {
+    "all_required_gates_pass": false,
+    "blocking_failures": [
+      "complete_preregistered_real_envelope",
+      "equal_or_real_favoring_search_budgets",
+      "compute_matching_records",
+      "full_shiftgauntlet_outcome_grid",
+      "full_discovery_protocol",
+      "raw_predictions_preserved"
+    ],
+    "checks": [
+      {
+        "blocking": true,
+        "check_id": "exact_real_equivalence",
+        "evidence": "QN-000042 max top1 difference=0; max NLL difference=3.58e-07",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "evaluated_parameter_matching",
+        "evidence": "Evaluated model parameter counts: {'complex_operator': {'name': 'complex_operator', 'parameter_budget': 20304, 'parameter_count': 20304, 'rank': 2, 'state_real_dof': 48, 'trainable_parameter_count': 20304, 'width': 24}, 'exact_real_block_operator': {'name': 'exact_real_block_operator', 'parameter_budget': 20304, 'parameter_count': 20304, 'rank': 2, 'state_real_dof': 48, 'trainable_parameter_count': 20304, 'width': 24}, 'state_space': {'name': 'state_space', 'parameter_budget': 20304, 'parameter_count': 20285, 'rank': 0, 'state_real_dof': 193, 'trainable_parameter_count': 20285, 'width': 193}, 'gru': {'name': 'gru', 'parameter_budget': 20304, 'parameter_count': 20390, 'rank': 0, 'state_real_dof': 60, 'trainable_parameter_count': 20390, 'width': 60}, 'real_polar_operator': {'name': 'real_polar_operator', 'parameter_budget': 20304, 'parameter_count': 20304, 'rank': 2, 'state_real_dof': 48, 'trainable_parameter_count': 20304, 'width': 24}}",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "simulator_red_team",
+        "evidence": "QN-000028 frozen shortcut gate",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "shift_gauntlet_structure",
+        "evidence": "QN-000029 structural ShiftGauntlet audit",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "power_target",
+        "evidence": "QN-000031 selected 32 worlds at estimated power 1.0",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "law_frozen_before_heldout_confirmation",
+        "evidence": "QN-LAW-001 source QN-000040; held-out evaluation QN-000042",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "untouched_nonmedical_family",
+        "evidence": "Held-out families: ['bayesian_urn', 'hidden_rule_relational', 'machine_fault_diagnosis', 'network_intrusion_reasoning']",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "clean_confirmatory_worktree",
+        "evidence": "QN-000042 environment.json",
+        "passed": true
+      },
+      {
+        "blocking": true,
+        "check_id": "complete_preregistered_real_envelope",
+        "evidence": "Evaluated 4 of 14 required real controls; missing=['causal_transformer', 'dense_real_recurrence', 'lstm', 'orthogonal_real_recurrence', 'real_operator', 'real_rotation_block_operator', 'residual_gated_recurrence', 'transformer_encoder', 'unrestricted_paired_real_operator', 'vanilla_rnn']",
+        "passed": false
+      },
+      {
+        "blocking": true,
+        "check_id": "equal_or_real_favoring_search_budgets",
+        "evidence": "Observed maximum tuning trials per evaluated model: {'complex_operator': 1, 'exact_real_block_operator': 1, 'state_space': 1, 'gru': 1, 'real_polar_operator': 1}",
+        "passed": false
+      },
+      {
+        "blocking": true,
+        "check_id": "compute_matching_records",
+        "evidence": "Per-trial FLOPs and optimizer-step records required by QNF-PREREG-002 are absent.",
+        "passed": false
+      },
+      {
+        "blocking": true,
+        "check_id": "full_shiftgauntlet_outcome_grid",
+        "evidence": "QN-000029 is structural and QN-000031 is a reduced pilot; no full confirmatory grid.",
+        "passed": false
+      },
+      {
+        "blocking": true,
+        "check_id": "full_discovery_protocol",
+        "evidence": "QN-000040 deviations=['Training sizes 5000 and 25000 are deferred; only 250 and 1000 are evaluated.', 'The full real envelope and 8/10-trial hyperparameter policy are not executed.', 'Results are provisional discovery evidence and cannot support Outcome E or QN-GRAND-001.']; frozen scope forbids grand use.",
+        "passed": false
+      },
+      {
+        "blocking": true,
+        "check_id": "raw_predictions_preserved",
+        "evidence": "Prediction artifacts found: []",
+        "passed": false
+      }
+    ],
+    "evidence_sha256": {
+      "experiments/results/QN-000028/metrics.json": "4486a29fbea3708361b941b3d89f442e7730ddb2b6fa92de59c5a1de767cb3f0",
+      "experiments/results/QN-000029/metrics.json": "b050b669607ae2705aacc78d109bc5e119610cb656c5301b694593e7b5545eb9",
+      "experiments/results/QN-000031/metrics.json": "f5d4c3e1816ab2e6fb15ee1263d8adb39754091033d30dd231d8bb04043b85b4",
+      "experiments/results/QN-000033/metrics.json": "a0acf17b778c7cb213cff0d20dd278b39e5d7db5fa6bfc94da35312211aa3a58",
+      "experiments/results/QN-000040/metrics.json": "d06945ea7257b12c8b515c3f361e9e31925554ea5ee8a27e36ba65e3ddc1428b",
+      "experiments/results/QN-000042/metrics.json": "3106fdbf324e80903eb1f6eec19a0db20f6c3eb45abdd49c58d58e26ab792d52"
+    },
+    "experiment_id": "QN-GRAND-001",
+    "sealed_benchmark_opened": false,
+    "status": "blocked"
+  },
+  "historical_claims": [
+    {
+      "claim": "The implemented complex operator has an exact structured-real equivalent",
+      "confidence": "High",
+      "counterevidence": "Does not equate every possible complex and real network or optimizer",
+      "evidence": "QN-000033 and QN-000042; held-out top-1 difference is zero in 1,920 nested cells",
+      "status": "Supported within implementation"
+    },
+    {
+      "claim": "Complex retains a best-real robustness advantage on independent tasks",
+      "confidence": "High within reduced scope",
+      "counterevidence": "QN-000040 and QN-000042 contain zero positive nested effects; held-out hierarchical mean \u22120.00916",
+      "evidence": "None",
+      "status": "Falsified"
+    },
+    {
+      "claim": "QN-LAW-001 generalizes quantitatively",
+      "confidence": "High",
+      "counterevidence": "Held-out R2 \u221230.94 and MAE 0.0313 fail frozen thresholds",
+      "evidence": "Sign transfers",
+      "status": "Falsified"
+    },
+    {
+      "claim": "QN-GRAND-001 provides confirmatory evidence",
+      "confidence": "High",
+      "counterevidence": "Six mandatory preflight gates failed; sealed benchmark unopened",
+      "evidence": "None",
+      "status": "Not executed"
+    },
+    {
+      "claim": "Q-Neuro has clinical validity or reveals quantum cognition",
+      "confidence": "High",
+      "counterevidence": "Synthetic and nonclinical evidence only",
+      "evidence": "None",
+      "status": "Unsupported"
+    },
+    {
       "claim": "Ordered computation is required for the chronology-twin task",
       "confidence": "High",
       "counterevidence": "This is true by task construction and does not establish a broad medical phenomenon",
@@ -1211,134 +1674,7 @@ window.QNEURO_DATA = {
       "status": "Unsupported"
     }
   ],
-  "experiments": [
-    {
-      "artifact_count": 3,
-      "id": "QN-000001",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 4,
-      "id": "QN-000002",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000003",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000004",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000005",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000006",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000007",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000008",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000009",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000010",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000011",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000012",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000013",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000014",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000015",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000016",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 4,
-      "id": "QN-000017",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000018",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000019",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000020",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000021",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000022",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 3,
-      "id": "QN-000023",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 4,
-      "id": "QN-000025",
-      "status": "complete"
-    },
-    {
-      "artifact_count": 7,
-      "id": "QN-000026",
-      "status": "complete"
-    }
-  ],
-  "failures": [
+  "historical_failures": [
     "Full-data Experiment Zero as a discriminator",
     "Complex phase as an automatic advantage",
     "Asymmetric-input comparison (QN-000002)",
@@ -1358,40 +1694,43 @@ window.QNEURO_DATA = {
     "Final complex state as a converged disease attractor",
     "Automated Pareto ranking as a universal winner selector"
   ],
-  "frontiers": {
-    "architecture": [
-      "adaptive_attractor",
-      "complex_no_negative",
-      "complex_operator",
-      "logistic",
-      "mlp",
-      "real_accumulator",
-      "real_operator",
-      "state_space",
-      "transformer",
-      "two_channel_operator"
-    ],
-    "halting": [
-      "adaptive_attractor::hard"
-    ],
-    "training_law": [
-      "complex_operator::adamw",
-      "complex_operator::local_plasticity",
-      "complex_operator::multiobjective_adamw",
-      "complex_operator::pcgrad",
-      "complex_operator::phase_gradient",
-      "complex_operator::sgd",
-      "complex_operator::zerobackprop"
-    ]
-  },
-  "generated_from": [
-    "QN-000008",
-    "QN-000014",
-    "QN-000016",
-    "QN-000021",
-    "QN-000023",
-    "QN-000025",
-    "QN-000026"
+  "next_steps": [
+    {
+      "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+      "id": "complete_preregistered_real_envelope",
+      "mechanism": "Evaluated 4 of 14 required real controls; missing=['causal_transformer', 'dense_real_recurrence', 'lstm', 'orthogonal_real_recurrence', 'real_operator', 'real_rotation_block_operator', 'residual_gated_recurrence', 'transformer_encoder', 'unrestricted_paired_real_operator', 'vanilla_rnn']",
+      "priority": "blocking"
+    },
+    {
+      "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+      "id": "equal_or_real_favoring_search_budgets",
+      "mechanism": "Observed maximum tuning trials per evaluated model: {'complex_operator': 1, 'exact_real_block_operator': 1, 'state_space': 1, 'gru': 1, 'real_polar_operator': 1}",
+      "priority": "blocking"
+    },
+    {
+      "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+      "id": "compute_matching_records",
+      "mechanism": "Per-trial FLOPs and optimizer-step records required by QNF-PREREG-002 are absent.",
+      "priority": "blocking"
+    },
+    {
+      "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+      "id": "full_shiftgauntlet_outcome_grid",
+      "mechanism": "QN-000029 is structural and QN-000031 is a reduced pilot; no full confirmatory grid.",
+      "priority": "blocking"
+    },
+    {
+      "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+      "id": "full_discovery_protocol",
+      "mechanism": "QN-000040 deviations=['Training sizes 5000 and 25000 are deferred; only 250 and 1000 are evaluated.', 'The full real envelope and 8/10-trial hyperparameter policy are not executed.', 'Results are provisional discovery evidence and cannot support Outcome E or QN-GRAND-001.']; frozen scope forbids grand use.",
+      "priority": "blocking"
+    },
+    {
+      "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+      "id": "raw_predictions_preserved",
+      "mechanism": "Prediction artifacts found: []",
+      "priority": "blocking"
+    }
   ],
   "proposals": [
     {
@@ -1642,5 +1981,136 @@ window.QNEURO_DATA = {
       "severity": 0.5,
       "type": "phase_optimizer_no_frontier_gain"
     }
-  ]
+  ],
+  "synthesis": {
+    "comparator_warning": "QN-000008 compares complex with two-channel real; later studies compare complex with a cellwise best-real envelope containing an exact real implementation.",
+    "final_interpretation": "The evaluated evidence falsifies an intrinsic complex-arithmetic advantage: an exact real block is functionally equivalent and stronger real controls remove the observed robustness gain. The selected quantitative law fails held-out magnitude prediction. QN-GRAND-001 remains unexecuted because mandatory readiness gates failed.",
+    "heldout_confirmation": {
+      "architecture_effect": {
+        "exceeds_practical_threshold": false,
+        "mean_complex_minus_best_real": -0.009157985999869804,
+        "positive": false
+      },
+      "best_real_winner_counts": {
+        "exact_real_block_operator": 1478,
+        "real_polar_operator": 442
+      },
+      "exact_real_equivalence": {
+        "maximum_absolute_ece_difference": 1.1920928955078125e-07,
+        "maximum_absolute_nll_difference": 3.5762786865234375e-07,
+        "maximum_absolute_top1_difference": 0.0
+      },
+      "experiment_id": "QN-000042",
+      "families": [
+        "bayesian_urn",
+        "hidden_rule_relational",
+        "machine_fault_diagnosis",
+        "network_intrusion_reasoning"
+      ],
+      "hierarchical_bootstrap": {
+        "ci_high": -0.004570204104723728,
+        "ci_low": -0.013250867711224905,
+        "confidence": 0.95,
+        "estimate": -0.009157985999869804,
+        "generator_families": 4,
+        "observations": 640,
+        "resamples": 20000,
+        "worlds": 128
+      },
+      "law_confirmation": {
+        "all_thresholds_pass": false,
+        "confirmation_n": 12,
+        "effect_sign_accuracy": 1.0,
+        "mean_absolute_error": 0.031264674238761815,
+        "r2": -30.936351721073724,
+        "threshold_checks": {
+          "mae_at_most_maximum": false,
+          "r2_at_least_minimum": false,
+          "sign_accuracy_at_least_minimum": true
+        },
+        "thresholds": {
+          "maximum_mae": 0.015,
+          "minimum_r2": 0.5,
+          "minimum_sign_accuracy": 0.8
+        }
+      },
+      "nested_effects": 1920,
+      "nested_summary": {
+        "mean": -0.009157985999869804,
+        "median": 0.0,
+        "n": 1920,
+        "probability_of_superiority": 0.0,
+        "standard_deviation": 0.023548105463035745,
+        "trimmed_mean_10pct": -0.0024848088020614036,
+        "worst_decile": -0.041666656732559204
+      },
+      "outcome_eligible": false,
+      "positive_nested_effects": 0,
+      "training_seeds": 5,
+      "world_sign_flip_pvalue_two_sided": 4.9999750001249995e-06,
+      "world_summary": {
+        "mean": -0.009157985999869804,
+        "median": -0.008055555820465087,
+        "n": 128,
+        "probability_of_superiority": 0.0,
+        "standard_deviation": 0.007361363690879325,
+        "trimmed_mean_10pct": -0.008397435798094823,
+        "worst_decile": -0.019444445073604585
+      },
+      "worlds": 128,
+      "zero_nested_effects": 1538
+    },
+    "historical_within_neuroworld": {
+      "ci_high": 0.06739965130254905,
+      "ci_low": 0.05293366263940652,
+      "comparator": "two_channel_operator",
+      "experiment_id": "QN-000008",
+      "moderate_shift_mean_difference": 0.06016665697097778
+    },
+    "mechanism_discovery": {
+      "experiment_id": "QN-000033",
+      "interpretation": "Exact real-block computation reproduces complex computation; destructive phase interventions show phase use but not uniquely complex capacity.",
+      "outcome_eligible": false
+    },
+    "outcome_category": "A_falsified_intrinsic_complex_advantage",
+    "power_pilot": {
+      "estimated_power": 1.0,
+      "experiment_id": "QN-000031",
+      "outcome_eligible": false,
+      "selected_worlds": 32,
+      "train_size_1000": {
+        "mean": -0.05519245126334431,
+        "median": -0.054528985384251064,
+        "n": 8,
+        "probability_of_superiority": 0.0,
+        "standard_deviation": 0.010049786576161244,
+        "trimmed_mean_10pct": -0.05519245126334431,
+        "worst_decile": -0.06487130236312531
+      }
+    },
+    "qn_grand_001": {
+      "blocking_failures": [
+        "complete_preregistered_real_envelope",
+        "equal_or_real_favoring_search_budgets",
+        "compute_matching_records",
+        "full_shiftgauntlet_outcome_grid",
+        "full_discovery_protocol",
+        "raw_predictions_preserved"
+      ],
+      "executed": false,
+      "sealed_benchmark_opened": false,
+      "status": "blocked_before_execution"
+    },
+    "reduced_discovery": {
+      "candidate_discovery_mae": 0.0026041648454527134,
+      "candidate_discovery_r2": 0.9487095562816686,
+      "experiment_id": "QN-000040",
+      "frozen_candidate": "quadratic",
+      "mean_nested_effect": -0.03695312475028913,
+      "nested_effects": 2880,
+      "outcome_eligible": false,
+      "positive_nested_effects": 0
+    },
+    "scope": "synthetic and nonclinical computational evidence"
+  }
 };

@@ -6,18 +6,18 @@
   const formatName = (value) => value.replace(/::/g, " · ").replace(/_/g, " ");
   const pct = (value) => `${(value * 100).toFixed(1)}%`;
 
-  function drawRobustness() {
-    const chart = document.querySelector("#robustnessChart");
-    const complex = data.robustness.find((item) => item.model === "complex_operator");
-    const real = data.robustness.find((item) => item.model === "two_channel_operator");
-    ["in_domain", "nuisance", "mild", "moderate", "severe"].forEach((severity) => {
-      const group = document.createElement("div");
-      group.className = "shift-group";
-      group.innerHTML = `<div class="bar-area">
-        <div class="bar complex" style="height:${complex[severity] * 100}%"><span>${complex[severity].toFixed(3)}</span></div>
-        <div class="bar real" style="height:${real[severity] * 100}%"><span>${real[severity].toFixed(3)}</span></div>
-      </div><span>${formatName(severity)}</span>`;
-      chart.appendChild(group);
+  function drawFalsification() {
+    const chart = document.querySelector("#falsificationChart");
+    const max = Math.max(...data.falsification.map((item) => Math.abs(item.value)));
+    data.falsification.forEach((item) => {
+      const width = 50 * Math.abs(item.value) / max;
+      const left = item.value >= 0 ? 50 : 50 - width;
+      const row = document.createElement("div");
+      row.className = "effect-row";
+      row.innerHTML = `<span><strong>${item.label}</strong><small>${item.comparator}</small></span>
+        <div class="effect-track"><i style="left:${left}%;width:${width}%" class="${item.value >= 0 ? "positive" : "negative"}"></i><b></b></div>
+        <output>${item.value >= 0 ? "+" : ""}${item.value.toFixed(3)}</output>`;
+      chart.appendChild(row);
     });
   }
 
@@ -79,7 +79,7 @@
   function buildClaims() {
     const filter = document.querySelector("#claimFilter");
     const list = document.querySelector("#claimList");
-    const groups = ["All", "Replicated", "Preliminary", "Refuted", "Unsupported"];
+    const groups = ["All", "Supported", "Falsified", "Unsupported", "Not executed"];
     const render = (group) => {
       const claims = data.claims.filter((claim) => group === "All" || claim.status.toLowerCase().includes(group.toLowerCase()));
       list.innerHTML = claims.map((claim, index) => `<article class="claim-card"><button aria-expanded="false" aria-controls="claim-${index}"><span class="claim-status">${claim.status}</span><h3>${claim.claim}</h3><span class="toggle">+</span></button><div class="claim-detail" id="claim-${index}" hidden><p><strong>Evidence:</strong> ${claim.evidence}</p><p><strong>Boundary:</strong> ${claim.counterevidence}</p></div></article>`).join("") || "<p>No claims in this filter.</p>";
@@ -102,11 +102,11 @@
   }
 
   document.querySelector("#failureList").innerHTML = data.failures.slice(-8).map((failure) => `<li>${failure}</li>`).join("");
-  document.querySelector("#proposalList").innerHTML = data.proposals.map((proposal) => `<article class="proposal"><span class="priority">${proposal.priority} priority</span><h3>${formatName(proposal.id)}</h3><p>${proposal.mechanism}</p><p class="falsifier"><strong>Stop if:</strong> ${proposal.falsifier}</p></article>`).join("");
+  document.querySelector("#proposalList").innerHTML = data.next_steps.map((proposal) => `<article class="proposal"><span class="priority">${proposal.priority}</span><h3>${formatName(proposal.id)}</h3><p>${proposal.mechanism}</p><p class="falsifier"><strong>Gate:</strong> ${proposal.falsifier}</p></article>`).join("");
   document.querySelectorAll(".field-controls button").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll(".field-controls button").forEach((item) => item.classList.remove("active"));
     button.classList.add("active"); drawField(button.dataset.context);
   }));
   document.querySelector("#provenanceNote").textContent = `${data.experiments.length} registered result directories; ${data.candidates.length} normalized candidates; ${data.surprises.length} audit flags. Cached artifacts reproduce the public evidence layer.`;
-  drawRobustness(); drawField("architecture"); buildClaims();
+  drawFalsification(); drawField("architecture"); buildClaims();
 })();

@@ -4,6 +4,7 @@
   "claims": [
     {
       "claim_id": "CLAIM-001",
+      "status": "supported within implementation",
       "exact_wording": "The evaluated complex operator has an exact structured real-block implementation that reproduces its top-1 predictions at numerical precision.",
       "evidence": [
         "QN-000033 mapped mechanism runs differ by at most approximately 4.8e-7 across recorded metrics.",
@@ -26,6 +27,7 @@
     },
     {
       "claim_id": "CLAIM-002",
+      "status": "falsified",
       "exact_wording": "Within the reduced independent-task studies, the cellwise best-real envelope removes the observed complex robustness advantage.",
       "evidence": [
         "QN-000040 has zero positive complex-minus-best-real effects among 2,880 nested discovery cells.",
@@ -48,6 +50,7 @@
     },
     {
       "claim_id": "CLAIM-003",
+      "status": "falsified",
       "exact_wording": "The frozen quadratic relationship selected on reduced discovery data fails quantitative prediction on held-out task families.",
       "evidence": [
         "QN-LAW-001 discovery R2 is 0.949 with MAE 0.00260 across 12 aggregate cells.",
@@ -67,6 +70,7 @@
     },
     {
       "claim_id": "CLAIM-004",
+      "status": "bounded reinterpretation",
       "exact_wording": "The earlier positive NeuroWorld result is comparator-dependent rather than evidence of intrinsically complex arithmetic.",
       "evidence": [
         "QN-000008 reports +0.0602 moderate-shift top-1 versus a two-channel real control.",
@@ -86,6 +90,7 @@
     },
     {
       "claim_id": "CLAIM-005",
+      "status": "not executed",
       "exact_wording": "QN-GRAND-001 did not execute and provides no primary confirmatory effect estimate.",
       "evidence": ["The registered preflight records six blocking failures and sealed_benchmark_opened=false."],
       "counterevidence": ["Eight readiness checks passed, including the shortcut gate, power plan, exact-real equivalence, and held-out family separation."],
@@ -102,6 +107,7 @@
     },
     {
       "claim_id": "CLAIM-006",
+      "status": "unsupported",
       "exact_wording": "The repository contains no evidence of clinical validity, patient benefit, safety, or a quantum mechanism of cognition.",
       "evidence": ["All next-phase tasks are synthetic and nonclinical; no patient dataset was selected or evaluated."],
       "counterevidence": [],
