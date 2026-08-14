@@ -99,7 +99,14 @@ def smoke_config(config: dict[str, Any]) -> dict[str, Any]:
     output = copy.deepcopy(config)
     output["description"] += " [SMOKE PROFILE; NOT DISCOVERY EVIDENCE]"
     output["profile"] = "smoke"
-    output["families"] = {"analytic_noncommutative": output["families"]["analytic_noncommutative"]}
+    output["families"] = {
+        name: output["families"][name]
+        for name in (
+            "hidden_causal_machine",
+            "analytic_noncommutative",
+            "analytic_commutative",
+        )
+    }
     output["dataset"].update(
         train_sizes=[120],
         validation_cases=80,
@@ -317,7 +324,27 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
             ],
         )
         return experiment_id, result_directory, result
-    except Exception:
+    except Exception as error:
+        (result_directory / "failure.json").write_text(
+            json.dumps(
+                {
+                    "status": "failed",
+                    "stage": "independent_discovery",
+                    "error_type": type(error).__name__,
+                    "message": str(error),
+                },
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        registry.record_failure(
+            experiment_id,
+            "independent_discovery",
+            type(error).__name__,
+            str(error),
+        )
         registry.fail(experiment_id)
         raise
 

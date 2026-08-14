@@ -27,7 +27,7 @@ def test_smoke_profile_is_not_discovery_evidence() -> None:
     smoke = smoke_config(_config())
     assert smoke["profile"] == "smoke"
     assert "NOT DISCOVERY EVIDENCE" in smoke["description"]
-    assert len(smoke["families"]) == 1
+    assert len(smoke["families"]) == 3
 
 
 def test_effect_builder_uses_cellwise_best_real_and_fits_laws() -> None:
