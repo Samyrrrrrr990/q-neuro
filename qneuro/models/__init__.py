@@ -14,6 +14,7 @@ from qneuro.models.advanced import (
     RealEvidenceAccumulator,
 )
 from qneuro.models.baselines import EvidenceMLP, TinyGRU, TinyTransformer
+from qneuro.models.equivalent import ExactRealBlockOperatorState
 from qneuro.models.operators import (
     ComplexMagnitudeReadoutOperator,
     ComplexNoNegativeEvidenceOperator,
@@ -34,6 +35,7 @@ __all__ = [
     "EnergyAttractorState",
     "EvidenceGraphNetwork",
     "EvidenceMLP",
+    "ExactRealBlockOperatorState",
     "HamiltonianDissipativeState",
     "LogisticEvidence",
     "ModernHopfieldMemory",

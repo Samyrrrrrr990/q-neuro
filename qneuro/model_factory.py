@@ -19,6 +19,7 @@ from qneuro.models import (
     EnergyAttractorState,
     EvidenceGraphNetwork,
     EvidenceMLP,
+    ExactRealBlockOperatorState,
     HamiltonianDissipativeState,
     LogisticEvidence,
     ModernHopfieldMemory,
@@ -153,6 +154,19 @@ def build_model(
     elif name == "complex_operator":
         model, width = _nearest_width(
             lambda value: ComplexOperatorState(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                rank,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 129)),
+            parameter_budget,
+        )
+    elif name == "exact_real_block_operator":
+        model, width = _nearest_width(
+            lambda value: ExactRealBlockOperatorState(
                 NeuroWorld.num_tokens,
                 NeuroWorld.pad_token,
                 value,

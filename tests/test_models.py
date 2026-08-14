@@ -7,7 +7,7 @@ from qneuro.calibration import apply_temperature, fit_temperature
 from qneuro.data import collate_cases
 from qneuro.metrics import aggregate_seed_metrics, classification_metrics
 from qneuro.model_factory import build_model, parameter_count
-from qneuro.models import ComplexOperatorState, RealOperatorState
+from qneuro.models import ComplexOperatorState, ExactRealBlockOperatorState, RealOperatorState
 
 
 def sample_batch() -> dict[str, torch.Tensor]:
@@ -23,6 +23,7 @@ def test_parameter_budget_matching() -> None:
         "real_operator",
         "two_channel_operator",
         "complex_operator",
+        "exact_real_block_operator",
     ):
         model, metadata = build_model(name, 20_000, rank=2, max_length=40, step_size=0.35)
         assert metadata["parameter_count"] == parameter_count(model)
@@ -39,6 +40,32 @@ def test_complex_probabilities_are_normalized_and_finite() -> None:
     assert torch.isfinite(probabilities).all()
     assert (probabilities >= 0).all()
     assert torch.allclose(probabilities.sum(dim=-1), torch.ones(8), atol=1e-6)
+
+
+def test_exact_real_block_matches_complex_forward_loss_and_gradients() -> None:
+    torch.manual_seed(71)
+    batch = sample_batch()
+    complex_model = ComplexOperatorState(80, 80, state_dim=8, rank=2, num_classes=20)
+    real_block = ExactRealBlockOperatorState(80, 80, state_dim=8, rank=2, num_classes=20)
+    real_block.copy_from_complex(complex_model)
+
+    complex_logits = complex_model(**batch)
+    real_logits = real_block(**batch)
+    assert torch.allclose(complex_logits, real_logits, atol=2e-5, rtol=2e-5)
+
+    complex_loss = torch.nn.functional.cross_entropy(complex_logits, batch["label"])
+    real_loss = torch.nn.functional.cross_entropy(real_logits, batch["label"])
+    complex_loss.backward()
+    real_loss.backward()
+    for (complex_name, complex_parameter), (real_name, real_parameter) in zip(
+        complex_model.named_parameters(), real_block.named_parameters(), strict=True
+    ):
+        assert complex_name == real_name
+        assert complex_parameter.grad is not None
+        assert real_parameter.grad is not None
+        assert torch.allclose(complex_parameter.grad, real_parameter.grad, atol=5e-5, rtol=5e-4), (
+            complex_name
+        )
 
 
 def test_padding_does_not_change_operator_state() -> None:
