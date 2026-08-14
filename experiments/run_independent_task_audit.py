@@ -13,7 +13,7 @@ import numpy as np
 import yaml
 
 from experiments.run_experiment_zero import ROOT
-from independent_tasks import INDEPENDENT_TASK_FAMILIES, build_independent_task
+from independent_tasks import GENERATOR_VERSION, INDEPENDENT_TASK_FAMILIES, build_independent_task
 from neuroworld import NeuroWorld
 from qneuro.provenance import environment_record, file_sha256, require_clean_worktree
 from qneuro.registry import ExperimentRegistry
@@ -104,6 +104,10 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
                 (label_semantics, "counterfactual_label_semantics"),
                 (token_range_valid, "invalid_token"),
                 (bool(train.metadata["synthetic_nonclinical"]), "nonclinical_boundary_missing"),
+                (
+                    train.metadata["generator_version"] == config["generator_version"],
+                    "generator_version_mismatch",
+                ),
             ):
                 if not passed:
                     family_violations.append(name)
@@ -133,6 +137,7 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
             "experiment_id": experiment_id,
             "status": "complete",
             "outcome_eligible": False,
+            "generator_version": GENERATOR_VERSION,
             "compiled_families": len(audits),
             "checks_passed": not violations,
             "violations": violations,

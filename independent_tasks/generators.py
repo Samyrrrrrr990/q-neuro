@@ -28,6 +28,7 @@ INDEPENDENT_TASK_FAMILIES: tuple[str, ...] = (
     "analytic_noncommutative",
     "analytic_commutative",
 )
+GENERATOR_VERSION = "1.0.1"
 
 
 @dataclass(frozen=True)
@@ -249,7 +250,8 @@ class IndependentSequentialTask:
             raise ValueError("shift_strength must be in [0, 1]")
         rng = np.random.default_rng(seed)
         cases: list[Case] = []
-        order_bits: list[int] = []
+        latent_direction_bits: list[int] = []
+        observed_order_bits: list[int] = []
         labels: list[int] = []
         for case_id in range(n_cases):
             pair = int(rng.integers(0, self.definition.pair_count))
@@ -263,11 +265,16 @@ class IndependentSequentialTask:
                 shift_strength=shift_strength,
             )
             cases.append(case)
-            order_bits.append(direction)
+            marker_a, marker_b = self._marker_tokens(pair, 0)
+            position_a = int(np.flatnonzero(case.tokens == marker_a)[0])
+            position_b = int(np.flatnonzero(case.tokens == marker_b)[0])
+            latent_direction_bits.append(direction)
+            observed_order_bits.append(int(position_b < position_a))
             labels.append(case.label)
         first, second = analytic_operator_pair(self.order_dependence)
         metadata: dict[str, object] = {
             "family": self.family,
+            "generator_version": GENERATOR_VERSION,
             "narrative": self.definition.narrative,
             "synthetic_nonclinical": True,
             "generator_independent_of_neuroworld_rules": True,
@@ -279,8 +286,11 @@ class IndependentSequentialTask:
             "causal_order": self.definition.causal_order,
             "controlled_order_dependence": self.order_dependence,
             "analytic_normalized_commutator": normalized_commutator(first, second),
-            "empirical_order_target_mutual_information": discrete_mutual_information(
-                order_bits, labels
+            "empirical_observed_order_target_mutual_information": discrete_mutual_information(
+                observed_order_bits, labels
+            ),
+            "latent_direction_target_mutual_information": discrete_mutual_information(
+                latent_direction_bits, labels
             ),
             "num_task_classes": self.num_task_classes,
         }

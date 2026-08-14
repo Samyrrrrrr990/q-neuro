@@ -40,8 +40,20 @@ def test_analytic_controls_span_commuting_and_noncommuting_endpoints() -> None:
     noncommuting = build_independent_task("analytic_noncommutative").generate(400, 7309)
     assert commuting.metadata["analytic_normalized_commutator"] == 0.0
     assert noncommuting.metadata["analytic_normalized_commutator"] > 0.4
-    assert commuting.metadata["empirical_order_target_mutual_information"] < 0.05
-    assert noncommuting.metadata["empirical_order_target_mutual_information"] > 0.5
+    assert commuting.metadata["empirical_observed_order_target_mutual_information"] < 0.05
+    assert noncommuting.metadata["empirical_observed_order_target_mutual_information"] > 0.5
+
+
+def test_observed_order_information_tracks_controlled_dependence() -> None:
+    values = []
+    for level in (0.0, 0.5, 1.0):
+        dataset = build_independent_task(
+            "analytic_noncommutative", order_dependence=level
+        ).generate(5000, 7351)
+        values.append(dataset.metadata["empirical_observed_order_target_mutual_information"])
+    assert values[0] < 0.01
+    assert values[0] < values[1] < values[2]
+    assert values[2] > 0.68
 
 
 def test_shift_changes_surface_distribution_without_changing_class_space() -> None:
