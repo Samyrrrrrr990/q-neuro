@@ -8,7 +8,11 @@ from torch import nn
 
 from neuroworld import NeuroWorld
 from qneuro.models import (
+    AmbiguityAwareComplexOperator,
+    AmbiguityAwareRealOperator,
     CausalTransformer,
+    CommutatorPenaltyComplexOperator,
+    CommutingComplexOperatorState,
     ComplexEvidenceAccumulator,
     ComplexEvidenceMLP,
     ComplexMagnitudeReadoutOperator,
@@ -22,10 +26,17 @@ from qneuro.models import (
     EvidenceGraphNetwork,
     EvidenceMLP,
     ExactRealBlockOperatorState,
+    FixedRandomComplexOperator,
+    FixedTwoStateAttractor,
+    FrozenReadoutComplexOperator,
     HamiltonianDissipativeState,
     LogisticEvidence,
+    MagnitudeDestroyedOperator,
     ModernHopfieldMemory,
+    NoConjugationComplexOperator,
+    NoncommutativeRealOperator,
     OrthogonalRealRecurrence,
+    PhaseDestroyedTrainingOperator,
     RealEvidenceAccumulator,
     RealOperatorState,
     RealPolarOperatorState,
@@ -40,7 +51,10 @@ from qneuro.models import (
 
 
 def parameter_count(model: nn.Module) -> int:
-    """Count trainable real scalars; complex entries count as two when native complex is used."""
+    """Count stored real scalars; complex entries count as two.
+
+    Frozen mechanism controls separately report ``trainable_parameter_count``.
+    """
 
     count = 0
     for parameter in model.parameters():
@@ -180,6 +194,18 @@ def build_model(
             list(range(4, 257)),
             parameter_budget,
         )
+    elif name == "commuting_operator":
+        model, width = _nearest_width(
+            lambda value: CommutingComplexOperatorState(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 257)),
+            parameter_budget,
+        )
     elif name == "hopfield":
         model, width = _nearest_width(
             lambda value: ModernHopfieldMemory(
@@ -216,6 +242,38 @@ def build_model(
     elif name == "complex_operator":
         model, width = _nearest_width(
             lambda value: ComplexOperatorState(
+                NeuroWorld.num_tokens,
+                NeuroWorld.pad_token,
+                value,
+                rank,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 129)),
+            parameter_budget,
+        )
+    elif name in {
+        "commutator_penalty_operator",
+        "phase_destroyed_training",
+        "magnitude_destroyed",
+        "no_conjugation_operator",
+        "fixed_random_complex_operator",
+        "frozen_dynamics",
+        "frozen_readout",
+        "ambiguity_aware_complex",
+    }:
+        mechanism_class = {
+            "commutator_penalty_operator": CommutatorPenaltyComplexOperator,
+            "phase_destroyed_training": PhaseDestroyedTrainingOperator,
+            "magnitude_destroyed": MagnitudeDestroyedOperator,
+            "no_conjugation_operator": NoConjugationComplexOperator,
+            "fixed_random_complex_operator": FixedRandomComplexOperator,
+            "frozen_dynamics": FixedRandomComplexOperator,
+            "frozen_readout": FrozenReadoutComplexOperator,
+            "ambiguity_aware_complex": AmbiguityAwareComplexOperator,
+        }[name]
+        model, width = _nearest_width(
+            lambda value: mechanism_class(
                 NeuroWorld.num_tokens,
                 NeuroWorld.pad_token,
                 value,
@@ -295,6 +353,48 @@ def build_model(
             list(range(4, 257)) if name == "two_channel_operator" else list(range(4, 257, 2)),
             parameter_budget,
         )
+    elif name in {"noncommutative_real_operator", "ambiguity_aware_real"}:
+        mechanism_class = (
+            NoncommutativeRealOperator
+            if name == "noncommutative_real_operator"
+            else AmbiguityAwareRealOperator
+        )
+        if name == "noncommutative_real_operator":
+            model, width = _nearest_width(
+                lambda value: mechanism_class(
+                    NeuroWorld.num_tokens,
+                    NeuroWorld.num_diagnoses,
+                    value,
+                    step_size,
+                    readout_dim=max(20, 2 * value - 1),
+                ),
+                list(range(4, 65)),
+                parameter_budget,
+            )
+        else:
+            model, width = _nearest_width(
+                lambda value: mechanism_class(
+                    NeuroWorld.num_tokens,
+                    NeuroWorld.pad_token,
+                    value,
+                    rank,
+                    NeuroWorld.num_diagnoses,
+                    step_size,
+                ),
+                list(range(4, 257)),
+                parameter_budget,
+            )
+    elif name == "fixed_two_state_attractor":
+        model, width = _nearest_width(
+            lambda value: FixedTwoStateAttractor(
+                NeuroWorld.num_tokens,
+                value,
+                NeuroWorld.num_diagnoses,
+                step_size,
+            ),
+            list(range(4, 257)),
+            parameter_budget,
+        )
     elif name in {"energy_attractor", "adaptive_attractor"}:
         model, width = _nearest_width(
             lambda value: EnergyAttractorState(
@@ -339,8 +439,20 @@ def build_model(
     else:
         raise ValueError(f"unknown model: {name}")
     if name in {
+        "ambiguity_aware_complex",
+        "commuting_operator",
+        "commutator_penalty_operator",
+        "complex_magnitude_readout",
+        "complex_no_negative",
         "complex_operator",
         "exact_real_block_operator",
+        "fixed_random_complex_operator",
+        "fixed_two_state_attractor",
+        "frozen_dynamics",
+        "frozen_readout",
+        "magnitude_destroyed",
+        "no_conjugation_operator",
+        "phase_destroyed_training",
         "real_polar_operator",
         "real_rotation_block_operator",
     }:
@@ -354,6 +466,11 @@ def build_model(
         if any(value in name for value in ("operator", "hamiltonian", "dynamics"))
         else 0,
         "parameter_count": parameter_count(model),
+        "trainable_parameter_count": sum(
+            (2 if parameter.is_complex() else 1) * parameter.numel()
+            for parameter in model.parameters()
+            if parameter.requires_grad
+        ),
         "parameter_budget": parameter_budget,
         "state_real_dof": state_real_dof,
     }

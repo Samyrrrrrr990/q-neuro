@@ -29,6 +29,19 @@ from qneuro.models.equivalent import (
     RealPolarOperatorState,
     RealRotationBlockOperator,
 )
+from qneuro.models.mechanisms import (
+    AmbiguityAwareComplexOperator,
+    AmbiguityAwareRealOperator,
+    CommutatorPenaltyComplexOperator,
+    CommutingComplexOperatorState,
+    FixedRandomComplexOperator,
+    FixedTwoStateAttractor,
+    FrozenReadoutComplexOperator,
+    MagnitudeDestroyedOperator,
+    NoConjugationComplexOperator,
+    NoncommutativeRealOperator,
+    PhaseDestroyedTrainingOperator,
+)
 from qneuro.models.operators import (
     ComplexMagnitudeReadoutOperator,
     ComplexNoNegativeEvidenceOperator,
@@ -38,7 +51,11 @@ from qneuro.models.operators import (
 )
 
 __all__ = [
+    "AmbiguityAwareComplexOperator",
+    "AmbiguityAwareRealOperator",
     "CausalTransformer",
+    "CommutatorPenaltyComplexOperator",
+    "CommutingComplexOperatorState",
     "ComplexEvidenceAccumulator",
     "ComplexEvidenceMLP",
     "ComplexMagnitudeReadoutOperator",
@@ -52,10 +69,17 @@ __all__ = [
     "EvidenceGraphNetwork",
     "EvidenceMLP",
     "ExactRealBlockOperatorState",
+    "FixedRandomComplexOperator",
+    "FixedTwoStateAttractor",
+    "FrozenReadoutComplexOperator",
     "HamiltonianDissipativeState",
     "LogisticEvidence",
+    "MagnitudeDestroyedOperator",
     "ModernHopfieldMemory",
+    "NoConjugationComplexOperator",
+    "NoncommutativeRealOperator",
     "OrthogonalRealRecurrence",
+    "PhaseDestroyedTrainingOperator",
     "RealEvidenceAccumulator",
     "RealOperatorState",
     "RealPolarOperatorState",
