@@ -1,0 +1,2343 @@
+{
+  "candidate_laws": {
+    "interaction": {
+      "coefficients": [
+        -0.1299231598765233,
+        0.1976746765486783,
+        0.020976959593701407,
+        -0.12201448373195004
+      ],
+      "discovery_mae": 0.012594424414721766,
+      "discovery_n": 9,
+      "discovery_r2": 0.8839763459118123,
+      "family": "interaction",
+      "hyperparameter": null
+    },
+    "linear": {
+      "coefficients": [
+        -0.10723206895458011,
+        0.1375982748178625,
+        -0.02440579825732938
+      ],
+      "discovery_mae": 0.01619566055273104,
+      "discovery_n": 9,
+      "discovery_r2": 0.7879417580679213,
+      "family": "linear",
+      "hyperparameter": null
+    },
+    "logarithmic": {
+      "coefficients": [
+        -0.10901014538342853,
+        0.17888332069164548,
+        -0.024655094341625498
+      ],
+      "discovery_mae": 0.015856080404629904,
+      "discovery_n": 9,
+      "discovery_r2": 0.7998780208113728,
+      "family": "logarithmic",
+      "hyperparameter": null
+    },
+    "quadratic": {
+      "coefficients": [
+        -0.12828922074296362,
+        0.3052328221509005,
+        -0.042883017665962024,
+        -0.1751390410384974,
+        0.06221748149641464,
+        -0.11993990987552751
+      ],
+      "discovery_mae": 0.009374512734470685,
+      "discovery_n": 9,
+      "discovery_r2": 0.9367622094723801,
+      "family": "quadratic",
+      "hyperparameter": null
+    },
+    "saturating": {
+      "coefficients": [
+        -0.10975910799127728,
+        0.2876511459750945,
+        -0.024783458648913886
+      ],
+      "discovery_mae": 0.015833697474667237,
+      "discovery_n": 9,
+      "discovery_r2": 0.8038158668514614,
+      "family": "saturating",
+      "hyperparameter": 1.439786995650275
+    },
+    "threshold": {
+      "coefficients": [
+        -0.10723206895458011,
+        0.1375982748178625,
+        -0.02440579825732938
+      ],
+      "discovery_mae": 0.01619566055273104,
+      "discovery_n": 9,
+      "discovery_r2": 0.7879417580679213,
+      "family": "threshold",
+      "hyperparameter": 0.0
+    }
+  },
+  "counterfactual_records": [
+    {
+      "causal_order": true,
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": true,
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": true,
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.15000000596046448,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": true,
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": true,
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.15000000596046448,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": true,
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.10000000149011612,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": true,
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.0,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": false,
+      "family": "analytic_commutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.0,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": false,
+      "family": "analytic_commutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.0,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": false,
+      "family": "analytic_commutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.0,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": false,
+      "family": "analytic_commutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.0,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "causal_order": false,
+      "family": "analytic_commutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.20000000298023224,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "causal_order": false,
+      "family": "analytic_commutative",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.20000000298023224,
+        "counterfactual_flip_rate": 0.10000000149011612,
+        "counterfactual_pair_accuracy": 0.20000000298023224
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    }
+  ],
+  "experiment_id": "QN-000039",
+  "general_law_claim_permitted": false,
+  "law_cells": [
+    {
+      "advantage": -0.12000000104308128,
+      "family": "analytic_commutative",
+      "n_nested_cells": 2,
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "standard_deviation": 0.028284270615259174
+    },
+    {
+      "advantage": -0.13999999687075615,
+      "family": "analytic_commutative",
+      "n_nested_cells": 2,
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "standard_deviation": 0.028284270615259174
+    },
+    {
+      "advantage": -0.09999999962747097,
+      "family": "analytic_commutative",
+      "n_nested_cells": 2,
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "standard_deviation": 0.056568543864696376
+    },
+    {
+      "advantage": -0.019999999552965164,
+      "family": "analytic_noncommutative",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "standard_deviation": 0.028284270615259174
+    },
+    {
+      "advantage": -0.030000001192092896,
+      "family": "analytic_noncommutative",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "standard_deviation": 0.014142137941807619
+    },
+    {
+      "advantage": -0.06999999843537807,
+      "family": "analytic_noncommutative",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "standard_deviation": 0.07071067653814793
+    },
+    {
+      "advantage": -0.010000001639127731,
+      "family": "hidden_causal_machine",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.48594074938943815,
+      "severity": 0.0,
+      "standard_deviation": 0.014142137941807619
+    },
+    {
+      "advantage": -0.07999999821186066,
+      "family": "hidden_causal_machine",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.3460876213737989,
+      "severity": 0.5,
+      "standard_deviation": 0.028284270615259174
+    },
+    {
+      "advantage": -0.06000000052154064,
+      "family": "hidden_causal_machine",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.43664796874807077,
+      "severity": 1.0,
+      "standard_deviation": 0.028284273249437206
+    }
+  ],
+  "outcome_eligible": false,
+  "paired_effects": [
+    {
+      "best_real_model": "exact_real_block_operator",
+      "best_real_top1": 0.07999999821186066,
+      "complex_top1": 0.07999999821186066,
+      "difference": 0.0,
+      "family": "hidden_causal_machine",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.4553098815267793,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.11999999731779099,
+      "complex_top1": 0.05999999865889549,
+      "difference": -0.05999999865889549,
+      "family": "hidden_causal_machine",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.30295133852101336,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.14000000059604645,
+      "complex_top1": 0.10000000149011612,
+      "difference": -0.03999999910593033,
+      "family": "hidden_causal_machine",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.42288866482673015,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.07999999821186066,
+      "difference": -0.020000003278255463,
+      "family": "hidden_causal_machine",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.516571617252097,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.11999999731779099,
+      "complex_top1": 0.019999999552965164,
+      "difference": -0.09999999776482582,
+      "family": "hidden_causal_machine",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.3892239042265844,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.019999999552965164,
+      "difference": -0.08000000193715096,
+      "family": "hidden_causal_machine",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.45040727266941133,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.05999999865889549,
+      "difference": 0.0,
+      "family": "analytic_noncommutative",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.03999999910593033,
+      "difference": -0.019999999552965164,
+      "family": "analytic_noncommutative",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.11999999731779099,
+      "complex_top1": 0.0,
+      "difference": -0.11999999731779099,
+      "family": "analytic_noncommutative",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.14000000059604645,
+      "complex_top1": 0.10000000149011612,
+      "difference": -0.03999999910593033,
+      "family": "analytic_noncommutative",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.05999999865889549,
+      "difference": -0.04000000283122063,
+      "family": "analytic_noncommutative",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.03999999910593033,
+      "difference": -0.019999999552965164,
+      "family": "analytic_noncommutative",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.14000000059604645,
+      "complex_top1": 0.0,
+      "difference": -0.14000000059604645,
+      "family": "analytic_commutative",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.1599999964237213,
+      "complex_top1": 0.0,
+      "difference": -0.1599999964237213,
+      "family": "analytic_commutative",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.14000000059604645,
+      "complex_top1": 0.0,
+      "difference": -0.14000000059604645,
+      "family": "analytic_commutative",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.0,
+      "difference": -0.10000000149011612,
+      "family": "analytic_commutative",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.11999999731779099,
+      "complex_top1": 0.0,
+      "difference": -0.11999999731779099,
+      "family": "analytic_commutative",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.0,
+      "difference": -0.05999999865889549,
+      "family": "analytic_commutative",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    }
+  ],
+  "profile": "smoke",
+  "protocol_deviations": [
+    "Training sizes 5000 and 25000 are deferred; only 250 and 1000 are evaluated.",
+    "The full real envelope and 8/10-trial hyperparameter policy are not executed.",
+    "Results are provisional discovery evidence and cannot support Outcome E or QN-GRAND-001."
+  ],
+  "records": [
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.07048512995243073,
+        "nll": 3.222349166870117,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.4553098815267793,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.08542416989803314,
+        "nll": 3.2808990478515625,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.30295133852101336,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.17456556856632233,
+        "nll": 3.1122512817382812,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.42288866482673015,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.06375615298748016,
+        "nll": 3.128528356552124,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.516571617252097,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.1275358945131302,
+        "nll": 3.206998348236084,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.3892239042265844,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.12851686775684357,
+        "nll": 3.221982479095459,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.45040727266941133,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.07048514485359192,
+        "nll": 3.222349166870117,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.4553098815267793,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.08542418479919434,
+        "nll": 3.2808990478515625,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.30295133852101336,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.17456558346748352,
+        "nll": 3.1122512817382812,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.42288866482673015,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.06375616788864136,
+        "nll": 3.1285288333892822,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.516571617252097,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.1275358945131302,
+        "nll": 3.206998348236084,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.3892239042265844,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.12851686775684357,
+        "nll": 3.221982479095459,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.45040727266941133,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.0034626759588718414,
+        "nll": 2.989290237426758,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.4553098815267793,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.0634908378124237,
+        "nll": 2.9870989322662354,
+        "order_accuracy": 0.11999999731779099,
+        "top1": 0.11999999731779099
+      },
+      "model": "state_space",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.30295133852101336,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.08372031152248383,
+        "nll": 2.979188919067383,
+        "order_accuracy": 0.14000000059604645,
+        "top1": 0.14000000059604645
+      },
+      "model": "state_space",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.42288866482673015,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.04359191656112671,
+        "nll": 2.9789671897888184,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.516571617252097,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.06355951726436615,
+        "nll": 2.985880136489868,
+        "order_accuracy": 0.11999999731779099,
+        "top1": 0.11999999731779099
+      },
+      "model": "state_space",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.3892239042265844,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "hidden_causal_machine",
+      "metrics": {
+        "ece": 0.04352075606584549,
+        "nll": 2.9847216606140137,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.5398261670792275,
+      "order_information": 0.45040727266941133,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.08059157431125641,
+        "nll": 3.1725270748138428,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.10866837948560715,
+        "nll": 3.232008934020996,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.15047219395637512,
+        "nll": 3.4022576808929443,
+        "order_accuracy": 0.0,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.051572032272815704,
+        "nll": 3.147409677505493,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.08623874932527542,
+        "nll": 3.201176166534424,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.1092536598443985,
+        "nll": 3.2440717220306396,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.08059157431125641,
+        "nll": 3.1725270748138428,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.10866837948560715,
+        "nll": 3.232008934020996,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.15047219395637512,
+        "nll": 3.4022576808929443,
+        "order_accuracy": 0.0,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.051572032272815704,
+        "nll": 3.147409677505493,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.08623876422643661,
+        "nll": 3.201176166534424,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.1092536449432373,
+        "nll": 3.2440712451934814,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.0036712735891342163,
+        "nll": 2.9730467796325684,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.0036576837301254272,
+        "nll": 2.9696550369262695,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.06386786699295044,
+        "nll": 2.9691619873046875,
+        "order_accuracy": 0.11999999731779099,
+        "top1": 0.11999999731779099
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.08413124084472656,
+        "nll": 2.97221302986145,
+        "order_accuracy": 0.14000000059604645,
+        "top1": 0.14000000059604645
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.043496470898389816,
+        "nll": 2.966902256011963,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_noncommutative",
+      "metrics": {
+        "ece": 0.0036403872072696686,
+        "nll": 2.9935142993927,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6410354778811556,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.13968564569950104,
+        "nll": 3.264965295791626,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14214199781417847,
+        "nll": 3.144129991531372,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14665056765079498,
+        "nll": 3.1023759841918945,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14202696084976196,
+        "nll": 3.4017810821533203,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.141507089138031,
+        "nll": 3.107422113418579,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14179520308971405,
+        "nll": 3.0208661556243896,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.13968567550182343,
+        "nll": 3.264965295791626,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14214199781417847,
+        "nll": 3.144129991531372,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14665058255195618,
+        "nll": 3.1023759841918945,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14202696084976196,
+        "nll": 3.4017810821533203,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.141507089138031,
+        "nll": 3.107422113418579,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.14179523289203644,
+        "nll": 3.0208661556243896,
+        "order_accuracy": NaN,
+        "top1": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.08382991701364517,
+        "nll": 2.969250202178955,
+        "order_accuracy": NaN,
+        "top1": 0.14000000059604645
+      },
+      "model": "state_space",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.10378268361091614,
+        "nll": 2.966503381729126,
+        "order_accuracy": NaN,
+        "top1": 0.1599999964237213
+      },
+      "model": "state_space",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.08380177617073059,
+        "nll": 2.9690096378326416,
+        "order_accuracy": NaN,
+        "top1": 0.14000000059604645
+      },
+      "model": "state_space",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82001
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.043696146458387375,
+        "nll": 2.979217767715454,
+        "order_accuracy": NaN,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.06361058354377747,
+        "nll": 2.97956919670105,
+        "order_accuracy": NaN,
+        "top1": 0.11999999731779099
+      },
+      "model": "state_space",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    },
+    {
+      "family": "analytic_commutative",
+      "metrics": {
+        "ece": 0.004099272191524506,
+        "nll": 2.9642746448516846,
+        "order_accuracy": NaN,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.0,
+      "order_information": 0.013883198470441319,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 1103,
+      "world_seed": 82003
+    }
+  ],
+  "scientific_interpretation": "Reduced discovery results may propose a provisional law but cannot satisfy the preregistered general-law or primary architecture claim.",
+  "split": "discovery",
+  "status": "complete",
+  "training_runs": [
+    {
+      "family": "hidden_causal_machine",
+      "model": "complex_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "complex_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.6081597805023193,
+              "validation_nll": 3.2634243965148926,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.3585245609283447,
+              "validation_nll": 3.0849626064300537,
+              "validation_top1": 0.0625
+            }
+          ],
+          "peak_rss_bytes": 323895296,
+          "peak_rss_delta_bytes": 17268736,
+          "training_seconds": 0.09444962500128895
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.0625,
+          "ece": 0.08630377054214478,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.0849626064300537,
+          "order_accuracy": 0.0625,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.0625,
+          "top3": 0.22499999403953552
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "complex_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.6081597805023193,
+                "validation_nll": 3.2634243965148926,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.3585245609283447,
+                "validation_nll": 3.0849626064300537,
+                "validation_top1": 0.0625
+              }
+            ],
+            "peak_rss_bytes": 323895296,
+            "peak_rss_delta_bytes": 17268736,
+            "training_seconds": 0.09444962500128895
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.0625,
+            "ece": 0.08630377054214478,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.0849626064300537,
+            "order_accuracy": 0.0625,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.0625,
+            "top3": 0.22499999403953552
+          }
+        }
+      ]
+    },
+    {
+      "family": "hidden_causal_machine",
+      "model": "exact_real_block_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "exact_real_block_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.6081602573394775,
+              "validation_nll": 3.2634243965148926,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.3585243225097656,
+              "validation_nll": 3.084963321685791,
+              "validation_top1": 0.0625
+            }
+          ],
+          "peak_rss_bytes": 329416704,
+          "peak_rss_delta_bytes": 4767744,
+          "training_seconds": 0.05084666598122567
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.0625,
+          "ece": 0.08630377054214478,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.084963321685791,
+          "order_accuracy": 0.0625,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.0625,
+          "top3": 0.22499999403953552
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "exact_real_block_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.6081602573394775,
+                "validation_nll": 3.2634243965148926,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.3585243225097656,
+                "validation_nll": 3.084963321685791,
+                "validation_top1": 0.0625
+              }
+            ],
+            "peak_rss_bytes": 329416704,
+            "peak_rss_delta_bytes": 4767744,
+            "training_seconds": 0.05084666598122567
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.0625,
+            "ece": 0.08630377054214478,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.084963321685791,
+            "order_accuracy": 0.0625,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.0625,
+            "top3": 0.22499999403953552
+          }
+        }
+      ]
+    },
+    {
+      "family": "hidden_causal_machine",
+      "model": "state_space",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "state_space",
+          "parameter_budget": 20304,
+          "parameter_count": 20285,
+          "rank": 0,
+          "state_real_dof": 193,
+          "trainable_parameter_count": 20285,
+          "width": 193
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.9909279346466064,
+              "validation_nll": 2.9982144832611084,
+              "validation_top1": 0.03750000149011612
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.9781410694122314,
+              "validation_nll": 2.992750883102417,
+              "validation_top1": 0.03750000149011612
+            }
+          ],
+          "peak_rss_bytes": 331497472,
+          "peak_rss_delta_bytes": 458752,
+          "training_seconds": 0.016707375005353242
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.03750000149011612,
+          "ece": 0.019510816782712936,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.992750883102417,
+          "order_accuracy": 0.03750000149011612,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.03750000149011612,
+          "top3": 0.20000000298023224
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "state_space",
+            "parameter_budget": 20304,
+            "parameter_count": 20285,
+            "rank": 0,
+            "state_real_dof": 193,
+            "trainable_parameter_count": 20285,
+            "width": 193
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.9909279346466064,
+                "validation_nll": 2.9982144832611084,
+                "validation_top1": 0.03750000149011612
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.9781410694122314,
+                "validation_nll": 2.992750883102417,
+                "validation_top1": 0.03750000149011612
+              }
+            ],
+            "peak_rss_bytes": 331497472,
+            "peak_rss_delta_bytes": 458752,
+            "training_seconds": 0.016707375005353242
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.03750000149011612,
+            "ece": 0.019510816782712936,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.992750883102417,
+            "order_accuracy": 0.03750000149011612,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.03750000149011612,
+            "top3": 0.20000000298023224
+          }
+        }
+      ]
+    },
+    {
+      "family": "analytic_noncommutative",
+      "model": "complex_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "complex_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.447195529937744,
+              "validation_nll": 3.2341010570526123,
+              "validation_top1": 0.05000000074505806
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.241783380508423,
+              "validation_nll": 3.0687918663024902,
+              "validation_top1": 0.05000000074505806
+            }
+          ],
+          "peak_rss_bytes": 331464704,
+          "peak_rss_delta_bytes": 16384,
+          "training_seconds": 0.02473029197426513
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.05000000074505806,
+          "ece": 0.09777103364467621,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.0687918663024902,
+          "order_accuracy": 0.05000000074505806,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.05000000074505806,
+          "top3": 0.20000000298023224
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "complex_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.447195529937744,
+                "validation_nll": 3.2341010570526123,
+                "validation_top1": 0.05000000074505806
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.241783380508423,
+                "validation_nll": 3.0687918663024902,
+                "validation_top1": 0.05000000074505806
+              }
+            ],
+            "peak_rss_bytes": 331464704,
+            "peak_rss_delta_bytes": 16384,
+            "training_seconds": 0.02473029197426513
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.05000000074505806,
+            "ece": 0.09777103364467621,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.0687918663024902,
+            "order_accuracy": 0.05000000074505806,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.05000000074505806,
+            "top3": 0.20000000298023224
+          }
+        }
+      ]
+    },
+    {
+      "family": "analytic_noncommutative",
+      "model": "exact_real_block_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "exact_real_block_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.447195529937744,
+              "validation_nll": 3.2341010570526123,
+              "validation_top1": 0.05000000074505806
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.241783618927002,
+              "validation_nll": 3.068791627883911,
+              "validation_top1": 0.05000000074505806
+            }
+          ],
+          "peak_rss_bytes": 331481088,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.033505542000057176
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.05000000074505806,
+          "ece": 0.09777103364467621,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.068791627883911,
+          "order_accuracy": 0.05000000074505806,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.05000000074505806,
+          "top3": 0.20000000298023224
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "exact_real_block_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.447195529937744,
+                "validation_nll": 3.2341010570526123,
+                "validation_top1": 0.05000000074505806
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.241783618927002,
+                "validation_nll": 3.068791627883911,
+                "validation_top1": 0.05000000074505806
+              }
+            ],
+            "peak_rss_bytes": 331481088,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.033505542000057176
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.05000000074505806,
+            "ece": 0.09777103364467621,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.068791627883911,
+            "order_accuracy": 0.05000000074505806,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.05000000074505806,
+            "top3": 0.20000000298023224
+          }
+        }
+      ]
+    },
+    {
+      "family": "analytic_noncommutative",
+      "model": "state_space",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "state_space",
+          "parameter_budget": 20304,
+          "parameter_count": 20285,
+          "rank": 0,
+          "state_real_dof": 193,
+          "trainable_parameter_count": 20285,
+          "width": 193
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.985875129699707,
+              "validation_nll": 2.993286609649658,
+              "validation_top1": 0.07500000298023224
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.972040891647339,
+              "validation_nll": 2.9856858253479004,
+              "validation_top1": 0.07500000298023224
+            }
+          ],
+          "peak_rss_bytes": 331808768,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.011196417006431147
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.07500000298023224,
+          "ece": 0.018305208534002304,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.9856858253479004,
+          "order_accuracy": 0.07500000298023224,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.07500000298023224,
+          "top3": 0.1875
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "state_space",
+            "parameter_budget": 20304,
+            "parameter_count": 20285,
+            "rank": 0,
+            "state_real_dof": 193,
+            "trainable_parameter_count": 20285,
+            "width": 193
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.985875129699707,
+                "validation_nll": 2.993286609649658,
+                "validation_top1": 0.07500000298023224
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.972040891647339,
+                "validation_nll": 2.9856858253479004,
+                "validation_top1": 0.07500000298023224
+              }
+            ],
+            "peak_rss_bytes": 331808768,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.011196417006431147
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.07500000298023224,
+            "ece": 0.018305208534002304,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.9856858253479004,
+            "order_accuracy": 0.07500000298023224,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.07500000298023224,
+            "top3": 0.1875
+          }
+        }
+      ]
+    },
+    {
+      "family": "analytic_commutative",
+      "model": "complex_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "complex_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.931694984436035,
+              "validation_nll": 3.660168170928955,
+              "validation_top1": 0.0
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.5754811763763428,
+              "validation_nll": 3.409949541091919,
+              "validation_top1": 0.0
+            }
+          ],
+          "peak_rss_bytes": 331808768,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.02406616701046005
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.14315743744373322,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.409949541091919,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.0,
+          "top3": 0.13750000298023224
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "complex_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.931694984436035,
+                "validation_nll": 3.660168170928955,
+                "validation_top1": 0.0
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.5754811763763428,
+                "validation_nll": 3.409949541091919,
+                "validation_top1": 0.0
+              }
+            ],
+            "peak_rss_bytes": 331808768,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.02406616701046005
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.14315743744373322,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.409949541091919,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.0,
+            "top3": 0.13750000298023224
+          }
+        }
+      ]
+    },
+    {
+      "family": "analytic_commutative",
+      "model": "exact_real_block_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "exact_real_block_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.931694746017456,
+              "validation_nll": 3.660168409347534,
+              "validation_top1": 0.0
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.5754811763763428,
+              "validation_nll": 3.409949541091919,
+              "validation_top1": 0.0
+            }
+          ],
+          "peak_rss_bytes": 331808768,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.031922750000376254
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.14315743744373322,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.409949541091919,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.0,
+          "top3": 0.13750000298023224
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "exact_real_block_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.931694746017456,
+                "validation_nll": 3.660168409347534,
+                "validation_top1": 0.0
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.5754811763763428,
+                "validation_nll": 3.409949541091919,
+                "validation_top1": 0.0
+              }
+            ],
+            "peak_rss_bytes": 331808768,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.031922750000376254
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.14315743744373322,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.409949541091919,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.0,
+            "top3": 0.13750000298023224
+          }
+        }
+      ]
+    },
+    {
+      "family": "analytic_commutative",
+      "model": "state_space",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "state_space",
+          "parameter_budget": 20304,
+          "parameter_count": 20285,
+          "rank": 0,
+          "state_real_dof": 193,
+          "trainable_parameter_count": 20285,
+          "width": 193
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.995208740234375,
+              "validation_nll": 2.966799020767212,
+              "validation_top1": 0.08749999850988388
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.9800407886505127,
+              "validation_nll": 2.9557697772979736,
+              "validation_top1": 0.13750000298023224
+            }
+          ],
+          "peak_rss_bytes": 331808768,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.010571124992566183
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": NaN,
+          "ece": 0.08093498647212982,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.9557697772979736,
+          "order_accuracy": NaN,
+          "order_evidence_complete_rate": NaN,
+          "top1": 0.13750000298023224,
+          "top3": 0.375
+        }
+      },
+      "train_size": 120,
+      "training_seed": 1103,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "state_space",
+            "parameter_budget": 20304,
+            "parameter_count": 20285,
+            "rank": 0,
+            "state_real_dof": 193,
+            "trainable_parameter_count": 20285,
+            "width": 193
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.995208740234375,
+                "validation_nll": 2.966799020767212,
+                "validation_top1": 0.08749999850988388
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.9800407886505127,
+                "validation_nll": 2.9557697772979736,
+                "validation_top1": 0.13750000298023224
+              }
+            ],
+            "peak_rss_bytes": 331808768,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.010571124992566183
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": NaN,
+            "ece": 0.08093498647212982,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.9557697772979736,
+            "order_accuracy": NaN,
+            "order_evidence_complete_rate": NaN,
+            "top1": 0.13750000298023224,
+            "top3": 0.375
+          }
+        }
+      ]
+    }
+  ]
+}
