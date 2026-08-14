@@ -1,0 +1,33 @@
+experiment: neuroworld_simulator_red_team
+preregistration_id: QNF-PREREG-002
+hypothesis_id: H6
+description: Frozen shortcut and integrity audit performed before ShiftGauntlet or
+  QN-GRAND-001 execution.
+world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+dataset:
+  train_cases: 4000
+  validation_cases: 1000
+  test_cases: 2000
+  train_seed: 8101
+  validation_seed: 8201
+  test_seed: 8303
+failure_thresholds:
+  maximum_duplicate_rate: 0.0
+  maximum_consistency_errors: 0
+  maximum_class_prevalence_deviation: 0.02
+  maximum_shortcut_test_accuracy:
+    class_prior: 0.08
+    metadata_only: 0.2
+    sequence_length_only: 0.15
+    positive_negative_count: 0.2
+    order_only: 0.25
+    single_feature: 0.25
+    depth_two_lookup: 0.4
+  nearest_neighbor_is_diagnostic_only: true
+stopping_rule: Any threshold failure blocks QN-GRAND-001 and requires a versioned
+  amendment.
