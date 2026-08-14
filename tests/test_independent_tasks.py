@@ -66,6 +66,19 @@ def test_shift_changes_surface_distribution_without_changing_class_space() -> No
     )
 
 
+def test_world_seed_changes_support_distribution_not_causal_rule() -> None:
+    first_task = build_independent_task("hidden_rule_relational", world_seed=1)
+    second_task = build_independent_task("hidden_rule_relational", world_seed=2)
+    first = first_task.generate(300, 7507)
+    second = second_task.generate(300, 7507)
+    assert [case.label for case in first.cases] == [case.label for case in second.cases]
+    assert any(
+        not np.array_equal(left.tokens, right.tokens)
+        for left, right in zip(first.cases, second.cases, strict=True)
+    )
+    assert first.metadata["world_seed"] != second.metadata["world_seed"]
+
+
 def test_invalid_commutative_override_fails() -> None:
     with pytest.raises(ValueError, match="commutative"):
         build_independent_task("bayesian_urn", order_dependence=0.2)

@@ -63,6 +63,7 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
                 family,
                 order_dependence=family_config.get("order_dependence"),
                 sequence_length=family_config.get("sequence_length"),
+                world_seed=int(config["world_seed"] + family_index),
             )
             seed = int(config["seed"] + 1000 * family_index)
             train = task.generate(

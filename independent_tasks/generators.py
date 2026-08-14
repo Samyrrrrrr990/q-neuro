@@ -28,7 +28,7 @@ INDEPENDENT_TASK_FAMILIES: tuple[str, ...] = (
     "analytic_noncommutative",
     "analytic_commutative",
 )
-GENERATOR_VERSION = "1.0.1"
+GENERATOR_VERSION = "1.1.0"
 
 
 @dataclass(frozen=True)
@@ -133,6 +133,7 @@ class IndependentSequentialTask:
         *,
         order_dependence: float | None = None,
         sequence_length: int | None = None,
+        world_seed: int = 0,
     ):
         if family not in _DEFINITIONS:
             raise ValueError(f"unknown independent task family: {family}")
@@ -151,6 +152,14 @@ class IndependentSequentialTask:
         self.definition = definition
         self.order_dependence = controlled_order
         self.sequence_length = length
+        self.world_seed = int(world_seed)
+        family_code = sum(
+            (index + 1) * ord(character) for index, character in enumerate(self.family)
+        )
+        world_rng = np.random.default_rng(self.world_seed + family_code)
+        self._support_weights = world_rng.lognormal(0.0, 0.35, NeuroWorld.num_findings)
+        self._negative_probability_offset = float(world_rng.uniform(-0.05, 0.05))
+        self._nuisance_polarity = bool(world_rng.integers(0, 2))
 
     @property
     def num_task_classes(self) -> int:
@@ -201,8 +210,14 @@ class IndependentSequentialTask:
         target_length = max(4, round(self.sequence_length * (1.0 - 0.25 * shift_strength)))
         remaining = max(0, target_length - len(tokens))
         replace = remaining > len(support_pool)
-        support = rng.choice(support_pool, size=remaining, replace=replace).astype(int)
-        negative_probability = 0.20 + 0.35 * shift_strength
+        support_probabilities = self._support_weights[support_pool]
+        support_probabilities = support_probabilities / support_probabilities.sum()
+        support = rng.choice(
+            support_pool, size=remaining, replace=replace, p=support_probabilities
+        ).astype(int)
+        negative_probability = float(
+            np.clip(0.20 + self._negative_probability_offset + 0.35 * shift_strength, 0.0, 1.0)
+        )
         support_tokens = [
             int(finding + (rng.random() < negative_probability) * NeuroWorld.num_findings)
             for finding in support
@@ -214,7 +229,7 @@ class IndependentSequentialTask:
             prefix = round(shift_strength * insertion)
             sequence[:prefix] = reversed(sequence[:prefix])
         token_array = np.asarray(sequence, dtype=np.int64)
-        nuisance_high = (pair % 2 == 0) == (split == "train")
+        nuisance_high = ((pair % 2 == 0) == (split == "train")) == self._nuisance_polarity
         nuisance_target = 0.8 if nuisance_high else 0.2
         age_scaled = float(
             np.clip(
@@ -249,13 +264,14 @@ class IndependentSequentialTask:
         if not 0.0 <= shift_strength <= 1.0:
             raise ValueError("shift_strength must be in [0, 1]")
         rng = np.random.default_rng(seed)
+        label_rng = np.random.default_rng(seed + 1_000_003)
         cases: list[Case] = []
         latent_direction_bits: list[int] = []
         observed_order_bits: list[int] = []
         labels: list[int] = []
         for case_id in range(n_cases):
-            pair = int(rng.integers(0, self.definition.pair_count))
-            direction = int(rng.integers(0, 2))
+            pair = int(label_rng.integers(0, self.definition.pair_count))
+            direction = int(label_rng.integers(0, 2))
             case = self._sample_case(
                 case_id,
                 pair,
@@ -280,6 +296,7 @@ class IndependentSequentialTask:
             "generator_independent_of_neuroworld_rules": True,
             "split": split,
             "seed": int(seed),
+            "world_seed": self.world_seed,
             "cases": n_cases,
             "sequence_length_target": self.sequence_length,
             "shift_strength": float(shift_strength),
@@ -346,9 +363,11 @@ def build_independent_task(
     *,
     order_dependence: float | None = None,
     sequence_length: int | None = None,
+    world_seed: int = 0,
 ) -> IndependentSequentialTask:
     return IndependentSequentialTask(
         family,
         order_dependence=order_dependence,
         sequence_length=sequence_length,
+        world_seed=world_seed,
     )
