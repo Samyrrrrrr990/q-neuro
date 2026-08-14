@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
+import sqlite3
+
+import pytest
+
 from qneuro.registry import ExperimentRegistry
 
 
@@ -16,6 +21,7 @@ def test_registry_tracks_research_entities_and_ranked_metrics(tmp_path) -> None:
         [("metrics", metrics_path)],
     )
     registry.register_hypothesis("H-001", "Complex order helps", status="tested")
+    registry.register_hypothesis("H-001", "Complex order helps", status="tested")
     registry.register_architecture(
         "complex_operator",
         "operator",
@@ -26,6 +32,41 @@ def test_registry_tracks_research_entities_and_ranked_metrics(tmp_path) -> None:
     )
     registry.register_replication(experiment_id, experiment_id, "self-test", "schema test")
     registry.record_failure(experiment_id, "analysis", "ValueError", "synthetic failure")
+    document_hash = hashlib.sha256(b"frozen protocol").hexdigest()
+    registry.register_preregistration("PREREG-001", "1.0.0", "docs/protocol.md", document_hash)
+    registry.attach_protocol(experiment_id, "PREREG-001", "H-001", ["python", "runner.py"])
+    registry.register_trial(
+        "TRIAL-001",
+        experiment_id,
+        "complex_operator",
+        "synthetic",
+        "world-1",
+        "noise",
+        0.5,
+        11,
+        20_000,
+        {"training_flops": 100},
+        {"top1": 0.7},
+        "complete",
+    )
     ranked = registry.best_metrics("top1", model_contains="complex")
     assert ranked[0]["experiment_id"] == experiment_id
     assert ranked[0]["mean"] == 0.7
+
+    with pytest.raises(ValueError, match="immutable"):
+        registry.register_hypothesis("H-001", "Changed after results", status="tested")
+    with pytest.raises(sqlite3.IntegrityError):
+        registry.register_trial(
+            "TRIAL-001",
+            experiment_id,
+            "real_operator",
+            "synthetic",
+            "world-1",
+            "noise",
+            0.5,
+            11,
+            20_000,
+            {},
+            {},
+            "complete",
+        )
