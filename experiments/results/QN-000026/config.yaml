@@ -1,0 +1,55 @@
+experiment: autonomous_discovery_registry
+description: Configuration-level research engine that unifies completed architecture,
+  ablation, training-law, and halting candidates; computes context-specific Pareto
+  frontiers; flags preregistered anomalies; and proposes falsifiable next mutations
+  without tuning against test cases.
+sources:
+  architecture_suite: QN-000014
+  ablation_suite: QN-000016
+  training_laws: QN-000021
+  hard_halting: QN-000023
+catalog: research/discovery/architecture_catalog.yaml
+pareto:
+  maximize:
+  - shifted_top1
+  - counterfactual_pair_accuracy
+  minimize:
+  - shifted_nll
+  - training_seconds
+proposals:
+- id: fixed_two_state_attractor
+  parent: adaptive_attractor
+  mechanism: Replace soft ACT and eight-state dynamics with two fixed energy steps.
+  evidence: QN-000023 executes two states for every case with unchanged accuracy and
+    better calibration.
+  falsifier: A retrained two-state model loses more than 0.01 source top-1 or 0.02
+    shifted top-1.
+  priority: high
+- id: ambiguity_aware_complex_measurement
+  parent: complex_operator
+  mechanism: Add set-valued twin mass and calibration loss only on constructed ambiguous
+    cases.
+  evidence: Complex is robust but has ambiguity NLL above 2.3 in multiple suites.
+  falsifier: Ambiguity NLL does not improve without more than 0.02 shifted top-1 loss.
+  priority: high
+- id: multiworld_local_plasticity
+  parent: local_plasticity
+  mechanism: Drive local prototype updates with counterfactual and multi-world batches.
+  evidence: Local and hybrid learning lock into the source world in QN-000021.
+  falsifier: Shift top-1 remains below 0.40 at 1,000 cases.
+  priority: medium
+- id: calibrated_hermitian_observables
+  parent: complex_operator
+  mechanism: Fit temperature-regularized Hermitian probes with explicit validation
+    calibration.
+  evidence: Hermitian probes improve accuracy but usually worsen NLL in QN-000019.
+  falsifier: Hermitian accuracy gain disappears or NLL remains worse than linear probes.
+  priority: medium
+- id: conflict_conditioned_pgo
+  parent: phase_gradient
+  mechanism: Activate phase rotation only after measuring negative task-gradient cosine.
+  evidence: PGO adds cost on weakly aligned tasks and does not beat multi-objective
+    AdamW.
+  falsifier: On a genuinely conflicting task, it fails to beat the same-objective
+    AdamW control.
+  priority: low

@@ -62,6 +62,10 @@ trajectories:
 	uv run python -m experiments.run_trajectory_study \
 		--config experiments/configs/trajectory_study.yaml
 
+discovery:
+	uv run python -m experiments.run_discovery_engine \
+		--config experiments/configs/discovery_engine.yaml
+
 analyses:
 	uv run python -m research.analyses.analyze_generator_shift
 	uv run python -m research.analyses.analyze_neuro_task_suite

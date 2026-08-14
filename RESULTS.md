@@ -544,3 +544,35 @@ from computation. It is not a generated narrative and does not prove that indivi
 have human semantics.
 
 ![Q-Neuro trajectory signature](research/figures/generated/trajectory_signature.png)
+
+## Registered computational-law discovery pass
+
+Primary artifact: `experiments/results/QN-000026/metrics.json`. Generated decision artifacts:
+`research/discovery/generated/`.
+
+The discovery engine normalizes the completed QN-000014 architecture suite, QN-000016 ablations,
+QN-000021 training-law study, and QN-000023 halting study into 36 candidate records. It computes
+separate Pareto fronts for architecture, training, and inference because their timing measurements
+are not commensurate. Objectives are declared in configuration: maximize source and shifted top-1
+and chronology-pair accuracy; minimize shifted NLL, ECE, and CPU time. The engine also applies
+fixed rules for generalization reversal, ambiguity tension, order-blind aggregate success, hard-
+halting degeneracy, and optimizer cost without frontier gain.
+
+Ten of 24 architecture records, seven of nine training-law records, and one of three halting modes
+are non-dominated under the six-dimensional objective. These broad fronts are scientifically
+informative: no candidate is globally superior once robustness, calibration, chronology, and
+compute are considered. Twenty-six flags expose known tensions rather than manufacturing novelty.
+For example, the complex variants repeatedly combine high source accuracy with ambiguity NLL above
+2.3, while GRU and the hybrid local/global rule show large source-to-world reversals.
+
+Five mutation proposals are emitted with mechanism, parent, evidence, priority, and a numerical
+falsifier. The highest-priority proposals are (1) replace the degenerate eight-state adaptive
+attractor with a fixed two-state model and reject it if source top-1 falls by more than 0.01 or
+shifted top-1 by more than 0.02; and (2) add ambiguity-aware twin mass to complex measurement and
+reject it if ambiguity NLL fails to improve without more than 0.02 shifted top-1 loss. These are
+registered hypotheses, not new findings.
+
+The configuration, catalog, generated records, Pareto sets, surprise flags, and proposals are all
+versioned. The SQLite registry now also stores architectures, hypotheses, replication links, and
+failed-run metadata. This closes the loop from experiment evidence to a reproducible next-study
+queue without allowing the ranking program to promote its own outputs into claims.

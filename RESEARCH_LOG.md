@@ -382,3 +382,26 @@ illustration, while aggregate metrics use all cases.
 
 **Next:** Build configuration-level computational-law search, Pareto ranking, and anomaly flags,
 then consolidate the complete evidence into the dashboard and paper.
+
+## 2026-08-13 — QN-000026 registered discovery pass
+
+**Question:** Can the completed experiment matrix be converted into an auditable mechanism-search
+queue without conflating automated ranking with scientific evidence?
+
+**Method:** Normalized 24 architecture, nine training-law, and three halting records from
+QN-000014/16/21/23. Computed context-specific Pareto fronts under six declared objectives. Applied
+predefined surprise rules and generated five manually specified architecture/training mutations,
+each with a parent mechanism, evidence statement, priority, and numerical falsifier. Extended the
+SQLite registry with architecture, hypothesis, failure, and replication tables.
+
+**Result:** The engine retained broad Pareto sets—10/24 architecture, 7/9 training-law, and 1/3
+halting candidates—and raised 26 metric-tension flags. The broadness reflects real tradeoffs rather
+than a single winner. The highest-priority proposals are a fixed two-state attractor and an
+ambiguity-aware complex measurement.
+
+**Interpretation:** Automated search is useful here as an audit and prioritization layer. It found
+no basis for a universal architecture or training-law claim. Proposals remain hypotheses until
+their configured falsifiers are tested in new registered runs.
+
+**Next:** Freeze the evidence snapshot, expose it through a static research dashboard, and write
+the manuscript with linked primary sources, negative results, and explicit non-clinical scope.

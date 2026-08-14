@@ -255,3 +255,20 @@ separate reliably, but that is path dependence rather than convergence.
 
 **Decision:** Use “operator state,” not “attractor,” for the complex model. Reserve attractor claims
 for an explicit fixed-point, basin, perturbation-recovery, or Lyapunov experiment.
+
+## Automated Pareto ranking as a universal winner selector
+
+**Why it seemed useful:** A single ranked candidate would make the next architecture decision
+simple and could appear to summarize the completed matrix.
+
+**What happened:** QN-000026 retains 10 of 24 architectures and seven of nine training laws on
+their separate six-objective Pareto fronts. Accuracy, robustness, chronology, calibration, and CPU
+time trade against one another; inference timing is also not commensurate with training timing.
+
+**Why the idea failed:** Pareto analysis removes dominated choices but cannot supply scientific
+values or collapse incompatible objectives. A broad frontier is the correct result, not a search
+failure.
+
+**Decision:** Use the engine to expose tensions and preregister falsifiable mutations. Do not call
+its proposals discoveries, optimize against a hidden aggregate score, or compare timing across
+contexts.
