@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="An auditable view of the Q-Neuro synthetic evidence." />
+    <title>Q-Neuro — evidence before claims</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to evidence</a>
+    <header class="masthead">
+      <a class="wordmark" href="#top" aria-label="Q-Neuro dashboard home"><span aria-hidden="true">Ψ</span> Q-Neuro</a>
+      <nav aria-label="Dashboard sections">
+        <a href="#phenomenon">Result</a><a href="#field">Evidence field</a><a href="#claims">Claims</a><a href="#next">Next tests</a>
+      </nav>
+      <p class="status"><span></span> Evidence snapshot · QN-000026</p>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="kicker">Hypothesis-state computing on synthetic neurology</p>
+          <h1>Evidence acts on a state.<br /><em>Then the controls act on the claim.</em></h1>
+          <p class="dek">Complex, ordered evidence operators retain a repeatable robustness advantage inside NeuroWorld. They do not win overall: ambiguity, calibration, compute, and conventional recurrent controls establish the boundary.</p>
+          <div class="hero-actions"><a class="primary" href="#phenomenon">Inspect the result</a><a href="../paper/qneuro.pdf">Read the manuscript</a></div>
+        </div>
+        <div class="operator-trace" aria-label="Conceptual ordered operator trace">
+          <div class="trace-label">same evidence · different order</div>
+          <div class="trace-path path-a"><span>A</span><i></i><span>B</span><b>Ψ<sub>AB</sub></b></div>
+          <div class="trace-path path-b"><span>B</span><i></i><span>A</span><b>Ψ<sub>BA</sub></b></div>
+          <p>O<sub>B</sub>O<sub>A</sub>Ψ ≠ O<sub>A</sub>O<sub>B</sub>Ψ</p>
+        </div>
+      </section>
+
+      <aside class="warning" aria-label="Medical safety warning"><strong>Research prototype — not for clinical use.</strong> All cases are synthetic. No patient data, diagnostic advice, or clinical validation.</aside>
+
+      <section class="result-section" id="phenomenon">
+        <div class="section-heading">
+          <p class="kicker">01 · replicated inside the simulator</p>
+          <h2>A narrow robustness phenomenon survived stronger controls.</h2>
+          <p>Across five unseen world seeds, the complex operator exceeded the parameter-matched two-channel real control at every declared shift severity. World—not case—was the statistical unit. This does not establish external medical validity.</p>
+        </div>
+        <div class="robustness-panel">
+          <div class="panel-head"><div><span>Top-1 accuracy</span><h3>Unseen-world degradation</h3></div><div class="legend"><i class="complex"></i> complex <i class="real"></i> two-channel</div></div>
+          <div id="robustnessChart" class="robustness-chart" role="img" aria-label="Accuracy across shift severity"></div>
+          <p class="figure-note">QN-000008 · five world seeds · three training seeds</p>
+        </div>
+        <dl class="fact-strip">
+          <div><dt>+0.060</dt><dd>moderate-shift top-1 vs two-channel</dd></div>
+          <div><dt>0.987</dt><dd>moderate counterfactual-pair accuracy</dd></div>
+          <div><dt>2.581</dt><dd>ambiguous-pair NLL; real control 1.148</dd></div>
+          <div><dt>20,304</dt><dd>trainable real scalars</dd></div>
+        </dl>
+      </section>
+
+      <section class="field-section" id="field">
+        <div class="section-heading compact"><p class="kicker">02 · the evidence field</p><h2>No single candidate wins every objective.</h2><p>Choose an experimental context. Circle area encodes CPU time; outlined marks are Pareto candidates.</p></div>
+        <div class="field-controls" role="group" aria-label="Candidate context"><button class="active" data-context="architecture">Architectures</button><button data-context="training_law">Training laws</button><button data-context="halting">Inference laws</button></div>
+        <div class="field-grid">
+          <div class="field-chart-wrap"><svg id="evidenceField" viewBox="0 0 760 470" role="img" aria-label="Candidate source accuracy versus shifted accuracy"></svg><div id="fieldTooltip" class="tooltip" hidden></div></div>
+          <aside class="field-readout" aria-live="polite"><p class="eyebrow">Selected candidate</p><h3 id="candidateName">complex operator</h3><dl id="candidateMetrics"></dl><p id="candidateCaveat"></p></aside>
+        </div>
+      </section>
+
+      <section class="audit-section" id="claims">
+        <div class="section-heading compact"><p class="kicker">03 · claim audit</p><h2>The result is strongest where the wording is narrow.</h2><p>Expand a claim to see both its evidence and the fact that limits it.</p></div>
+        <div class="claim-layout"><div class="claim-filter" id="claimFilter" role="group" aria-label="Filter claims"></div><div id="claimList" class="claim-list"></div><aside class="failure-ledger"><p class="eyebrow">Ideas that did not survive</p><ol id="failureList"></ol></aside></div>
+      </section>
+
+      <section class="next-section" id="next">
+        <div class="section-heading compact"><p class="kicker">04 · registered next tests</p><h2>Every proposal carries its own stopping rule.</h2><p>These are hypotheses emitted by the discovery pass—not findings.</p></div>
+        <div id="proposalList" class="proposal-list"></div>
+      </section>
+
+      <section class="provenance">
+        <div><p class="kicker">Evidence provenance</p><h2>From configuration to artifact, without overwriting history.</h2></div>
+        <div class="provenance-flow" aria-label="Research workflow"><span>hypothesis</span><i>→</i><span>config</span><i>→</i><span>run</span><i>→</i><span>artifact</span><i>→</i><span>claim ledger</span></div>
+        <p id="provenanceNote"></p>
+      </section>
+    </main>
+
+    <footer><p>Q-Neuro · independent computational research · evidence snapshot 2026-08-13</p><p><a href="../README.md">Repository</a> · <a href="../RESULTS.md">Complete results</a> · <a href="../docs/CLAIMS.md">Claim ledger</a></p></footer>
+    <script src="data.js"></script><script src="app.js"></script>
+  </body>
+</html>
