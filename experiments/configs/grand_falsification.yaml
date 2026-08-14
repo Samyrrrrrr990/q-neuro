@@ -1,0 +1,340 @@
+preregistration:
+  id: QNF-PREREG-002
+  version: 2.0.0
+  status: frozen_pre_implementation
+  document: docs/PREREGISTRATION_NEXT_PHASE.md
+  parent_audit: docs/NEXT_PHASE_AUDIT.md
+  scope: synthetic_and_nonclinical_research_only
+  central_question: >-
+    Are there regimes in which constrained complex-valued noncommutative hypothesis-state updates
+    provide a reproducible and explainable robustness advantage over equivalently expressive
+    real-valued sequential models at matched resources?
+
+hypotheses:
+  H0: No intrinsic complex advantage after parameter, state, optimization, and compute matching.
+  H1: Any advantage is explained by effective capacity.
+  H2: Any advantage is explained by optimization geometry or initialization.
+  H3: Advantage is specific to target-relevant noncommutative evidence composition.
+  H4: Phase acts as a useful relational memory channel under shift.
+  H5: Complex constraints provide an implicit regularizer rather than unique representation.
+  H6: The phenomenon is an artifact of NeuroWorld.
+  H7: A task-level structural law generalizes to untouched task families.
+
+splits:
+  development:
+    outcome_eligible: false
+    purpose: deterministic invariant and integration tests
+  pilot:
+    outcome_eligible: false
+    purpose: runtime and top-level variance estimation
+  discovery:
+    outcome_eligible: false
+    purpose: candidate-law fitting
+  confirmation:
+    sealed: true
+    outcome_eligible: true
+    experiment_id: QN-GRAND-001
+
+task_families:
+  discovery:
+    - neuroworld
+    - hidden_causal_machine
+    - sequential_detective
+    - analytic_noncommutative
+    - analytic_commutative
+  confirmation:
+    - neuroworld_confirmation
+    - machine_fault_diagnosis
+    - hidden_rule_relational
+    - analytic_noncommutative_confirmation
+    - analytic_commutative_confirmation
+  required_untouched_non_neuroworld_families: 1
+
+shift_gauntlet:
+  severities: [0.0, 0.25, 0.5, 0.75, 1.0]
+  isolate_main_effects: true
+  families:
+    nuisance_variable: {}
+    prevalence: {}
+    conditional_feature: {}
+    spurious_correlation_inversion: {}
+    missingness:
+      mechanisms: [mcar, mar, mnar_like]
+    observation_noise: {}
+    evidence_order:
+      modes: [canonical, random, partially_corrupted, adversarial, reversed]
+    distractor_evidence: {}
+    contradictory_evidence: {}
+    delayed_decisive_evidence: {}
+    unseen_factor_combinations: {}
+    unseen_world_mechanisms: {}
+    evidence_deletion: {}
+    evidence_duplication: {}
+    temporal_dependency_change: {}
+    class_expansion: {}
+    irreducible_ambiguity: {}
+  interaction_grid:
+    axes: [order_dependence, shift_strength]
+    levels: [0.0, 0.25, 0.5, 0.75, 1.0]
+
+architectures:
+  complex_candidate: complex_operator
+  real_envelope:
+    - exact_real_block_operator
+    - unrestricted_paired_real_operator
+    - real_operator
+    - real_polar_operator
+    - real_rotation_block_operator
+    - dense_real_recurrence
+    - orthogonal_real_recurrence
+    - residual_gated_recurrence
+    - gru
+    - lstm
+    - vanilla_rnn
+    - transformer_encoder
+    - causal_transformer
+    - state_space
+  negative_control: mlp
+  required_mechanism_controls:
+    - commuting_operator
+    - commutator_penalty_operator
+    - noncommutative_real_operator
+    - phase_destroyed_training
+    - phase_destroyed_inference
+    - fixed_random_complex_operator
+    - frozen_dynamics
+    - frozen_readout
+    - fixed_two_state_attractor
+    - ambiguity_aware_real
+    - ambiguity_aware_complex
+
+matching:
+  parameter_relative_tolerance: 0.02
+  state_real_dof_tolerance: 1
+  training_flop_relative_tolerance: 0.05
+  identical_optimizer_steps: true
+  identical_batch_size: true
+  identical_epoch_ceiling: true
+  identical_early_stopping: true
+  identical_gradient_clip: true
+  exact_real_equivalence_tests:
+    - forward
+    - probabilities
+    - loss
+    - gradients
+  hyperparameter_trials:
+    complex: 8
+    each_real_control: 10
+  selection:
+    data: source_validation_only
+    primary: nll
+    tie_breaker: top1
+  controls_may_receive_next_larger_compute_budget: true
+
+training:
+  optimizer_families: [adamw, sgd_momentum]
+  learning_rates: [0.0003, 0.001, 0.003, 0.006]
+  weight_decays: [0.0, 0.0001]
+  schedules: [constant, cosine]
+  batch_sizes: [128]
+  epoch_ceiling: 30
+  early_stopping_patience: 5
+  early_stopping_min_delta: 0.00001
+  gradient_clip_norm: 5.0
+  confirmation_training_size: 5000
+  discovery_training_sizes: [250, 1000, 5000, 25000]
+  sequence_lengths: [4, 8, 16, 32, 64, 128, 256]
+
+replication:
+  pilot:
+    worlds_per_family: 8
+    training_seeds: [1103, 2203, 3301]
+    train_sizes: [250, 1000]
+    severities: [0.0, 0.5, 1.0]
+  discovery:
+    worlds_per_family: 24
+    training_seeds: [1103, 2203, 3301, 4409, 5501]
+  confirmation:
+    world_count_candidates: [32, 40, 48, 60]
+    minimum_worlds_per_family: 32
+    maximum_worlds_per_family: 60
+    target_power: 0.90
+    alpha: 0.05
+    training_seeds: [7103, 7207, 7309, 7411, 7507]
+    world_seed_namespace: qneuro-grand-confirmation-v2
+    case_seed_policy: independent_by_family_world_and_split
+  seed_overlap_prohibited: true
+
+endpoints:
+  primary:
+    name: complex_minus_best_real_ood_aurc
+    metric: top1
+    severity_integration: trapezoidal_0_to_1
+    weighting:
+      generator_families: equal
+      shift_families: equal
+      worlds: equal_within_family
+    comparator: per_unit_maximum_matched_real_control
+    minimum_practical_effect: 0.02
+  coprimary_safeguards:
+    shifted_nll_noninferiority_margin: 0.10
+    shifted_ece_noninferiority_margin: 0.03
+  secondary:
+    - median_ood_aurc
+    - worst_decile_ood_aurc
+    - robustness_slope
+    - catastrophic_failure_severity
+    - counterfactual_accuracy
+    - false_order_sensitivity
+    - brier_score
+    - calibration_slope
+    - calibration_intercept
+    - adaptive_ece
+    - ambiguity_valid_set_mass
+    - ambiguity_set_nll
+    - active_evidence_accuracy_auc
+    - probability_of_superiority
+    - architecture_rank_stability
+    - parameters
+    - training_flops
+    - inference_flops
+    - optimizer_steps
+    - cpu_latency
+    - gpu_latency
+    - peak_memory
+    - model_bytes
+
+statistics:
+  primary_interval:
+    method: hierarchical_bootstrap
+    confidence: 0.95
+    resamples: 20000
+    hierarchy: [generator_family, world, training_seed]
+  sensitivity_models:
+    - mixed_effects
+    - paired_sign_flip
+  mixed_effects:
+    fixed: [architecture, shift_family, severity, architecture_x_shift, architecture_x_severity]
+    random: [generator_family, world_nested_in_generator]
+  summaries: [mean, median, standard_deviation, trimmed_mean_10pct, worst_decile]
+  multiplicity:
+    confirmatory: holm_fwer_0.05
+    exploratory: benjamini_hochberg_fdr_0.10
+  per_example_architecture_significance_prohibited: true
+
+power:
+  minimum_practical_effect: 0.02
+  target: 0.90
+  alpha: 0.05
+  selection_rule: >-
+    Choose the smallest candidate world count achieving target power under the conservative pilot
+    paired-world variance; use 60 and declare the shortfall if none reaches target.
+  pilot_may_change_only_world_count: true
+
+simulator_red_team:
+  required_controls:
+    - class_prior
+    - metadata_only
+    - sequence_length_only
+    - evidence_order_only
+    - single_feature
+    - shallow_decision_tree
+    - permutation_invariant
+    - nearest_neighbor
+  checks:
+    - label_leakage
+    - feature_index_leakage
+    - seed_memorization
+    - train_test_generator_overlap
+    - temporal_leakage
+    - unintended_order_markers
+    - missingness_shortcuts
+    - deterministic_artifacts
+    - impossible_combinations
+    - class_imbalance
+  failure_action: block_grand_run_and_version_preregistration
+
+exclusions:
+  allowed:
+    - nonfinite_loss_or_metric
+    - verified_invariant_failure
+    - interrupted_infrastructure_failure
+    - corrupted_artifact_hash
+    - duplicate_seed_or_world_registry_error
+  prohibited:
+    - poor_performance
+    - unfavorable_direction
+    - long_runtime_within_budget
+    - calibration_failure
+    - preferred_model_nonconvergence
+  intention_to_run: true
+  differential_failure_rate_adverse_threshold: 0.05
+
+stopping:
+  efficacy_or_futility_stopping: false
+  integrity_stops:
+    maximum_infrastructure_failure_rate: 0.10
+    maximum_compute_overrun_fraction: 0.25
+    stop_on_leakage_gate_failure: true
+    stop_on_registry_or_hash_failure: true
+
+decision_rules:
+  falsified_if:
+    mean_effect_nonpositive: true
+    point_estimate_below_minimum_effect: true
+    exact_or_structured_real_eliminates_effect: true
+    maximum_single_shift_positive_contribution: 0.50
+    minimum_positive_shift_family_fraction: 0.60
+    calibration_noninferiority_required: true
+    simulator_leakage_gate_required: true
+    release_reproduction_required: true
+  strong_survival_if:
+    adjusted_lower_bound_above_minimum_effect: true
+    minimum_positive_shift_family_fraction: 0.75
+    maximum_single_shift_positive_contribution: 0.50
+    calibration_noninferiority_required: true
+    parameter_state_compute_matching_required: true
+    untouched_non_neuroworld_replication_required: true
+    fresh_clone_estimate_tolerance: 0.005
+  mechanism_only:
+    real_model_absolute_aurc_match: 0.005
+    equivalence_interval: [-0.01, 0.01]
+  general_law:
+    heldout_r2_minimum: 0.50
+    effect_sign_accuracy_minimum: 0.80
+    mean_absolute_error_maximum: 0.015
+
+prohibited_posthoc_changes:
+  - primary_endpoint
+  - minimum_practical_effect
+  - calibration_margins
+  - statistical_hierarchy
+  - unfavorable_baseline_task_shift_severity_seed_world_or_metric_removal
+  - shifted_outcome_hyperparameter_selection
+  - discovery_to_confirmation_reassignment
+  - candidate_law_change_after_confirmation_open
+  - order_dependence_redefinition_after_discovery
+  - weaker_primary_comparator_substitution
+  - failed_run_omission
+  - exploratory_to_confirmatory_relabeling
+  - repeated_qn_grand_001_execution
+
+required_outputs:
+  - research/statistics.py
+  - research/adversarial_reviewer.py
+  - research/claims.json
+  - research/failures.json
+  - docs/EXTERNAL_DATASETS.md
+  - docs/CLINICAL_VALIDATION_ROADMAP.md
+  - docs/PRIOR_ART_V2.md
+  - REPLICATION.md
+  - experiments/run_counterfactual_order_suite.py
+  - experiments/results/QN-GRAND-001
+
+communication:
+  prohibited_claims:
+    - clinical_validity
+    - quantum_brain_or_cognition
+    - universal_complex_superiority
+    - novelty_without_prior_art_support
+  required_scope_phrase: synthetic and nonclinical computational evidence
