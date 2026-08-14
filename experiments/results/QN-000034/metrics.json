@@ -1,0 +1,163 @@
+{
+  "analytic_grid": [
+    {
+      "normalized_commutator": 0.0,
+      "order_dependence_control": 0.0,
+      "state_conditioned_commutator": 0.0
+    },
+    {
+      "normalized_commutator": 0.08879326960580922,
+      "order_dependence_control": 0.1,
+      "state_conditioned_commutator": 0.1462252747443431
+    },
+    {
+      "normalized_commutator": 0.17540015422595667,
+      "order_dependence_control": 0.2,
+      "state_conditioned_commutator": 0.2855589175467317
+    },
+    {
+      "normalized_commutator": 0.2576881049293237,
+      "order_dependence_control": 0.3,
+      "state_conditioned_commutator": 0.41284847015614856
+    },
+    {
+      "normalized_commutator": 0.3336309192715421,
+      "order_dependence_control": 0.4,
+      "state_conditioned_commutator": 0.5250476699537564
+    },
+    {
+      "normalized_commutator": 0.4013586331237559,
+      "order_dependence_control": 0.5,
+      "state_conditioned_commutator": 0.6205856822487139
+    },
+    {
+      "normalized_commutator": 0.45920356539552826,
+      "order_dependence_control": 0.6,
+      "state_conditioned_commutator": 0.6986751706161999
+    },
+    {
+      "normalized_commutator": 0.5057413818780043,
+      "order_dependence_control": 0.7,
+      "state_conditioned_commutator": 0.7591868479508981
+    },
+    {
+      "normalized_commutator": 0.5398261670792275,
+      "order_dependence_control": 0.8,
+      "state_conditioned_commutator": 0.8023250915667298
+    },
+    {
+      "normalized_commutator": 0.5606186404666273,
+      "order_dependence_control": 0.9,
+      "state_conditioned_commutator": 0.8282543544797825
+    },
+    {
+      "normalized_commutator": 0.5676068223391431,
+      "order_dependence_control": 1.0,
+      "state_conditioned_commutator": 0.8370056390772029
+    }
+  ],
+  "architecture_claim_permitted": false,
+  "checks_passed": true,
+  "discovery_candidates": {
+    "interaction": {
+      "coefficients": [
+        0.005023808058175128,
+        -0.00015144340629851335,
+        2.457790004368585e-05,
+        0.12013754238590815
+      ],
+      "discovery_mae": 7.955416898040232e-05,
+      "discovery_n": 25,
+      "discovery_r2": 0.9999911579038759,
+      "family": "interaction",
+      "hyperparameter": null
+    },
+    "linear": {
+      "coefficients": [
+        -0.02501057753830188,
+        0.0599173277866555,
+        0.06009334909299774
+      ],
+      "discovery_mae": 0.010849641808957103,
+      "discovery_n": 25,
+      "discovery_r2": 0.7996549603591258,
+      "family": "linear",
+      "hyperparameter": null
+    },
+    "logarithmic": {
+      "coefficients": [
+        -0.02742391522860544,
+        0.08603298014932827,
+        0.06009334909299775
+      ],
+      "discovery_mae": 0.01165243575498797,
+      "discovery_n": 25,
+      "discovery_r2": 0.7953913466688628,
+      "family": "logarithmic",
+      "hyperparameter": null
+    },
+    "quadratic": {
+      "coefficients": [
+        0.005081002272018607,
+        -0.0004736302624715199,
+        -0.00011078895453129069,
+        0.00032218685617301613,
+        0.0001353668545749789,
+        0.1201375423859082
+      ],
+      "discovery_mae": 7.583129400704884e-05,
+      "discovery_n": 25,
+      "discovery_r2": 0.999992344539003,
+      "family": "quadratic",
+      "hyperparameter": null
+    },
+    "saturating": {
+      "coefficients": [
+        -0.02774720942980092,
+        0.1782397732763132,
+        0.06009334909299776
+      ],
+      "discovery_mae": 0.011792389833644041,
+      "discovery_n": 25,
+      "discovery_r2": 0.7938319752030589,
+      "family": "saturating",
+      "hyperparameter": 2.0
+    },
+    "threshold": {
+      "coefficients": [
+        -0.02501057753830188,
+        0.0599173277866555,
+        0.06009334909299774
+      ],
+      "discovery_mae": 0.010849641808957103,
+      "discovery_n": 25,
+      "discovery_r2": 0.7996549603591258,
+      "family": "threshold",
+      "hyperparameter": 0.0
+    }
+  },
+  "experiment_id": "QN-000034",
+  "outcome_eligible": false,
+  "pipeline_confirmation": {
+    "confirmation_n": 6,
+    "effect_sign_accuracy": 1.0,
+    "mean_absolute_error": 4.2271560374696274e-05,
+    "r2": 0.9999642168140694
+  },
+  "pipeline_frozen_law": {
+    "coefficients": [
+      0.005023808058175128,
+      -0.00015144340629851335,
+      2.457790004368585e-05,
+      0.12013754238590815
+    ],
+    "discovery_mae": 7.955416898040232e-05,
+    "discovery_n": 25,
+    "discovery_r2": 0.9999911579038759,
+    "family": "interaction",
+    "hyperparameter": null
+  },
+  "scientific_interpretation": "The measurement and split-separation pipeline recovered a deliberately embedded interaction law. This is a software validation, not an empirical discovery.",
+  "status": "complete",
+  "violations": []
+}

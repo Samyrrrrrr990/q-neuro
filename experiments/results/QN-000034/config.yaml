@@ -1,0 +1,53 @@
+experiment: computational_law_pipeline_audit
+description: Structural audit of order-dependence measurements and sealed discovery-to-confirmation
+  law evaluation using an explicitly embedded interaction as a software oracle.
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H7
+analytic_state_seed: 51001
+analytic_states: 1000
+order_dependence_levels:
+- 0.0
+- 0.1
+- 0.2
+- 0.3
+- 0.4
+- 0.5
+- 0.6
+- 0.7
+- 0.8
+- 0.9
+- 1.0
+discovery_order_levels:
+- 0.0
+- 0.25
+- 0.5
+- 0.75
+- 1.0
+discovery_shift_levels:
+- 0.0
+- 0.25
+- 0.5
+- 0.75
+- 1.0
+confirmation_order_levels:
+- 0.1
+- 0.2
+- 0.4
+- 0.6
+- 0.8
+- 0.9
+confirmation_shift_levels:
+- 0.9
+- 0.7
+- 0.55
+- 0.45
+- 0.3
+- 0.1
+discovery_seed: 51013
+known_law:
+  intercept: 0.005
+  interaction: 0.12
+  noise_standard_deviation: 0.0001
+  expected_family: interaction
