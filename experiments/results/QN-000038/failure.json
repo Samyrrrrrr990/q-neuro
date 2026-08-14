@@ -1,0 +1,7 @@
+{
+  "error_type": "ValueError",
+  "message": "at least eight finite discovery cells are required",
+  "stage": "candidate_law_fitting",
+  "status": "failed",
+  "scientific_interpretation": "Smoke-profile construction failure; no candidate law or architecture claim was produced."
+}
