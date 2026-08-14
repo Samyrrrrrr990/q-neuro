@@ -14,3 +14,4 @@ paper/*.aux
 paper/*.log
 paper/*.out
 paper/*.pdf
+!paper/qneuro.pdf

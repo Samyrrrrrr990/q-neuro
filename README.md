@@ -10,6 +10,16 @@ proposed mechanisms are novel, or that the software is clinically valid. Complex
 included only where phase changes the computation, and every architectural claim is treated as a
 falsifiable hypothesis.
 
+```mermaid
+flowchart LR
+    E["ordered evidence"] --> O["evidence operator"]
+    O --> S["evolving hypothesis state Ψ"]
+    S --> O
+    S --> M["contextual measurement"]
+    M --> D["differential + uncertainty"]
+    S --> A["trajectory audit"]
+```
+
 > **RESEARCH PROTOTYPE — NOT FOR CLINICAL USE.** All initial cases are synthetic. Outputs are
 > experimental measurements, not medical advice.
 
@@ -157,5 +167,8 @@ indexed in `experiments/registry.sqlite3`.
 - [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md)
 - [`docs/ARCHITECTURE_CANDIDATES.md`](docs/ARCHITECTURE_CANDIDATES.md)
 - [`docs/MATHEMATICS.md`](docs/MATHEMATICS.md)
+- [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- [`docs/MODEL_CARD.md`](docs/MODEL_CARD.md)
 - [`RESULTS.md`](RESULTS.md)
 - [`RESEARCH_LOG.md`](RESEARCH_LOG.md)
+- [`ROADMAP.md`](ROADMAP.md)
