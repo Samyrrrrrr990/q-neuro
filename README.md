@@ -20,6 +20,8 @@ falsifiable hypothesis.
 - Parameter-budgeted MLP, Transformer, GRU, real, two-channel, and complex operator models
 - Reproducible Experiment Zero, multi-world shift, composition, ambiguity, and OOD runners
 - A never-overwritten SQLite experiment registry with environment, metric, and artifact records
+- An auditable discovery engine that ranks context-specific Pareto fronts, flags metric tensions,
+  and emits falsifiable next-experiment proposals
 - Mathematical-invariant, generator-validity, task-construction, and evaluation tests
 
 ## Current evidence
@@ -91,6 +93,13 @@ Trajectory replay (`QN-000025`) exposes the model's real evidence-by-evidence am
 probabilities, entropy, velocity, and chronology bifurcation. The figure is a computation trace,
 not generated chain-of-thought, and visibility alone is not semantic interpretability.
 
+The registered discovery pass (`QN-000026`) consolidates 36 architecture, training-law, and
+halting candidates. It does not invent claims: it applies declared Pareto objectives, flags 26
+predefined metric tensions, and produces five proposals with explicit falsifiers. Its leading
+recommendations are a fixed two-state attractor control and an ambiguity-aware complex
+measurement. Generated rankings are decision support, not evidence of autonomous scientific
+discovery.
+
 ![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
 
 ![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
@@ -123,6 +132,7 @@ uv run python -m experiments.run_experiment_zero \
 # Run the orthogonal task suite after the fast smoke/invariant checks
 make neuro-task-suite
 make analyses figures
+make discovery
 ```
 
 Run artifacts are written to a never-overwritten `experiments/results/QN-XXXXXX/` directory and

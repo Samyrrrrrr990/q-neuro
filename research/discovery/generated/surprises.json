@@ -1,0 +1,158 @@
+[
+  {
+    "candidate_id": "complex_no_negative",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 3.2736082871754966,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "complex_operator::pcgrad",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.3891441027323403,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "complex_operator::adamw",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.3678320248921714,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "complex_operator::multiobjective_adamw",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.363042672475179,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "complex_operator::gradient_accumulation",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.3619795640309653,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "complex_operator",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.3517801761627197,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "complex_operator::phase_gradient",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.340202252070109,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "gru",
+    "message": "High source accuracy coexists with poor irreducible-ambiguity NLL.",
+    "severity": 2.295586188634237,
+    "type": "accuracy_ambiguity_tension"
+  },
+  {
+    "candidate_id": "gru",
+    "message": "High source accuracy coexists with a large unseen-world collapse.",
+    "severity": 0.7398888965447743,
+    "type": "generalization_reversal"
+  },
+  {
+    "candidate_id": "real_accumulator",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7366666793823242,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "mlp",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7263333201408386,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "logistic",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7249999841054281,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "adaptive_attractor",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7239999969800314,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "adaptive_attractor::soft",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7239999969800314,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "dissipative",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7226666808128357,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "adaptive_attractor::hard",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.722000002861023,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "adaptive_attractor::fixed_final",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.721666673819224,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "coupled_tensor",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7193333307902018,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "energy_attractor",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7169999877611796,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "complex_mlp",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7076666553815206,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "complex_accumulator",
+    "message": "Aggregate source accuracy hides near-total chronology-pair failure.",
+    "severity": 0.7036666671435038,
+    "type": "order_blind_success"
+  },
+  {
+    "candidate_id": "state_space",
+    "message": "High source accuracy coexists with a large unseen-world collapse.",
+    "severity": 0.6402222149901919,
+    "type": "generalization_reversal"
+  },
+  {
+    "candidate_id": "complex_operator::hybrid_local_global",
+    "message": "High source accuracy coexists with a large unseen-world collapse.",
+    "severity": 0.5784722136126625,
+    "type": "generalization_reversal"
+  },
+  {
+    "candidate_id": "real_operator",
+    "message": "High source accuracy coexists with a large unseen-world collapse.",
+    "severity": 0.4815555645359887,
+    "type": "generalization_reversal"
+  },
+  {
+    "candidate_id": "adaptive_attractor::hard",
+    "message": "All cases stop at two states; realized savings are not adaptive.",
+    "severity": 0.75,
+    "type": "hard_halting_degeneracy"
+  },
+  {
+    "candidate_id": "complex_operator::phase_gradient",
+    "message": "PGO costs nearly twice multi-objective AdamW and is slightly worse.",
+    "severity": 0.5,
+    "type": "phase_optimizer_no_frontier_gain"
+  }
+]

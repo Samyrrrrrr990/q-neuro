@@ -31,6 +31,38 @@ CREATE TABLE IF NOT EXISTS artifacts (
     path TEXT NOT NULL,
     FOREIGN KEY(experiment_id) REFERENCES experiments(experiment_id)
 );
+CREATE TABLE IF NOT EXISTS hypotheses (
+    hypothesis_id TEXT PRIMARY KEY,
+    statement TEXT NOT NULL,
+    status TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    parent_hypothesis_id TEXT
+);
+CREATE TABLE IF NOT EXISTS architectures (
+    architecture_id TEXT PRIMARY KEY,
+    family TEXT NOT NULL,
+    state_type TEXT NOT NULL,
+    transition_type TEXT NOT NULL,
+    measurement_type TEXT NOT NULL,
+    config_json TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS failures (
+    experiment_id TEXT NOT NULL,
+    stage TEXT NOT NULL,
+    error_type TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    FOREIGN KEY(experiment_id) REFERENCES experiments(experiment_id)
+);
+CREATE TABLE IF NOT EXISTS replications (
+    source_experiment_id TEXT NOT NULL,
+    replication_experiment_id TEXT NOT NULL,
+    relationship TEXT NOT NULL,
+    notes TEXT NOT NULL,
+    UNIQUE(source_experiment_id, replication_experiment_id),
+    FOREIGN KEY(source_experiment_id) REFERENCES experiments(experiment_id),
+    FOREIGN KEY(replication_experiment_id) REFERENCES experiments(experiment_id)
+);
 """
 
 
@@ -90,3 +122,110 @@ class ExperimentRegistry:
             connection.execute(
                 "UPDATE experiments SET status=? WHERE experiment_id=?", ("failed", experiment_id)
             )
+
+    def register_hypothesis(
+        self,
+        hypothesis_id: str,
+        statement: str,
+        status: str = "open",
+        parent_hypothesis_id: str | None = None,
+    ) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT OR REPLACE INTO hypotheses VALUES(?,?,?,?,?)",
+                (
+                    hypothesis_id,
+                    statement,
+                    status,
+                    datetime.now(UTC).isoformat(),
+                    parent_hypothesis_id,
+                ),
+            )
+
+    def register_architecture(
+        self,
+        architecture_id: str,
+        family: str,
+        state_type: str,
+        transition_type: str,
+        measurement_type: str,
+        config: dict[str, Any],
+    ) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT OR REPLACE INTO architectures VALUES(?,?,?,?,?,?)",
+                (
+                    architecture_id,
+                    family,
+                    state_type,
+                    transition_type,
+                    measurement_type,
+                    json.dumps(config, sort_keys=True),
+                ),
+            )
+
+    def record_failure(
+        self,
+        experiment_id: str,
+        stage: str,
+        error_type: str,
+        message: str,
+    ) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO failures VALUES(?,?,?,?,?)",
+                (
+                    experiment_id,
+                    stage,
+                    error_type,
+                    message,
+                    datetime.now(UTC).isoformat(),
+                ),
+            )
+
+    def register_replication(
+        self,
+        source_experiment_id: str,
+        replication_experiment_id: str,
+        relationship: str,
+        notes: str,
+    ) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT OR REPLACE INTO replications VALUES(?,?,?,?)",
+                (source_experiment_id, replication_experiment_id, relationship, notes),
+            )
+
+    def best_metrics(
+        self,
+        metric: str,
+        *,
+        lower_is_better: bool = False,
+        model_contains: str | None = None,
+        limit: int = 10,
+    ) -> list[dict[str, Any]]:
+        """Query ranked registered metrics without embedding experiment-specific schemas."""
+
+        ordering = "ASC" if lower_is_better else "DESC"
+        query = (
+            "SELECT experiment_id, model, metric, mean, std FROM metrics "
+            "WHERE metric=? AND mean IS NOT NULL"
+        )
+        parameters: list[Any] = [metric]
+        if model_contains is not None:
+            query += " AND model LIKE ?"
+            parameters.append(f"%{model_contains}%")
+        query += f" ORDER BY mean {ordering} LIMIT ?"
+        parameters.append(int(limit))
+        with self._connect() as connection:
+            rows = connection.execute(query, parameters).fetchall()
+        return [
+            {
+                "experiment_id": row[0],
+                "model": row[1],
+                "metric": row[2],
+                "mean": row[3],
+                "std": row[4],
+            }
+            for row in rows
+        ]
