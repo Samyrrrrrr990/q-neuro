@@ -26,9 +26,17 @@ def test_shortcut_audit_is_deterministic_and_complete() -> None:
         "sequence_length_only",
         "positive_negative_count",
         "order_only",
+        "edge_token_identity",
         "single_feature",
         "depth_two_lookup",
         "nearest_neighbor",
     }
     assert result["case_consistency_errors"] == []
     assert result["train_test_duplicate_rate"] == 0.0
+
+
+def test_repaired_world_removes_label_demographics_and_shares_nuisance_stages() -> None:
+    world = NeuroWorld(demographic_signal_strength=0.0, shared_nuisance_stages=True)
+    assert set(world._age_means.tolist()) == {0.5}
+    assert set(world._sex_probs.tolist()) == {0.5}
+    assert (world._stages[8:] == world._stages[8]).all()

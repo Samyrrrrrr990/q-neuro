@@ -135,14 +135,39 @@ def shortcut_scores(
         ),
     ]
     order_candidates = [
-        ("first_token", lambda case: int(case.tokens[0])),
-        ("last_token", lambda case: int(case.tokens[-1])),
+        ("first_sign", lambda case: int(case.tokens[0] >= NeuroWorld.num_findings)),
+        ("last_sign", lambda case: int(case.tokens[-1] >= NeuroWorld.num_findings)),
         (
-            "first_last_token",
-            lambda case: (int(case.tokens[0]), int(case.tokens[-1])),
+            "first_last_sign",
+            lambda case: (
+                int(case.tokens[0] >= NeuroWorld.num_findings),
+                int(case.tokens[-1] >= NeuroWorld.num_findings),
+            ),
+        ),
+        (
+            "sign_transition_count",
+            lambda case: int(
+                np.count_nonzero(np.diff((case.tokens >= NeuroWorld.num_findings).astype(np.int8)))
+            ),
         ),
     ]
     scores.append(_select_lookup("order_only", train, validation, test, order_candidates))
+    scores.append(
+        _select_lookup(
+            "edge_token_identity",
+            train,
+            validation,
+            test,
+            [
+                ("first_token", lambda case: int(case.tokens[0])),
+                ("last_token", lambda case: int(case.tokens[-1])),
+                (
+                    "first_last_token",
+                    lambda case: (int(case.tokens[0]), int(case.tokens[-1])),
+                ),
+            ],
+        )
+    )
     single_candidates = [
         (f"finding_{index}", lambda case, index=index: int(case.evidence[index]))
         for index in range(NeuroWorld.num_findings)

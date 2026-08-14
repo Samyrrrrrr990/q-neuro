@@ -68,7 +68,7 @@ discovery:
 
 simulator-red-team:
 	uv run python -m experiments.run_simulator_red_team \
-		--config experiments/configs/simulator_red_team.yaml
+		--config experiments/configs/simulator_red_team_v2.yaml
 
 dashboard:
 	uv run python scripts/build_dashboard_data.py

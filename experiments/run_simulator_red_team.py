@@ -40,12 +40,17 @@ def gate_violations(audit: dict[str, Any], thresholds: dict[str, Any]) -> list[s
 
 def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path, dict[str, Any]]:
     require_clean_worktree(ROOT, allow_dirty=allow_dirty)
+    command = [sys.executable, "-m", "experiments.run_simulator_red_team"]
+    source_environment = environment_record(ROOT, command=command)
     registry = ExperimentRegistry(ROOT / "experiments" / "registry.sqlite3")
-    preregistration_path = ROOT / "docs" / "PREREGISTRATION_NEXT_PHASE.md"
+    preregistration_document = config.get(
+        "preregistration_document", "docs/PREREGISTRATION_NEXT_PHASE.md"
+    )
+    preregistration_path = ROOT / preregistration_document
     registry.register_preregistration(
         config["preregistration_id"],
-        "2.0.0",
-        "docs/PREREGISTRATION_NEXT_PHASE.md",
+        str(config.get("preregistration_version", "2.0.0")),
+        preregistration_document,
         file_sha256(preregistration_path),
     )
     registry.register_hypothesis(
@@ -58,7 +63,7 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
         experiment_id,
         config["preregistration_id"],
         config["hypothesis_id"],
-        [sys.executable, "-m", "experiments.run_simulator_red_team"],
+        command,
     )
     try:
         config_path = result_directory / "config.yaml"
@@ -67,9 +72,7 @@ def run(config: dict[str, Any], *, allow_dirty: bool = False) -> tuple[str, Path
         config_path.write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
         environment_path.write_text(
             json.dumps(
-                environment_record(
-                    ROOT, command=[sys.executable, "-m", "experiments.run_simulator_red_team"]
-                ),
+                source_environment,
                 indent=2,
                 sort_keys=True,
             )
