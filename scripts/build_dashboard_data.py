@@ -9,6 +9,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_ARTIFACT_SUFFIXES = {".json", ".md", ".yaml"}
 
 
 def read_json(path: str) -> dict | list:
@@ -28,6 +29,14 @@ def markdown_rows(path: str) -> list[list[str]]:
         if cells and cells[0] not in {"Claim", "Q-Neuro idea"}:
             rows.append(cells)
     return rows
+
+
+def count_public_artifacts(directory: Path) -> int:
+    """Count portable result files without machine-local checkpoints or logs."""
+    return sum(
+        path.is_file() and path.suffix.lower() in PUBLIC_ARTIFACT_SUFFIXES
+        for path in directory.iterdir()
+    )
 
 
 def main() -> None:
@@ -76,7 +85,7 @@ def main() -> None:
             {
                 "id": directory.name,
                 "status": result.get("status", "unknown"),
-                "artifact_count": len(list(directory.iterdir())),
+                "artifact_count": count_public_artifacts(directory),
             }
         )
     payload = {
