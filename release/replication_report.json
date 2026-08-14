@@ -4,7 +4,7 @@
   "performed_on": "2026-08-14",
   "rehearsal_type": "fresh local Git clone with a newly created locked environment",
   "tested_branch": "codex/q-neuro-falsification",
-  "tested_commit": "4aeb34198f8d39f4111c231f8d5245dab537d0eb",
+  "tested_commit": "301940e6388b5aa538952e6b884417e1021a4da6",
   "environment": {
     "platform": "macOS arm64",
     "python": "CPython 3.12.13",
