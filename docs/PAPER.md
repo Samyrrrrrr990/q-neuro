@@ -23,12 +23,27 @@ all**, which retroactively explains a string of empirical failures as structural
 and (3) a set of **measurement failure modes** — each of which produced a plausible, publishable,
 wrong answer before being caught.
 
-We then applied the same discipline to architecture design. An adaptive-depth model achieved a
-genuine 1.77× inference-compute reduction at matched accuracy and fewer parameters. It reproduces
-on 6 of 10 seeds. The fixed-depth baseline reproduces on 10 of 10. The speedup is real and is not
-reportable.
+We then applied the same discipline to architecture design, over two cycles and **thirteen** frozen
+predictions. Cycle 1 closed negative: an adaptive-depth model achieved a real 1.77× inference
+saving that reproduced on only 6 of 10 seeds against a baseline that never failed, with a **silent**
+failure mode — a broken run still reports a plausible adaptive step count.
 
-We claim no state-of-the-art result, no new capability, and no general superiority for any method
+Cycle 2 found the cause (an unnormalised recurrent state makes a fixed halting threshold
+depth-dependent), removed it, and then attacked what remained. A mechanism was frozen and
+**falsified**. A generalisation was frozen and **falsified**. A capability was frozen and
+**falsified**. What survived is one scoped engineering result, and it is the **thirteenth**
+prediction — the only one in the programme to pass as written:
+
+> On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised
+> predicate attains the *optimal* per-example allocation and delivers a **2.8–4.9× wall-clock**
+> inference saving at batch 1, at matched accuracy and matched parameters — and **loses that
+> advantage entirely above batch ≈ 32**, because a batch cannot exit until its slowest member does.
+
+The ceiling is the load-bearing half. It is analytic, it applies to every per-example
+adaptive-compute method, and it was predicted in advance on one task family and confirmed
+unprompted on another.
+
+We claim no state-of-the-art result, no new mechanism, and no general superiority for any method
 described here.
 
 ---
@@ -150,11 +165,18 @@ from the prediction it is testing.
 | `DFREE-LAW-P3` | `g = (h_last+1) + h·[homogeneous]` | 1 | **FAIL** — 2 of 48 |
 | `QNEURO3-Q3-P1` | adaptive-depth saving = `max_depth / E[distance]` | 1 | **FAIL** — 3 of 4 distributions |
 | `QNEURO3-Q4-P1` | position grounding repairs seed reliability | 1 | **FAIL** — kill condition triggered |
+| `QNEURO3-ATTRIB-P1` | carry distance explains the readout separation | 1 | **FAIL** — profile flat, kill triggered |
+| `QNEURO3-TRANSFER-P1` | the separation generalises to a new family | 1 | **FAIL** — kill triggered; T3 passed |
+| `QNEURO3-EXTRAP-P1` | predicate halting buys depth extrapolation | 1 | **FAIL** — all three, kill triggered |
+| `QNEURO3-PARETO-P1` | the saving scales to depth 32 | 1 | **FAIL** — R2 passed, R1 and R3 did not |
+| `QNEURO3-NICHE-P1` | the small-batch win **and its ceiling** transfer | 1 | **PASS** — all four |
 
-Eight frozen predictions. **Zero passed as written.** One (`DFREE-LAW-P3`) contained a genuine
-prospective success inside a failure: `leaky_relu` and `abs` were derived as positively homogeneous
-before measurement and gave exactly `2h+1` in every cell — but two ELU cells at `h=15` measured 17
-against a predicted 16, and the frozen criterion was exactness.
+Thirteen frozen predictions. **One passed as written**, and it is the last one, after twelve
+failures narrowed the claim to something small enough to be true. Two contained genuine prospective successes inside failures. `DFREE-LAW-P3`: `leaky_relu` and `abs`
+were derived as positively homogeneous before measurement and gave exactly `2h+1` in every cell —
+but two ELU cells at `h=15` measured 17 against a predicted 16, and the frozen criterion was
+exactness. `QNEURO3-TRANSFER-P1`: its third clause, that halting is free, passed on an untouched
+family while the two clauses that mattered to the hypothesis failed.
 
 We report that record as the primary result of the program.
 
@@ -265,7 +287,113 @@ supply the missing positional representation at zero inference cost and reliabil
 below 0.6322 — and removed the good mode with it, best run 0.9500. Reducing seed variance destroyed
 the solution worth having.
 
-## 7. Compute accounting
+## 7. Cycle 2: the cause, and the one result that survived
+
+### 7.1 The cause of the bimodality
+
+Diagnosing Q3 by accuracy *conditioned on distance* settled it in one measurement: failing runs are
+perfect at distances 1–2 and collapse from 3 onward (0.34, 0.12, 0.03, 0.01). The recurrent state
+stops carrying position. **RMS-normalising the state after each hop** took the variant sweep from
+11 of 24 seeds to **6 of 6**, every success landing on exactly 1.0000 at 4.54 steps. Three other
+single-variable interventions run alongside did not help: a goal-match feature (3/6), dense per-step
+halting supervision (3/6), both (2/6).
+
+Layer normalisation in recurrent networks is textbook and no novelty is claimed. Two things about it
+here are worth recording. It is an *interaction*, not a main effect — normalisation **destroys** the
+fixed-depth model on the same task (1.0000 → 0.13–0.25), because an unnormalised residual state
+carries magnitude information the distance readout depends on. And §7.4 shows it costs 0.30 of
+extrapolated accuracy on a different family, so the final architecture exposes it as a flag.
+
+### 7.2 A separation, and three ways it failed to become a principle
+
+With a reliable model, the control that cycle 1 left open became runnable: decouple the answer from
+the step count. On a content-addressed lookup task — walk to the first node whose label matches a
+query, report *which node* — the readout location decides everything:
+
+| Model | Answer read from | Steps | Answer acc | Step-id acc |
+|---|---|---:|---|---|
+| fixed | final state | 8.00 | 0.221–0.223 | — |
+| fixed, 3× training | final state | 8.00 | 0.256–0.273 | — |
+| fixed_supervised | final state + per-step loss | 8.00 | 0.232–0.243 | 0.13–0.31 |
+| gated | final state + explicit latch | 8.00 | 0.222–0.239 | 0.16–0.18 |
+| mean_pooled | mean of all states | 8.00 | 0.259–**0.847** | 0.16–0.86 |
+| **select** | **input-selected step** | 8.00 | **1.0000** | **1.0000** |
+| **arrival** | **first step the predicate fires** | **4.45** | **1.0000** | **1.0000** |
+
+Chance is 0.042; guessing any node carrying the query label gives 0.291. Five distinct fixed-depth
+alternatives fail — including with supervision matched and an explicit latch — where input-selected
+readout succeeds on every seed.
+
+Then it was frozen three times and falsified three times.
+
+**The mechanism was false.** `QNEURO3-ATTRIB-P1` said the fixed model degrades in proportion to how
+far it must carry a match. Accuracy by distance is **flat at ~0.22**; the required margin was 0.30
+and measured 0.02 and 0.07. It fails uniformly, including where nothing is carried.
+
+**It did not generalise.** `QNEURO3-TRANSFER-P1` opened an untouched family — streaming
+threshold-crossing, no attention anywhere in the core. Required: final-state readout ≥0.20 below
+selection. Measured: **0.9351 against 0.9425**, a gap of 0.007. Scoped to associative-lookup tasks;
+no principle claimed. The best model on the new family is the *explicit latch* (0.9760), one of the
+controls that failed on lookup — **the two families reward opposite designs.**
+
+**It buys no capability.** `QNEURO3-EXTRAP-P1` tested the one thing halting could uniquely offer:
+running past the trained depth, since its stopping rule is local rather than a count. Trained at 12,
+evaluated at 16: 0.8328 / 0.3528 / 0.6548 against a required 0.80 on every seed. And it *inverted* —
+the **unnormalised** model extrapolates at 0.9136 against the normalised 0.6135.
+
+### 7.3 What survived, and its ceiling
+
+One clause survived, and it had already transferred prospectively as T3 of a prediction that
+otherwise failed: **halting on a supervised predicate costs nothing in accuracy and returns the
+workload's full compute saving.** Mean steps track `E[predicate index]` to within 0.1 across six
+settings — 4.45/8, 6.55/12, 2.51/4, 4.54/8, 6.60/12, 6.14/24. That is *optimal* allocation, which
+also means the size of the saving belongs to the workload.
+
+The first attempt to bank it failed usefully. `QNEURO3-PARETO-P1` measured batched latency and found
+**1.0×** despite a 6.5× step-count saving: the batched forward runs every step and *then* selects, so
+the saving was nominal. Implementing genuine early exit exposed the real structure:
+
+> A batch cannot exit until its slowest member does, so batched cost tracks `E[max halt over the
+> batch]`, not `E[halt]`.
+
+That is arithmetic, not implementation. For `P(k) ∝ 0.8^k` on 1..32 it gives E[max] = 4.97 at
+batch 1, 12.53 at 8, 20.96 at 64, 29.42 at 1024 — the realisable saving decaying from 6.43× to
+1.09×. It applies to ACT, PonderNet, early-exit transformers and depth-routed mixtures alike.
+
+### 7.4 The one prediction that passed
+
+`QNEURO3-NICHE-P1` was frozen on the streaming family's measurements and opened, once, on the
+associative-lookup family at depth 24 with a heavy-tailed difficulty distribution never used before.
+All four clauses hold:
+
+| Clause | Required | Measured |
+|---|---|---|
+| N1 accuracy matched | within 0.02 of `select` | 1.0000 vs 1.0000 |
+| N2 optimal allocation | steps within 0.5 of E[d] | 6.14 vs E[d] 6.14 |
+| N3 small-batch win | ≥2.5× at batch 1 | **2.78×** |
+| N4 **the ceiling reappears** | ≤1.2× at batch 256 | **0.97×** |
+
+The measured crossover, on a family it was not derived from: 2.99× at batch 1, 1.58× at 4, 1.18× at
+16, 0.99× at 64, 0.97× at 256.
+
+**N4 is the clause that matters.** A result that only predicts its own success is weak; this one
+predicted where it stops working, on evidence it had not seen, and was right.
+
+### 7.5 The final architecture
+
+`qneuro3/adaptive.py`. Every component carries the measurement that justifies it: a first-arrival
+objective (mixture halting caps at 0.6241 where this reaches 1.0000; commit halting reaches 0.9999
+but only at full depth); the answer read at the halt step; an optional normalised state (a flag, per
+§7.2 and §7.4); and genuine early exit (without it the saving measures 1.0×). The M2 modes are not
+presets — each is the regime where a measurement says something different is correct:
+
+| Mode | Regime | Policy |
+|---|---|---|
+| **M2 Eco** | batch 1 | early exit; full 2.8–4.9× available |
+| **M2 Balanced** | batch < 32 with ≥1.15× remaining | early exit |
+| **M2 Throughput** | batch ≥ 32 | **early exit off** — it is a measured 0.97–0.99×, i.e. a penalty |
+
+## 8. Compute accounting
 
 All experiments ran on one fanless Apple M2 MacBook Air: 8.0 GiB unified memory (2.08 GiB available),
 8 physical cores, 4 torch threads, MPS with `complex64` support, measured CPU↔MPS crossover at 65,536
@@ -277,7 +405,7 @@ grid (405 cells, 360 scored) and the DISCOVERY-001 sweep (1,476 SGD cells). This
 property of the design: microcosms small enough that the ground truth is computable are worth more
 than scale, when the question is whether a claim is true.
 
-## 8. What we claim, and what we do not
+## 9. What we claim, and what we do not
 
 **We claim:**
 
@@ -288,20 +416,31 @@ than scale, when the question is whether a claim is true.
 3. `d_free = max(0, P − g_arch − n(C−1))` predicted a rank transition exactly, and explains a string
    of prior failures.
 4. On `chase_to_goal`, adaptive depth loses to fixed depth once reliability is counted alongside
-   compute.
+   compute — and the reason is an unnormalised state, which is fixable.
+5. **Halting on a supervised predicate attains the optimal per-example allocation** — mean steps
+   equal `E[predicate index]` to within 0.1 across six settings — and delivers a 2.8–4.9× wall-clock
+   inference saving at batch 1 at matched accuracy and parameters.
+6. **That advantage has an analytic ceiling.** Batched cost tracks `E[max halt over the batch]`, so
+   the saving decays to parity by batch ≈ 32 and becomes a penalty beyond it. Predicted on one task
+   family, confirmed unprompted on another.
 
-**We do not claim:** any state-of-the-art result; that adaptive depth cannot win on some other
-workload; that the transport conjecture is false in every possible form; any clinical validity; any
-connection to quantum cognition; or that any method here is generally superior to any other.
+**We do not claim:** any state-of-the-art result; any novelty for predicate halting, per-step
+attribution or state normalisation, all of which are prior art; that the readout-location separation
+generalises (it was frozen and falsified); that adaptive halting buys any capability such as depth
+extrapolation (frozen and falsified); that the transport conjecture is false in every possible form;
+any clinical validity; any connection to quantum cognition; or that any method here is generally
+superior to any other.
 
-**Open, and stated as open:** whether Q3's result depends on its answer coinciding with its step
-count (the decoupling control was specified and not run); why two task constructions inducing the
-same distance distribution give 6/10 versus 1/10 success; and non-vacuity of the transport bound in
-the nonlinear setting, where Lipschitz constants must be estimated rather than computed.
+**Open, and stated as open:** why the fixed-depth readout has a sharp capability threshold between
+depth 4 and depth 8 on lookup tasks (the frozen carry-distance explanation is false); why two task
+constructions inducing the same distance distribution give 6/10 versus 1/10 success; whether
+continuous batching recovers the saving above the crossover (an inference-systems question, not
+measured here); and non-vacuity of the transport bound in the nonlinear setting.
 
-## 9. On the negative result
+## 10. On the negative result
 
-Eight frozen predictions, zero passes. Twenty-five preserved failures. It would have been easy to
+Thirteen frozen predictions, one pass — the last one, after twelve failures had narrowed the claim
+to something small enough to be true. Thirty-one preserved failures. It would have been easy to
 produce a positive result from this material — widen a tolerance, average over seeds, report the
 easy-distribution cell as partial confirmation, quote 1.77× without the 6-in-10. Each of those was
 available and each was declined, in writing, in the record that declined it.

@@ -406,3 +406,88 @@ An easier auxiliary task can absorb the representation.
 this task family once reliability is counted alongside compute. Nothing here shows adaptive depth
 cannot win elsewhere; it shows that this instance does not, and that a speedup figure without a
 matched accuracy *and* a matched seed-reliability rate is not a result.
+
+---
+
+## FAIL-026 … FAIL-031 — Cycle 2: six ways to be wrong before one prediction survived
+
+Cycle 1 closed with adaptive depth losing to fixed depth. Cycle 2 found the cause, fixed it, and
+then spent almost all of its effort trying to destroy what followed. Six things died on the way.
+
+**The fix, first, because everything else is a reaction to it.** Q3's bimodality was diagnosed by
+looking at accuracy *by distance*: failing runs are perfect at distance 1–2 and collapse from 3
+onward. The state stops carrying position. **RMS-normalising the state after each hop** took the
+variant sweep from 11 of 24 seeds to **6 of 6**, and every successful run lands on exactly
+1.0000 at 4.54 steps. Three other single-variable interventions were run at the same time and did
+not help: a goal-match feature (3/6), dense per-step halting supervision (3/6), both together
+(2/6). Layer normalisation in recurrent networks is textbook and no novelty is claimed for it.
+
+**FAIL-027 — nothing predicts the mode earlier than accuracy does.** With a genuinely bimodal
+system finally in hand — the thing `DISCOVERY-002`'s committor branch needed and never had — 24
+runs were instrumented with 21 mechanistic observables logged every 100 optimizer steps: linear
+decodability of the current node, of hops remaining, of the goal indicator; halting-distribution
+entropy and per-step profile; attention entropy; state effective rank. **None separates the modes
+earlier than validation accuracy.** First perfect separation is step 1900 of 4000 for accuracy,
+decodability, loss and halting entropy alike. The best early AUC at step 500 is 0.731 for
+`dec_remaining` against accuracy's 0.521 — inside multiple-comparison noise for 21 observables
+across 7 timepoints. Early validation accuracy is the operative predictor, kill-and-restart on it
+is standard practice, and the branch closed without a prediction being issued.
+
+**FAIL-026 — a control that everything passed.** The first decoupled-answer task kept the goal at
+node 0 and asked for the goal's label. A fixed, known goal identity makes its label directly
+addressable by attention at any step, with no walking. Every configuration scored 1.0000 — including
+runs whose halting was 30% correct, which is what gave it away. *A control that every model passes
+is not a control.* Rebuilt content-addressed: walk to the **first** node whose label matches a
+per-example query, then report **which node** that is. Shortcut audit on the rebuilt task: distance
+alone 0.064, guessing any node carrying the query label 0.291, chance 0.042.
+
+**FAIL-028 — then it was unlearnable, twice over.** The rebuilt task defeated every model at chance
+for two separate reasons. The label of the node just moved to was never available to the halting
+head, so the predicate was literally unanswerable; and the head was a linear map on a
+concatenation, which cannot express *"these two are equal"* at all. The second defect is the same
+expressivity gap the goal-match variant had exposed days earlier, reintroduced from scratch in a
+new task.
+
+**FAIL-029 — the mechanism was false.** With the task fixed, the separation was dramatic: on
+associative lookup a final-state readout scores 0.22 while reading the answer from an input-selected
+step scores **1.0000**. `QNEURO3-ATTRIB-P1` was frozen to explain it — the fixed model must
+*transport* the matched identity through the remaining iterations and degrades in proportion to the
+carry distance. Opened once: accuracy by distance is **flat at ~0.22**, and the required
+`d=max_depth` minus `d=1` margin of 0.30 measured 0.02 and 0.07. The model fails uniformly,
+including where nothing is carried at all. Kill condition triggered exactly as the frozen
+`anticipated_failure_modes` predicted in its first line.
+
+Diagnosing it exposed a confound in our own comparison — the attribution models were told which
+step was the match and the fixed model was not. The matched-supervision control removed it, and the
+separation survived: `fixed_supervised` still scores 0.232–0.243, an explicit learned latch scores
+0.222–0.239, and mean pooling reaches 0.847 on one seed of three. Five distinct fixed-depth
+alternatives fail where input-selected readout succeeds on every seed.
+
+**FAIL-030 — and it did not generalise.** `QNEURO3-TRANSFER-P1` opened the question on an untouched,
+qualitatively different family: streaming threshold-crossing, no attention anywhere in the core.
+Required: a final-state readout at least 0.20 below per-step selection. Measured: **0.9351 against
+0.9425 — a gap of 0.007.** The kill condition applied verbatim. The attribution result is scoped to
+associative-lookup tasks and no principle is claimed from it. The first anticipated failure mode
+named the reason before the run: a 9-value answer alphabet and a one-dimensional running sum make
+latching easy enough that the final state suffices. The sharpest detail is that the *best* model on
+this family is the explicit latch at 0.9760 — one of the controls that failed on query-chase. **The
+two families reward opposite designs.**
+
+**FAIL-031 — and it buys no capability.** `QNEURO3-EXTRAP-P1` asked the one thing halting could
+uniquely offer: iterating past the depth it was trained at, since its stopping rule is a local
+condition rather than a fixed count. Trained at length 12, evaluated at 16: **0.8328 / 0.3528 /
+0.6548** on the unseen indices against a required 0.80 on every seed. And E2 *inverted* — the
+**unnormalised** model extrapolates at 0.9136 against the normalised model's 0.6135. Normalisation
+costs 0.30 of extrapolated accuracy while buying about 0.05 in distribution.
+
+That inversion bounds the fix that opened the cycle. Normalisation rescued halting on associative
+lookup (11/24 → 20/20) and damages extrapolation on streaming. It is a family-specific engineering
+choice with a real trade-off, not a principle, and the final architecture exposes it as a flag
+rather than a default.
+
+**What was left standing.** One thing, and it had already transferred prospectively as T3 of a
+prediction that otherwise failed: halting on a supervised predicate costs nothing in accuracy and
+returns the workload's full compute saving. Mean steps track `E[predicate index]` to within 0.1
+across six settings — 4.45 of 8, 6.55 of 12, 2.51 of 4, 4.54 of 8, 6.60 of 12, 6.14 of 24. That is
+optimal allocation, which also means **the size of the saving belongs to the workload, not to the
+architecture** — precisely what the long-dead `QNEURO3-Q3-P1` said and could not test.

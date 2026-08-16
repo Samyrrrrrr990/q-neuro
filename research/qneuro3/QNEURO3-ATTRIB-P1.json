@@ -1,0 +1,22 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "The fixed model may fail uniformly across d because it never learns the match predicate at all, in which case accuracy is flat near the lookup baseline and P1 fails for an uninteresting reason.",
+      "At max_depth = 4 the task is easier in every respect, so a fixed-model pass there may reflect reduced task difficulty rather than reduced carry distance. P2 is therefore weaker evidence than P1 and is scored separately."
+    ],
+    "context": "On the content-addressed query-chase task (walk to the first node whose label matches a per-example query, then report WHICH node that is), three models with the same core, the same per-step inputs and matched parameters were measured. Fixed depth with a final-state readout reaches 0.2562-0.2731 answer accuracy even at 3x training, below the 0.291 that guessing any node carrying the query label already achieves. Per-step attribution at full depth (select) reaches 1.0000 at 8.00 steps. Attribution plus halting (arrival) reaches 1.0000 at 4.45 steps.",
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If P1 fails -- fixed-depth accuracy is flat or decreasing in d -- the transport explanation is FALSE. The empirical separation would stand as measured, but no mechanism may be claimed for it and no scaling behaviour may be predicted from it.",
+    "mechanism_claim": "The fixed-depth model fails because it must TRANSPORT the matched node's identity through every remaining iteration and its state degrades over that distance. Per-step attribution removes the transport requirement entirely: the answer is read from the iteration where the match happened, so nothing has to be carried.",
+    "one_attempt": true,
+    "pass_criterion": "BOTH P1 and P2 must hold as stated, on models trained fresh under the standard protocol (AdamW 2e-3, 8 epochs, 500 batches of 128, normalised core).",
+    "prediction_id": "QNEURO3-ATTRIB-P1",
+    "predictions": {
+      "P1_carry_distance": "If transport is the cause, the fixed-depth model's accuracy must depend on HOW FAR it has to carry. Accuracy conditioned on true distance d must increase with d, and specifically accuracy at d = max_depth (zero carrying) must exceed accuracy at d = 1 (max_depth - 1 hops of carrying) by at least 0.30 absolute.",
+      "P2_depth_scaling": "The fixed-depth model's deficit must grow with max_depth, because the expected carry distance grows. At max_depth = 4 the fixed model must reach at least 0.55 answer accuracy; at max_depth = 12 it must fall below 0.20. The attribution models must stay at or above 0.95 at both."
+    },
+    "schema_version": "1.0.0",
+    "what_a_pass_does_not_license": "No novelty claim for per-step attribution itself. Deep supervision, early-exit classifiers, span scoring and PonderNet's per-step readout are all prior art and the comparison against them is a separate obligation. A pass licenses only the mechanism and its scaling law."
+  },
+  "sha256": "51d342b16dcd9e4e8a90bb35f9e8eaf1e68ae623532097d7c8f7dbfe2f4c8d17"
+}

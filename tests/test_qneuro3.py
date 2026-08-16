@@ -147,3 +147,116 @@ def test_hardware_profile_is_self_consistent() -> None:
     assert 0 < budget < profile.total_memory_gib * 1024**3
     if not profile.mps_available:
         assert profile.device_for(10**9) == "cpu"
+
+
+# --- Q-Neuro 3.0 final architecture -------------------------------------------------------------
+
+
+class _CountingCore(torch.nn.Module):
+    """A core whose feature at step k is a one-hot for k, so halting behaviour is exactly checkable."""
+
+    def __init__(self, depth: int):
+        super().__init__()
+        self.depth = depth
+        self.calls = 0
+
+    def advance(self, state, context):
+        self.calls += 1
+        index = int(state[0, 0].item())
+        feature = torch.zeros(state.shape[0], self.depth)
+        feature[:, min(index, self.depth - 1)] = 1.0
+        return state + 1.0, feature
+
+
+def test_first_arrival_masses_never_exceed_one() -> None:
+    from qneuro3.adaptive import first_arrival
+
+    torch.manual_seed(0)
+    p = torch.rand(32, 8)
+    log_first, step = first_arrival(p)
+    total = log_first.exp().sum(dim=1)
+    assert bool((total <= 1.0 + 1e-6).all())
+    assert int(step.min()) >= 1
+    assert int(step.max()) <= 8
+
+
+def test_first_arrival_shortfall_is_the_never_fires_probability() -> None:
+    """The masses fall short by exactly prod(1 - p_k). That is the whole point of not renormalising."""
+
+    from qneuro3.adaptive import first_arrival
+
+    torch.manual_seed(1)
+    p = torch.rand(16, 6).clamp(1e-6, 1 - 1e-6)
+    log_first, _ = first_arrival(p)
+    shortfall = 1.0 - log_first.exp().sum(dim=1)
+    assert torch.allclose(shortfall, (1 - p).prod(dim=1), atol=1e-5)
+
+
+def test_expected_max_halt_rises_towards_the_worst_case() -> None:
+    """The ceiling on every per-example adaptive-compute method, stated as arithmetic."""
+
+    from qneuro3.adaptive import expected_max_halt
+
+    pmf = 0.8 ** torch.arange(1, 33, dtype=torch.double)
+    values = [expected_max_halt(pmf, n) for n in (1, 8, 64, 1024)]
+    assert values == sorted(values), "E[max] must be non-decreasing in batch size"
+    assert abs(values[0] - 4.97) < 0.05
+    assert values[-1] > 29.0
+    assert values[-1] < 32.0
+
+
+def test_expected_max_halt_at_batch_one_is_the_mean() -> None:
+    from qneuro3.adaptive import expected_max_halt
+
+    pmf = torch.tensor([0.5, 0.3, 0.2], dtype=torch.double)
+    assert abs(expected_max_halt(pmf, 1) - (1 * 0.5 + 2 * 0.3 + 3 * 0.2)) < 1e-9
+
+
+def test_plan_switches_off_early_exit_at_serving_batch() -> None:
+    """The measured crossover, encoded. Above it, early exit is a penalty and must not be chosen."""
+
+    from qneuro3.adaptive import plan
+
+    pmf = 0.8 ** torch.arange(1, 33, dtype=torch.double)
+    assert plan(pmf, 1).early_exit is True
+    assert plan(pmf, 1).mode == "M2 Eco"
+    assert plan(pmf, 256).early_exit is False
+    assert plan(pmf, 256).mode == "M2 Throughput"
+    assert plan(pmf, 1).predicted_speedup > plan(pmf, 64).predicted_speedup
+
+
+def test_early_exit_actually_stops_early() -> None:
+    """Without genuine termination the saving is nominal; this is the test that catches that."""
+
+    from qneuro3.adaptive import PredicateHalting
+
+    depth = 8
+    core = _CountingCore(depth)
+    model = PredicateHalting(core, depth, 4, depth)
+    with torch.no_grad():
+        model.halt.bias.fill_(0.0)
+        model.halt.weight.zero_()
+        model.halt.weight[0, 2] = 40.0  # fire hard at step 3
+
+    core.calls = 0
+    _, steps = model.infer(torch.zeros(5, 1), None, early_exit=True)
+    assert int(steps[0]) == 3
+    assert core.calls == 3, f"early exit ran {core.calls} steps, expected 3"
+
+    core.calls = 0
+    model.infer(torch.zeros(5, 1), None, early_exit=False)
+    assert core.calls == depth
+
+
+def test_halting_loss_prefers_firing_at_the_true_step() -> None:
+    from qneuro3.adaptive import halting_loss
+
+    true_step = torch.tensor([2, 5])
+    answer = torch.tensor([1, 0])
+    logits = torch.tensor([[0.0, 5.0, 0.0], [5.0, 0.0, 0.0]])
+    wrong = torch.full((2, 8), -3.0)
+    right = wrong.clone()
+    right[torch.arange(2), true_step - 1] = -0.05
+    assert float(halting_loss(right, true_step, logits, answer)) < float(
+        halting_loss(wrong, true_step, logits, answer)
+    )

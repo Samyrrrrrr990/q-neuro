@@ -66,8 +66,18 @@ architecture wins.
 ## Research program documentation
 
 Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0) and the architecture program
-(Q-Neuro 3.0) — is documented in three companion documents. **Eight frozen, hashed, prospective
-predictions were opened and none passed as written**; 25 failures are preserved with mechanisms.
+(Q-Neuro 3.0) — is documented in three companion documents. **Thirteen frozen, hashed, prospective
+predictions were opened and one passed as written**; 31 failures are preserved with mechanisms.
+
+The one that passed, `QNEURO3-NICHE-P1`, is deliberately small and carries its own ceiling:
+
+> On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised predicate
+> attains the **optimal** per-example allocation and gives a **2.8–4.9× wall-clock inference saving
+> at batch 1**, at matched accuracy and parameters — and **loses that advantage entirely above batch
+> ≈ 32**, because a batch cannot exit until its slowest member does.
+
+The ceiling is analytic, applies to every per-example adaptive-compute method, and was predicted on
+one task family then confirmed unprompted on another.
 
 | Document | For |
 |---|---|

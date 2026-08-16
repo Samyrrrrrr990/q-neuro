@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-NICHE-P1-RESULT",
+  "prediction_id": "QNEURO3-NICHE-P1",
+  "prediction_sha256": "7fbcceb87f9a219345ea5b6be11ccdcd0339af54a33f7cb9fc70108d1d6ce4b7",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "PASSED",
+  "significance": "The first frozen prediction in this programme to pass as written. Twelve preceded it and all twelve failed.",
+  "setting": {
+    "family": "query_chase (associative lookup)",
+    "n_nodes": 32,
+    "max_depth": 24,
+    "difficulty": "heavy-tailed, P(d) proportional to 0.85^d",
+    "empirical_E_distance": 6.14,
+    "baseline": "select -- per-step attribution at full depth, which solves the task, so the comparison is matched-accuracy",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "never_run_at_this_depth_or_distribution_before": true
+  },
+  "scoring": {
+    "N1_accuracy_matched": {
+      "required": "within 0.02 of select on the mean",
+      "measured": "arrival 1.0000/1.0000/1.0000 against select 1.0000/1.0000/1.0000",
+      "verdict": "PASS"
+    },
+    "N2_optimal_allocation": {
+      "required": "mean steps within 0.5 of empirical E[distance]",
+      "measured": "6.14 steps against E[d] 6.14, agreeing to two decimals",
+      "verdict": "PASS"
+    },
+    "N3_small_batch_win": {
+      "required": ">= 2.5x matched-accuracy wall-clock speedup at batch 1",
+      "measured": "2.78x, mean over 25 independent examples (select 1504.3 us, arrival 541.9 us)",
+      "verdict": "PASS"
+    },
+    "N4_the_boundary_reappears": {
+      "required": "<= 1.2x at batch 256",
+      "measured": "0.97x",
+      "verdict": "PASS",
+      "note": "This is the prediction that mattered. The ceiling was derived on the streaming family and had to appear unprompted here. It did, and the whole crossover curve came with it."
+    }
+  },
+  "measured_crossover_curve": [
+    {
+      "batch": 1,
+      "select_us_per_example": 1502.6,
+      "arrival_us_per_example": 502.2,
+      "speedup": 2.99
+    },
+    {
+      "batch": 4,
+      "select_us_per_example": 670.9,
+      "arrival_us_per_example": 424.7,
+      "speedup": 1.58
+    },
+    {
+      "batch": 16,
+      "select_us_per_example": 258.7,
+      "arrival_us_per_example": 219.6,
+      "speedup": 1.18
+    },
+    {
+      "batch": 64,
+      "select_us_per_example": 118.9,
+      "arrival_us_per_example": 119.8,
+      "speedup": 0.99
+    },
+    {
+      "batch": 256,
+      "select_us_per_example": 71.8,
+      "arrival_us_per_example": 73.7,
+      "speedup": 0.97
+    }
+  ],
+  "what_this_licenses": [
+    "A scoped engineering claim WITH ITS CEILING: on workloads with a deep worst case and",
+    "heavy-tailed difficulty, supervised predicate halting delivers a 2.8-4.9x wall-clock inference",
+    "saving at batch 1, at matched accuracy and matched parameters, and loses that advantage",
+    "entirely above batch ~32.",
+    "The niche is therefore single-stream, latency-sensitive, on-device inference. It is explicitly",
+    "NOT server-side batched serving, where the method is a 3% penalty."
+  ],
+  "what_this_does_not_license": [
+    "Any novelty claim. Supervised early exit and per-step attribution are prior art; see the",
+    "prior-art position in QNEURO3-ATTRIBUTION-001.",
+    "Any claim that the SIZE of the saving is a property of the architecture. It is max_depth /",
+    "E[predicate index], a property of the workload. The architecture's contribution is attaining",
+    "that optimum reliably, which it does to two decimal places in every setting measured.",
+    "Any capability claim. QNEURO3-EXTRAP-P1 failed and adaptive halting buys no depth extrapolation.",
+    "Any general principle about where an answer must be read from. QNEURO3-TRANSFER-P1 failed."
+  ],
+  "the_mechanism_behind_the_ceiling": [
+    "A batch cannot exit until its slowest member does, so batched cost scales with E[max halt over",
+    "the batch] rather than E[halt]. For P(k) proportional to 0.8^k on 1..32 the analytic curve is",
+    "E[max] = 4.97 at batch 1, 12.53 at 8, 20.96 at 64 and 29.42 at 1024, so the realisable saving",
+    "falls from 6.43x to 1.09x. This is a property of adaptive computation itself, not of this",
+    "architecture, and it applies equally to ACT, PonderNet, early-exit transformers and depth-routed",
+    "mixtures of experts.",
+    "Continuous batching or sequence packing can recover part of it, but that is an inference-systems",
+    "technique rather than an architectural property, and it was not measured here."
+  ]
+}

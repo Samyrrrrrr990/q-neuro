@@ -495,6 +495,137 @@ and no second variant was issued.
 
 ---
 
+## 6A. Q-Neuro 3.0, cycle 2
+
+### 6A.1 Commands
+
+```bash
+python experiments/run_qneuro3_cycle_002.py ceiling       # instant; the analytic result
+python experiments/run_qneuro3_cycle_002.py reliability   # the normalisation fix, 5 variants
+python experiments/run_qneuro3_cycle_002.py attribution   # 6 readout policies, lookup family
+python experiments/run_qneuro3_cycle_002.py transfer      # opens QNEURO3-TRANSFER-P1 -- FAILS
+python experiments/run_qneuro3_cycle_002.py niche         # opens QNEURO3-NICHE-P1 -- PASSES
+python experiments/run_qneuro3_cycle_002.py all --seeds 3
+```
+
+### 6A.2 The reliability fix
+
+Diagnosis first: accuracy conditioned on true distance. Failing Q3 runs score `1.00 1.00 0.34 0.12
+0.03 0.01 0.25 0.74` across distances 1–8 — perfect for two hops, then collapse. The state stops
+carrying position.
+
+`research/qneuro3/variants.py` runs four single-variable interventions over one core:
+
+| Variant | Change | Seeds at ≥0.99 |
+|---|---|---|
+| `V0_baseline` | none | 3/6 |
+| **`V1_normalise`** | **RMS-normalise the state after each hop** | **6/6**, all exactly 1.0000 at 4.54 |
+| `V2_goal_match` | arrival head also sees `h * key(goal)` | 3/6 |
+| `V3_dense_halting` | per-step BCE instead of first-arrival NLL | 3/6 |
+| `V4_match_dense` | both | 2/6 |
+
+Confirmed at 20/20 seeds. `Core(normalise=...)` in `qneuro3/elastic.py` defaults to `False` so every
+cycle-1 record reproduces bit-for-bit.
+
+**It is an interaction, not a main effect.** Normalisation *destroys* the fixed-depth model on the
+same task (1.0000 → 0.1281–0.2483), because an unnormalised residual state carries magnitude
+information the distance readout uses. Matched-ponder controls were required to see this: comparing
+normalised Q1 at ponder 0.02 against unnormalised Q1 at ponder 0.0 initially suggested the opposite,
+and that inference was withdrawn.
+
+### 6A.3 The decoupled task, and two rebuilds
+
+`research/qneuro3/decoupled.py`. Final form: a cycle through `n_nodes` with per-node labels; given a
+start and a query label, walk to the **first** node whose label matches and report **which node**.
+
+Shortcut audit, mandatory before any model is scored:
+
+| Statistic | Value |
+|---|---:|
+| chance | 0.042 |
+| best from crossing distance alone | 0.064 |
+| best by guessing any node carrying the query label | **0.291** |
+
+Anything above ~0.30 requires walking. Two rebuilds were needed (`FAIL-026`, `FAIL-028`): a fixed
+goal at node 0 made its label directly addressable, and then a read-ordering defect plus a linear
+head on a concatenation made the match predicate literally inexpressible.
+
+### 6A.4 Readout policies
+
+Six policies over one core with identical per-step inputs, matched per-step supervision, and
+parameters within 0.5% (54,744–55,001):
+
+```
+fixed             final state                          8.00 steps   0.2213, 0.2230
+fixed (24 epochs) final state                          8.00 steps   0.2731, 0.2562
+fixed_supervised  final state + per-step match loss    8.00 steps   0.2320, 0.2336, 0.2427
+gated             final state + learned latch          8.00 steps   0.2392, 0.2344, 0.2216
+mean_pooled       mean of all states                   8.00 steps   0.2687, 0.8472, 0.2586
+select            input-selected step (argmax)         8.00 steps   1.0000 x4
+arrival           first step the predicate fires       4.45 steps   1.0000 x5
+```
+
+Depth sweep: at `max_depth` 4 the fixed model solves it (1.0000, 0.8759); at 8 and 12 it does not
+(0.22, 0.24). The frozen carry-distance explanation for that threshold is **false** (§6A.5).
+
+### 6A.5 The frozen predictions of cycle 2
+
+| ID | sha256 (16) | Claim | Verdict |
+|---|---|---|---|
+| `QNEURO3-ATTRIB-P1` | `51d342b16dcd9e4e` | carry distance explains the separation | **FAIL** — profile flat, 0.02/0.07 vs 0.30 |
+| `QNEURO3-TRANSFER-P1` | `3ef3b2e56d08ca66` | the separation generalises | **FAIL** — 0.007 gap vs 0.20 required |
+| `QNEURO3-EXTRAP-P1` | `09aabd9169a7713b` | halting buys depth extrapolation | **FAIL** — all three; E2 inverted |
+| `QNEURO3-PARETO-P1` | `a855493fd713518e` | the saving scales to depth 32 | **FAIL** — R2 passed, R1/R3 did not |
+| `QNEURO3-NICHE-P1` | `7fbcceb87f9a2193` | the win **and its ceiling** transfer | **PASS** — all four |
+
+### 6A.6 The ceiling, derived
+
+A batch cannot exit until its slowest member does, so batched cost is `E[max]` over the batch:
+
+```
+E[max] = Σ_k k · (F(k)^n − F(k−1)^n)
+```
+
+`qneuro3/adaptive.py::expected_max_halt`. For `P(k) ∝ 0.8^k` on 1..32:
+
+| batch | 1 | 8 | 32 | 64 | 256 | 1024 |
+|---|---:|---:|---:|---:|---:|---:|
+| E[max halt] | 4.97 | 12.53 | 18.22 | 20.96 | 25.86 | 29.42 |
+| realisable saving | 6.43× | 2.55× | 1.76× | 1.53× | 1.24× | 1.09× |
+
+This is a property of per-example adaptive computation, not of this architecture, and applies to
+ACT, PonderNet, early-exit transformers and depth-routed mixtures of experts.
+
+### 6A.7 Wall-clock, measured
+
+Matched-accuracy comparison (`arrival` vs `select`, both at 1.0000), M2 CPU, streaming family at
+depth 32 and lookup family at depth 24:
+
+| batch | lookup: select µs/ex | arrival µs/ex | speedup | streaming speedup |
+|---|---:|---:|---:|---:|
+| 1 | 1502.6 | 502.2 | **2.99×** | **4.89×** |
+| 4 | 670.9 | 424.7 | 1.58× | 2.41× |
+| 16 | 258.7 | 219.6 | 1.18× | 1.10× |
+| 64 | 118.9 | 119.8 | 0.99× | 0.96× |
+| 256 | 71.8 | 73.7 | 0.97× | 0.99× |
+
+Batch-1 mean over 25 independent examples: 2.78×. Peak traced memory and parameter counts are
+identical between the two.
+
+**Three measurement errors were made and corrected while producing this table**, each of which
+produced a wrong number first: benchmarking an *untrained* model whose halting head never fires (so
+"early exit" ran every step plus the halting head, measuring 0.69×); comparing against a baseline
+that skipped the halting head entirely; and measuring only at batch 256, where the answer is 1.0×
+and the effect is invisible.
+
+### 6A.8 The final architecture
+
+`qneuro3/adaptive.py`: `first_arrival`, `halting_loss`, `expected_max_halt`, `plan`,
+`PredicateHalting` with separate `forward` (training, all steps — the likelihood needs them) and
+`infer` (genuine early termination). `plan` selects M2 Eco / Balanced / Throughput from the
+difficulty distribution and batch size, and switches early exit **off** above the measured crossover
+because there it is a penalty.
+
 ## 7. Measurement defects found and fixed
 
 Each produced a plausible, reportable, **wrong** answer.
@@ -519,7 +650,7 @@ Fixes are commented at their sites. The corrected transport-bound expression is
 ## 8. Repository state and verification
 
 ```bash
-python -m pytest -q                      # 232 tests
+python -m pytest -q                      # 239 tests
 ruff check .                             # clean
 python scripts/verify_release.py         # 22/22 semantic checks
 python -c "import json; d=json.load(open('research/failures.json')); print(len(d['failures']))"
@@ -532,7 +663,7 @@ pass first, so a stale manifest cannot be papered over.
 `research/laws/FROZEN_CANDIDATE_001.json`, `docs/PREREGISTRATION_NEXT_PHASE.md`,
 `docs/PROVISIONAL_LAW_FREEZE.md`, released manuscript binaries.
 
-**25 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
+**31 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
 idea has been renamed and rerun.
 
 ### 8.1 Record index
@@ -541,7 +672,8 @@ idea has been renamed and rerun.
 |---|---|
 | `research/discovery_lab/frozen/` | 8 hashed predictions and their results |
 | `research/discovery_lab/generated/` | `DISCOVERY-001`…`011`, `SYNTHESIS-001`, DISCOVERY-002 sub-records |
-| `research/qneuro3/` | cycle-1 records: `CYCLE-001`, `Q3-P1`(+result), `Q3-VARIANCE-001`, `Q0-RELIABILITY-001`, `Q4-P1`(+result), `CYCLE-001-CLOSE` |
+| `research/qneuro3/` | cycle 1: `CYCLE-001`, `Q3-P1`(+result), `Q3-VARIANCE-001`, `Q0-RELIABILITY-001`, `Q4-P1`(+result), `CYCLE-001-CLOSE` |
+| `research/qneuro3/` | cycle 2: `ATTRIB-P1`(+result), `ATTRIBUTION-001`, `TRANSFER-P1`(+result), `EXTRAP-P1`(+result), `PARETO-P1`(+result), `NICHE-P1`(+result) |
 | `experiments/results/QE-*` | Gate A–D evidence |
 | `docs/ML2_GATE_STATUS.md` | living gate record; records outcomes, never amends thresholds |
 | `docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md` | superseded wording preserved; downgrade recorded |
@@ -573,9 +705,11 @@ python experiments/run_qe_000010.py    # refuses to freeze; exits non-zero
 python research/discovery_lab/run_discovery_001.py
 python -c "from research.discovery_lab.nonlinear_confirmation import confirm; import json; print(json.dumps({k:v for k,v in confirm().items() if k!='records'}, indent=2))"
 
-# 4. Q-Neuro 3.0 cycle 1
+# 4. Q-Neuro 3.0
 python experiments/run_qneuro3_cycle_001.py all
+python experiments/run_qneuro3_cycle_002.py all
 ```
 
-Expected: Gate D fails, `run_qe_000010.py` refuses, the nonlinear confirmation fails, and cycle 1
-closes on a kill condition. **Those are the results, not errors in reproduction.**
+Expected: Gate D fails, `run_qe_000010.py` refuses, the nonlinear confirmation fails, cycle 1 closes
+on a kill condition, `transfer` fails and `niche` passes. **Those are the results, not errors in
+reproduction.**

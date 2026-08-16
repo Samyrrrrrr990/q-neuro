@@ -24,10 +24,22 @@
           "summary": "The complex/exact-real pair is one parameterization with two implementations, not two parameterizations of one function class. Equivalence level is downgraded from implied E1 to E2/E3 on a declared input domain because the two complex-tanh implementations diverge near the pole at i*pi/2."
         }
       ],
-      "supporting_experiments": ["QN-000033", "QN-000042"],
-      "effect_size": {"metric": "maximum_absolute_top1_difference", "value": 0.0, "cells": 1920},
+      "supporting_experiments": [
+        "QN-000033",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "maximum_absolute_top1_difference",
+        "value": 0.0,
+        "cells": 1920
+      },
       "uncertainty": "Deterministic mapped equivalence plus floating-point tolerance; not a population estimate.",
-      "assumptions": ["Mapped initialization", "same data order", "same optimizer policy", "implemented architecture only"],
+      "assumptions": [
+        "Mapped initialization",
+        "same data order",
+        "same optimizer policy",
+        "implemented architecture only"
+      ],
       "scope": "Q-Neuro complex_operator and exact_real_block_operator implementations",
       "external_validity": "Algebraic mapping is general; empirical tolerance was tested only in this codebase.",
       "novelty_status": "Known algebraic representation applied as a stringent project control.",
@@ -58,10 +70,25 @@
           "summary": "The falsification of the intrinsic-complex-arithmetic claim now rests on two explicitly separated legs: exact realification reproduces the implemented computation, and genuinely distinct real controls outperform it. The 1,920-cell headline must distinguish equivalence-induced zeros from independent architecture wins."
         }
       ],
-      "supporting_experiments": ["QN-000040", "QN-000042"],
-      "effect_size": {"metric": "mean_complex_minus_best_real_top1", "value": -0.009157985999869804},
-      "uncertainty": {"method": "hierarchical_bootstrap", "confidence": 0.95, "low": -0.013250867711224905, "high": -0.004570204104723728},
-      "assumptions": ["Equal family weighting", "world is the top-level unit", "best-real selection is cellwise and prespecified"],
+      "supporting_experiments": [
+        "QN-000040",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "mean_complex_minus_best_real_top1",
+        "value": -0.009157985999869804
+      },
+      "uncertainty": {
+        "method": "hierarchical_bootstrap",
+        "confidence": 0.95,
+        "low": -0.013250867711224905,
+        "high": -0.004570204104723728
+      },
+      "assumptions": [
+        "Equal family weighting",
+        "world is the top-level unit",
+        "best-real selection is cellwise and prespecified"
+      ],
       "scope": "Four held-out and four discovery synthetic nonmedical generator families under the reduced profile",
       "external_validity": "Unknown beyond the implemented synthetic generators.",
       "novelty_status": "Negative empirical result; priority not claimed.",
@@ -77,11 +104,23 @@
         "QN-LAW-001 discovery R2 is 0.949 with MAE 0.00260 across 12 aggregate cells.",
         "QN-000042 held-out R2 is -30.94 and MAE 0.0313; the frozen requirements were R2 at least 0.50 and MAE at most 0.015."
       ],
-      "counterevidence": ["Effect-sign accuracy is 1.0 because all observed and predicted gaps are non-positive."],
-      "supporting_experiments": ["QN-000040", "QN-000042"],
-      "effect_size": {"metric": "heldout_law_r2", "value": -30.936351721073724},
+      "counterevidence": [
+        "Effect-sign accuracy is 1.0 because all observed and predicted gaps are non-positive."
+      ],
+      "supporting_experiments": [
+        "QN-000040",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "heldout_law_r2",
+        "value": -30.936351721073724
+      },
       "uncertainty": "Twelve held-out family-by-severity aggregates; no refitting permitted.",
-      "assumptions": ["Frozen predictors and coefficients", "untouched family split", "unchanged confirmation thresholds"],
+      "assumptions": [
+        "Frozen predictors and coefficients",
+        "untouched family split",
+        "unchanged confirmation thresholds"
+      ],
       "scope": "QN-LAW-001 only",
       "external_validity": "No general computational law established.",
       "novelty_status": "Failed candidate law.",
@@ -97,11 +136,28 @@
         "QN-000008 reports +0.0602 moderate-shift top-1 versus a two-channel real control.",
         "Later exact-real and best-real comparisons reverse the sign in QN-000031, QN-000040, and QN-000042."
       ],
-      "counterevidence": ["The later studies use different generator families and reduced profiles, so the four point estimates are not one meta-analysis."],
-      "supporting_experiments": ["QN-000008", "QN-000031", "QN-000040", "QN-000042"],
-      "effect_size": {"metric": "historical_complex_minus_two_channel_moderate_top1", "value": 0.06016665697097778},
-      "uncertainty": {"low": 0.05293366263940652, "high": 0.06739965130254905, "units": "five NeuroWorld worlds"},
-      "assumptions": ["Historical result is retained unchanged", "comparator identity is stated with every estimate"],
+      "counterevidence": [
+        "The later studies use different generator families and reduced profiles, so the four point estimates are not one meta-analysis."
+      ],
+      "supporting_experiments": [
+        "QN-000008",
+        "QN-000031",
+        "QN-000040",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "historical_complex_minus_two_channel_moderate_top1",
+        "value": 0.06016665697097778
+      },
+      "uncertainty": {
+        "low": 0.05293366263940652,
+        "high": 0.06739965130254905,
+        "units": "five NeuroWorld worlds"
+      },
+      "assumptions": [
+        "Historical result is retained unchanged",
+        "comparator identity is stated with every estimate"
+      ],
       "scope": "Interpretation of the QN-000008 within-simulator result",
       "external_validity": "None established.",
       "novelty_status": "Comparator audit.",
@@ -113,12 +169,21 @@
       "claim_id": "CLAIM-005",
       "status": "not executed",
       "exact_wording": "QN-GRAND-001 did not execute and provides no primary confirmatory effect estimate.",
-      "evidence": ["The registered preflight records six blocking failures and sealed_benchmark_opened=false."],
-      "counterevidence": ["Eight readiness checks passed, including the shortcut gate, power plan, exact-real equivalence, and held-out family separation."],
-      "supporting_experiments": ["QN-GRAND-001"],
+      "evidence": [
+        "The registered preflight records six blocking failures and sealed_benchmark_opened=false."
+      ],
+      "counterevidence": [
+        "Eight readiness checks passed, including the shortcut gate, power plan, exact-real equivalence, and held-out family separation."
+      ],
+      "supporting_experiments": [
+        "QN-GRAND-001"
+      ],
       "effect_size": null,
       "uncertainty": "No primary outcome was observed.",
-      "assumptions": ["Any failed mandatory gate blocks sealed access", "single-use grand experiment"],
+      "assumptions": [
+        "Any failed mandatory gate blocks sealed access",
+        "single-use grand experiment"
+      ],
       "scope": "QNF-PREREG-002 grand confirmation",
       "external_validity": "Not applicable.",
       "novelty_status": "Registered stop decision.",
@@ -130,18 +195,149 @@
       "claim_id": "CLAIM-006",
       "status": "unsupported",
       "exact_wording": "The repository contains no evidence of clinical validity, patient benefit, safety, or a quantum mechanism of cognition.",
-      "evidence": ["All next-phase tasks are synthetic and nonclinical; no patient dataset was selected or evaluated."],
+      "evidence": [
+        "All next-phase tasks are synthetic and nonclinical; no patient dataset was selected or evaluated."
+      ],
       "counterevidence": [],
       "supporting_experiments": [],
       "effect_size": null,
       "uncertainty": "This is a scope statement, not an efficacy estimate.",
-      "assumptions": ["Repository artifact inventory is complete"],
+      "assumptions": [
+        "Repository artifact inventory is complete"
+      ],
       "scope": "Entire Q-Neuro release",
       "external_validity": "No medical external validity.",
       "novelty_status": "Safety boundary.",
       "replication_status": "Not applicable.",
       "falsifier": "A separately approved and preregistered clinical validation program with valid patient evidence.",
       "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-007",
+      "status": "confirmed prospectively, scoped",
+      "exact_wording": "On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised predicate attains the optimal per-example compute allocation and gives a 2.8-4.9x wall-clock inference saving at batch 1 at matched accuracy and matched parameters, and loses that advantage entirely above batch approximately 32.",
+      "evidence": [
+        "QNEURO3-NICHE-P1 (sha256 7fbcceb87f9a2193) was frozen on the streaming family and opened once on the associative-lookup family at depth 24 with a heavy-tailed distribution never used before. All four clauses passed: accuracy 1.0000 against select's 1.0000; mean steps 6.14 against E[distance] 6.14; batch-1 speedup 2.78x against a required 2.5x; batch-256 speedup 0.97x against a required ceiling of 1.2x.",
+        "Mean step count equals E[predicate index] to within 0.1 in six independent settings (4.45/8, 6.55/12, 2.51/4, 4.54/8, 6.60/12, 6.14/24).",
+        "Measured crossover curve on the M2: 2.99x at batch 1, 1.58x at 4, 1.18x at 16, 0.99x at 64, 0.97x at 256."
+      ],
+      "counterevidence": [
+        "No novelty is claimed. Supervised early exit and per-step attribution are prior art (Graves 2016; Banino et al. 2021; Vinyals et al. 2015; Lee et al. 2015).",
+        "The SIZE of the saving is max_depth / E[predicate index], a property of the workload rather than of the architecture. The architecture's contribution is attaining that optimum reliably.",
+        "Measured on one machine (Apple M2 CPU) at one model scale. Continuous batching or sequence packing may recover part of the saving above the crossover and was not measured.",
+        "Synthetic tasks only."
+      ],
+      "confidence": "high within the measured scope",
+      "scope": "synthetic, nonclinical, single-machine",
+      "assumptions": "Per-example halt steps are independent across a batch; the halting predicate is supervised by the task; difficulty is heavy-tailed with a deep worst case; inference runs on CPU at the measured model scale.",
+      "effect_size": "2.78x mean wall-clock speedup at batch 1 over 25 independent examples (lookup family, depth 24); 4.89x on the streaming family at depth 32; 0.97-0.99x at batch 256 on both. Mean steps 6.14 of 24 against E[distance] 6.14.",
+      "external_validity": "Two synthetic task families with structurally different cores (attention-based graph traversal, attention-free streaming). One machine, one model scale, CPU only. Not tested on natural data, on GPU, at large model width, or under continuous batching.",
+      "falsifier": "A matched-accuracy, matched-parameter comparison on a heavy-tailed variable-difficulty workload where batch-1 wall-clock saving is below 1.5x, or where the advantage persists above 1.2x at batch 256.",
+      "novelty_status": "No novelty claimed. Supervised early exit and per-step attribution are prior art (Graves 2016 ACT; Banino et al. 2021 PonderNet; Vinyals et al. 2015 Pointer Networks; Lee et al. 2015 deeply-supervised nets). The contribution is the measured boundary, not the mechanism.",
+      "replication_status": "Frozen and confirmed once on an untouched family under QNEURO3-NICHE-P1; 3 seeds per condition; single implementation, no independent reimplementation.",
+      "supporting_experiments": [
+        "QNEURO3-NICHE-P1"
+      ],
+      "uncertainty": "Batch-1 timing on a fanless machine varies with thermal state; the headline is a mean over 25 independent examples with a per-example range of 0.93x to 13.16x. The crossover batch is located between 16 and 64 and is not resolved more finely.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-008",
+      "status": "supported, analytic",
+      "exact_wording": "Per-example adaptive computation has an analytic ceiling under batching: because a batch cannot exit until its slowest member does, batched cost tracks E[max halt step over the batch] rather than E[halt step], so the realisable saving decays towards 1 as batch size grows.",
+      "evidence": [
+        "E[max] = sum_k k (F(k)^n - F(k-1)^n). For P(k) proportional to 0.8^k on 1..32: E[max] = 4.97 at batch 1, 12.53 at 8, 20.96 at 64, 29.42 at 1024, so the realisable saving falls from 6.43x to 1.09x.",
+        "Measured wall-clock agrees: early exit is 0.96-0.99x at batch 64-256 on both task families, i.e. a penalty.",
+        "Implemented and tested as qneuro3.adaptive.expected_max_halt."
+      ],
+      "counterevidence": [
+        "This is arithmetic about order statistics, not an empirical finding about any particular architecture, and no novelty is claimed for it.",
+        "It is stated for independent per-example halt steps. Correlated difficulty within a batch would change the constant, though not the direction."
+      ],
+      "confidence": "high",
+      "scope": "applies to any per-example adaptive-compute method, including ACT, PonderNet, early-exit transformers and depth-routed mixtures of experts",
+      "assumptions": "Halt steps are drawn independently and identically across the batch; every example in a batch is processed to the batch's maximum halt step; no continuous batching or sequence packing.",
+      "effect_size": "For P(k) proportional to 0.8^k on 1..32 the realisable saving falls from 6.43x at batch 1 to 2.55x at 8, 1.53x at 64 and 1.09x at 1024.",
+      "external_validity": "The derivation is distribution-free; only the constants depend on the halt distribution. It applies to any per-example adaptive-compute method under static batching.",
+      "falsifier": "A batched implementation whose measured cost tracks E[halt] rather than E[max halt] without continuous batching, or an order-statistics counterexample.",
+      "novelty_status": "No novelty claimed. This is elementary order statistics; it is recorded because the consequence for adaptive computation is not usually stated alongside reported speedups.",
+      "replication_status": "Analytic, implemented and unit-tested as qneuro3.adaptive.expected_max_halt; empirically corroborated on two task families.",
+      "supporting_experiments": [
+        "QNEURO3-CEILING-001",
+        "QNEURO3-NICHE-P1"
+      ],
+      "uncertainty": "Correlated difficulty within a batch would change the constants though not the direction; that case is not measured.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-009",
+      "status": "falsified",
+      "exact_wording": "Reading a computation's answer from an input-selected iteration rather than from the final state is generally necessary for first-match computations.",
+      "evidence": [
+        "On the associative-lookup family the separation is large and robust: a final-state readout scores 0.221-0.273 against 1.0000, and survives matched per-step supervision (0.232-0.243), an explicit learned latch (0.222-0.239) and 3x training."
+      ],
+      "counterevidence": [
+        "QNEURO3-TRANSFER-P1 (sha256 3ef3b2e56d08ca66) was frozen and opened once on a qualitatively different family. The required gap was 0.20; the measured gap was 0.007 in the wrong direction of interest (final-state readout 0.9351 against selection 0.9425). The kill condition applied.",
+        "The strongest model on that family is the explicit latch (0.9760), which is one of the controls that failed on the lookup family. The two families reward opposite designs."
+      ],
+      "confidence": "high",
+      "scope": "the separation is retained as a property of associative-lookup tasks only",
+      "assumptions": "Matched core, matched per-step inputs, matched per-step supervision, parameters within 0.5%, identical training protocol.",
+      "effect_size": "Associative lookup: 0.221-0.273 for final-state readout against 1.0000 for input-selected readout. Streaming: 0.9351 against 0.9425, a gap of 0.007.",
+      "external_validity": "The separation is established on associative-lookup tasks only and explicitly does not transfer to a streaming arithmetic family.",
+      "falsifier": "Already falsified as a general claim by QNEURO3-TRANSFER-P1. The scoped version would be falsified by an associative-lookup task where a final-state readout matches input-selected readout at matched supervision and compute.",
+      "novelty_status": "No novelty claimed. Position-selection readouts are Pointer Networks and span scoring.",
+      "replication_status": "Six readout policies, 2-5 seeds each, one implementation. The generalisation test was frozen and run once.",
+      "supporting_experiments": [
+        "QNEURO3-NICHE-P1"
+      ],
+      "uncertainty": "The sharp fixed-depth capability threshold between max_depth 4 and 8 is unexplained; the frozen carry-distance account was tested and is false.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-010",
+      "status": "falsified",
+      "exact_wording": "Predicate halting confers depth extrapolation: a model whose stopping rule is a local condition can iterate correctly beyond the depth it was trained at.",
+      "evidence": [
+        "None."
+      ],
+      "counterevidence": [
+        "QNEURO3-EXTRAP-P1 (sha256 09aabd9169a7713b) required at least 0.80 accuracy on unseen depths on every seed and measured 0.8328, 0.3528, 0.6548.",
+        "Its mechanism clause inverted: the unnormalised model extrapolates at 0.9136 against the normalised model's 0.6135, so state normalisation costs 0.30 of extrapolated accuracy while buying about 0.05 in distribution."
+      ],
+      "confidence": "high",
+      "scope": "tested on the streaming family at 1.33x the trained depth",
+      "assumptions": "Trained at length 12 and evaluated without retraining at length 16 on the streaming family; standard protocol; 3 seeds.",
+      "effect_size": "0.8328 / 0.3528 / 0.6548 on unseen depths against a required 0.80 on every seed. Unnormalised: 0.8926 / 0.8678 / 0.9803.",
+      "external_validity": "One family, one extrapolation ratio (1.33x). Not tested on the lookup family or at larger ratios.",
+      "falsifier": "Already falsified. Reviving it would require a materially different halting mechanism and a new prediction identifier.",
+      "novelty_status": "Not applicable; the claim is falsified.",
+      "replication_status": "Frozen once, opened once, 3 seeds per condition.",
+      "supporting_experiments": [
+        "QNEURO3-CEILING-001"
+      ],
+      "uncertainty": "The inversion of the normalisation clause is measured on 3 seeds per condition and is large (0.30 absolute), but is not explained.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
     }
   ]
 }

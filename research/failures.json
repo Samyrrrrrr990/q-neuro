@@ -200,6 +200,54 @@
       "failure": "The frozen mechanism hypothesis -- that Q3 is bimodal because its state does not track position on the chain -- is false. Adding a training-only per-step position readout gave 0 of 10 seeds at or above 0.99 on both task constructions, against a required 9 of 10 and 8 of 10.",
       "response": "Kill condition triggered as frozen. No second variant issued. Q-Neuro 3.0 cycle 1 closed.",
       "claim_impact": "Adaptive depth loses to fixed depth on chase_to_goal once reliability is counted. Instructive detail preserved: the intervention DID remove the collapse mode (no run below 0.6322) but removed the good mode with it (best run 0.9500), so an auxiliary signal that reduces seed variance can do so by destroying the solution worth having."
+    },
+    {
+      "failure_id": "FAIL-026",
+      "experiment_id": "QNEURO3-DECOUPLE-001",
+      "stage": "control_task_design",
+      "failure": "The first decoupled-answer task leaked. It kept the goal fixed at node 0 and asked for the goal's LABEL, but a fixed, known goal identity makes its label directly addressable by attention at any step, with no walking required. Every configuration scored label accuracy 1.0000, including arrival runs whose halting was only 30% correct.",
+      "response": "Task discarded and rebuilt content-addressed: walk to the FIRST node whose label matches a per-example query, then report WHICH node that is. Shortcut audit on the rebuilt task: distance alone gives 0.064, guessing any node carrying the query label gives 0.291, chance is 0.042.",
+      "claim_impact": "None of the leaked run's numbers may be cited. The failure is diagnostic of the control's own validity: a control that every configuration passes is not a control, and the tell was that a model halting at the wrong step still scored perfectly."
+    },
+    {
+      "failure_id": "FAIL-027",
+      "experiment_id": "QNEURO3-PREDICT-001",
+      "stage": "early_mode_prediction",
+      "failure": "No mechanistic observable predicts which of the two training modes a run will reach any earlier than validation accuracy does. Across 24 instrumented runs and 21 observables (linear decodability of current node / hops remaining / goal indicator, halting-distribution entropy and per-step profile, attention entropy, state effective rank), the earliest perfect separation is at step 1900 of 4000 for accuracy, decodability, loss and halting entropy alike. Best early AUC at step 500 is 0.731 for dec_remaining against accuracy's 0.521, which is inside multiple-comparison noise for 21 observables x 7 timepoints.",
+      "response": "Branch closed without a frozen prediction being issued. Early validation accuracy is retained as the operative predictor and recorded as prior art: kill-and-restart on early validation performance is standard practice and no novelty is claimed.",
+      "claim_impact": "The committor/early-warning branch of DISCOVERY-002 gains nothing from the existence of a genuinely bimodal system. FAIL-009 stands, and is now additionally supported: even given two distinguishable attractors, the fate was not predictable ahead of the obvious signal."
+    },
+    {
+      "failure_id": "FAIL-028",
+      "experiment_id": "QNEURO3-DECOUPLE-002",
+      "stage": "control_task_design",
+      "failure": "The rebuilt decoupled task was initially unlearnable by every model because of a read-ordering defect: the label of the node the walk had just moved to was never available to the halting head, which was therefore asked to check a predicate about a node it had not reached. A second defect compounded it: the halting head was a linear map on a concatenation, which cannot express 'these two are equal' at all.",
+      "response": "Read ordering corrected so the label is read after the hop, and the elementwise product carried*query added so a linear reader can compute the match score. Both fixes were made before any model comparison was scored.",
+      "claim_impact": "None. No comparison from the defective version is cited. Recorded because the second defect is the same expressivity gap the V2 variant exposed on chase_to_goal, and it was reintroduced from scratch in a new task."
+    },
+    {
+      "failure_id": "FAIL-029",
+      "experiment_id": "QNEURO3-ATTRIB-P1",
+      "stage": "frozen_mechanism_test",
+      "failure": "The frozen carry-distance mechanism for the attribution separation is false. Fixed-depth accuracy conditioned on true distance is flat at ~0.22 across all eight distances; the required d=max_depth minus d=1 margin was 0.30 and the measured values are 0.02 and 0.07. The model fails uniformly, including where no transport is required at all.",
+      "response": "Kill condition triggered as frozen. No mechanism is claimed for the separation and no scaling law is predicted from it. Diagnosing it exposed a supervision confound in the original comparison, which was then removed with a matched-supervision control.",
+      "claim_impact": "The empirical separation stands as measured but is mechanistically unexplained. The sharp fixed-depth capability threshold between max_depth 4 and 8 remains open."
+    },
+    {
+      "failure_id": "FAIL-030",
+      "experiment_id": "QNEURO3-TRANSFER-P1",
+      "stage": "untouched_confirmation",
+      "failure": "The attribution result does not generalise. On an untouched, qualitatively different family (streaming threshold crossing, no attention anywhere in the core), a final-state readout reaches 0.9351 against per-step selection's 0.9425 -- a gap of 0.007 where the frozen criterion required 0.20. T1 also failed narrowly, with select at 0.9347-0.9481 against a required 0.95.",
+      "response": "Kill condition triggered as frozen. The separation is scoped to associative-lookup tasks and no principle is claimed. Preserved with the observation that the strongest model on this family is the explicit latch (0.9760), which was one of the controls that failed on query_chase -- the two families reward opposite designs.",
+      "claim_impact": "No general claim about where an answer must be read from. What survives is T3, which passed prospectively: halting on a supervised predicate costs nothing in accuracy and returns the workload's full compute saving."
+    },
+    {
+      "failure_id": "FAIL-031",
+      "experiment_id": "QNEURO3-EXTRAP-P1",
+      "stage": "capability_test",
+      "failure": "Predicate halting does not buy depth extrapolation. Trained at length 12 and evaluated at 16, normalised arrival scores 0.8328 / 0.3528 / 0.6548 on the unseen indices against a required 0.80 on every seed. E3 also failed (fixed reached 0.510 mean against a required <0.50).",
+      "response": "Kill condition triggered as frozen; the adaptive-compute branch closes as a bounded negative result. The trade-off exposed by E2 is preserved rather than smoothed over.",
+      "claim_impact": "No capability claim for adaptive halting anywhere in the programme. E2 INVERTED: unnormalised arrival extrapolates at 0.9136 against normalised 0.6135, so normalisation costs 0.30 of extrapolated accuracy while buying about 0.05 in distribution. This bounds the QNEURO3-Q3-VARIANCE-001 normalisation finding to the associative-lookup family: it is a family-specific engineering choice with a real trade-off, not a principle."
     }
   ]
 }

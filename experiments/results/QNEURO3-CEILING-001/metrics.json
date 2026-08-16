@@ -1,0 +1,67 @@
+{
+  "derivation": "E[max] = sum_k k * (F(k)^n - F(k-1)^n) for halt-step cdf F and batch size n.",
+  "empirical_corroboration": "Measured early-exit speedup is 0.96-0.99x at batch 64-256 on both task families.",
+  "experiment_id": "QNEURO3-CEILING-001",
+  "gate": "analytic",
+  "halt_distribution": "P(k) proportional to 0.8^k on 1..32",
+  "implementation": "qneuro3.adaptive.expected_max_halt, unit-tested in tests/test_qneuro3.py",
+  "outcome_eligible": true,
+  "profile": "derivation",
+  "protocol_deviations": [
+    "Assumes independent per-example halt steps; correlated difficulty within a batch would change the constants but not the direction."
+  ],
+  "records": [
+    {
+      "batch": 1,
+      "expected_max_halt": 4.97,
+      "realisable_saving": 6.438631790744467
+    },
+    {
+      "batch": 2,
+      "expected_max_halt": 7.17,
+      "realisable_saving": 4.463040446304045
+    },
+    {
+      "batch": 4,
+      "expected_max_halt": 9.75,
+      "realisable_saving": 3.282051282051282
+    },
+    {
+      "batch": 8,
+      "expected_max_halt": 12.53,
+      "realisable_saving": 2.5538707102952913
+    },
+    {
+      "batch": 16,
+      "expected_max_halt": 15.38,
+      "realisable_saving": 2.0806241872561766
+    },
+    {
+      "batch": 32,
+      "expected_max_halt": 18.22,
+      "realisable_saving": 1.756311745334797
+    },
+    {
+      "batch": 64,
+      "expected_max_halt": 20.96,
+      "realisable_saving": 1.5267175572519083
+    },
+    {
+      "batch": 128,
+      "expected_max_halt": 23.54,
+      "realisable_saving": 1.3593882752761257
+    },
+    {
+      "batch": 256,
+      "expected_max_halt": 25.86,
+      "realisable_saving": 1.237432327919567
+    },
+    {
+      "batch": 1024,
+      "expected_max_halt": 29.42,
+      "realisable_saving": 1.087695445275323
+    }
+  ],
+  "scope": "Applies to any per-example adaptive-compute method under static batching, including ACT, PonderNet, early-exit transformers and depth-routed mixtures of experts.",
+  "statement": "Batched cost of per-example adaptive computation tracks E[max halt step over the batch], not E[halt step]."
+}

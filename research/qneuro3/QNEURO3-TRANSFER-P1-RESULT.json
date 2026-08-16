@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-TRANSFER-P1",
+  "prediction_sha256": "3ef3b2e56d08ca669461a07752c3645c2e8274805bd7b129f35ad05c3335673f",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_triggered": true,
+  "shortcut_audit_before_scoring": {
+    "chance": 0.1111,
+    "from_crossing_index_alone": 0.1368,
+    "from_marginal_answer_prior": 0.1158,
+    "from_sequence_mode_value": 0.2693,
+    "from_first_token": 0.184,
+    "from_last_token": 0.1807,
+    "verdict": "passes as frozen; the rebuild threshold was 0.30 and the strongest shortcut is 0.269"
+  },
+  "results": {
+    "select": {
+      "answer": [
+        0.9481,
+        0.9448,
+        0.9347
+      ],
+      "step_id": [
+        0.938,
+        0.9389,
+        0.923
+      ],
+      "steps": 12.0,
+      "mean_answer": 0.9425
+    },
+    "arrival": {
+      "answer": [
+        0.9592,
+        0.9552,
+        0.9619
+      ],
+      "step_id": [
+        0.9522,
+        0.9445,
+        0.9566
+      ],
+      "steps": [
+        6.63,
+        6.54,
+        6.62
+      ],
+      "mean_answer": 0.9588
+    },
+    "fixed": {
+      "answer": [
+        0.9569,
+        0.8864,
+        0.9434
+      ],
+      "step_id": [
+        0.1831,
+        0.0202,
+        0.2716
+      ],
+      "steps": 12.0,
+      "mean_answer": 0.9289
+    },
+    "fixed_supervised": {
+      "answer": [
+        0.9095,
+        0.9778,
+        0.918
+      ],
+      "step_id": [
+        0.8795,
+        0.982,
+        0.9198
+      ],
+      "steps": 12.0,
+      "mean_answer": 0.9351
+    },
+    "gated": {
+      "answer": [
+        0.9712,
+        0.9652,
+        0.9917
+      ],
+      "step_id": [
+        0.9647,
+        0.9566,
+        0.9933
+      ],
+      "steps": 12.0,
+      "mean_answer": 0.976
+    },
+    "mean_pooled": {
+      "answer": [
+        0.9689,
+        0.9489,
+        0.8566
+      ],
+      "step_id": [
+        0.9728,
+        0.9602,
+        0.8586
+      ],
+      "steps": 12.0,
+      "mean_answer": 0.9248
+    }
+  },
+  "scoring": {
+    "T1_attribution_solves": {
+      "required": "select >= 0.95 AND arrival >= 0.95 on every seed",
+      "measured": "select is 0.9481 / 0.9448 / 0.9347 -- every seed below 0.95; arrival passes",
+      "verdict": "FAIL, narrowly"
+    },
+    "T2_final_state_does_not": {
+      "required": "better of fixed / fixed_supervised at least 0.20 below select",
+      "measured": "fixed_supervised mean 0.9351 against select mean 0.9425, a gap of 0.007 in select's favour",
+      "verdict": "FAIL, decisively"
+    },
+    "T3_halting_is_free": {
+      "required": "arrival within 0.02 of select AND saving >= 1.5x",
+      "measured": "arrival mean 0.9588 against select 0.9425, so arrival is 0.016 BETTER; 6.60 steps of 12 is 1.82x",
+      "verdict": "PASS"
+    }
+  },
+  "consequence": [
+    "The kill condition frozen in advance applies verbatim: a final-state readout solves this family,",
+    "so the attribution result does NOT generalise. It is scoped to associative-lookup tasks",
+    "(query_chase, chase_to_goal) and no principle is claimed from it.",
+    "This is the first mode listed in the frozen anticipated_failure_modes: a 9-value answer alphabet",
+    "and a one-dimensional running sum make latching easy enough that the final-state readout is",
+    "sufficient. It was written down before the run.",
+    "Note the strongest model on this family is `gated` at 0.9760 -- an explicit latch, which was one",
+    "of the controls that FAILED on query_chase. The two families genuinely reward opposite designs."
+  ],
+  "what_survives": [
+    "T3, and it survives prospectively on an untouched family: halting on a supervised predicate",
+    "costs nothing in accuracy and returns the full workload-determined compute saving.",
+    "Across five settings the mean step count tracks the expected predicate index almost exactly:",
+    "streaming length 12, E[index] 6.50, measured 6.60; query_chase depth 12, E[d] 6.50, measured",
+    "6.55; depth 8, E[d] 4.50, measured 4.45; depth 4, E[d] 2.50, measured 2.51; chase_to_goal depth",
+    "8, E[d] 4.50, measured 4.54.",
+    "That is the OPTIMAL allocation, and it means the advertised speedup is a property of the",
+    "workload rather than of the architecture -- which is exactly what the dead QNEURO3-Q3-P1 said",
+    "and could not test. That prediction remains FAILED and is not revived; this is a separate",
+    "observation under a separate identifier."
+  ],
+  "not_permitted_from_here": [
+    "Describing attribution as a general principle, or citing ATTRIBUTION-001 outside",
+    "associative-lookup tasks.",
+    "Re-running this family with a different length, alphabet size or model budget in order to",
+    "recover T2. One attempt was frozen and one attempt was used."
+  ]
+}

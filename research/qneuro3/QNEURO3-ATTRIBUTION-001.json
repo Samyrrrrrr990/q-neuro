@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-ATTRIBUTION-001",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "title": "Where the answer is read from decides whether a first-match computation is learnable at all",
+  "task": {
+    "name": "query_chase",
+    "definition": "A permutation defines a single cycle through 24 nodes, each carrying one of 6 labels. Given a start node and a query label, walk to the FIRST node whose label equals the query and report WHICH NODE that is.",
+    "why_this_task": [
+      "It is the decoupled control that QNEURO3-Q3-P1 specified and did not run. The answer is a node identity, not the hop count, so no model can score by reporting its own step count.",
+      "The goal is content-addressed rather than fixed, so its identity cannot be looked up in advance. An earlier version that fixed the goal at node 0 leaked completely and is preserved as FAIL-026."
+    ],
+    "shortcut_audit": {
+      "chance": 0.042,
+      "best_from_distance_alone": 0.064,
+      "best_by_guessing_any_node_carrying_the_query_label": 0.291,
+      "reading": "Any accuracy above about 0.30 requires actually walking the chain."
+    }
+  },
+  "held_constant": [
+    "Same recurrent core, same per-step inputs (state, successor read, label read, query, and the elementwise product carried*query), same normalisation.",
+    "AdamW 2e-3, 8 epochs, 500 batches of 128, grad-norm clip 1.0.",
+    "Parameters within 0.5%: 54744-55001.",
+    "Per-step match supervision is given to EVERY model that has a per-step head, so supervision is not a confound."
+  ],
+  "results_at_max_depth_8": [
+    {"model": "fixed", "answer_read_from": "final state", "steps": 8.00, "answer_accuracy": [0.2213, 0.2230], "step_id_accuracy": null, "verdict": "fails"},
+    {"model": "fixed, 3x training (24 epochs)", "answer_read_from": "final state", "steps": 8.00, "answer_accuracy": [0.2731, 0.2562], "step_id_accuracy": null, "verdict": "fails; not undertraining"},
+    {"model": "fixed_supervised", "answer_read_from": "final state, plus per-step match loss", "steps": 8.00, "answer_accuracy": [0.2320, 0.2336, 0.2427], "step_id_accuracy": [0.1341, 0.3103, 0.1469], "verdict": "fails with supervision matched"},
+    {"model": "gated", "answer_read_from": "final state, with an explicit learned latch", "steps": 8.00, "answer_accuracy": [0.2392, 0.2344, 0.2216], "step_id_accuracy": [0.1616, 0.1761, 0.1620], "verdict": "fails"},
+    {"model": "mean_pooled", "answer_read_from": "mean of all states", "steps": 8.00, "answer_accuracy": [0.2687, 0.8472, 0.2586], "step_id_accuracy": [0.1592, 0.8592, 0.1820], "verdict": "1 of 3 seeds partially works"},
+    {"model": "select", "answer_read_from": "input-selected step (argmax of match score)", "steps": 8.00, "answer_accuracy": [1.0000, 1.0000, 1.0000, 1.0000], "step_id_accuracy": [1.0000, 1.0000, 1.0000, 1.0000], "verdict": "solves"},
+    {"model": "arrival", "answer_read_from": "first step where the predicate fires", "steps": 4.45, "answer_accuracy": [1.0000, 1.0000, 1.0000, 1.0000, 1.0000], "step_id_accuracy": [1.0000, 1.0000, 1.0000, 1.0000, 1.0000], "verdict": "solves, at 1.80x less compute"}
+  ],
+  "depth_sweep": {
+    "max_depth_4": {"fixed": [1.0000, 0.8759], "fixed_supervised": [0.9405, 1.0000], "select": 1.0000, "arrival": {"accuracy": 1.0000, "steps": 2.51}},
+    "max_depth_8": {"fixed": [0.2213, 0.2230], "select": 1.0000, "arrival": {"accuracy": 1.0000, "steps": 4.45}},
+    "max_depth_12": {"fixed": [0.2395, 0.2403], "fixed_supervised": [0.1997], "select": 1.0000, "arrival": {"accuracy": 1.0000, "steps": 6.55}}
+  },
+  "findings": [
+    {
+      "id": "A1",
+      "finding": "The separation is not about supervision. fixed_supervised receives exactly the per-step match supervision that select receives and still scores 0.232-0.243, below the 0.291 lookup baseline."
+    },
+    {
+      "id": "A2",
+      "finding": "The separation is not about preservation. An explicit learned latch, initialised open so it can close on a detected match and carry the state unchanged, fails on 3 of 3 seeds at 0.222-0.239."
+    },
+    {
+      "id": "A3",
+      "finding": "The separation is not simply gradient-path length. Mean pooling gives the answer gradient a one-hop path to every step, and reaches 0.847 on 1 seed of 3 while the other two sit at 0.26. Short credit assignment helps sporadically and is not sufficient."
+    },
+    {
+      "id": "A4",
+      "severity": "central",
+      "finding": "Reading the answer from an INPUT-SELECTED step is what makes the computation reliably learnable. Both models that do so reach 1.0000 on every seed at every depth tested; every model that does not stays at or below the lookup baseline except one lucky pooling seed."
+    },
+    {
+      "id": "A5",
+      "finding": "The readout location also decides whether the per-step head itself can learn. fixed_supervised and select receive an identical per-step match signal, yet select identifies the match step with accuracy 1.0000 while fixed_supervised manages 0.134-0.310. When the primary objective's gradient does not flow through a per-step state, that state does not become semantically well-formed, and a head reading it cannot learn either."
+    },
+    {
+      "id": "A6",
+      "finding": "Halting is separable from attribution and is free. select and arrival are identical in accuracy at every depth; arrival additionally stops at the selected step, giving 2.51 / 4.45 / 6.55 mean steps against 4 / 8 / 12, a 1.59x / 1.80x / 1.83x compute reduction at identical accuracy."
+    },
+    {
+      "id": "A7",
+      "finding": "The fixed-depth model has a sharp capability threshold between max_depth 4 (solves, 1.0000 / 0.8759) and max_depth 8 (fails, 0.22). The frozen carry-distance explanation for this was tested and is FALSE (QNEURO3-ATTRIB-P1). No mechanism is currently claimed for the threshold."
+    }
+  ],
+  "prior_art_position": [
+    "Reading an answer by pointing at a position rather than regenerating it from a fixed-size summary is Pointer Networks (Vinyals et al. 2015) and the same argument underlies span-scoring readouts in extractive question answering. Selecting over positions is established and no novelty is claimed for it.",
+    "Per-step readouts combined with a halting distribution are PonderNet (Banino et al. 2021); adaptive computation time is Graves (2016); early-exit classifiers and deep supervision (Lee et al. 2015) supply per-step losses. None of these is claimed as novel here.",
+    "What is measured here and not found stated elsewhere: applying position-selection to a recurrence's OWN TIME AXIS, where the selected index and the halting step coincide, and the observation that an auxiliary per-step loss is NOT a substitute for routing the primary objective through the selected step (finding A5).",
+    "The prior-art comparison is a live obligation, not a settled one. Nothing in this record may be described as novel until that comparison is done against actual update equations."
+  ],
+  "open": [
+    "A7: the max_depth 4-to-8 threshold for fixed-depth readout is unexplained.",
+    "Whether the ordering transfers to a qualitatively different task family. Frozen as QNEURO3-TRANSFER-P1 and tested separately.",
+    "Whether normalisation is required for arrival halting on this family too. Measured: unnormalised arrival gets 0.035 answer accuracy against 1.0000 normalised, consistent with QNEURO3-Q3-VARIANCE-001, but only 2 seeds."
+  ]
+}

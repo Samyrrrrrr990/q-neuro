@@ -30,8 +30,9 @@ is the reproduction manual, and this is the narrative — including the parts th
 - Part III — Q-Neuro 2.0: the equivalence compiler
 - Part IV — The discovery lane: eleven attempts, eleven closures
 - Part V — Q-Neuro 3.0: architecture from first principles
-- Part VI — What the program actually produced
-- Part VII — The beautiful results that had to be killed
+- Part VI — Cycle 2: the fix, and thirteen predictions later
+- Part VII — What the program actually produced
+- Part VIII — The beautiful results that had to be killed
 - Appendix A — The failure register
 - Appendix B — Rules that earned their cost
 
@@ -766,17 +767,214 @@ outcome the program is designed to surface early rather than late.
 
 ---
 
-# Part VI — What the program actually produced
+# Part VI — Cycle 2: the fix, and thirteen predictions later
 
-## VI.1 The scoreboard
+## VI.1 Reading the failure properly
 
-**Eight frozen, hashed, prospective predictions. Zero passed as written.**
+Cycle 1 closed with "adaptive depth loses once reliability is counted." That is a verdict, not a
+diagnosis. The diagnosis took one measurement that should have been taken first: **accuracy
+conditioned on true distance.**
 
-One contained a genuine prospective success inside a failure (`DFREE-LAW-P3`'s homogeneity
-component). One *passed* and the pass was worthless (`DISCOVERY-001-P1`, vacuous). Twenty-five
-failures preserved with mechanisms.
+> **Experimental.** A failing Q3 run scores `1.00 1.00 0.34 0.12 0.03 0.01 0.25 0.74` across
+> distances 1–8. Perfect for two hops, then collapse. It is not halting at a typical depth; the
+> recurrent state stops carrying position after two steps.
 
-## VI.2 What survives
+> **Intuition.** The state is a residual accumulation with no scale control. Its magnitude drifts
+> with depth, so a halting head with a fixed sigmoid threshold is effectively asking a different
+> question at step 6 than at step 2.
+
+> **Formal.** RMS-normalise after each hop: `h ← h · rsqrt(mean(h²) + ε)`.
+
+> **Experimental.** 11 of 24 seeds became **6 of 6**, every success landing on exactly 1.0000 at
+> 4.54 steps. Confirmed at 20 of 20. Three other single-variable interventions run at the same time
+> did nothing: a goal-match feature (3/6), dense per-step halting supervision (3/6), both (2/6).
+
+Layer normalisation in recurrent networks is textbook. **No novelty is claimed and none is
+available.** Two things about it here are worth the ink.
+
+**It is an interaction, not a main effect.** The same normalisation *destroys* the fixed-depth model
+on the same task, 1.0000 → 0.1281–0.2483. An unnormalised residual state carries magnitude
+information that a distance readout uses; removing it removes the readout's substrate. Predicate
+halting reads a *direction* and is helped; confidence halting reads a *magnitude* and is hurt.
+
+**And the first version of that inference was wrong.** The normalised mixture-halting runs were
+compared against unnormalised runs at a different ponder weight. Checking the cycle-1 records showed
+unnormalised mixture halting scored the same 0.25 at those weights, so the comparison said nothing.
+It was withdrawn and re-run at matched ponder before anything was concluded.
+
+## VI.2 A committor, at last — and it still dies
+
+`DISCOVERY-002`'s committor branch died as `FAIL-009` because it needed two distinguishable
+functional attractors and none existed. Cycle 1 produced exactly that: an outcome that is either
+0.9994–1.0000 or 0.42–0.57, with almost nothing between.
+
+> **Formal.** Instrument 24 runs with 21 mechanistic observables logged every 100 optimizer steps:
+> linear decodability of the current node, of hops remaining, of the goal indicator; halting-
+> distribution entropy and per-step profile; attention entropy; state effective rank. Ask whether
+> any separates the eventual mode earlier than validation accuracy does.
+
+> **Experimental.** **None does.** First perfect separation is step 1900 of 4000 for accuracy,
+> decodability, loss and halting entropy alike. The best early AUC at step 500 is 0.731 for
+> `dec_remaining` against accuracy's 0.521 — inside multiple-comparison noise for 21 observables
+> across 7 timepoints.
+
+Recorded as `FAIL-027`. The branch closed without a prediction being issued: early validation
+accuracy is the operative predictor, and kill-and-restart on it is standard practice.
+
+Note what this costs. Cycle 1's variance record described the outcome as bimodal "with nothing
+between 0.57 and 0.99" on the strength of ten runs. Twenty-four runs produced a 0.7283. The gap is
+real but not empty, and the earlier wording was too strong.
+
+## VI.3 The control that everything passed
+
+Cycle 1 left one question explicitly open: does the result depend on the answer being the step count?
+
+The first attempt at the control kept the goal at node 0 and asked for the goal's label.
+**Everything scored 1.0000** — including runs whose halting was 30% correct.
+
+> A control that every configuration passes is not a control. The tell was the contradiction: a
+> model halting at the wrong step cannot read the right node's label, unless it never needed to
+> walk. A fixed, known goal identity makes its label directly addressable by attention at any step.
+
+Preserved as `FAIL-026`. Rebuilt content-addressed: walk to the **first** node whose label matches a
+per-example query, then report **which node** that is. Shortcut audit — distance alone 0.064,
+guessing any node carrying the query label 0.291, chance 0.042.
+
+Then nobody could solve it, for two reasons at once (`FAIL-028`). The label of the node just moved
+to was never available to the halting head, so the predicate was unanswerable; and the head was a
+linear map on a concatenation, which cannot express *"these two are equal"*. The second defect is
+the identical expressivity gap the goal-match variant had exposed in §VI.1, reintroduced from
+scratch in a new task a few hours later.
+
+## VI.4 The separation, and three frozen attempts to make it a principle
+
+With the task honest, the result was dramatic.
+
+| Model | Answer read from | Steps | Answer acc | Step-id acc |
+|---|---|---:|---|---|
+| fixed | final state | 8.00 | 0.221–0.223 | — |
+| fixed, 3× training | final state | 8.00 | 0.256–0.273 | — |
+| fixed_supervised | final state + per-step loss | 8.00 | 0.232–0.243 | 0.13–0.31 |
+| gated | final state + explicit latch | 8.00 | 0.222–0.239 | 0.16–0.18 |
+| mean_pooled | mean of all states | 8.00 | 0.259–**0.847** | 0.16–0.86 |
+| **select** | **input-selected step** | 8.00 | **1.0000** | **1.0000** |
+| **arrival** | **first step the predicate fires** | **4.45** | **1.0000** | **1.0000** |
+
+Five distinct fixed-depth alternatives fail where input-selected readout succeeds on every seed. And
+the sharpest detail: `fixed_supervised` and `select` receive an *identical* per-step match signal,
+yet `select` identifies the match step at 1.0000 while `fixed_supervised` manages 0.13–0.31.
+**Where the answer is read from decides whether the per-step head can learn at all.**
+
+That is the kind of finding that feels like a principle. It was frozen three times, and falsified
+three times.
+
+**`QNEURO3-ATTRIB-P1` — the mechanism was false.** The account said the fixed model must transport
+the matched identity through the remaining iterations and degrades in proportion. Accuracy by
+distance is **flat at ~0.22**; the required `d=max_depth` minus `d=1` margin was 0.30 and measured
+0.02 and 0.07. It fails uniformly, *including where nothing is carried at all.* Kill triggered,
+exactly as the frozen anticipated failure modes said in their first line.
+
+Diagnosing it exposed a confound in our own comparison — the attribution models were told which step
+was the match and the fixed model was not. The matched-supervision control removed it. The
+separation survived. The mechanism did not.
+
+**`QNEURO3-TRANSFER-P1` — it did not generalise.** An untouched, qualitatively different family:
+streaming threshold-crossing, one token per step, an arithmetic predicate, **no attention anywhere
+in the core**. Required: final-state readout at least 0.20 below selection. Measured **0.9351
+against 0.9425 — a gap of 0.007.** Kill triggered.
+
+The best model on the new family is the **explicit latch** at 0.9760, one of the controls that
+failed on lookup. The two families reward opposite designs, and that fact does more damage to the
+principle than the failed threshold does.
+
+**`QNEURO3-EXTRAP-P1` — it buys no capability.** The one thing halting could uniquely offer:
+running past the depth it was trained at, since its stopping rule is a local condition rather than a
+count. Trained at 12, evaluated at 16: **0.8328 / 0.3528 / 0.6548** against a required 0.80 on every
+seed.
+
+And E2 *inverted*. The **unnormalised** model extrapolates at 0.9136 against the normalised model's
+0.6135. Normalisation costs 0.30 of extrapolated accuracy while buying about 0.05 in distribution —
+which bounds the fix that opened the whole cycle. It is a family-specific engineering trade-off, not
+a principle, and the final architecture exposes it as a flag rather than a default.
+
+## VI.5 The ceiling
+
+One clause survived, and it had already transferred prospectively as T3 of a prediction that
+otherwise failed: halting on a supervised predicate costs nothing in accuracy and returns the
+workload's full saving. Mean steps track `E[predicate index]` to within 0.1 across six settings.
+
+The first attempt to bank it failed, and failed *usefully*.
+
+> **Experimental.** `QNEURO3-PARETO-P1` measured batched wall-clock latency at depth 32 and found
+> **1.0×**, despite a 6.5× step-count saving.
+
+> **Why.** The batched forward runs every step and *then* selects. The saving was nominal. Nobody
+> had checked, because the step counter said 4.91 and the step counter is exactly the instrument
+> cycle 1 warned could not be trusted alone.
+
+Implementing genuine early exit and benchmarking a *trained* model — three separate measurement
+errors were made and corrected getting to this, including benchmarking an untrained model whose
+halting head never fires — exposed the real structure:
+
+> **Formal.** A batch cannot exit until its slowest member does. Batched cost tracks
+> `E[max halt over the batch]`, not `E[halt]`:
+> `E[max] = Σ_k k · (F(k)^n − F(k−1)^n)`.
+
+> **Experimental.** For `P(k) ∝ 0.8^k` on 1..32: E[max] = 4.97 at batch 1, 12.53 at 8, 20.96 at 64,
+> 29.42 at 1024. The realisable saving decays from 6.43× to 1.09×.
+
+This is arithmetic, and it applies to every per-example adaptive-compute method — ACT, PonderNet,
+early-exit transformers, depth-routed mixtures of experts. It is, plausibly, why adaptive-depth
+methods keep failing to deliver at serving scale.
+
+## VI.6 The thirteenth prediction
+
+`QNEURO3-NICHE-P1` was frozen on the streaming family's measurements and opened, once, on the
+associative-lookup family at depth 24 with a heavy-tailed difficulty distribution never used before.
+
+| Clause | Required | Measured | |
+|---|---|---|---|
+| N1 accuracy matched | within 0.02 of `select` | 1.0000 vs 1.0000 | ✓ |
+| N2 optimal allocation | steps within 0.5 of E[d] | 6.14 vs E[d] **6.14** | ✓ |
+| N3 small-batch win | ≥ 2.5× at batch 1 | **2.78×** | ✓ |
+| N4 **the ceiling reappears** | ≤ 1.2× at batch 256 | **0.97×** | ✓ |
+
+**The first frozen prediction in the programme to pass as written.** Twelve preceded it.
+
+N4 is why it counts. A claim that only predicts its own success is weak. This one predicted **where
+it stops working** — on a family it was not derived from — and the entire crossover curve came with
+it: 2.99× at batch 1, 1.58× at 4, 1.18× at 16, 0.99× at 64, 0.97× at 256.
+
+## VI.7 What Q-Neuro 3.0 is
+
+`qneuro3/adaptive.py`. Small, and every part carries the measurement that justifies it.
+
+- **first-arrival objective** — mixture halting caps at 0.6241 where this reaches 1.0000; commit
+  halting reaches 0.9999 but only at full depth, buying nothing. No ponder weight to tune.
+- **answer read at the halt step** — 0.22 → 1.00 on lookup tasks; scoped there, per `TRANSFER-P1`.
+- **normalised state, as a flag** — 11/24 → 20/20 reliability on lookup; −0.30 extrapolation on
+  streaming.
+- **genuine early exit** — without it the saving measures 1.0×.
+
+The M2 modes are not presets. Each is the regime where a measurement says something different is
+correct: **Eco** (batch 1, early exit, the full 2.8–4.9×), **Balanced** (batch < 32 while ≥1.15×
+remains), **Throughput** (batch ≥ 32, early exit **off**, because there it is a measured 0.97–0.99×
+— a penalty).
+
+---
+
+# Part VII — What the program actually produced
+
+## VII.1 The scoreboard
+
+**Thirteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
+twelve failures had narrowed the claim to something small enough to be true.
+
+Two contained genuine prospective successes inside failures (`DFREE-LAW-P3`'s homogeneity component;
+`TRANSFER-P1`'s third clause). One *passed* and the pass was worthless (`DISCOVERY-001-P1`, vacuous).
+Thirty-one failures preserved with mechanisms.
+
+## VII.2 What survives
 
 **1. The equivalence compiler.** A typed, refusing certificate system that makes "these two models
 are equivalent" into a checkable claim with a level, a domain, and a transport class. It caught its
@@ -795,17 +993,24 @@ Adam. Dead for nonlinear models.
 **4. The adaptive-compute reporting standard.** §V.5. Cheap to apply, and it invalidates a class of
 results that look fine.
 
-**5. A catalogue of measurement defects that produce plausible wrong answers.** §VII.2. This is
+**5. A catalogue of measurement defects that produce plausible wrong answers.** §VIII.2. This is
 worth more than it looks.
 
-## VI.3 What does not survive
+**6. Supervised predicate halting, with its ceiling.** Optimal per-example allocation — mean steps
+equal `E[predicate index]` to within 0.1 across six settings — a 2.8–4.9× wall-clock saving at
+batch 1, and an analytic ceiling that removes the advantage above batch ≈ 32. Confirmed
+prospectively. The mechanism is prior art; the measured boundary is the contribution.
+
+## VII.3 What does not survive
 
 The transport-covariance conjecture. Canalized quotient dynamics. Functional bifurcation. Geometric
 phase in training. Curriculum holonomy. Functional navigation of the near-optimal set. The
 navigator's novelty. The nonlinear stability boundary. The exact dimension law under our own
-exactness standard. Adaptive depth on `chase_to_goal`.
+exactness standard. Adaptive depth on `chase_to_goal` as originally built. Early prediction of the
+training mode. The carry-distance mechanism. The readout-location principle as anything general.
+Depth extrapolation from halting.
 
-## VI.4 What is not claimed
+## VII.4 What is not claimed
 
 No state-of-the-art result. No new capability. No claim that adaptive depth cannot win on some other
 workload. No claim that the transport conjecture is false in every possible form. No clinical
@@ -813,12 +1018,12 @@ validity. No connection to quantum cognition. No general superiority for any met
 
 ---
 
-# Part VII — The beautiful results that had to be killed
+# Part VIII — The beautiful results that had to be killed
 
 Collected deliberately, because a program that reports only its survivors teaches nothing about how
 often the survivors are wrong.
 
-## VII.1 Results that were beautiful and false
+## VIII.1 Results that were beautiful and false
 
 **The 14-order-of-magnitude phase boundary.** Two models, provably the same predictor, on opposite
 sides of a stability boundary because of coordinates. 0.9912 prediction accuracy, zero false alarms
@@ -840,12 +1045,21 @@ stay-control — which traversed no loop at all — scored 4.19, higher than eve
 exactly on the seeds where it works. It works 6 times in 10, against a baseline that works 10 times
 in 10, and it fails silently.
 
+**The readout-location separation.** 0.22 against 1.00, with five distinct fixed-depth alternatives
+failing — matched supervision, an explicit latch, mean pooling, triple training. It looked like a
+principle about where answers must be read from. On an untouched family the gap was 0.007, and the
+best model there was one of the controls that had failed.
+
+**A 6.5× compute saving at depth 32.** Real in step counts, confirmed to two decimals against the
+optimal allocation, and worth exactly 1.0× in wall-clock until someone implemented early termination
+and discovered the batch maximum eats it anyway.
+
 **A frozen prediction that passed.** `DISCOVERY-001-P1` returned `passes: True` on a hashed,
 prospective, one-attempt test. Its grid gave 197 chances to false-alarm and **zero** chances to
 miss. The strongest methodological safeguard in the program produced a meaningless pass, and only
 an audit of the grid's coverage caught it.
 
-## VII.2 The defects, in one table
+## VIII.2 The defects, in one table
 
 Each produced a plausible, reportable, wrong answer.
 
@@ -868,7 +1082,7 @@ for the whole apparatus.
 
 # Appendix A — The failure register
 
-Twenty-five preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
+Thirty-one preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
 failed idea has been renamed and rerun.
 
 | ID | Subject | Failure |
@@ -898,6 +1112,12 @@ failed idea has been renamed and rerun.
 | FAIL-023 | `QNEURO3-Q3-P1` | frozen distribution law failed 3 of 4 cells |
 | FAIL-024 | `QNEURO3-Q3-VARIANCE-001` | headline reproduces on 6/10 seeds; silent failure mode |
 | FAIL-025 | `QNEURO3-Q4-P1` | reliability repair failed 0/10; kill condition fired |
+| FAIL-026 | `QNEURO3-DECOUPLE-001` | the decoupled control leaked; every configuration passed it |
+| FAIL-027 | `QNEURO3-PREDICT-001` | no observable predicts the training mode earlier than accuracy |
+| FAIL-028 | `QNEURO3-DECOUPLE-002` | read ordering and a linear head made the predicate inexpressible |
+| FAIL-029 | `QNEURO3-ATTRIB-P1` | carry-distance mechanism false; profile flat at 0.22 |
+| FAIL-030 | `QNEURO3-TRANSFER-P1` | the separation does not generalise; 0.007 gap against 0.20 required |
+| FAIL-031 | `QNEURO3-EXTRAP-P1` | no depth extrapolation; and normalisation's effect inverted |
 
 ---
 
@@ -932,9 +1152,21 @@ Gate D fails, and exits non-zero.
 **Preserve superseded wording.** `EQUIVALENCE_SCIENCE_AMENDMENT_001.md` §1 keeps the original text
 of a claim it downgrades, so the correction is auditable rather than invisible.
 
-**Say what you did not do.** The Q3b control was specified and not run; the 3.0 branches that were
-never attempted are listed by name. An omission that is recorded is a limitation; an omission that
-is not is a misrepresentation.
+**Say what you did not do.** The 3.0 branches never attempted are listed by name. An omission that
+is recorded is a limitation; an omission that is not is a misrepresentation. (The Q3b control was
+listed here as unrun after cycle 1. Cycle 2 ran it, twice, after the first version leaked.)
+
+**Audit a control that everything passes.** `FAIL-026` was caught because a model halting at the
+wrong step still scored 1.0000, which is impossible unless the task never required the halting. A
+control nothing fails is measuring nothing.
+
+**Measure the thing the user feels, not the proxy.** A 6.5× step-count saving measured 1.0× in
+wall-clock. The step counter is the exact instrument cycle 1 had already warned could not be trusted
+alone, and it was trusted alone anyway for one more round.
+
+**Predict where your result stops working.** `QNEURO3-NICHE-P1` passed because its ceiling clause
+(N4) was checkable and checked. A claim that only predicts its own success cannot be caught being
+wrong.
 
 ---
 

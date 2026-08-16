@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-PARETO-P1",
+  "prediction_sha256": "a855493fd713518e0464612ff436f4804309996255986a7e560b4876c1de808a",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_applied": true,
+  "results": {
+    "length": 32,
+    "tail": 0.8,
+    "expected_halt_index": 4.93,
+    "arrival": {
+      "answer": [
+        0.9608,
+        0.9777,
+        0.9756
+      ],
+      "mean_steps": [
+        4.91,
+        4.92,
+        4.91
+      ],
+      "latency_ms_per_1k_batch256": [
+        20.9,
+        20.9,
+        18.1
+      ]
+    },
+    "fixed": {
+      "answer": [
+        0.137,
+        0.1394,
+        0.1372
+      ],
+      "mean_steps": 32.0,
+      "latency_ms_per_1k_batch256": [
+        20.7,
+        20.8,
+        20.7
+      ],
+      "note": "chance on this task is 0.1111, so the fixed-depth baseline is at chance at depth 32"
+    }
+  },
+  "scoring": {
+    "R1_accuracy_holds": {
+      "required": "arrival within 0.02 of fixed on the mean over seeds",
+      "measured": "arrival 0.9714, fixed 0.1379, absolute difference 0.834",
+      "verdict": "FAIL as written",
+      "note": "The criterion was written as a two-sided band when a one-sided floor was intended. It is scored as written. The reason it fails is that the fixed baseline COLLAPSED TO CHANCE at depth 32, so the matched-accuracy comparison the prediction assumed does not exist. That is a defect in my prediction writing, recorded rather than corrected."
+    },
+    "R2_saving_scales": {
+      "required": "mean steps <= 8.0 of 32",
+      "measured": "4.91 / 4.92 / 4.91, a 6.52x reduction",
+      "verdict": "PASS",
+      "note": "steps track E[halt index] = 4.93 to within 0.02, optimal allocation again, now at depth 32"
+    },
+    "R3_latency_follows_steps": {
+      "required": "wall-clock latency per example drops by at least 3.0x",
+      "measured": "at the batch size used for evaluation (256): 20.9 vs 20.7 ms per 1000, a ratio of 1.0x",
+      "verdict": "FAIL",
+      "note": "The prediction did not specify a batch size, which is a second defect in my prediction writing. At batch 1 the same models give 4.89x. Scored conservatively as FAIL at the batch size actually used, and the ambiguity is recorded rather than resolved in the prediction's favour."
+    }
+  },
+  "kill_condition": {
+    "text": "If R1 or R2 fails, the surviving compute saving does not scale into the regime where it would matter, and the adaptive-compute programme is finished with no result worth an architecture.",
+    "applied": true,
+    "reasoning": [
+      "R1 failed, so the kill condition fires and QNEURO3-PARETO-P1 is dead. It is NOT re-issued and",
+      "its numbers may not be cited as a confirmed prediction.",
+      "It would be easy to argue the kill should be waived because R1 failed only in the direction of",
+      "arrival being better. That argument is declined. A kill condition that is waived when the",
+      "outcome is flattering is not a kill condition, and this programme has already paid for that",
+      "rule once with DFREE-LAW-P1.",
+      "The follow-up matched-accuracy measurement is recorded separately under QNEURO3-NICHE-001 as a",
+      "MEASUREMENT, not as a rescue, exactly as the optimal-allocation observation was separated from",
+      "the dead QNEURO3-Q3-P1."
+    ]
+  },
+  "what_R3_uncovered": [
+    "Diagnosing R3 produced the most useful finding of the branch. The batched forward pass runs",
+    "every step and then selects, so the saving was nominal. Implementing genuine early exit and",
+    "benchmarking a TRAINED model gives 4.89x at batch 1 and 0.96-0.99x at batch 64-256.",
+    "The mechanism is analytic: a batch cannot exit until its slowest member does, so batched cost",
+    "scales with E[max halt over the batch], not E[halt]. See QNEURO3-NICHE-001."
+  ]
+}

@@ -13,9 +13,12 @@ from torch import nn
 class Core(nn.Module):
     """One hop of chain following, plus a distance readout."""
 
-    def __init__(self, n_nodes: int, d: int, n_out: int):
+    def __init__(self, n_nodes: int, d: int, n_out: int, *, normalise: bool = False):
         super().__init__()
         self.n_nodes = n_nodes
+        # Off by default so every cycle-1 record reproduces bit-for-bit. When on, the state is
+        # RMS-normalised after each hop; see `research/qneuro3/DEPTH-DRIFT-001.json`.
+        self.normalise = normalise
         # Following a chain is an associative lookup: match the current node against the KEY
         # (the node's identity) and read the VALUE (its successor). Using one embedding for both
         # makes the lookup impossible, which is a real bug that silently produces chance accuracy.
@@ -36,15 +39,18 @@ class Core(nn.Module):
     def advance(self, h: torch.Tensor, ctx) -> torch.Tensor:
         keys, values = ctx
         attn = torch.softmax(keys @ h.unsqueeze(-1) / h.shape[-1] ** 0.5, dim=1)
-        return h + self.step(torch.cat([h, (attn * values).sum(1)], dim=-1))
+        h = h + self.step(torch.cat([h, (attn * values).sum(1)], dim=-1))
+        if self.normalise:
+            h = h * torch.rsqrt(h.pow(2).mean(-1, keepdim=True) + 1e-6)
+        return h
 
 
 class Q0Fixed(nn.Module):
     """Always spends `depth` steps, regardless of how far the goal actually is."""
 
-    def __init__(self, n_nodes: int, d: int, n_out: int, depth: int):
+    def __init__(self, n_nodes: int, d: int, n_out: int, depth: int, *, normalise: bool = False):
         super().__init__()
-        self.core = Core(n_nodes, d, n_out)
+        self.core = Core(n_nodes, d, n_out, normalise=normalise)
         self.depth = depth
 
     def forward(self, perm, start):
@@ -58,9 +64,10 @@ class Q0Fixed(nn.Module):
 class Q1Elastic(nn.Module):
     """PonderNet-style learned halting over the same core."""
 
-    def __init__(self, n_nodes: int, d: int, n_out: int, max_depth: int, halt_bias: float = -5.0):
+    def __init__(self, n_nodes: int, d: int, n_out: int, max_depth: int, halt_bias: float = -5.0,
+                 *, normalise: bool = False):
         super().__init__()
-        self.core = Core(n_nodes, d, n_out)
+        self.core = Core(n_nodes, d, n_out, normalise=normalise)
         self.max_depth = max_depth
         self.halt = nn.Linear(d, 1)
         # Ponder collapse is the dominant failure mode of learned halting: the halt head shuts
@@ -100,9 +107,10 @@ class Q2Commit(nn.Module):
     emitted answer is the state the model actually stopped at.
     """
 
-    def __init__(self, n_nodes: int, d: int, n_out: int, max_depth: int, halt_bias: float = -2.0):
+    def __init__(self, n_nodes: int, d: int, n_out: int, max_depth: int, halt_bias: float = -2.0,
+                 *, normalise: bool = False):
         super().__init__()
-        self.core = Core(n_nodes, d, n_out)
+        self.core = Core(n_nodes, d, n_out, normalise=normalise)
         self.max_depth = max_depth
         self.halt = nn.Linear(d, 1)
         nn.init.constant_(self.halt.bias, halt_bias)
@@ -145,9 +153,10 @@ class Q3Arrival(nn.Module):
     per-example grounded signal rather than a free scalar.
     """
 
-    def __init__(self, n_nodes: int, d: int, max_depth: int, halt_bias: float = -2.0):
+    def __init__(self, n_nodes: int, d: int, max_depth: int, halt_bias: float = -2.0,
+                 *, normalise: bool = False):
         super().__init__()
-        self.core = Core(n_nodes, d, 1)
+        self.core = Core(n_nodes, d, 1, normalise=normalise)
         self.max_depth = max_depth
         self.arrive = nn.Linear(d, 1)
         nn.init.constant_(self.arrive.bias, halt_bias)

@@ -1,0 +1,36 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "The answer alphabet has 9 values against query_chase's 24, and a running sum is a 1-D quantity, so latching may simply be easy enough here that the final-state readout succeeds. That would falsify T2 honestly and is the single most likely way this fails.",
+      "Removing attention removes the mechanism by which the earlier core became depth-limited, so all models may saturate and the comparison may be uninformative rather than negative.",
+      "If tau is not constructed carefully the crossing index may correlate with the answer value, which the shortcut audit is there to catch before anything is scored."
+    ],
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If T2 fails -- a final-state readout solves this family -- then the attribution result does NOT generalise and must be scoped to query_chase and chase_to_goal specifically. In that case no principle is claimed, the ATTRIBUTION-001 separation is reported as a property of associative-lookup tasks only, and this branch closes.",
+    "models": "Six, sharing one streaming recurrent core with identical per-step inputs: fixed (final-state readout), fixed_supervised (final-state readout plus per-step predicate supervision), gated (explicit latch), mean_pooled (answer from the mean of all states), select (answer from the argmax-scored step, full depth), arrival (answer from the first step the predicate fires, with early stopping). Every model with a per-step head receives the per-step supervision.",
+    "one_attempt": true,
+    "pass_criterion": "All three of T1, T2 and T3 hold.",
+    "prediction_id": "QNEURO3-TRANSFER-P1",
+    "predictions": {
+      "T1_attribution_solves": "select >= 0.95 AND arrival >= 0.95 answer accuracy, on every seed run.",
+      "T2_final_state_does_not": "The better of fixed and fixed_supervised is at least 0.20 absolute BELOW select, on the mean over seeds.",
+      "T3_halting_is_free": "arrival's answer accuracy is within 0.02 of select's, and arrival's mean step count gives a compute reduction of at least 1.5x against the full depth of 12."
+    },
+    "protocol": "AdamW 2e-3, 8 epochs, 500 batches of 128, grad-norm clip 1.0, normalised core, validation on 25 batches of 256 from a disjoint seed range. Identical for every model.",
+    "purpose": "QNEURO3-ATTRIBUTION-001 measured, on one task family, that reading an answer from an input-selected step is what makes a first-match computation learnable, while a final-state readout fails even with matched supervision, an explicit latch, or 3x training. One family is one family. This opens a qualitatively different one, once.",
+    "schema_version": "1.0.0",
+    "seeds": "3 per model, fixed in advance as 0, 1, 2. No seed may be added after seeing results.",
+    "untouched_family": {
+      "name": "streaming_threshold_crossing",
+      "shortcut_audit_required_before_scoring": "Report chance, the best accuracy obtainable from the crossing index alone, and the best accuracy from any position-independent statistic of the sequence. If any exceeds 0.30 the task is rebuilt before any model is scored, exactly as query_chase was after FAIL-026.",
+      "specification": "A sequence of L = 12 tokens with values uniform on 1..9, and a threshold tau. The predicate fires at the first index k where the running sum of values reaches or exceeds tau. The answer is the VALUE of the token at index k, which is a 9-way classification and is statistically independent of k. tau is chosen per example so that the crossing index is uniform on 1..L.",
+      "why_qualitatively_different": [
+        "Sequential streaming instead of graph traversal: one token per step, arriving in order.",
+        "Accumulate-and-compare instead of associative lookup. There is NO attention anywhere in the core, so the mechanism that carried query_chase is absent by construction.",
+        "The predicate is arithmetic (a running sum reaching a threshold), not an identity match.",
+        "The answer is a token VALUE, drawn from a small alphabet, not a node identity out of 24."
+      ]
+    }
+  },
+  "sha256": "3ef3b2e56d08ca669461a07752c3645c2e8274805bd7b129f35ad05c3335673f"
+}
