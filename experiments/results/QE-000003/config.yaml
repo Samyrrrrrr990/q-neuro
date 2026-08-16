@@ -1,0 +1,40 @@
+experiment: homogeneous_scaling_orbit_transport_ladder
+description: Exact continuous symmetry of a positively homogeneous network. Measures
+  the covariance defect at each transport rung and attributes the residual to the
+  gradient step, the optimizer state, the learning-rate policy, and weight decay.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: discovery
+split: discovery
+outcome_eligible: false
+family: scaling_orbit
+model:
+  in_features: 6
+  hidden: 12
+  out_features: 4
+training:
+  optimizers:
+  - sgd
+  - adamw
+  learning_rate: 0.001
+  weight_decays:
+  - 0.0
+  - 0.01
+  warmup_steps: 10
+  measured_steps: 20
+  batch_size: 32
+  device: cpu
+scales:
+- 2.0
+- 3.0
+seeds:
+  model:
+  - 0
+  - 1
+  - 2
+  stream: 5
+protocol_deviations:
+- Analytic microcosm only; no task generator and no architecture claim.
+- 'Discovery split: these cells may inform estimator design and may not be reused
+  for confirmation.'

@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper
+.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010 qe-all discovery-suite claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -175,6 +175,36 @@ paper: figures paper-source
 paper-release: figures paper-source
 	@command -v soffice >/dev/null 2>&1 || { echo "LibreOffice (soffice) is required to render qneuro.pdf"; exit 1; }
 	soffice --headless --convert-to pdf --outdir paper paper/qneuro.docx
+
+qe-000001:
+	uv run python -m experiments.run_qe_000001
+
+qe-000002:
+	uv run python -m experiments.run_qe_000002
+
+qe-000003:
+	uv run python -m experiments.run_qe_000003
+
+qe-000004:
+	uv run python -m experiments.run_qe_000004
+
+qe-000006:
+	uv run python -m experiments.run_qe_000006
+
+qe-000008:
+	uv run python -m experiments.run_qe_000008
+
+qe-000009:
+	uv run python -m experiments.run_qe_000009
+
+qe-000010:
+	uv run python -m experiments.run_qe_000010
+
+discovery-suite:
+	uv run python -m research.discovery_lab.run_discovery_001
+
+qe-all: qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010
+	@echo "Ran the registered equivalence experiments; see experiments/results/QE-*."
 
 verify-release:
 	uv run python scripts/verify_release.py

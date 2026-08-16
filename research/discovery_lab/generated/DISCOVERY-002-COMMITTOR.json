@@ -1,0 +1,16 @@
+{
+  "action": "The committor is NOT recorded as falsified, because it was never given a fair test. It is recorded as blocked on a missing precondition. Reviving it requires first exhibiting a system with demonstrated bimodal functional outcomes, and that demonstration must precede any committor estimation.",
+  "evidence": {
+    "homogeneous_mlp_classification": "0 of 18 configurations produced more than one phenotype cluster at eps=1.0",
+    "xor_tanh_width_2_and_3_short": "0 of 12 configurations produced any solved replica; all undertrained",
+    "xor_tanh_width_3_adam_long": "Threshold counting suggested 6 of 16 cells 'bifurcated', but that was an artifact of counting crossings of an arbitrary 0.9 accuracy line. A proper bimodality check on the widest-spread cells gave max-gap/range of 0.20 to 0.47 across all five, where a genuine two-attractor split requires one dominant gap. All unimodal."
+  },
+  "lane": "B",
+  "next": "Quotient Lyapunov, tested independently, since it does not require bifurcation.",
+  "record_id": "DISCOVERY-002-COMMITTOR",
+  "schema_version": "1.0.0",
+  "self_correction": "The initial threshold-based reading was wrong and was caught by testing bimodality instead of counting threshold crossings. Reporting the threshold count as bifurcation would have manufactured the phenomenon the committor was supposed to predict.",
+  "target_requested": "predict future bifurcation before ordinary output divergence reveals it",
+  "verdict": "UNTESTABLE \u2014 PRECONDITION FAILURE (not a committor failure)",
+  "why_untestable": "A committor q(s) = Pr_s[tau_B < tau_A] requires two distinguishable functional attractors A and B. Across three system families and roughly 46 configurations, perturbed replicas from a common initialization produced CONTINUOUS UNIMODAL spread, never a discrete split. With no second attractor there is nothing to commit to, and estimating a committor would have been vacuous in exactly the way DISCOVERY-001-P1 was vacuous."
+}

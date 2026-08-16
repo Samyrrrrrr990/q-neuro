@@ -26,6 +26,20 @@ precision and 382 were negative. The mean was −0.009158, and the family/world/
 bootstrap interval was [−0.01325, −0.00457]. The exact-real block matched complex top-1 in all
 1,920 cells; maximum absolute differences were 3.58 × 10⁻⁷ for NLL and 1.19 × 10⁻⁷ for ECE.
 
+**Amendment 001 (2026-08-14).** The preceding two sentences are numerically unchanged, but they
+interact in a way the original text did not make explicit. Decomposing the 1,920 held-out effects
+by which real model was actually selected: `exact_real_block_operator` won 1,478 cells (77%) with a
+mean effect of exactly +0.00000 and 1,478 exact zeros, while `real_polar_operator` won 442 cells
+(23%) with a mean of −0.03978. The 1,538 exact zeros are therefore overwhelmingly the cells in
+which the best-real model was the exact-real implementation — an equivalence-induced tie, not an
+independent architecture win. The entire −0.009158 mean is carried by the 442 `real_polar_operator`
+cells. QN-000040 is the healthier heterogeneous comparison: `state_space` (637 cells, −0.09063),
+`real_polar_operator` (485, −0.04687), and `gru` (367, −0.07073) win 52% of discovery cells against
+`exact_real_block_operator`'s 1,391. The negative result is unchanged and arguably strengthened —
+it now rests on two independent legs, exact realification and genuinely distinct real controls —
+but the 1,920-cell headline must distinguish equivalence-induced zeros from independent wins. See
+`docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md`.
+
 The frozen law transferred the non-positive sign but failed magnitude prediction: held-out R² was
 −30.94 and MAE was 0.03126, outside both frozen thresholds. It remains registered as QN-LAW-001, a
 failed candidate rather than a post-hoc refit.

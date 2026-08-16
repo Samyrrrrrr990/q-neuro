@@ -1,0 +1,24 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "The auxiliary loss may help the state without helping the halting head, giving high position accuracy and unchanged bimodality.",
+      "It may drag the halt step toward the auxiliary task's preferred horizon and inflate steps past the 0.25 tolerance, buying reliability with compute -- which the criterion is written to catch.",
+      "The chase_to_goal / chase_to_goal_weighted gap (finding V4) is unexplained, so the weighted threshold may fail for a reason unrelated to this intervention."
+    ],
+    "baseline_being_beaten": "Q3 measured in QNEURO3-Q3-VARIANCE-001: 6 of 10 on chase_to_goal, 1 of 10 on chase_to_goal_weighted, successful runs at 4.54-4.55 steps.",
+    "frozen_utc": "2026-08-16",
+    "intervention": "Q4 = Q3Arrival plus an auxiliary per-step readout trained to predict the identity of the node currently occupied, summed over all max_depth steps, weight 1.0. TRAINING ONLY: the auxiliary head is never evaluated at inference, so inference FLOPs, parameter count in the inference path, and the halting rule are all identical to Q3. Exactly one thing changes.",
+    "kill_condition": "If chase_to_goal success is 6 of 10 or fewer, the mechanism hypothesis is FALSE, no second variant is issued, and Q-Neuro 3.0 cycle 1 closes with Q3 recorded as an unreliable architecture rather than a compute-saving one.",
+    "mechanism_hypothesis": "Q3 is bimodal because nothing in its loss forces the recurrent state to track POSITION ON THE CHAIN. The arrival head is the only consumer of the state, and it is supervised by a single scalar per example (which step to fire on). A run that does not stumble early onto a chain-following representation has a competing basin available -- fire at a typical depth -- which the same loss also rewards. If that is the cause, supplying the missing representational constraint directly should collapse the bimodality.",
+    "one_attempt": true,
+    "pass_criterion": "On chase_to_goal, at least 9 of 10 seeds reach accuracy >= 0.99; AND on chase_to_goal_weighted, at least 8 of 10 seeds reach accuracy >= 0.99; AND the mean step count over successful runs stays within 0.25 of Q3's 4.54, so no compute saving is traded away for the reliability.",
+    "prediction_id": "QNEURO3-Q4-P1",
+    "schema_version": "1.0.0",
+    "statement": "The auxiliary position signal converts Q3's bimodal outcome into a reliable one without spending any inference compute.",
+    "what_a_pass_would_and_would_not_license": {
+      "would": "That adaptive halting on this task family is limited by representation learning rather than by the halting rule, and that the limit is removable at zero inference cost.",
+      "would_not": "Any claim that Q4 beats a fixed-depth model. That comparison additionally requires the matched Q0 reliability control, and requires the Q3b answer-decoupling control that QNEURO3-Q3-P1 left unrun. Both remain outstanding."
+    }
+  },
+  "sha256": "f315d09bf51dca21fd7fd00c72bb42859670d70a1dccc55f7643908c25a64704"
+}

@@ -1,0 +1,36 @@
+experiment: dense_versus_factorized_linear
+description: Exact non-injective map with no optimizer transport. Measures the induced
+  preconditioner and the divergence of the realized weight trajectories under matched
+  training.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: discovery
+split: discovery
+outcome_eligible: false
+family: factorization
+model:
+  in_features: 6
+  out_features: 4
+  ranks:
+  - 4
+  - 2
+training:
+  optimizers:
+  - sgd
+  - adamw
+  learning_rate: 0.01
+  weight_decay: 0.0
+  steps: 40
+  batch_size: 32
+  device: cpu
+seeds:
+  model:
+  - 0
+  - 1
+  - 2
+  stream: 9
+protocol_deviations:
+- Analytic microcosm only; no task generator and no architecture claim.
+- 'Discovery split: these cells may inform estimator design and may not be reused
+  for confirmation.'

@@ -1,0 +1,37 @@
+{
+  "date": "2026-08-15",
+  "killed_sub_result_nontrivial_exponent": "An apparent power law rms(M) ~ T^0.625 against the equilibrium prediction of 0.5 looked like a nonequilibrium deviation. It is an artifact, and two checks killed it. First, M/sqrt(T) was not constant down the table (0.52 to 1.02), so T = lr/batch does not collapse the data and the exponent was fitted on a bad scaling variable; separating them gave M ~ lr^0.72 * batch^-0.53, with the batch exponent matching equilibrium and only the learning-rate one deviating. Second, long runs showed the low-learning-rate systems had not equilibrated: growth ratios per 4x time were 1.55, 1.90 and 1.67 at lr = 0.0125 out to t = 64000, close to diffusive rather than plateaued. Pre-asymptotic readings at low lr were biased low, which manufactured the exponent.",
+  "lane": "B",
+  "motivation": "The committor was blocked by a missing precondition: bifurcation. Rather than weaken the detector, this block searched for a system where qualitatively distinct functional fates exist by construction, so the phenomenon would not have to be manufactured with a threshold.",
+  "programme_consequence": "Four candidate phenomena have now been eliminated: basin coherence, the committor by precondition, spontaneous symmetry breaking, and the nonequilibrium exponent. The bifurcation target should not be pursued further in feed-forward supervised systems of this class. If it is revived it must start from a system with independently demonstrated bimodal functional outcomes, and that demonstration must precede any predictor.",
+  "record_id": "DISCOVERY-003",
+  "result_curvature_is_decisive": "Direct measurement settles it structurally rather than empirically. The Hessian eigenvalue in the antisymmetric direction at the symmetric solution is POSITIVE in all 12 cells swept (width 4/16/64 by feature-noise sigma 0.1/0.6/2/6). A pitchfork requires that curvature to go negative; it never does. The ratio of antisymmetric to symmetric curvature rises monotonically from 0.17 at low sigma to 1.52 at high sigma, so the direction is soft-but-stable at low noise and stiffens with it. That softness is exactly why diffusion along it is slow.",
+  "result_no_spontaneous_breaking": "SGD breaks the symmetry but never orders it. The signed order parameter stayed unimodal at zero across 24 replicas at every learning rate and batch size tested, with |M| < 0.15 throughout. There is no ordered phase.",
+  "schema_version": "1.0.0",
+  "systems_examined": [
+    {
+      "result": "0/18 configurations produced >1 phenotype cluster",
+      "system": "HomogeneousMLP classification"
+    },
+    {
+      "result": "0/12; nothing solved, undertrained",
+      "system": "XOR tanh nets, width 2-3, SGD"
+    },
+    {
+      "result": "threshold count suggested 6/16 bifurcating; bimodality check gave max-gap/range 0.20-0.47, all unimodal. Artifact.",
+      "system": "XOR tanh width 3, Adam, long"
+    },
+    {
+      "result": "fate determined by the base initialization, not spontaneous; all 24 replicas per seed agreed",
+      "system": "Exchangeable-feature shortcut learning"
+    },
+    {
+      "result": "symmetric state stable; no ordering",
+      "system": "Exactly symmetrized dataset + tied initial weights"
+    }
+  ],
+  "the_exact_construction": "The strongest test built an EXACT discrete symmetry: the dataset was symmetrized under the a<->b feature exchange so the empirical distribution is exactly exchangeable, and the first-layer weight columns for a and b were tied at initialization. Under full-batch gradient descent the order parameter M = ||w_a - w_b|| / ||w_a + w_b|| stayed at 1e-17 to 1e-16 for 1500 steps, confirming the construction is exact to machine precision. Only stochasticity can break it.",
+  "title": "Search for genuine functional bifurcation and spontaneous symmetry breaking",
+  "verdict": "MAJOR DIRECTION KILLED. No bifurcation and no pitchfork exists in any system examined.",
+  "what_survives": "A clean structural characterization, verified rather than inferred: full-batch gradient descent preserves an exact discrete symmetry to machine precision, SGD breaks it, and the broken component diffuses along a soft-but-stable mode that never orders. Near-symmetry directions in this class are soft, not marginal, and SGD random-walks along them without a transition. This is a negative structural result about where phase transitions are NOT to be found."
+}

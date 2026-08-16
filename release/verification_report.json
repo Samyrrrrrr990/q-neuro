@@ -137,7 +137,7 @@
       "evidence": {
         "claims_checked": 6,
         "errors": [],
-        "failures_checked": 5,
+        "failures_checked": 22,
         "status": "pass",
         "warnings": []
       }

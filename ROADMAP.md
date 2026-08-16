@@ -24,6 +24,22 @@
 - Test whether evidence-conditioned sparsity realizes compute savings without accuracy selection
   on test data.
 
+## v0.4 — Equivalence-aware learning science (active)
+
+The complex-advantage hypothesis was falsified, and the program's object of study has changed from
+complex arithmetic to the difference between a learned function and the coordinates used to reach
+it. v0.2 and v0.3 above are superseded as headline goals; the robustness effect they were designed
+to chase no longer survives its strongest controls.
+
+- Prospective protocol: `docs/ML2_PREREGISTRATION_001.md` (`ML2-PREREG-001`).
+- Interpretive amendment: `docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md`.
+- Readiness audit: `docs/QE_AUDIT_MEMO_001.md`.
+- Experiment namespace `QE-000001` onward. The `QN-` series is closed.
+- Ladder order is frozen: permutation → scaling orbit → dense/factorized → complex/exact-real →
+  unitary/orthogonal → Fourier/time-domain → state-space → attention gauges.
+- Transformers and language models are sealed until the measurement framework survives the small
+  analytic systems.
+
 ## External-data gate
 
 No clinical or public medical dataset work begins until licensing, governance, intended-use,

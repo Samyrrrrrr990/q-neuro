@@ -1,0 +1,87 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "Curvature is not constant for a nonlinear model. lambda_max is evaluated at initialization but grows during training; progressive sharpening / edge-of-stability could drive a cell with rho < 1 at init across the boundary later. This would falsify the prediction as stated, and is the most likely way it fails.",
+      "ReLU is only positively homogeneous, so the orbit is exact only for s > 0. All frozen scales are positive.",
+      "Cross-entropy Hessians can carry negative eigenvalues; lambda_max is taken as the largest signed eigenvalue, matching the linear case."
+    ],
+    "confirmation_system": {
+      "activation": "relu (positively homogeneous, so the scaling orbit is exact)",
+      "device": "cpu",
+      "dtype": "float64",
+      "loss": "cross_entropy",
+      "map": "qneuro.equivalence.scaling.HomogeneousScalingMap",
+      "model": "qneuro.equivalence.microcosms.HomogeneousMLP",
+      "optimizer": "full-batch gradient descent (SGD, momentum 0)",
+      "rationale": "Nonlinear, and untouched by DISCOVERY-001, whose evidence is entirely linear."
+    },
+    "control_parameter": "rho = eta * lambda_max(hessian(L_target, theta_mapped)) / 2",
+    "critical_band": {
+      "high": 1.1,
+      "low": 0.9,
+      "rule": "Cells with 0.9 < rho < 1.1 are excluded from scoring. At rho = 1 the spectral radius is exactly 1 and neither verdict is defined; the band absorbs curvature drift over a finite horizon."
+    },
+    "derivation_note": "H_target = S^-1 H_source S^-1 exactly, for any twice-differentiable loss, because the map is linear on parameters and preserves the function. With uniform S this reduces to the linear microcosm's rho = eta * lambda_max(H_source) / (2 s^2). No parameter is fitted.",
+    "differential_prediction": {
+      "scored": true,
+      "statement": "Adam is scale-free in the gradient and should show no boundary at the same rho.",
+      "threshold": "adam divergence rate must be below 0.2 * sgd divergence rate"
+    },
+    "discovery_id": "DISCOVERY-001",
+    "divergence_criterion": {
+      "growth_ratio_threshold": 2.0,
+      "non_finite_is_divergence": true,
+      "note": "Identical to the criterion used in DISCOVERY-001. Not re-tuned.",
+      "rule": "target parameter norm growth over the final third of training"
+    },
+    "falsifier": "Any false alarm or any miss outside the critical band.",
+    "frozen_grid": {
+      "batch_size": 128,
+      "in_features": 6,
+      "learning_rates": [
+        0.05,
+        0.1,
+        0.2
+      ],
+      "model_seeds": [
+        0,
+        1,
+        2
+      ],
+      "out_features": 4,
+      "scales": [
+        0.25,
+        0.35,
+        0.5,
+        0.7,
+        0.9,
+        1.0,
+        1.1,
+        1.4,
+        2.0,
+        2.8,
+        4.0
+      ],
+      "steps": 400,
+      "widths": [
+        8,
+        16
+      ]
+    },
+    "frozen_utc": "2026-08-15",
+    "lane": "B -> A promotion, step 4 of 5",
+    "no_modification_after_opening": "No threshold, grid point, criterion, or model definition may change after the nonlinear system is opened. A correction requires a new prediction ID and a new record.",
+    "one_attempt": true,
+    "pass_thresholds": {
+      "false_alarms_max": 0,
+      "misses_max": 0,
+      "note": "Scored only outside the critical band. A false alarm is rho <= 0.9 yet divergent. A miss is rho >= 1.1 yet convergent. Either one, even once, fails the prediction."
+    },
+    "predicted_transition": 1.0,
+    "prediction_id": "DISCOVERY-001-P1",
+    "schema_version": "1.0.0",
+    "statement": "For a paired (source, target) related by a diagonal scaling map S, trained with full-batch gradient descent at learning rate eta from a mapped initialization, the target trajectory diverges if and only if rho > 1, where rho = eta * lambda_max(H_target) / 2 and H_target is the largest eigenvalue of the target loss Hessian evaluated at the mapped initialization.",
+    "status": "frozen before any nonlinear evidence was generated"
+  },
+  "sha256_of_prediction": "50e438e5367384e1a6e9789ae95287e41d107c80d04d6155468dc1960b377705"
+}

@@ -1,0 +1,28 @@
+{
+  "SUPERSEDED_BY": "DISCOVERY-006",
+  "SUPERSESSION_NOTE": "The central claim of this record \u2014 global contraction toward a SINGLE attractor \u2014 was tested directly in DISCOVERY-006 and REFUTED. The contraction ratio is constant at 0.5-0.7 across six orders of magnitude and perturbed endpoints reach equally-good but functionally distinct solutions. The correct statement is a connected continuum of solutions, not a single attractor. This record is preserved unedited so the correction is auditable.",
+  "claim": "The seven failures are not seven unlucky searches. They are one structural fact with seven consequences: in every feed-forward supervised system this program has examined, the functional dynamics are globally contracting toward a SINGLE attractor. Every phenomenon searched for requires multiple stable functional fates, and that precondition is absent by construction.",
+  "date": "2026-08-15",
+  "direction_changing_consequence": "The canalization, bifurcation, phase-transition, criticality and geometric-phase family cannot be studied in single-learner feed-forward supervised systems, because the object those theories describe does not exist there. Continuing to search this class is not merely unpromising; it is structurally excluded. Any continuation must move to systems where multiplicity of functional fate is guaranteed by construction rather than hoped for: interacting populations with competition, or tasks with discrete solution sets.",
+  "eliminated": [
+    "DISCOVERY-001 transport boundary (falsified on nonlinear systems, FAIL-007)",
+    "basin coherence (eliminated, FAIL-008)",
+    "committor (precondition failure, FAIL-009)",
+    "genuine bifurcation (FAIL-010)",
+    "nonequilibrium SGD exponent (artifact, FAIL-011)",
+    "spontaneous symmetry breaking (curvature positive everywhere)",
+    "curriculum holonomy / geometric phase (no area scaling)"
+  ],
+  "evidence_that_it_is_structural_not_incidental": [
+    "Antisymmetric Hessian curvature at the symmetric solution is POSITIVE in all 12 swept cells (width 4/16/64 x feature-noise 0.1/0.6/2/6). A pitchfork requires a sign change; there is none.",
+    "Zero bimodal functional outcomes across five system families and roughly 46 configurations, verified by max-gap/range rather than thresholds.",
+    "Perturbed replicas converge: final functional spread stays within a factor of two of its early value (log ratio range 0.31 to 0.35 decades).",
+    "Full-batch descent preserves an exact discrete symmetry to 1e-16; SGD breaks it but the broken mode is soft-and-stable, never ordering.",
+    "Curriculum residue shows no area dependence across an 8x area range, so there is no curvature structure in the functional dynamics either."
+  ],
+  "lane": "B",
+  "record_id": "DISCOVERY-SYNTHESIS-001",
+  "schema_version": "1.0.0",
+  "title": "Structural cause common to seven consecutive negative results",
+  "what_this_does_not_claim": "It does not claim such phenomena are absent from machine learning generally. It claims they are absent from the model class this program has been searching, and gives the structural reason."
+}

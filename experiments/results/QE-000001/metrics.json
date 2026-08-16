@@ -1,0 +1,158 @@
+{
+  "certificates": [
+    {
+      "declared_level": "E2",
+      "device": "cpu",
+      "domain": {
+        "description": "Excludes a neighbourhood of the complex tanh poles, where the realified implementation clamps its denominator and native torch.tanh does not.",
+        "dtype": "float32",
+        "excluded": "min_k |delta - i(2k+1)pi/2| <= rho_c",
+        "radius": 0.00155
+      },
+      "downgrades": [],
+      "dtype": "float32",
+      "environment": {},
+      "known_failure_modes": [
+        "E1 fails: native and realified complex tanh diverge inside the declared excluded region; the native side returns inf/nan where the realified side clamps.",
+        "Transport-degenerate: no covariance defect can be non-zero, so this pair cannot test H1, H2, H3, H5, or H6."
+      ],
+      "map_name": "complex_to_exact_real",
+      "model_seed": 0,
+      "notes": "Transport-degenerate: ComplexOperatorState holds no complex leaf parameter, so both modules share one real coordinate system and the parameter map is the identity. Usable for H4 (numerical implementation) only.",
+      "residuals": {
+        "critical_pole_radius": 0.00155,
+        "loss": 2.384185791015625e-07,
+        "max_gradient": 1.0132789611816406e-06,
+        "max_logit": 1.0728836059570312e-06,
+        "max_probability": 1.7881393432617188e-07,
+        "minimum_tanh_pole_distance": 1.462261438369751,
+        "parameter_identity": 0.0,
+        "pole_margin_multiples_of_radius": 943.3944763675813
+      },
+      "schema_version": "1.0.0",
+      "source": "ComplexOperatorState",
+      "target": "ExactRealBlockOperatorState",
+      "transport_degenerate": true,
+      "transport_level": 5
+    },
+    {
+      "declared_level": "E2",
+      "device": "cpu",
+      "domain": {
+        "description": "Excludes a neighbourhood of the complex tanh poles, where the realified implementation clamps its denominator and native torch.tanh does not.",
+        "dtype": "float32",
+        "excluded": "min_k |delta - i(2k+1)pi/2| <= rho_c",
+        "radius": 0.00155
+      },
+      "downgrades": [],
+      "dtype": "float32",
+      "environment": {},
+      "known_failure_modes": [
+        "E1 fails: native and realified complex tanh diverge inside the declared excluded region; the native side returns inf/nan where the realified side clamps.",
+        "Transport-degenerate: no covariance defect can be non-zero, so this pair cannot test H1, H2, H3, H5, or H6."
+      ],
+      "map_name": "complex_to_exact_real",
+      "model_seed": 1,
+      "notes": "Transport-degenerate: ComplexOperatorState holds no complex leaf parameter, so both modules share one real coordinate system and the parameter map is the identity. Usable for H4 (numerical implementation) only.",
+      "residuals": {
+        "critical_pole_radius": 0.00155,
+        "loss": 3.5762786865234375e-07,
+        "max_gradient": 1.7285346984863281e-06,
+        "max_logit": 1.5497207641601562e-06,
+        "max_probability": 2.086162567138672e-07,
+        "minimum_tanh_pole_distance": 1.4336440563201904,
+        "parameter_identity": 0.0,
+        "pole_margin_multiples_of_radius": 924.9316492388326
+      },
+      "schema_version": "1.0.0",
+      "source": "ComplexOperatorState",
+      "target": "ExactRealBlockOperatorState",
+      "transport_degenerate": true,
+      "transport_level": 5
+    },
+    {
+      "declared_level": "E2",
+      "device": "cpu",
+      "domain": {
+        "description": "Excludes a neighbourhood of the complex tanh poles, where the realified implementation clamps its denominator and native torch.tanh does not.",
+        "dtype": "float32",
+        "excluded": "min_k |delta - i(2k+1)pi/2| <= rho_c",
+        "radius": 0.00155
+      },
+      "downgrades": [],
+      "dtype": "float32",
+      "environment": {},
+      "known_failure_modes": [
+        "E1 fails: native and realified complex tanh diverge inside the declared excluded region; the native side returns inf/nan where the realified side clamps.",
+        "Transport-degenerate: no covariance defect can be non-zero, so this pair cannot test H1, H2, H3, H5, or H6."
+      ],
+      "map_name": "complex_to_exact_real",
+      "model_seed": 2,
+      "notes": "Transport-degenerate: ComplexOperatorState holds no complex leaf parameter, so both modules share one real coordinate system and the parameter map is the identity. Usable for H4 (numerical implementation) only.",
+      "residuals": {
+        "critical_pole_radius": 0.00155,
+        "loss": 0.0,
+        "max_gradient": 5.7220458984375e-06,
+        "max_logit": 5.245208740234375e-06,
+        "max_probability": 1.7881393432617188e-07,
+        "minimum_tanh_pole_distance": 1.4500844478607178,
+        "parameter_identity": 0.0,
+        "pole_margin_multiples_of_radius": 935.5383534585276
+      },
+      "schema_version": "1.0.0",
+      "source": "ComplexOperatorState",
+      "target": "ExactRealBlockOperatorState",
+      "transport_degenerate": true,
+      "transport_level": 5
+    }
+  ],
+  "experiment_id": "QE-000001",
+  "outcome_eligible": false,
+  "pole_reachability": [
+    {
+      "critical_radius": 0.00155,
+      "entered_excluded_region": false,
+      "margin_multiples_of_radius": 940.060769357989,
+      "minimum_pole_distance": 1.4570941925048828,
+      "model_seed": 0,
+      "step_of_minimum": 10,
+      "steps": 60
+    },
+    {
+      "critical_radius": 0.00155,
+      "entered_excluded_region": false,
+      "margin_multiples_of_radius": 919.147999055924,
+      "minimum_pole_distance": 1.4246793985366821,
+      "model_seed": 1,
+      "step_of_minimum": 5,
+      "steps": 60
+    },
+    {
+      "critical_radius": 0.00155,
+      "entered_excluded_region": false,
+      "margin_multiples_of_radius": 935.128350411692,
+      "minimum_pole_distance": 1.4494489431381226,
+      "model_seed": 2,
+      "step_of_minimum": 0,
+      "steps": 60
+    }
+  ],
+  "profile": "instrument",
+  "protocol_deviations": [
+    "Reachability is probed on random token streams, not on the historical NeuroWorld or independent generators, because the falsification-phase runs saved no activations.",
+    "A single configuration is probed; this cannot establish that the excluded region is globally unreachable."
+  ],
+  "schema_version": "1.0.0",
+  "scientific_interpretation": "Instrument result. The parameter map is the identity, so this pair is transport-degenerate and can bear on H4 (numerical implementation) only. The certificate declares E2 on a stated domain; E0 and E1 are refused because the two complex-tanh implementations diverge near the poles. The reachability figure is a probe of one configuration on random token streams and cannot establish that the excluded region is globally unreachable.",
+  "status": "complete",
+  "summary": {
+    "declared_level": "E2",
+    "entered_excluded_region": false,
+    "minimum_pole_distance_observed": 1.4246793985366821,
+    "transport_degenerate": true,
+    "worst_gradient_residual": 5.7220458984375e-06,
+    "worst_logit_residual": 5.245208740234375e-06,
+    "worst_margin_multiples_of_radius": 919.147999055924,
+    "worst_parameter_identity_residual": 0.0
+  }
+}

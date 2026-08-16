@@ -19,8 +19,8 @@ exact real implementation of the same computation and by stronger real-model con
 | Evidence stage | Registered result | Interpretation |
 |---|---:|---|
 | Historical NeuroWorld comparison | +0.0602 top-1 vs two-channel real | Positive but comparator-sensitive |
-| Reduced discovery | 0/2,880 positive effects; mean −0.03695 vs best real | No support for an intrinsic complex advantage |
-| Untouched-family confirmation | 0/1,920 positive effects; mean −0.009158 | Non-positive result transfers to four new families |
+| Reduced discovery | 0/2,880 positive effects; mean −0.03695 vs best real | No support for an intrinsic complex advantage; 52% of cells won by genuinely distinct real models |
+| Untouched-family confirmation | 0/1,920 positive effects; mean −0.009158 | Non-positive result transfers to four new families; see the composition amendment below |
 | Exact-real control | Top-1 matches in all 1,920 held-out cells | Implemented complex computation is reproducible in real arithmetic |
 | Frozen quantitative law | R² −30.94; MAE 0.03126 | Failed magnitude transfer; retained as a negative result |
 | QN-GRAND-001 | Blocked before execution; sealed | Six mandatory readiness gates remain unmet |
@@ -30,7 +30,52 @@ effect is [−0.01325, −0.00457]. These reduced studies are intentionally outc
 do not replace the deferred full protocol and cannot support clinical, universal-superiority, or
 grand-confirmatory claims.
 
+### Amendment 001 — how the 1,920 held-out cells are composed
+
+Every number above remains numerically correct and no result artifact has been changed. The
+*interpretation* of the held-out count is amended, because the cells are not 1,920 independent
+architecture comparisons:
+
+| QN-000042 best-real winner | Cells | Mean effect | Exactly zero |
+|---|---:|---:|---:|
+| `exact_real_block_operator` | 1,478 (77%) | +0.00000 | 1,478 (100%) |
+| `real_polar_operator` | 442 (23%) | −0.03978 | 60 (14%) |
+
+In 77% of held-out cells the selected best-real model *is* the exact-real implementation. That
+implementation is not an independent rival architecture: it evaluates the same modeled computation
+and, in the current code, shares the same real parameter coordinates as the complex model (see
+[`docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md`](docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md)). Those
+1,478 exact zeros are **equivalence-induced**, and must not be presented as 1,478 independent wins
+of a distinct real architecture.
+
+The informative architecture-level reversal is the remaining 442 cells, where `real_polar_operator`
+— a genuinely different model — beats the complex operator by −0.0398 on average.
+
+**QN-000040 is the healthier heterogeneous-control result** and should carry more of the argument:
+`state_space` (637 cells, −0.0906), `real_polar_operator` (485, −0.0469), and `gru` (367, −0.0707)
+together win 52% of discovery cells, with `exact_real_block_operator` taking the remaining 1,391.
+
+This amendment strengthens the negative result rather than weakening it. The
+intrinsic-complex-arithmetic claim still fails on two independent grounds: exact realification
+reproduces the implemented computation, **and** genuinely distinct real controls outperform it.
+What changes is that the headline must distinguish equivalence-induced zeros from independent
+architecture wins.
+
 ![Falsification phase](research/figures/generated/falsification_phase.png)
+
+## Research program documentation
+
+Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0) and the architecture program
+(Q-Neuro 3.0) — is documented in three companion documents. **Eight frozen, hashed, prospective
+predictions were opened and none passed as written**; 25 failures are preserved with mechanisms.
+
+| Document | For |
+|---|---|
+| [**Paper**](docs/PAPER.md) | the short version — problem, principle, what was frozen, why it failed |
+| [**Technical breakdown**](docs/TECHNICAL_BREAKDOWN.md) | reproduction — derivations, hyperparameters, controls, commands |
+| [**Monograph**](docs/MONOGRAPH.md) | the full narrative, including every failure and the beautiful results that had to be killed |
+
+These document ongoing research and are **not** part of the frozen v1.0.0 publication package below.
 
 ## Publication package
 

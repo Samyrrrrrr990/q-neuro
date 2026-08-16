@@ -891,14 +891,14 @@ window.QNEURO_DATA = {
     {
       "claim": "The evaluated complex operator has an exact structured real-block implementation that reproduces its top-1 predictions at numerical precision.",
       "confidence": "high",
-      "counterevidence": "This does not imply that every complex-valued architecture or optimization trajectory is equivalent to every unconstrained real network. Different parameterizations can impose different inductive biases even when the represented mapped function is the same.",
+      "counterevidence": "This does not imply that every complex-valued architecture or optimization trajectory is equivalent to every unconstrained real network. Different parameterizations can impose different inductive biases even when the represented mapped function is the same. AMENDMENT-001: the two implementations do not merely represent the same function class; they share the same real parameter coordinates. ComplexOperatorState stores only real-valued nn.Parameters and constructs complex tensors inside the forward pass, so the parameter map between the two models is the identity and the observed agreement is a numerical-implementation result rather than a coordinate-transport result.",
       "evidence": "QN-000033 mapped mechanism runs differ by at most approximately 4.8e-7 across recorded metrics. QN-000042 complex and exact-real top-1 are identical in all 1,920 held-out nested cells; maximum NLL difference is 3.58e-7.",
       "status": "supported within implementation"
     },
     {
       "claim": "Within the reduced independent-task studies, the cellwise best-real envelope removes the observed complex robustness advantage.",
       "confidence": "high within tested scope",
-      "counterevidence": "The independent discovery and confirmation profiles are outcome-ineligible and compute-reduced. The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run.",
+      "counterevidence": "The independent discovery and confirmation profiles are outcome-ineligible and compute-reduced. The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run. AMENDMENT-001: the 1,920 held-out cells are not 1,920 independent architecture comparisons. The cellwise best-real winner was exact_real_block_operator in 1,478 cells (77%) with mean effect exactly +0.00000 and 1,478 exact zeros, and real_polar_operator in 442 cells (23%) with mean -0.03978. The 1,478 zeros are equivalence-induced ties with an implementation that shares the complex model's parameter coordinates, not independent wins by a distinct real architecture. The entire -0.00916 mean is carried by the 442 real_polar_operator cells. AMENDMENT-001: QN-000040 is the healthier heterogeneous-control result. There state_space (637 cells, -0.09063), real_polar_operator (485, -0.04687), and gru (367, -0.07073) win 52% of discovery cells against exact_real_block_operator's 1,391.",
       "evidence": "QN-000040 has zero positive complex-minus-best-real effects among 2,880 nested discovery cells. QN-000042 has zero positive effects among 1,920 held-out nested cells and a family/world/seed hierarchical mean of -0.00916 with 95% interval [-0.01325, -0.00457].",
       "status": "falsified"
     },

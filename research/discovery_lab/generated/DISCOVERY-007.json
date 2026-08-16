@@ -1,0 +1,21 @@
+{
+  "date": "2026-08-15",
+  "lane": "B",
+  "mechanism_for_the_failure": "Curvature does not separate 'changes the function off-distribution' from 'changes the function on-distribution'. The exactly-flat subspace is precisely the subspace that cannot change the function at all, because it is a symmetry of the output layer. Everything with nonzero curvature changes train and OOD behaviour together. So a curvature-defined projection can only choose between doing nothing and doing ordinary descent.",
+  "navigator_result": {
+    "conclusion": "The best projected ratio (1.82) uses 209 of 218 directions, which is essentially unprojected. Every genuinely restricted subspace is WORSE than unprojected. There is no useful regime between inert and everything.",
+    "low_curvature_sweep": "tau=1e-4 (31 dims) ratio 0.48; tau=1e-3 (106 dims) 0.88; tau=1e-2 (185 dims) 1.70; tau=5e-2 (209 dims) 1.82; tau=1 (217 dims) 1.69",
+    "null_space_projection": "dL = 0.000000, dOOD = +0.0000, dTest = +0.0000. Vacuous by construction: these directions provably cannot change the function.",
+    "random_tangent_control": "identical, dOOD = +0.0000",
+    "unprojected_control": "dL = +0.0285, dOOD = +0.0460, ratio 1.69"
+  },
+  "near_miss_recorded": "Reporting 'a 25-dimensional flat manifold in the loss landscape, navigable at zero primary cost' would have been a fake discovery, and the numbers would have looked impressive: an exactly flat subspace traversable to 4.7x the parameter norm. It is softmax shift invariance. The mechanism check is what caught it, and it is recorded here as the reason such a check is mandatory.",
+  "prior_art": "Softmax shift invariance and linear mode connectivity are both standard. No novelty is claimed for anything in this record.",
+  "record_id": "DISCOVERY-007",
+  "schema_version": "1.0.0",
+  "terminology_correction_as_instructed": "I previously wrote 'solution manifold' without establishing it. Tested directly. (a) CONNECTED: linear interpolation barriers between equally-good functionally distinct endpoints are 0.000000 to 0.000290 against a loss of 0.0038, so these are not disconnected minima. (b) NOT MINIMA: the Hessian carries substantial negative eigenvalues, smallest -1.45e-2 against lambda_max 0.709, so these are saddle/plateau points. (c) A 25-dimensional exactly-flat subspace exists, stable in count across four decades of tolerance. Correct term: a connected near-optimal set of saddles containing an exactly flat 25-dimensional subspace. NOT a manifold of minima.",
+  "the_flat_subspace_is_exactly_the_softmax_gauge": "This is the whole story and it is trivial. The subspace was traversed to a displacement of 50.0, which is 472 percent of ||theta|| = 10.591, producing a maximum logit change of 4.26e-11 and a training loss change of 1.5e-16. The change grows LINEARLY with displacement, so it is float64 accumulation, not curvature. Predicted a priori: softmax depends only on the difference of the two readout rows, so the common mode of g.weight (24 dims) plus the common mode of g.bias (1 dim) must be exactly inert, giving 25. Measured null dimension: 25. Principal cosines between the measured null space and the explicitly constructed gauge basis: 1.0000000000 for all 25 directions. They are the same subspace.",
+  "title": "Structure of the near-optimal set, and failure of curvature-based navigation",
+  "verdict": "NAVIGATOR CLASS CLOSED for curvature-defined subspaces, with a provable mechanism.",
+  "what_survives": "The connectedness result stands: equally-good, functionally distinct endpoints are joined by near-barrierless linear paths. Functional distinctness is real (up to 3.27 in logit max-norm at identical train loss and test accuracy). But those distinct points are NOT reachable through the flat subspace, because the flat subspace is gauge. Whatever connects them has nonzero curvature."
+}

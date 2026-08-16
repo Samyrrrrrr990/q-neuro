@@ -1,0 +1,18 @@
+{
+  "corrected_statement": "The dynamics contract onto a CONNECTED CONTINUUM of functionally distinct, equally performing solutions. Not a point, and not discrete basins.",
+  "date": "2026-08-15",
+  "lane": "B",
+  "novelty_assessment": "NONE. Connected manifolds of global minima in overparameterized networks are standard, as is mode connectivity. No novelty is claimed for the corrected statement. Its value here is that it corrects an error of mine and replaces an inference-from-failure with a direct measurement.",
+  "record_id": "DISCOVERY-006",
+  "result_1_scale_free_partial_contraction": "The contraction ratio is essentially CONSTANT at 0.50 to 0.70 across SIX orders of magnitude in perturbation size, from 1e-4 to 30. Perturbations decay by a fixed fraction and then persist. That is not global contraction, and the scale-freeness rules out a basin structure with a characteristic size.",
+  "result_2_the_residue_persists": "Continuing to 64000 steps, small perturbations contract and then GROW (ratio 2.46 at delta=1e-3), while large ones plateau. The reference's own functional velocity decays by a factor of 16 over the same window (7.4 to 0.46) while the separation holds or increases. The reference converges; the difference does not.",
+  "result_3_boring_explanation_rejected": "A shared trajectory traversed at different phases would produce separation aligned with the direction of motion. Measured |cos(separation, velocity)| is 0.01 to 0.40 in almost every cell. The separation is transverse. The models are at genuinely different points in function space, not different phases of one path.",
+  "result_4_clinching_measurement": "For perturbations up to delta=0.1 the endpoints have train loss identical to four decimal places (0.003839, 0.003839, 0.003838, 0.003810) and test accuracy identical at 0.9755, while their pairwise functional distance spans 0 to 3.27, an 80-fold range. Equally good, functionally distinct. That is a solution MANIFOLD, not an attractor.",
+  "schema_version": "1.0.0",
+  "status_of_synthesis_001": "Superseded, preserved in place, not edited and not renamed. DISCOVERY-006 supersedes it and the original text remains readable so the correction is auditable.",
+  "test": "Perturb a converged model by magnitude delta, continue training both perturbed and reference, and measure whether they reconverge in function space. Global contraction requires the ratio to go to zero at every scale.",
+  "title": "Direct test of SYNTHESIS-001: the dynamics do NOT contract to a single attractor",
+  "verdict": "SYNTHESIS-001 REFUTED BY MEASUREMENT. Corrected, not renamed.",
+  "what_was_claimed": "SYNTHESIS-001 asserted that in every feed-forward supervised system examined, the functional dynamics are globally contracting toward a SINGLE attractor, and that this one structural fact explained seven consecutive negative results. It was inferred from repeated failure, not measured directly. It is wrong.",
+  "why_this_still_explains_the_failures": "The corrected picture explains the seven prior negatives BETTER than the original claim did, and for a different reason. A continuum has no discrete basins, so there is nothing to bifurcate between, no A and B for a committor to commit to, no separated basin for coherence to measure, and no isolated minimum for symmetry to break toward. The obstruction is continuity, not uniqueness."
+}

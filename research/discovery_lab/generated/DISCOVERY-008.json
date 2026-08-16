@@ -1,0 +1,57 @@
+{
+  "controls_that_were_run": {
+    "diagonal_EWC_style": "a diagonal train-GGN penalty was swept over four strengths. Best was dOOD=+0.0092 at dL=6.5e-3. The full-GGN navigator reaches dOOD=+0.0158 at dL=8.8e-4 \u2014 roughly the same cost for 1.7x the gain, and at matched cost around 9x the gain. Full beats diagonal.",
+    "held_out_OOD": "a second OOD sample of 3000 points, never used to compute any direction, improves monotonically (+0.0037 to +0.0170). The gain is not overfitting to the OOD batch used for the gradient.",
+    "plain_gradient_full_frontier": "swept over 9 arc lengths so the comparison is against a CURVE, not a single point. The advantage is measured at matched dOOD, not matched arc length."
+  },
+  "date": "2026-08-15",
+  "lane": "B",
+  "matched_dOOD_pareto_result": {
+    "lambda_1e-1": {
+      "advantage": "9.3x",
+      "dOOD": 0.025,
+      "nav_dL": 0.00597,
+      "plain_dL_same_dOOD": 0.0554
+    },
+    "lambda_1e-2": {
+      "advantage": "35.2x",
+      "dOOD": 0.0158,
+      "nav_dL": 0.000875,
+      "plain_dL_same_dOOD": 0.0308
+    },
+    "lambda_1e-4": {
+      "advantage": "22.3x",
+      "dOOD": 0.0067,
+      "nav_dL": 0.000157,
+      "plain_dL_same_dOOD": 0.00349
+    },
+    "lambda_1e0": {
+      "advantage": "2.5x",
+      "dOOD": 0.035,
+      "nav_dL": 0.0253,
+      "plain_dL_same_dOOD": 0.0627
+    },
+    "lambda_1e1": {
+      "advantage": "1.5x",
+      "dOOD": 0.0375,
+      "nav_dL": 0.0422,
+      "plain_dL_same_dOOD": 0.0627
+    },
+    "note": "At each navigator setting, the plain-gradient arc length needed to reach the SAME OOD gain, and its train cost."
+  },
+  "method": "v = -(J_train^T J_train + lambda I)^-1 g_ood, renormalized, followed adaptively.",
+  "record_id": "DISCOVERY-008",
+  "required_before_any_claim": [
+    "Systematic prior-art audit against OGD, GPM, natural-gradient transfer, EWC and successors.",
+    "Transfer of the exact definition to a qualitatively different family, per the standing protocol.",
+    "A frozen quantitative prediction tested on an untouched system.",
+    "Compute matching: the navigator solves a P x P system per step and is far more expensive than plain gradient. The Pareto claim must be restated under matched compute, not matched arc length."
+  ],
+  "reverses_my_own_direction": "I was heading toward closing the Navigator class. That was premature. DISCOVERY-007 showed curvature-defined SUBSPACES fail (the flat subspace is softmax gauge; low-curvature projections never beat unprojected). The generalized eigenproblem also failed: it finds directions with a 40000x OOD-to-train sensitivity ratio that persist under adaptive following for arc length 3.0 while changing OOD accuracy by exactly +0.0000, because maximizing TOTAL functional change is not maximizing USEFUL functional change. But soft PRECONDITIONING by inverse train curvature does work.",
+  "schema_version": "1.0.0",
+  "status": "NOT a discovery claim. Recorded as a working method with an unresolved prior-art position.",
+  "the_boring_explanation_which_I_believe_is_correct": "This is Gauss-Newton / Fisher preconditioning of a secondary objective by the primary task's curvature. It sits squarely in an existing family: natural-gradient transfer, Orthogonal Gradient Descent (Farajtabar et al. 2020), Gradient Projection Memory (Saha et al. 2021), and EWC (Kirkpatrick et al. 2017) of which the diagonal control here is a variant. Those methods project or penalize a new-task gradient against old-task structure; this soft-preconditions with a lambda-regularized inverse. That full GGN beats diagonal EWC is also the expected ordering. I do NOT claim novelty and the burden is on a proper audit to find any.",
+  "title": "Functional navigation of the near-optimal set works \u2014 via curvature PRECONDITIONING, not curvature subspaces",
+  "verdict": "CONTROL ACHIEVED, but the method is very likely already known. Prior-art audit is the gate.",
+  "what_is_genuinely_informative_for_this_program": "The sharp distinction between two things that sound alike and behave oppositely. Projecting ONTO low-curvature subspaces fails completely: the exactly-flat subspace is gauge and cannot change the function, and every intermediate subspace is worse than unprojected. Preconditioning BY inverse curvature succeeds by up to 35x. Same curvature object, opposite outcomes. Any future geometric method in this program must be checked for which of the two it actually is."
+}

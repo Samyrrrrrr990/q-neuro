@@ -1,0 +1,3074 @@
+{
+  "design": "108 configurations, 12 perturbed replicas each, two perturbation families (small parameter noise plus reordered minibatches; hidden-unit permutations). Phenotype and metric were declared in the preregistration before any outcome was examined: logits on a frozen audit batch, max-norm. Target is median pairwise final functional spread; predictors are measured at step 75 of 300.",
+  "lane": "B",
+  "measured": {
+    "cells": 108,
+    "partial_given_early_spread": {
+      "basin_coherence_noise": -0.1802,
+      "basin_coherence_symmetry": -0.227,
+      "parameter_spread_noise": 0.2127,
+      "parameter_spread_symmetry": 0.161
+    },
+    "partial_given_learning_rate": {
+      "early_spread_noise": 0.928,
+      "early_spread_symmetry": 0.9272
+    },
+    "persistence": {
+      "fraction_contracting_noise": 0.444,
+      "fraction_contracting_symmetry": 0.463,
+      "log_ratio_range_decades_noise": 0.306,
+      "log_ratio_range_decades_symmetry": 0.346
+    },
+    "spearman_noise": {
+      "basin_coherence_early": 0.9536,
+      "functional_spread_early": 0.9798,
+      "learning_rate": 0.898,
+      "loss_decrease": 0.5084,
+      "loss_early": 0.2455,
+      "parameter_spread_early": 0.975
+    },
+    "spearman_symmetry": {
+      "basin_coherence_early": 0.9496,
+      "functional_spread_early": 0.9816,
+      "learning_rate": 0.8977,
+      "loss_early": 0.2458,
+      "parameter_spread_early": 0.3031
+    }
+  },
+  "next_admissible_step": "Committor and quotient Lyapunov exponent remain untested and are logically independent. Any future candidate must beat early functional spread, not merely loss, because early functional spread is now the standing baseline and it is almost free to compute.",
+  "record_id": "DISCOVERY-002-S34",
+  "records": [
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.02611092118392555,
+      "functional_contraction": 1.5000019735648706,
+      "functional_spread_early": 0.02029230200699156,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.005532567718451231,
+      "loss_early": 1.3904658363857438,
+      "loss_start": 1.395998404104195,
+      "parameter_spread_early": 0.022371762404792914,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.18181818181818182,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.030303030303030304,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07391122914284469,
+      "functional_contraction": 1.3383242303229093,
+      "functional_spread_early": 0.06699315101910205,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.009220213517352915,
+      "loss_early": 1.3867781905868422,
+      "loss_start": 1.395998404104195,
+      "parameter_spread_early": 0.07687557792986267,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.09090909090909091,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.030303030303030304,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.15436273486717256,
+      "functional_contraction": 1.1779164464617076,
+      "functional_spread_early": 0.13477745955278692,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.010574516546396184,
+      "loss_early": 1.3854238875577989,
+      "loss_start": 1.395998404104195,
+      "parameter_spread_early": 0.19268075630784315,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9696969696969697,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.9242424242424242,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.038930690237401616,
+      "functional_contraction": 1.492667358534053,
+      "functional_spread_early": 0.03155521195511289,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.022015341253841747,
+      "loss_early": 1.4032598268051972,
+      "loss_start": 1.425275168059039,
+      "parameter_spread_early": 0.027208591209350076,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.5303030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.2878787878787879,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.11098101683104866,
+      "functional_contraction": 1.2994093819041959,
+      "functional_spread_early": 0.09848756605833076,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.03482414487709473,
+      "loss_early": 1.3904510231819442,
+      "loss_start": 1.425275168059039,
+      "parameter_spread_early": 0.09813306005165862,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8333333333333334,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.7878787878787878,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2104887918039386,
+      "functional_contraction": 1.228222774397638,
+      "functional_spread_early": 0.1955165447564628,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.03980935876903757,
+      "loss_early": 1.3854658092900014,
+      "loss_start": 1.425275168059039,
+      "parameter_spread_early": 0.23040521654845364,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.4393939393939394,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.13636363636363635,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.06079936102553929,
+      "functional_contraction": 1.4477370452963374,
+      "functional_spread_early": 0.050814938835737095,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.092445990449886,
+      "loss_early": 1.4392311614752098,
+      "loss_start": 1.5316771519250958,
+      "parameter_spread_early": 0.03497635891004329,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.030303030303030304,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.16451077822418003,
+      "functional_contraction": 1.3239244796316358,
+      "functional_spread_early": 0.15109382129013568,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.132543594850824,
+      "loss_early": 1.3991335570742718,
+      "loss_start": 1.5316771519250958,
+      "parameter_spread_early": 0.12211485225273769,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.2727272727272727,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.3181818181818182,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2842329965037257,
+      "functional_contraction": 1.1675026514687459,
+      "functional_spread_early": 0.2790595239452497,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.14540065225702192,
+      "loss_early": 1.3862764996680739,
+      "loss_start": 1.5316771519250958,
+      "parameter_spread_early": 0.2681445773776828,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.9393939393939394,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.026625268521035736,
+      "functional_contraction": 1.8507593324889307,
+      "functional_spread_early": 0.021204108851372194,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.005136612899920401,
+      "loss_early": 1.4000434837538245,
+      "loss_start": 1.4051800966537449,
+      "parameter_spread_early": 0.023609418231956152,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.21212121212121213,
+        "0.1": 0.8333333333333334,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.16666666666666666,
+        "0.1": 0.9393939393939394,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.06683559067775499,
+      "functional_contraction": 1.815374375652932,
+      "functional_spread_early": 0.07769458873056137,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.013101461416739735,
+      "loss_early": 1.3920786352370051,
+      "loss_start": 1.4051800966537449,
+      "parameter_spread_early": 0.07980912666087965,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.2878787878787879,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.25757575757575757,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.13504233454619174,
+      "functional_contraction": 1.3135508300206007,
+      "functional_spread_early": 0.13774801585390892,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.015939798415228523,
+      "loss_early": 1.3892402982385164,
+      "loss_start": 1.4051800966537449,
+      "parameter_spread_early": 0.17578740357414535,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.8484848484848485,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.7424242424242424,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03632110300513569,
+      "functional_contraction": 2.0083102841010483,
+      "functional_spread_early": 0.034003465179647585,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.01275188598075272,
+      "loss_early": 1.4253190264755258,
+      "loss_start": 1.4380709124562785,
+      "parameter_spread_early": 0.02735012926043861,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.030303030303030304,
+        "0.1": 0.4393939393939394,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.015151515151515152,
+        "0.1": 0.7272727272727273,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.08650126823455695,
+      "functional_contraction": 1.66744462030638,
+      "functional_spread_early": 0.10700615716669801,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.0369673467616769,
+      "loss_early": 1.4011035656946016,
+      "loss_start": 1.4380709124562785,
+      "parameter_spread_early": 0.09496690375064813,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.8787878787878788,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.045454545454545456,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.16384265909278745,
+      "functional_contraction": 1.2235374297130623,
+      "functional_spread_early": 0.17744287515645107,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.04598614618214114,
+      "loss_early": 1.3920847662741374,
+      "loss_start": 1.4380709124562785,
+      "parameter_spread_early": 0.20302915603204646,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.42424242424242425,
+        "0.1": 0.9848484848484849,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.3333333333333333,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.05649759988654224,
+      "functional_contraction": 1.8666800299799278,
+      "functional_spread_early": 0.05357414788650838,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.04730675853762034,
+      "loss_early": 1.4911916425207383,
+      "loss_start": 1.5384984010583587,
+      "parameter_spread_early": 0.034235931183435604,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.16666666666666666,
+        "0.25": 0.9696969696969697,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.21212121212121213,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.12096063658057199,
+      "functional_contraction": 1.482649872052022,
+      "functional_spread_early": 0.14979986739318896,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.12012869079039867,
+      "loss_early": 1.41836971026796,
+      "loss_start": 1.5384984010583587,
+      "parameter_spread_early": 0.11398355346908612,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.696969696969697,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.6666666666666666,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.21949034481624446,
+      "functional_contraction": 1.0717077530433115,
+      "functional_spread_early": 0.23221175594649382,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.14293013077881978,
+      "loss_early": 1.395568270279539,
+      "loss_start": 1.5384984010583587,
+      "parameter_spread_early": 0.23344578958696877,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.024355175441045096,
+      "functional_contraction": 1.6857517944731026,
+      "functional_spread_early": 0.02346195020472719,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.005560074715118324,
+      "loss_early": 1.3890158136874817,
+      "loss_start": 1.3945758884026,
+      "parameter_spread_early": 0.025536485094185386,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.09090909090909091,
+        "0.1": 0.803030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.06060606060606061,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07321053593770659,
+      "functional_contraction": 1.4333878464710736,
+      "functional_spread_early": 0.07754732847215057,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.006827673646784049,
+      "loss_early": 1.387748214755816,
+      "loss_start": 1.3945758884026,
+      "parameter_spread_early": 0.08810120886626863,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.09090909090909091,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.06060606060606061,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.13878340139209902,
+      "functional_contraction": 1.1222767075537283,
+      "functional_spread_early": 0.14225102804029155,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.007108427113818427,
+      "loss_early": 1.3874674612887816,
+      "loss_start": 1.3945758884026,
+      "parameter_spread_early": 0.19896667675651397,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.8181818181818182,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.9696969696969697,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.035023375803011625,
+      "functional_contraction": 1.624648625081607,
+      "functional_spread_early": 0.03496030079978382,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.016440689695657262,
+      "loss_early": 1.3993260219433836,
+      "loss_start": 1.4157667116390409,
+      "parameter_spread_early": 0.030162406922962938,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.3484848484848485,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.4696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.10131518093274283,
+      "functional_contraction": 1.3625624525045126,
+      "functional_spread_early": 0.1078439199715786,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.02339424075896046,
+      "loss_early": 1.3923724708800804,
+      "loss_start": 1.4157667116390409,
+      "parameter_spread_early": 0.10570899956060943,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9393939393939394,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.9545454545454546,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.18464621180707175,
+      "functional_contraction": 1.0841295776274809,
+      "functional_spread_early": 0.19862276267749573,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.027060214374994063,
+      "loss_early": 1.3887064972640468,
+      "loss_start": 1.4157667116390409,
+      "parameter_spread_early": 0.2331147320564959,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.30303030303030304,
+        "0.1": 0.9848484848484849,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.3939393939393939,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.0527237249206457,
+      "functional_contraction": 1.622414208455087,
+      "functional_spread_early": 0.056953605657328044,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.054997064437149135,
+      "loss_early": 1.4339558296055637,
+      "loss_start": 1.4889528940427128,
+      "parameter_spread_early": 0.037695583475268,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.030303030303030304,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.045454545454545456,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.15004182944994482,
+      "functional_contraction": 1.2288572211576212,
+      "functional_spread_early": 0.1540454522121824,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.0855067991646139,
+      "loss_early": 1.403446094878099,
+      "loss_start": 1.4889528940427128,
+      "parameter_spread_early": 0.1301427073451104,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.5,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.5151515151515151,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.24960768352777069,
+      "functional_contraction": 0.9343309907514978,
+      "functional_spread_early": 0.25263086855098904,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.09793017525618763,
+      "loss_early": 1.3910227187865252,
+      "loss_start": 1.4889528940427128,
+      "parameter_spread_early": 0.2749454284916802,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.9545454545454546,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.030931081234603863,
+      "functional_contraction": 1.1455272297655663,
+      "functional_spread_early": 0.020547328380935148,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.00015801772575696482,
+      "loss_early": 1.390861717909093,
+      "loss_start": 1.39101973563485,
+      "parameter_spread_early": 0.02574907890407547,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.07575757575757576,
+        "0.1": 0.8484848484848485,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.7878787878787878,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.08811083643657214,
+      "functional_contraction": 1.1176514459005005,
+      "functional_spread_early": 0.07339657816382628,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.001690473398065384,
+      "loss_early": 1.3893292622367845,
+      "loss_start": 1.39101973563485,
+      "parameter_spread_early": 0.08238295235710681,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9545454545454546,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.9090909090909091,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.17309415544129503,
+      "functional_contraction": 1.093354779255592,
+      "functional_spread_early": 0.16532329971034748,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.0030549657752869663,
+      "loss_early": 1.387964769859563,
+      "loss_start": 1.39101973563485,
+      "parameter_spread_early": 0.20353569266367671,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9545454545454546,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.5303030303030303,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.04958285469332302,
+      "functional_contraction": 1.177869328294368,
+      "functional_spread_early": 0.033918916065451055,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.0016951761579770963,
+      "loss_early": 1.399848795520227,
+      "loss_start": 1.401543971678204,
+      "parameter_spread_early": 0.030317745345266794,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.24242424242424243,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.16666666666666666,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.12850285240225562,
+      "functional_contraction": 1.1021912672306555,
+      "functional_spread_early": 0.1168175625308828,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.006921936036062615,
+      "loss_early": 1.3946220356421415,
+      "loss_start": 1.401543971678204,
+      "parameter_spread_early": 0.10132812294071511,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.45454545454545453,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4696969696969697,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2568495818609413,
+      "functional_contraction": 1.1419177554749382,
+      "functional_spread_early": 0.26532281109835665,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.01124504093431078,
+      "loss_early": 1.3902989307438933,
+      "loss_start": 1.401543971678204,
+      "parameter_spread_early": 0.24680861999205564,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.24242424242424243,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.045454545454545456,
+        "0.1": 0.9393939393939394,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07805392329360528,
+      "functional_contraction": 1.1299329015123083,
+      "functional_spread_early": 0.05709023811300096,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.014409132451820295,
+      "loss_early": 1.4284070228497552,
+      "loss_start": 1.4428161553015755,
+      "parameter_spread_early": 0.036831455484279275,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8636363636363636,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8787878787878788,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.18831732253498334,
+      "functional_contraction": 1.0594404027447317,
+      "functional_spread_early": 0.18456196468472874,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.036725725781648455,
+      "loss_early": 1.406090429519927,
+      "loss_start": 1.4428161553015755,
+      "parameter_spread_early": 0.12699725794153996,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.06060606060606061,
+        "0.5": 0.8181818181818182
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.06060606060606061,
+        "0.5": 0.8787878787878788
+      },
+      "final_functional_spread": 0.35403988873782144,
+      "functional_contraction": 1.1242382798764834,
+      "functional_spread_early": 0.3918068262147968,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.04774635693515794,
+      "loss_early": 1.3950697983664175,
+      "loss_start": 1.4428161553015755,
+      "parameter_spread_early": 0.2906680328899912,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9393939393939394,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.8787878787878788,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03259214888913248,
+      "functional_contraction": 1.689100594195046,
+      "functional_spread_early": 0.027340149546966522,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": -0.004049838909826464,
+      "loss_early": 1.398053556690422,
+      "loss_start": 1.3940037177805955,
+      "parameter_spread_early": 0.02956158010052369,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.07575757575757576,
+        "0.1": 0.5909090909090909,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.5454545454545454,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.09781330330407058,
+      "functional_contraction": 1.5823532349806748,
+      "functional_spread_early": 0.09273779388964074,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.0013982511407972797,
+      "loss_early": 1.3926054666397982,
+      "loss_start": 1.3940037177805955,
+      "parameter_spread_early": 0.0941965400490227,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.9090909090909091,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8636363636363636,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.19776669630569732,
+      "functional_contraction": 1.2907318919020518,
+      "functional_spread_early": 0.17451608773802707,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.003414849162530098,
+      "loss_early": 1.3905888686180654,
+      "loss_start": 1.3940037177805955,
+      "parameter_spread_early": 0.21458979851536708,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.6515151515151515,
+        "0.1": 0.9848484848484849,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.5,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.05024943222650563,
+      "functional_contraction": 1.7197239740839914,
+      "functional_spread_early": 0.04373807501564364,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": -0.0010599829530959504,
+      "loss_early": 1.4149612145516104,
+      "loss_start": 1.4139012315985144,
+      "parameter_spread_early": 0.034645356629955965,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.19696969696969696,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.09090909090909091,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.14429016956917193,
+      "functional_contraction": 1.5511572503115016,
+      "functional_spread_early": 0.14110946887572323,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.013896326924076163,
+      "loss_early": 1.4000049046744383,
+      "loss_start": 1.4139012315985144,
+      "parameter_spread_early": 0.11251541437429365,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.5454545454545454,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4393939393939394,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2665318896494473,
+      "functional_contraction": 1.212537618441916,
+      "functional_spread_early": 0.24719028023861042,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.020180405748624564,
+      "loss_early": 1.3937208258498899,
+      "loss_start": 1.4139012315985144,
+      "parameter_spread_early": 0.25396406324408477,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.15151515151515152,
+        "0.1": 0.803030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.030303030303030304,
+        "0.1": 0.8636363636363636,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.0779050597607368,
+      "functional_contraction": 1.7230217497716618,
+      "functional_spread_early": 0.07479223850563665,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.022250728220152505,
+      "loss_early": 1.456336427706798,
+      "loss_start": 1.4785871559269506,
+      "parameter_spread_early": 0.04171409861728093,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.8333333333333334,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8181818181818182,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.20980590548696787,
+      "functional_contraction": 1.3150670377919051,
+      "functional_spread_early": 0.19933799046870826,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.06626177196518701,
+      "loss_early": 1.4123253839617635,
+      "loss_start": 1.4785871559269506,
+      "parameter_spread_early": 0.13515770818168715,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.045454545454545456,
+        "0.5": 0.9393939393939394
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.045454545454545456,
+        "0.5": 0.9393939393939394
+      },
+      "final_functional_spread": 0.36021291499741503,
+      "functional_contraction": 1.0895572713465569,
+      "functional_spread_early": 0.3372091641193732,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.08017807208536087,
+      "loss_early": 1.3984090838415897,
+      "loss_start": 1.4785871559269506,
+      "parameter_spread_early": 0.2956273599176465,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9545454545454546,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.9090909090909091,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.0316803459250912,
+      "functional_contraction": 2.0944424271206783,
+      "functional_spread_early": 0.03236476529797731,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.005343129772388933,
+      "loss_early": 1.391043403947692,
+      "loss_start": 1.396386533720081,
+      "parameter_spread_early": 0.02952149977188342,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.045454545454545456,
+        "0.1": 0.5,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.015151515151515152,
+        "0.1": 0.6818181818181818,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.08651856100044525,
+      "functional_contraction": 1.6260251258127871,
+      "functional_spread_early": 0.10197956529476263,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.006798193447099532,
+      "loss_early": 1.3895883402729814,
+      "loss_start": 1.396386533720081,
+      "parameter_spread_early": 0.09255456207490853,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.8787878787878788,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.09090909090909091,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.15096935352240454,
+      "functional_contraction": 1.2357533417549926,
+      "functional_spread_early": 0.1885911870934347,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.006647689535709489,
+      "loss_early": 1.3897388441843714,
+      "loss_start": 1.396386533720081,
+      "parameter_spread_early": 0.211388957912926,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.5151515151515151,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.5909090909090909,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.04622817108312706,
+      "functional_contraction": 1.9959748939032895,
+      "functional_spread_early": 0.049159215107536874,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.016199988932709575,
+      "loss_early": 1.40159925923934,
+      "loss_start": 1.4177992481720496,
+      "parameter_spread_early": 0.03456052825191402,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.18181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.2727272727272727,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.12263431799931782,
+      "functional_contraction": 1.4581090740128266,
+      "functional_spread_early": 0.14562093590378425,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.021898093601950386,
+      "loss_early": 1.3959011545700992,
+      "loss_start": 1.4177992481720496,
+      "parameter_spread_early": 0.11128720012691498,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.45454545454545453,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8636363636363636,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.20232625333005552,
+      "functional_contraction": 1.1661820292860854,
+      "functional_spread_early": 0.2647729605526685,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.02478543788090093,
+      "loss_early": 1.3930138102911487,
+      "loss_start": 1.4177992481720496,
+      "parameter_spread_early": 0.2576618286538804,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.10606060606060606,
+        "0.1": 0.7878787878787878,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.15151515151515152,
+        "0.1": 0.8181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07283791725586591,
+      "functional_contraction": 1.8910172758956065,
+      "functional_spread_early": 0.07936231402343763,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.054819002735502664,
+      "loss_early": 1.4349240094602376,
+      "loss_start": 1.4897430121957402,
+      "parameter_spread_early": 0.0423253107571827,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.7575757575757576,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9393939393939394,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.16950610865467136,
+      "functional_contraction": 1.309032862956306,
+      "functional_spread_early": 0.20924062076224886,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.07913009322911013,
+      "loss_early": 1.41061291896663,
+      "loss_start": 1.4897430121957402,
+      "parameter_spread_early": 0.13568589071695328,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.15151515151515152,
+        "0.5": 0.8484848484848485
+      },
+      "failed": false,
+      "family": "noise",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.42424242424242425,
+        "0.5": 0.9848484848484849
+      },
+      "final_functional_spread": 0.2630684165049832,
+      "functional_contraction": 1.0405595877145135,
+      "functional_spread_early": 0.3537248110071244,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.09077623810711732,
+      "loss_early": 1.398966774088623,
+      "loss_start": 1.4897430121957402,
+      "parameter_spread_early": 0.2979656728699796,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.02621236292933088,
+      "functional_contraction": 1.5051070883398296,
+      "functional_spread_early": 0.018265625486844836,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.0054431779455850204,
+      "loss_early": 1.3905049350968637,
+      "loss_start": 1.3959481130424487,
+      "parameter_spread_early": 2.0284008150239505,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.18181818181818182,
+        "0.1": 0.9848484848484849,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.015151515151515152,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07245055617895307,
+      "functional_contraction": 1.3324533824048679,
+      "functional_spread_early": 0.06681758767135117,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.009153020162411263,
+      "loss_early": 1.3867950928800374,
+      "loss_start": 1.3959481130424487,
+      "parameter_spread_early": 1.9875520036457648,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.10606060606060606,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.153335879571166,
+      "functional_contraction": 1.1917517341071244,
+      "functional_spread_early": 0.1334240365988877,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.010499416024684738,
+      "loss_early": 1.385448697017764,
+      "loss_start": 1.3959481130424487,
+      "parameter_spread_early": 1.9332365325202365,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.9545454545454546,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03960319824658187,
+      "functional_contraction": 1.5352254700401606,
+      "functional_spread_early": 0.029629830049713715,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.021933316697149152,
+      "loss_early": 1.4033054469783062,
+      "loss_start": 1.4252387636754553,
+      "parameter_spread_early": 2.87324830503877,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.5303030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.3181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.11215658107635817,
+      "functional_contraction": 1.3172307970640416,
+      "functional_spread_early": 0.09934360434938883,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.034754873183076906,
+      "loss_early": 1.3904838904923784,
+      "loss_start": 1.4252387636754553,
+      "parameter_spread_early": 2.7802832609506267,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8181818181818182,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.7878787878787878,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.206450830194294,
+      "functional_contraction": 1.215790703526033,
+      "functional_spread_early": 0.1956232817833591,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.03973848798595614,
+      "loss_early": 1.3855002756894992,
+      "loss_start": 1.4252387636754553,
+      "parameter_spread_early": 2.67876155005413,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.5303030303030303,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.13636363636363635,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.059678094968601464,
+      "functional_contraction": 1.5119712697525114,
+      "functional_spread_early": 0.049918519072589485,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.09240049560886954,
+      "loss_early": 1.4392803446746762,
+      "loss_start": 1.5316808402835458,
+      "parameter_spread_early": 3.9750666839232087,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.030303030303030304,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.166394548076584,
+      "functional_contraction": 1.328732956826965,
+      "functional_spread_early": 0.14903494834074016,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.13253161084824372,
+      "loss_early": 1.399149229435302,
+      "loss_start": 1.5316808402835458,
+      "parameter_spread_early": 3.8146981616677516,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.25757575757575757,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.3484848484848485,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.28036411080349777,
+      "functional_contraction": 1.1694070997310733,
+      "functional_spread_early": 0.28125985364836426,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.1453293622420806,
+      "loss_early": 1.3863514780414652,
+      "loss_start": 1.5316808402835458,
+      "parameter_spread_early": 3.638048079669068,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.9696969696969697,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.025419486145201578,
+      "functional_contraction": 2.09430761460124,
+      "functional_spread_early": 0.020455755025586553,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.005135332379220259,
+      "loss_early": 1.4000614561015403,
+      "loss_start": 1.4051967884807606,
+      "parameter_spread_early": 1.8398679354625695,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.21212121212121213,
+        "0.1": 0.8181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.16666666666666666,
+        "0.1": 0.9545454545454546,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.06550968331425999,
+      "functional_contraction": 1.838064521355235,
+      "functional_spread_early": 0.07754826953571786,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.013089336982915034,
+      "loss_early": 1.3921074514978455,
+      "loss_start": 1.4051967884807606,
+      "parameter_spread_early": 1.771012651192681,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.2878787878787879,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.2878787878787879,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.133066975077254,
+      "functional_contraction": 1.317537072992909,
+      "functional_spread_early": 0.13702073867715478,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.015936913351901616,
+      "loss_early": 1.389259875128859,
+      "loss_start": 1.4051967884807606,
+      "parameter_spread_early": 1.6913553381715092,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.8939393939393939,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.7878787878787878,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03635398659258787,
+      "functional_contraction": 2.07592065692761,
+      "functional_spread_early": 0.032095012614799745,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.012770081437514236,
+      "loss_early": 1.4253293503466138,
+      "loss_start": 1.438099431784128,
+      "parameter_spread_early": 2.5999817523067383,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.030303030303030304,
+        "0.1": 0.45454545454545453,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.030303030303030304,
+        "0.1": 0.7424242424242424,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.08782926177712695,
+      "functional_contraction": 1.697128773204654,
+      "functional_spread_early": 0.10686659012493294,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.03696385358356591,
+      "loss_early": 1.4011355782005621,
+      "loss_start": 1.438099431784128,
+      "parameter_spread_early": 2.4706825598095503,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.8787878787878788,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.045454545454545456,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1619135512397856,
+      "functional_contraction": 1.2077954582740928,
+      "functional_spread_early": 0.17814373648584964,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.0459943338186648,
+      "loss_early": 1.3921050979654632,
+      "loss_start": 1.438099431784128,
+      "parameter_spread_early": 2.307566980937462,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.48484848484848486,
+        "0.1": 0.9848484848484849,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.3484848484848485,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.05492191020374354,
+      "functional_contraction": 1.9179392390394019,
+      "functional_spread_early": 0.050194739597236804,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.04732188421741701,
+      "loss_early": 1.4912006332607115,
+      "loss_start": 1.5385225174781285,
+      "parameter_spread_early": 3.583355760352742,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.15151515151515152,
+        "0.25": 0.9696969696969697,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.21212121212121213,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.11902096340944335,
+      "functional_contraction": 1.4441042571039864,
+      "functional_spread_early": 0.14726592693198315,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.12013163025955587,
+      "loss_early": 1.4183908872185726,
+      "loss_start": 1.5385225174781285,
+      "parameter_spread_early": 3.355286217602271,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.696969696969697,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.6666666666666666,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2148264135353733,
+      "functional_contraction": 1.0668530858529606,
+      "functional_spread_early": 0.23093507637809918,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.14292260795484912,
+      "loss_early": 1.3955999095232794,
+      "loss_start": 1.5385225174781285,
+      "parameter_spread_early": 3.093389198491003,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.02453485071287198,
+      "functional_contraction": 1.9149736619245292,
+      "functional_spread_early": 0.02285067819275996,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.005527481367253895,
+      "loss_early": 1.3890555581723618,
+      "loss_start": 1.3945830395396157,
+      "parameter_spread_early": 1.80631483308929,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.09090909090909091,
+        "0.1": 0.803030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.045454545454545456,
+        "0.1": 0.9545454545454546,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07351042438998448,
+      "functional_contraction": 1.4463265614485268,
+      "functional_spread_early": 0.07888559448164836,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.006817097551028439,
+      "loss_early": 1.3877659419885873,
+      "loss_start": 1.3945830395396157,
+      "parameter_spread_early": 1.764245152021471,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.09090909090909091,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.06060606060606061,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1380162028665429,
+      "functional_contraction": 1.1141130124046008,
+      "functional_spread_early": 0.14305901361210807,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.007101625577453863,
+      "loss_early": 1.3874814139621618,
+      "loss_start": 1.3945830395396157,
+      "parameter_spread_early": 1.6837827428679673,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.8939393939393939,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.9545454545454546,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03554639264836465,
+      "functional_contraction": 1.779372874434446,
+      "functional_spread_early": 0.034539252809472454,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.016414642176400207,
+      "loss_early": 1.3993814510400842,
+      "loss_start": 1.4157960932164844,
+      "parameter_spread_early": 2.5561675432211404,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.3484848484848485,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.45454545454545453,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.10167833033548507,
+      "functional_contraction": 1.343404096297167,
+      "functional_spread_early": 0.10712094571351405,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.023429284256199168,
+      "loss_early": 1.3923668089602852,
+      "loss_start": 1.4157960932164844,
+      "parameter_spread_early": 2.436541447262491,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9393939393939394,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9545454545454546,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1779310191121324,
+      "functional_contraction": 1.0638125848567337,
+      "functional_spread_early": 0.19788818732455107,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.027139287049181338,
+      "loss_early": 1.388656806167303,
+      "loss_start": 1.4157960932164844,
+      "parameter_spread_early": 2.292423634539981,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.3181818181818182,
+        "0.1": 0.9848484848484849,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.3939393939393939,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.05327257866696103,
+      "functional_contraction": 1.6313087581049774,
+      "functional_spread_early": 0.055724288480603096,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.05501170881634465,
+      "loss_early": 1.4340256169543328,
+      "loss_start": 1.4890373257706775,
+      "parameter_spread_early": 3.5330802971606134,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.045454545454545456,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.030303030303030304,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.14547805104329403,
+      "functional_contraction": 1.2263235290045222,
+      "functional_spread_early": 0.15270036240276724,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.08556669067461797,
+      "loss_early": 1.4034706350960595,
+      "loss_start": 1.4890373257706775,
+      "parameter_spread_early": 3.304938723558707,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.5,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4696969696969697,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2550316729750933,
+      "functional_contraction": 0.9367116700953093,
+      "functional_spread_early": 0.25000890691576116,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.09824498566580475,
+      "loss_early": 1.3907923401048727,
+      "loss_start": 1.4890373257706775,
+      "parameter_spread_early": 3.055398792832482,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 8
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 1.0,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.9393939393939394,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03148770602368267,
+      "functional_contraction": 1.2129108207594907,
+      "functional_spread_early": 0.019142839265410827,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.00014969853756974238,
+      "loss_early": 1.3908381324786603,
+      "loss_start": 1.39098783101623,
+      "parameter_spread_early": 2.675924187009743,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.06060606060606061,
+        "0.1": 0.8484848484848485,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.015151515151515152,
+        "0.1": 0.803030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.08963089885975721,
+      "functional_contraction": 1.131211000748918,
+      "functional_spread_early": 0.07539417890233893,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.0016646344136599378,
+      "loss_early": 1.38932319660257,
+      "loss_start": 1.39098783101623,
+      "parameter_spread_early": 2.6588057343664904,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9545454545454546,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.9090909090909091,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.17402171846658204,
+      "functional_contraction": 1.0972745307614453,
+      "functional_spread_early": 0.16634267793875115,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.0030267180871448307,
+      "loss_early": 1.3879611129290852,
+      "loss_start": 1.39098783101623,
+      "parameter_spread_early": 2.618671994080323,
+      "scale": 0.7,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9545454545454546,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.5909090909090909,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.047969554979205686,
+      "functional_contraction": 1.296087662480491,
+      "functional_spread_early": 0.03388112401207674,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.0016672638222601233,
+      "loss_early": 1.399821830852088,
+      "loss_start": 1.4014890946743481,
+      "parameter_spread_early": 3.811769864385238,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.19696969696969696,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.18181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1295371386883301,
+      "functional_contraction": 1.1490739177333238,
+      "functional_spread_early": 0.12009986051885452,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.006873378490311,
+      "loss_early": 1.3946157161840371,
+      "loss_start": 1.4014890946743481,
+      "parameter_spread_early": 3.7621091148152472,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4696969696969697,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4696969696969697,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.2577838467813377,
+      "functional_contraction": 1.1230094217261486,
+      "functional_spread_early": 0.26259936788934096,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.011259143440105923,
+      "loss_early": 1.3902299512342422,
+      "loss_start": 1.4014890946743481,
+      "parameter_spread_early": 3.690947257148925,
+      "scale": 1.0,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.2727272727272727,
+        "0.1": 0.9696969696969697,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.06060606060606061,
+        "0.1": 0.9242424242424242,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07655676018807533,
+      "functional_contraction": 1.2468147521105222,
+      "functional_spread_early": 0.05704008572609076,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.014351716960864458,
+      "loss_early": 1.4283719213667465,
+      "loss_start": 1.442723638327611,
+      "parameter_spread_early": 5.31197703785187,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8636363636363636,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8939393939393939,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1882403264501616,
+      "functional_contraction": 1.118003706067154,
+      "functional_spread_early": 0.19099488208802595,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.036650522493925974,
+      "loss_early": 1.406073115833685,
+      "loss_start": 1.442723638327611,
+      "parameter_spread_early": 5.204809536165271,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.07575757575757576,
+        "0.5": 0.803030303030303
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.045454545454545456,
+        "0.5": 0.8787878787878788
+      },
+      "final_functional_spread": 0.35853515998729135,
+      "functional_contraction": 1.1105695939685036,
+      "functional_spread_early": 0.3882497817159738,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.04766959025983075,
+      "loss_early": 1.3950540480677802,
+      "loss_start": 1.442723638327611,
+      "parameter_spread_early": 5.093093428736156,
+      "scale": 1.4,
+      "seed": 0,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9393939393939394,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.8636363636363636,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03350945223928348,
+      "functional_contraction": 1.9835046811954813,
+      "functional_spread_early": 0.02744291551697492,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": -0.004009808589329422,
+      "loss_early": 1.3980429696122982,
+      "loss_start": 1.3940331610229688,
+      "parameter_spread_early": 2.5047502253449774,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.07575757575757576,
+        "0.1": 0.5909090909090909,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.5454545454545454,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.09553840565778743,
+      "functional_contraction": 1.5758893209660478,
+      "functional_spread_early": 0.09260599746266754,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.0014311552041283981,
+      "loss_early": 1.3926020058188404,
+      "loss_start": 1.3940331610229688,
+      "parameter_spread_early": 2.4689404862853044,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.9090909090909091,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8636363636363636,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1986201798951667,
+      "functional_contraction": 1.2905219100733776,
+      "functional_spread_early": 0.1764784249126621,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.0034519007581539363,
+      "loss_early": 1.3905812602648149,
+      "loss_start": 1.3940331610229688,
+      "parameter_spread_early": 2.4170281349272784,
+      "scale": 0.7,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.5909090909090909,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.5454545454545454,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.04857936018407005,
+      "functional_contraction": 2.00438160936951,
+      "functional_spread_early": 0.04523420002829981,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": -0.0010420112669162762,
+      "loss_early": 1.4149482093217511,
+      "loss_start": 1.4139061980548349,
+      "parameter_spread_early": 3.565441771754785,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.18181818181818182,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.07575757575757576,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.14120895727151755,
+      "functional_contraction": 1.5513591066644434,
+      "functional_spread_early": 0.14385508436505667,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.013912085620984005,
+      "loss_early": 1.3999941124338509,
+      "loss_start": 1.4139061980548349,
+      "parameter_spread_early": 3.4895693826046155,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.5151515151515151,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4090909090909091,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.26594513174490614,
+      "functional_contraction": 1.202253215243788,
+      "functional_spread_early": 0.24681025117533273,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.020236013355670268,
+      "loss_early": 1.3936701846991646,
+      "loss_start": 1.4139061980548349,
+      "parameter_spread_early": 3.401048743300006,
+      "scale": 1.0,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.15151515151515152,
+        "0.1": 0.8181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.045454545454545456,
+        "0.1": 0.803030303030303,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07743092983310579,
+      "functional_contraction": 1.8358112431689966,
+      "functional_spread_early": 0.07424712726647617,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.02222100533433191,
+      "loss_early": 1.4563152579498981,
+      "loss_start": 1.47853626328423,
+      "parameter_spread_early": 4.965281143989685,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.803030303030303,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.803030303030303,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.20958276812025886,
+      "functional_contraction": 1.3087678566481107,
+      "functional_spread_early": 0.19733229541168856,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.06621528674883059,
+      "loss_early": 1.4123209765353995,
+      "loss_start": 1.47853626328423,
+      "parameter_spread_early": 4.817339933349566,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.045454545454545456,
+        "0.5": 0.9393939393939394
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.06060606060606061,
+        "0.5": 0.9393939393939394
+      },
+      "final_functional_spread": 0.35703502237769325,
+      "functional_contraction": 1.1052588466865,
+      "functional_spread_early": 0.3381970304127152,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.0801727464243287,
+      "loss_early": 1.3983635168599013,
+      "loss_start": 1.47853626328423,
+      "parameter_spread_early": 4.710211081589576,
+      "scale": 1.4,
+      "seed": 1,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.9696969696969697,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.9242424242424242,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.03143234413399043,
+      "functional_contraction": 2.1431337863072635,
+      "functional_spread_early": 0.031103279835523093,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.0053998827209955635,
+      "loss_early": 1.391021520056583,
+      "loss_start": 1.3964214027775785,
+      "parameter_spread_early": 2.5262750685065383,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.045454545454545456,
+        "0.1": 0.5151515151515151,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.015151515151515152,
+        "0.1": 0.6818181818181818,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.08666170241544112,
+      "functional_contraction": 1.5591441321403228,
+      "functional_spread_early": 0.09943887357646178,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.006859792910613116,
+      "loss_early": 1.3895616098669654,
+      "loss_start": 1.3964214027775785,
+      "parameter_spread_early": 2.4973531740460904,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.015151515151515152,
+        "0.25": 0.8787878787878788,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.09090909090909091,
+        "0.25": 0.9848484848484849,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.15443700609808908,
+      "functional_contraction": 1.2466058984936315,
+      "functional_spread_early": 0.1908571548605315,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.006687983970059541,
+      "loss_early": 1.389733418807519,
+      "loss_start": 1.3964214027775785,
+      "parameter_spread_early": 2.4378932353534557,
+      "scale": 0.7,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.5151515151515151,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.5909090909090909,
+        "0.1": 1.0,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.04508362298365787,
+      "functional_contraction": 2.0633540765100005,
+      "functional_spread_early": 0.04915342645577481,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.016262402925065533,
+      "loss_early": 1.4015760570677898,
+      "loss_start": 1.4178384599928553,
+      "parameter_spread_early": 3.5931717199057362,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.015151515151515152,
+        "0.1": 0.18181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.2727272727272727,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.12355589726955513,
+      "functional_contraction": 1.425768863344032,
+      "functional_spread_early": 0.14542497835637133,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.021952759089415297,
+      "loss_early": 1.39588570090344,
+      "loss_start": 1.4178384599928553,
+      "parameter_spread_early": 3.517255765720414,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4393939393939394,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.8787878787878788,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.20265326352128282,
+      "functional_contraction": 1.1621930418780002,
+      "functional_spread_early": 0.2633435006119951,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.02483992279168712,
+      "loss_early": 1.3929985372011682,
+      "loss_start": 1.4178384599928553,
+      "parameter_spread_early": 3.4126926796774337,
+      "scale": 1.0,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.13636363636363635,
+        "0.1": 0.7878787878787878,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.19696969696969696,
+        "0.1": 0.8181818181818182,
+        "0.25": 1.0,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.07235014878491192,
+      "functional_contraction": 1.9377307183104617,
+      "functional_spread_early": 0.07840997219269136,
+      "learning_rate": 0.01,
+      "learning_rate_baseline": 0.01,
+      "loss_decrease": 0.054881080687604555,
+      "loss_early": 1.434896686307743,
+      "loss_start": 1.4897777669953476,
+      "parameter_spread_early": 4.999576614984837,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.7121212121212122,
+        "0.5": 1.0
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.9393939393939394,
+        "0.5": 1.0
+      },
+      "final_functional_spread": 0.1665143510111568,
+      "functional_contraction": 1.3182239550899473,
+      "functional_spread_early": 0.20863139458023933,
+      "learning_rate": 0.05,
+      "learning_rate_baseline": 0.05,
+      "loss_decrease": 0.07917260648641467,
+      "loss_early": 1.410605160508933,
+      "loss_start": 1.4897777669953476,
+      "parameter_spread_early": 4.837907422441662,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 16
+    },
+    {
+      "basin_coherence_early": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.12121212121212122,
+        "0.5": 0.8484848484848485
+      },
+      "failed": false,
+      "family": "symmetry",
+      "final_coherence": {
+        "0.05": 0.0,
+        "0.1": 0.0,
+        "0.25": 0.4090909090909091,
+        "0.5": 0.9848484848484849
+      },
+      "final_functional_spread": 0.2636137457702851,
+      "functional_contraction": 1.0196430572882962,
+      "functional_spread_early": 0.3553515913397574,
+      "learning_rate": 0.15,
+      "learning_rate_baseline": 0.15,
+      "loss_decrease": 0.09077988986353791,
+      "loss_early": 1.3989978771318097,
+      "loss_start": 1.4897777669953476,
+      "parameter_spread_early": 4.656589841299235,
+      "scale": 1.4,
+      "seed": 2,
+      "width": 16
+    }
+  ],
+  "result_1_falsifier_1_does_not_fire": "Loss statistics are weak predictors of final functional agreement: |rho_s| = 0.246 for early loss and 0.51 for loss decrease, against 0.95-0.98 for the functional quantities. Basin-style measurement does add predictive value beyond loss, so preregistration falsifier 1 does not fire.",
+  "result_2_basin_coherence_is_eliminated": "The elaborate coherence statistic is beaten by the simplest functional quantity. Controlling for early functional spread, basin coherence's partial correlation with the final spread is -0.18 (noise) and -0.23 (symmetry): it adds nothing and flips sign. The candidate does not earn its complexity and is dropped.",
+  "result_3_quotient_framing_survives_a_correction": "On marginal Spearman the raw parameter baseline looked tied with the functional metric in the noise family (0.975 vs 0.980), which would have fired falsifier 6. That reading was wrong. Under partial correlation the parameter metric collapses to +0.21 given functional spread, while functional spread retains +0.81 given the parameter metric. The functional/quotient metric genuinely dominates, and it is not a learning-rate proxy either: partial correlation given learning rate is +0.928 in both families.",
+  "result_4_the_persistence_null_largely_holds": "The dominant explanation is persistence, and it was tested rather than assumed. log10(final / early) spans only 0.31-0.35 decades, mean +0.01, with 44-46 percent of cells contracting. Final functional spread is within about a factor of two of the early value across the whole grid, while the spread itself varies over orders of magnitude. Early spread does carry a mild mean-reversion signal (corr -0.57 to -0.62 with the log ratio), but that is modest. Early functional spread is therefore a useful DIAGNOSTIC, not evidence of new basin structure.",
+  "schema_version": "1.0.0",
+  "stage": "3-4 \u2014 smallest experiment capable of falsifying basin coherence",
+  "verdict": "MIXED, LEANING DEFLATIONARY. One candidate eliminated; the quotient framing survives.",
+  "what_this_costs_discovery_002": "Two specific candidates of the new framework have now failed on their first tests: the escape-to-a-contracting-basin explanation of the DISCOVERY-001 failure (refuted at stage 2, 40 of 72 cells stayed above the quadratic threshold and converged anyway), and basin coherence itself (eliminated here). The framework's general premise, that trajectory- and function-level measurement beats point geometry and raw parameters, survives both."
+}

@@ -1,0 +1,120 @@
+{
+  "end_to_end": [
+    {
+      "max_logit_divergence": 2.384185791015625e-06,
+      "max_total_variation": 1.1785329789154586e-07,
+      "model_seed": 0,
+      "optimizer": "sgd",
+      "reference_logit_scale": 8.081952095031738
+    },
+    {
+      "max_logit_divergence": 9.5367431640625e-07,
+      "max_total_variation": 6.988999476679678e-08,
+      "model_seed": 0,
+      "optimizer": "adamw",
+      "reference_logit_scale": 8.795881271362305
+    },
+    {
+      "max_logit_divergence": 9.5367431640625e-07,
+      "max_total_variation": 1.2016143813298186e-07,
+      "model_seed": 1,
+      "optimizer": "sgd",
+      "reference_logit_scale": 7.374618053436279
+    },
+    {
+      "max_logit_divergence": 1.430511474609375e-06,
+      "max_total_variation": 1.0567929691410183e-07,
+      "model_seed": 1,
+      "optimizer": "adamw",
+      "reference_logit_scale": 7.795062065124512
+    },
+    {
+      "max_logit_divergence": 1.430511474609375e-06,
+      "max_total_variation": 1.9530128454042783e-07,
+      "model_seed": 2,
+      "optimizer": "sgd",
+      "reference_logit_scale": 10.165706634521484
+    },
+    {
+      "max_logit_divergence": 9.5367431640625e-07,
+      "max_total_variation": 8.963474606993316e-08,
+      "model_seed": 2,
+      "optimizer": "adamw",
+      "reference_logit_scale": 8.518970489501953
+    }
+  ],
+  "experiment_id": "QE-000006",
+  "float32_eps": 1.1920928955078125e-07,
+  "map": {
+    "declared_level": "E2",
+    "name": "complex_realification",
+    "transport_degenerate": false
+  },
+  "optimizer_isolation": [
+    {
+      "bitwise_conjugate": false,
+      "epsilon": 1e-08,
+      "max_parameter_divergence": 1.1920928955078125e-07,
+      "optimizer": "sgd",
+      "weight_decay": 0.0,
+      "within_one_ulp": true
+    },
+    {
+      "bitwise_conjugate": false,
+      "epsilon": 1e-08,
+      "max_parameter_divergence": 1.1920928955078125e-07,
+      "optimizer": "sgd",
+      "weight_decay": 0.01,
+      "within_one_ulp": true
+    },
+    {
+      "bitwise_conjugate": true,
+      "epsilon": 1e-08,
+      "max_parameter_divergence": 0.0,
+      "optimizer": "adamw",
+      "weight_decay": 0.0,
+      "within_one_ulp": true
+    },
+    {
+      "bitwise_conjugate": true,
+      "epsilon": 0.1,
+      "max_parameter_divergence": 0.0,
+      "optimizer": "adamw",
+      "weight_decay": 0.0,
+      "within_one_ulp": true
+    },
+    {
+      "bitwise_conjugate": true,
+      "epsilon": 1e-08,
+      "max_parameter_divergence": 0.0,
+      "optimizer": "adamw",
+      "weight_decay": 0.01,
+      "within_one_ulp": true
+    },
+    {
+      "bitwise_conjugate": true,
+      "epsilon": 0.1,
+      "max_parameter_divergence": 0.0,
+      "optimizer": "adamw",
+      "weight_decay": 0.01,
+      "within_one_ulp": true
+    }
+  ],
+  "outcome_eligible": false,
+  "profile": "discovery",
+  "protocol_deviations": [
+    "The activation is a split tanh rather than analytic complex tanh, deliberately, so the optimizer question is not confounded with the pole discrepancy of QE-000001.",
+    "Discovery split: these cells may inform estimator design and may not be reused for confirmation."
+  ],
+  "schema_version": "1.0.0",
+  "scientific_interpretation": "Discovery evidence on an analytic microcosm. PyTorch keeps per-component moments for complex parameters rather than modulus-based ones, so complex AdamW is bitwise identical to AdamW on the realified pair even under weight decay and a large epsilon. A genuinely non-degenerate complex/real map is therefore exactly conjugate as an update rule: complex parameterization supplies no optimizer geometry in this framework. SGD leaves a residual at one unit in the last place, which is complex kernel arithmetic (H4) rather than optimizer geometry (H2). Any complex-versus-real performance gap observed in PyTorch must therefore originate in function class, initialization, or numerics, and cannot be attributed to optimizer coordinates. Nothing here supports an architecture claim or a transport-covariance law.",
+  "split": "discovery",
+  "status": "complete",
+  "summary": {
+    "adamw_bitwise_conjugate_in_all_cells": true,
+    "map_is_non_degenerate": true,
+    "sgd_within_one_ulp_in_all_cells": true,
+    "worst_end_to_end_logit_divergence": 2.384185791015625e-06,
+    "worst_sgd_isolation_divergence": 1.1920928955078125e-07
+  }
+}

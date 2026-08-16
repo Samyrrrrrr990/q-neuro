@@ -1,0 +1,35 @@
+experiment: hidden_unit_permutation_zero_defect_control
+description: Exact discrete symmetry control for the equivalence compiler. Establishes
+  that correctly transported optimizer state yields a rounding-scale defect and that
+  a broken transport is detected.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: instrument_control
+outcome_eligible: false
+family: permutation_symmetry
+model:
+  in_features: 6
+  hidden: 12
+  out_features: 4
+training:
+  optimizers:
+  - sgd
+  - adamw
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  warmup_steps: 15
+  measured_steps: 25
+  batch_size: 32
+  device: cpu
+seeds:
+  model:
+  - 0
+  - 1
+  - 2
+  permutation_offset: 1
+  stream: 11
+thresholds:
+  transported_tolerance_eps_multiple: 100.0
+  minimum_detection_ratio: 1000.0
+  minimum_broken_divergence: 0.0001

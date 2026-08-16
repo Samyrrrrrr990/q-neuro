@@ -28,13 +28,13 @@
     },
     {
       "path": "Makefile",
-      "bytes": 7021,
-      "sha256": "31014f8396c2bb27c9f4456be9c824181e00e2221a7d489f78d40c0ebd0bfefa"
+      "bytes": 7821,
+      "sha256": "5742e07f5f9d99cd97626543df82b0a5feb1655dd20f18c5f680cdb3e454f665"
     },
     {
       "path": "README.md",
-      "bytes": 5181,
-      "sha256": "eeaed69f5e8625c50d4193db77712529bfa751e01da5b0e578a4b08c149b83b8"
+      "bytes": 7997,
+      "sha256": "7ed6a1a3a5d1de9bd797df1bd9a4c9fb815c02af3b7f3c159ad1565fbc42b6d3"
     },
     {
       "path": "RELEASE_NOTES.md",
@@ -48,13 +48,13 @@
     },
     {
       "path": "RESULTS.md",
-      "bytes": 37993,
-      "sha256": "3b51a97f68dcc1ae7fce33420845020c100dbb88339934d3609cd5cde9295f0b"
+      "bytes": 39228,
+      "sha256": "88d27d3ba2e5172f4b4425dbe13f4b22a2677b34e306e72b938942251f70e770"
     },
     {
       "path": "dashboard/data.js",
-      "bytes": 78910,
-      "sha256": "da4f3acd32f44d716a1b70566678750fc4bd73968f42df07bb42875d7381ad8d"
+      "bytes": 80116,
+      "sha256": "01f17f85b62fd5dbb62a2116e8753dc66749d4776ed58ef75aac073d67842a33"
     },
     {
       "path": "docs/PREREGISTRATION_AMENDMENT_001.md",
@@ -233,13 +233,13 @@
     },
     {
       "path": "research/claims.json",
-      "bytes": 8602,
-      "sha256": "58c2de7c5ef8a717211eb007436e52fc9927701b09a55e287b276c77691d181a"
+      "bytes": 11038,
+      "sha256": "ff3195cac218d0d9a073ef6789035055aa8651e99b432b49c19310cbad235f31"
     },
     {
       "path": "research/failures.json",
-      "bytes": 2104,
-      "sha256": "86da6a073fd8dd13976d6e1c53fb768d925648b8d800e7ab1f133a7259f7c245"
+      "bytes": 21904,
+      "sha256": "7bd5310d4940dc123f50e37a4a9eae6574bd3e48ead873a38db41426c6a77714"
     },
     {
       "path": "research/figures/generated/falsification_phase.pdf",
@@ -258,8 +258,8 @@
     },
     {
       "path": "research/review_report.json",
-      "bytes": 105,
-      "sha256": "ad7007816162b11fb866a3339ac1e0e5c6f7e8128c61d5dc1f10db33e11f2f0f"
+      "bytes": 106,
+      "sha256": "90fbf34052f37dd48aa36ca741c6f4fd84a3da94aa054608962a33dc9b6f8655"
     },
     {
       "path": "scripts/verify_release.py",

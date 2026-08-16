@@ -1,0 +1,42 @@
+experiment: complex_exact_real_certificate_and_pole_reachability
+description: Formalizes the historical complex/exact-real mapping as a flagged transport-degenerate
+  map, certifies it at E2 on a declared domain, and measures how close training drives
+  the pre-activation to a pole of complex tanh.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+amendment_document: docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md
+profile: instrument
+outcome_eligible: false
+family: complex_real
+model:
+  num_tokens: 16
+  pad_token: 15
+  state_dim: 8
+  rank: 2
+  num_classes: 5
+  step_size: 0.35
+training:
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  steps: 60
+  batch_size: 24
+  sequence_length: 12
+  device: cpu
+seeds:
+  model:
+  - 0
+  - 1
+  - 2
+  data: 1234
+declared_domain:
+  excluded: min_k |delta - i(2k+1)pi/2| <= rho_c
+  critical_radius:
+    float32: 0.00155
+    float64: 3.16e-08
+  measurement: bisection over 16 approach angles at 1e-3 relative tolerance
+protocol_deviations:
+- Reachability is probed on random token streams, not on the historical NeuroWorld
+  or independent generators, because the falsification-phase runs saved no activations.
+- A single configuration is probed; this cannot establish that the excluded region
+  is globally unreachable.

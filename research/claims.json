@@ -12,7 +12,17 @@
       ],
       "counterevidence": [
         "This does not imply that every complex-valued architecture or optimization trajectory is equivalent to every unconstrained real network.",
-        "Different parameterizations can impose different inductive biases even when the represented mapped function is the same."
+        "Different parameterizations can impose different inductive biases even when the represented mapped function is the same.",
+        "AMENDMENT-001: the two implementations do not merely represent the same function class; they share the same real parameter coordinates. ComplexOperatorState stores only real-valued nn.Parameters and constructs complex tensors inside the forward pass, so the parameter map between the two models is the identity and the observed agreement is a numerical-implementation result rather than a coordinate-transport result."
+      ],
+      "amendments": [
+        {
+          "amendment_id": "AMENDMENT-001",
+          "date": "2026-08-14",
+          "document": "docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md",
+          "effect": "narrows interpretation; no numerical value changed",
+          "summary": "The complex/exact-real pair is one parameterization with two implementations, not two parameterizations of one function class. Equivalence level is downgraded from implied E1 to E2/E3 on a declared input domain because the two complex-tanh implementations diverge near the pole at i*pi/2."
+        }
       ],
       "supporting_experiments": ["QN-000033", "QN-000042"],
       "effect_size": {"metric": "maximum_absolute_top1_difference", "value": 0.0, "cells": 1920},
@@ -35,7 +45,18 @@
       ],
       "counterevidence": [
         "The independent discovery and confirmation profiles are outcome-ineligible and compute-reduced.",
-        "The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run."
+        "The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run.",
+        "AMENDMENT-001: the 1,920 held-out cells are not 1,920 independent architecture comparisons. The cellwise best-real winner was exact_real_block_operator in 1,478 cells (77%) with mean effect exactly +0.00000 and 1,478 exact zeros, and real_polar_operator in 442 cells (23%) with mean -0.03978. The 1,478 zeros are equivalence-induced ties with an implementation that shares the complex model's parameter coordinates, not independent wins by a distinct real architecture. The entire -0.00916 mean is carried by the 442 real_polar_operator cells.",
+        "AMENDMENT-001: QN-000040 is the healthier heterogeneous-control result. There state_space (637 cells, -0.09063), real_polar_operator (485, -0.04687), and gru (367, -0.07073) win 52% of discovery cells against exact_real_block_operator's 1,391."
+      ],
+      "amendments": [
+        {
+          "amendment_id": "AMENDMENT-001",
+          "date": "2026-08-14",
+          "document": "docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md",
+          "effect": "strengthens the negative result; no numerical value changed",
+          "summary": "The falsification of the intrinsic-complex-arithmetic claim now rests on two explicitly separated legs: exact realification reproduces the implemented computation, and genuinely distinct real controls outperform it. The 1,920-cell headline must distinguish equivalence-induced zeros from independent architecture wins."
+        }
       ],
       "supporting_experiments": ["QN-000040", "QN-000042"],
       "effect_size": {"metric": "mean_complex_minus_best_real_top1", "value": -0.009157985999869804},

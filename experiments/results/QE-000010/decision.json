@@ -1,0 +1,95 @@
+{
+  "decision": "REFUSED. Gate D did not pass. No primary estimator is frozen. Rungs 5 to 8 remain sealed and QE-000012 may not run.",
+  "decision_rule": "No estimator may be frozen, and no sealed confirmation family may be opened, unless a candidate beat every section 6.4 baseline on at least two discovery families out-of-family.",
+  "diagnosis": {
+    "consecutive_gaps": [
+      {
+        "above": "native_complex",
+        "below": "permutation",
+        "gap_orders_of_magnitude": 0.5757310526056125
+      },
+      {
+        "above": "factorization",
+        "below": "native_complex",
+        "gap_orders_of_magnitude": 0.816466771633984
+      },
+      {
+        "above": "scaling_orbit",
+        "below": "factorization",
+        "gap_orders_of_magnitude": -0.7141442848197358
+      }
+    ],
+    "families_overlap_in_scale": false,
+    "family_median_spread_orders_of_magnitude": 6.470111939566769,
+    "family_order_by_scale": [
+      "permutation",
+      "native_complex",
+      "factorization",
+      "scaling_orbit"
+    ],
+    "out_of_family_wins": {
+      "amplified_defect": [],
+      "cumulative_defect": [
+        "factorization"
+      ]
+    },
+    "target_spread_log10": {
+      "factorization": {
+        "max": -0.6223275793629547,
+        "median": -0.817332688507943,
+        "min": -1.577998163010251,
+        "n": 24.0
+      },
+      "native_complex": {
+        "max": -2.394464934644235,
+        "median": -5.260932068589994,
+        "min": -6.321629908943605,
+        "n": 48.0
+      },
+      "permutation": {
+        "max": -6.897360961549218,
+        "median": -7.048628636879868,
+        "min": -7.224719895935548,
+        "n": 48.0
+      },
+      "scaling_orbit": {
+        "max": -0.02022392277537856,
+        "median": -0.5785166973130982,
+        "min": -1.3364718641826905,
+        "n": 96.0
+      }
+    },
+    "widest_gap": {
+      "above": "factorization",
+      "below": "native_complex",
+      "gap_orders_of_magnitude": 0.816466771633984
+    },
+    "within_family_wins": {
+      "amplified_defect": {
+        "count": 2,
+        "families_beating_all_baselines": [
+          "permutation",
+          "scaling_orbit"
+        ]
+      },
+      "cumulative_defect": {
+        "count": 2,
+        "families_beating_all_baselines": [
+          "factorization",
+          "scaling_orbit"
+        ]
+      }
+    }
+  },
+  "experiment_id": "QE-000010",
+  "frozen_estimator": null,
+  "gate": "D",
+  "gate_d_passed": false,
+  "outcome_eligible": false,
+  "profile": "freeze",
+  "schema_version": "1.0.0",
+  "scientific_interpretation": "The candidate accumulated-defect estimators carry real within-family signal \u2014 cumulative_defect reaches within-family R-squared 0.962 on factorization and 0.812 on the scaling orbit, beating every baseline on both \u2014 but they do not transfer across families. Family medians on the target scale differ by about 6.5 orders of magnitude, from roughly 1e-7 for permutation, where the map is conjugate and there is almost nothing left to predict, to roughly 1e-0.6 for the scaling orbit. The ranges chain rather than separating cleanly, so the problem is not a single gap: it is that one global slope and intercept are forced onto families whose own intercepts differ by orders of magnitude, which makes every out-of-family fit worse than predicting the mean. This is a calibration failure, not an absence of signal, and it is recorded as a negative result under section 8 rather than retried with different features.",
+  "source_experiment": "QE-000009",
+  "source_sha256_note": "see release/manifest.json once QE artifacts are added to the manifest",
+  "status": "refused"
+}

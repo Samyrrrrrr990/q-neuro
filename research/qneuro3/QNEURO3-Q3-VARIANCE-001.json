@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-Q3-VARIANCE-001",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "title": "Q3's adaptive-halting result is bimodal across initialisation seeds, and its failure mode is silent",
+  "why_this_was_run": [
+    "The frozen prediction QNEURO3-Q3-P1 failed on three of four difficulty distributions, with",
+    "ACCURACY rather than step count as the thing that broke. Before accepting that as evidence",
+    "about difficulty distributions, the boring explanation had to be tested: that the training",
+    "run itself is unreliable and the original 0.9995 headline was one favourable seed."
+  ],
+  "design": {
+    "architecture": "Q3Arrival, unchanged, 27970 parameters",
+    "factors": ["task construction (chase_to_goal vs chase_to_goal_weighted with uniform weights)", "training batches (500 vs 400)", "initialisation seed (0-4)"],
+    "held_fixed": "AdamW lr 2e-3, 8 epochs, batch 128, grad-norm clip 1.0, 24 nodes, d=64, max_depth 8, identical frozen validation set per task",
+    "runs": 20
+  },
+  "results": {
+    "chase_to_goal_500_batches": [
+      {"seed": 0, "accuracy": 0.9994, "avg_steps": 4.54},
+      {"seed": 1, "accuracy": 0.4308, "avg_steps": 5.96},
+      {"seed": 2, "accuracy": 0.9998, "avg_steps": 4.54},
+      {"seed": 3, "accuracy": 1.0000, "avg_steps": 4.54},
+      {"seed": 4, "accuracy": 0.4913, "avg_steps": 5.75}
+    ],
+    "chase_to_goal_400_batches": [
+      {"seed": 0, "accuracy": 0.9998, "avg_steps": 4.54},
+      {"seed": 1, "accuracy": 0.4181, "avg_steps": 6.00},
+      {"seed": 2, "accuracy": 0.9997, "avg_steps": 4.54},
+      {"seed": 3, "accuracy": 0.9998, "avg_steps": 4.54},
+      {"seed": 4, "accuracy": 0.5105, "avg_steps": 5.55}
+    ],
+    "chase_to_goal_weighted_500_batches": [
+      {"seed": 0, "accuracy": 1.0000, "avg_steps": 4.55},
+      {"seed": 1, "accuracy": 0.4680, "avg_steps": 5.68},
+      {"seed": 2, "accuracy": 0.4283, "avg_steps": 6.12},
+      {"seed": 3, "accuracy": 0.5387, "avg_steps": 5.53},
+      {"seed": 4, "accuracy": 0.5636, "avg_steps": 5.18}
+    ],
+    "chase_to_goal_weighted_400_batches": [
+      {"seed": 0, "accuracy": 0.4356, "avg_steps": 6.12},
+      {"seed": 1, "accuracy": 0.4558, "avg_steps": 5.96},
+      {"seed": 2, "accuracy": 0.4455, "avg_steps": 6.05},
+      {"seed": 3, "accuracy": 0.4766, "avg_steps": 5.95},
+      {"seed": 4, "accuracy": 0.5664, "avg_steps": 5.33}
+    ]
+  },
+  "findings": [
+    {
+      "id": "V1",
+      "finding": "The outcome is BIMODAL, not graded. Every run lands either at accuracy 0.9994-1.0000 with 4.54-4.55 average steps, or at 0.4181-0.5664 with 5.18-6.12 average steps. Nothing lands between 0.57 and 0.99. Reaching the arrival solution is a discrete event that either happens or does not."
+    },
+    {
+      "id": "V2",
+      "finding": "Seed dominates. Training volume does not: 500 vs 400 batches changes nothing on the original task (both 3 of 5 succeed, and the successes agree to within 0.0006 accuracy and 0.00 steps)."
+    },
+    {
+      "id": "V3",
+      "finding": "Success rate on chase_to_goal is 6 of 10. The 0.9995 headline was drawn from one of the successful seeds. It was not fabricated and it reproduces exactly on seeds 0, 2 and 3 -- but as an unqualified statement about the architecture it was wrong, because it omitted that 4 of 10 identical runs do not get there."
+    },
+    {
+      "id": "V4",
+      "finding": "Success rate on chase_to_goal_weighted is 1 of 10, against 6 of 10 on chase_to_goal, despite the two tasks inducing the same distance distribution under uniform weights. The two constructions differ only in how the start node is drawn (rejection sampling over all nodes versus sampling the distance directly). This gap is not explained and is recorded as OPEN. It is not used to argue anything in either direction."
+    },
+    {
+      "id": "V5",
+      "severity": "high",
+      "finding": "THE FAILURE MODE IS SILENT AND MIMICS SUCCESS. A collapsed run reports 5.2-6.1 average steps: a plausible, non-degenerate, adaptive-looking allocation, comfortably below the fixed depth of 8. Read the step counter alone and every one of the 13 failed runs looks like a working elastic-depth model delivering a 1.3x-1.5x saving. Only the accuracy column reveals that the model is wrong more than half the time. Any adaptive-compute system whose halting signal is also its answer can fail this way, and a compute-saving number reported without a matched accuracy number cannot distinguish the two states."
+    }
+  ],
+  "consequences": [
+    "The Q3 headline is restated as: 0.9994-1.0000 accuracy at 4.54 steps ON 6 OF 10 SEEDS, and 0.42-0.51 accuracy at 5.6-6.0 steps on the other 4. The 1.77x figure applies only to the successful mode.",
+    "QNEURO3-Q3-P1's three failing distributions are now explained by training unreliability rather than by any property of difficulty distributions. The frozen distribution law remains FAILED and is not re-issued: an untestable prediction is not a surviving one.",
+    "The cycle-1 mixture-vs-commit mechanism result is unaffected. It was a single-variable intervention at a fixed seed and is a claim about the contrast, not about absolute attainment."
+  ],
+  "open_questions": [
+    "V4: why the two task constructions differ by 6x in success rate.",
+    "Whether the bimodality is curable by an architectural or training change that does not add inference cost. Any attempt requires a NEW prediction frozen in advance with a seed-reliability criterion, not a re-opening of QNEURO3-Q3-P1."
+  ]
+}

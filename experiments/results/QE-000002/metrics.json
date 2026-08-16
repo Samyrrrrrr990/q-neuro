@@ -1,0 +1,162 @@
+{
+  "certificates": [
+    {
+      "declared_level": "E2",
+      "device": "cpu",
+      "domain": null,
+      "downgrades": [],
+      "dtype": "float32",
+      "environment": {},
+      "known_failure_modes": [],
+      "map_name": "hidden_unit_permutation",
+      "model_seed": 0,
+      "notes": "Exact discrete symmetry. Reordering performs no arithmetic, so the parameter map is bitwise exact; residual divergence originates in the second layer's reduction order, which is a genuine numerical-implementation effect.",
+      "residuals": {
+        "loss": 0.0,
+        "max_gradient": 1.4901161193847656e-08,
+        "max_logit": 5.960464477539063e-08,
+        "parameter_round_trip": 0.0
+      },
+      "schema_version": "1.0.0",
+      "source": "TwoLayerMLP",
+      "target": "TwoLayerMLP(permuted)",
+      "transport_degenerate": false,
+      "transport_level": 4
+    },
+    {
+      "declared_level": "E2",
+      "device": "cpu",
+      "domain": null,
+      "downgrades": [],
+      "dtype": "float32",
+      "environment": {},
+      "known_failure_modes": [],
+      "map_name": "hidden_unit_permutation",
+      "model_seed": 1,
+      "notes": "Exact discrete symmetry. Reordering performs no arithmetic, so the parameter map is bitwise exact; residual divergence originates in the second layer's reduction order, which is a genuine numerical-implementation effect.",
+      "residuals": {
+        "loss": 0.0,
+        "max_gradient": 7.450580596923828e-09,
+        "max_logit": 1.1920928955078125e-07,
+        "parameter_round_trip": 0.0
+      },
+      "schema_version": "1.0.0",
+      "source": "TwoLayerMLP",
+      "target": "TwoLayerMLP(permuted)",
+      "transport_degenerate": false,
+      "transport_level": 4
+    },
+    {
+      "declared_level": "E2",
+      "device": "cpu",
+      "domain": null,
+      "downgrades": [],
+      "dtype": "float32",
+      "environment": {},
+      "known_failure_modes": [],
+      "map_name": "hidden_unit_permutation",
+      "model_seed": 2,
+      "notes": "Exact discrete symmetry. Reordering performs no arithmetic, so the parameter map is bitwise exact; residual divergence originates in the second layer's reduction order, which is a genuine numerical-implementation effect.",
+      "residuals": {
+        "loss": 0.0,
+        "max_gradient": 1.4901161193847656e-08,
+        "max_logit": 5.960464477539063e-08,
+        "parameter_round_trip": 0.0
+      },
+      "schema_version": "1.0.0",
+      "source": "TwoLayerMLP",
+      "target": "TwoLayerMLP(permuted)",
+      "transport_degenerate": false,
+      "transport_level": 4
+    }
+  ],
+  "experiment_id": "QE-000002",
+  "float32_eps": 1.1920928955078125e-07,
+  "outcome_eligible": false,
+  "profile": "instrument_control",
+  "records": [
+    {
+      "broken_detected": true,
+      "broken_max_logit_divergence": 0.017166554927825928,
+      "broken_max_total_variation": 0.0053515210439585015,
+      "detection_ratio": 144003.5,
+      "model_seed": 0,
+      "optimizer": "sgd",
+      "tolerance": 1.5003645614797279e-05,
+      "transported_max_logit_divergence": 1.1920928955078125e-07,
+      "transported_max_total_variation": 3.4407170182437774e-08,
+      "transported_within_tolerance": true
+    },
+    {
+      "broken_detected": true,
+      "broken_max_logit_divergence": 0.027979731559753418,
+      "broken_max_total_variation": 0.00914766550986465,
+      "detection_ratio": 234711.0,
+      "model_seed": 0,
+      "optimizer": "adamw",
+      "tolerance": 1.3811911969696666e-05,
+      "transported_max_logit_divergence": 1.1920928955078125e-07,
+      "transported_max_total_variation": 2.9633272224938167e-08,
+      "transported_within_tolerance": true
+    },
+    {
+      "broken_detected": true,
+      "broken_max_logit_divergence": 0.0160139799118042,
+      "broken_max_total_variation": 0.0054500336069933375,
+      "detection_ratio": 134335.0,
+      "model_seed": 1,
+      "optimizer": "sgd",
+      "tolerance": 1.3432173773253453e-05,
+      "transported_max_logit_divergence": 1.1920928955078125e-07,
+      "transported_max_total_variation": 3.1914797193888234e-08,
+      "transported_within_tolerance": true
+    },
+    {
+      "broken_detected": true,
+      "broken_max_logit_divergence": 0.03905832767486572,
+      "broken_max_total_variation": 0.010637730444203616,
+      "detection_ratio": 327645.0,
+      "model_seed": 1,
+      "optimizer": "adamw",
+      "tolerance": 1.2484744615903764e-05,
+      "transported_max_logit_divergence": 1.1920928955078125e-07,
+      "transported_max_total_variation": 3.2633371768731045e-08,
+      "transported_within_tolerance": true
+    },
+    {
+      "broken_detected": true,
+      "broken_max_logit_divergence": 0.016585230827331543,
+      "broken_max_total_variation": 0.005445736255768108,
+      "detection_ratio": 139127.0,
+      "model_seed": 2,
+      "optimizer": "sgd",
+      "tolerance": 1.4317802765617671e-05,
+      "transported_max_logit_divergence": 1.1920928955078125e-07,
+      "transported_max_total_variation": 3.407166579427745e-08,
+      "transported_within_tolerance": true
+    },
+    {
+      "broken_detected": true,
+      "broken_max_logit_divergence": 0.03267809748649597,
+      "broken_max_total_variation": 0.009740896081552236,
+      "detection_ratio": 274123.75,
+      "model_seed": 2,
+      "optimizer": "adamw",
+      "tolerance": 1.3737457038587308e-05,
+      "transported_max_logit_divergence": 1.1920928955078125e-07,
+      "transported_max_total_variation": 3.794682618130096e-08,
+      "transported_within_tolerance": true
+    }
+  ],
+  "schema_version": "1.0.0",
+  "scientific_interpretation": "Instrument validation only. A passing gate shows that the equivalence framework can distinguish a correctly transported exact symmetry from a broken one. It establishes nothing about any architecture, and it cannot support any transport-covariance claim.",
+  "status": "complete",
+  "summary": {
+    "all_maps_non_degenerate": true,
+    "gate_passes": true,
+    "negative_control_passes": true,
+    "positive_control_passes": true,
+    "smallest_detection_ratio": 134335.0,
+    "worst_transported_divergence": 1.1920928955078125e-07
+  }
+}

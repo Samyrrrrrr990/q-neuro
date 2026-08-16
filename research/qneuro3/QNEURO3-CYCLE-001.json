@@ -1,0 +1,53 @@
+{
+  "date": "2026-08-15",
+  "hardware_profile_measured": {
+    "available_memory_gib": 2.08,
+    "design_consequence": "Under 2 GiB free, quadratic MEMORY binds before FLOPs do. Architectures with O(N^2) state were excluded on this basis before any were built. MPS only wins above ~65k elements, so small control logic stays on CPU.",
+    "machine": "Apple M2, 8 physical cores, torch 2.13.0",
+    "mps": true,
+    "mps_complex64": true,
+    "mps_cpu_crossover_elements": 65536,
+    "torch_threads": 4,
+    "unified_memory_gib": 8.0
+  },
+  "lane": "B",
+  "mechanism_confirmed_by_intervention": "The Q1 ceiling was diagnosed as the mixture output: the answer is a weighted average over every step's prediction, and on this task an intermediate state is simply the wrong node, so mixing it in caps accuracy regardless of tuning. Q2 changed exactly one thing, mixture to commit, holding core, halting head, parameters and training fixed. Accuracy moved 0.6241 -> 0.9999. The prediction was made before the change and the intervention produced the predicted effect. Generalisable statement: mixture halting is mismatched to tasks whose intermediate states are not valid answers.",
+  "next_by_evidence": "The failure is specifically that a scalar mean-depth penalty cannot induce per-example allocation. Any continuation must make the compute cost per-example and give the halting head a grounded arrival signal rather than a free scalar. If that also fails, adaptive depth is closed for this task family and the program should move to a different mechanism.",
+  "pareto_claim_falsified": "Neither variant beats fixed depth at matched compute. Q1 cannot reach full accuracy at any budget. Q2 reaches full accuracy only at full depth and loses at every reduced budget (4.79 steps -> 0.6112 against Q0's 0.6290 at 4.00; 2.79 -> 0.3556 against 0.3651 at 2.00). The scalar ponder penalty pressures MEAN depth, so the model trades global accuracy for global compute instead of learning per-example allocation, which is the property that was wanted.",
+  "prior_art": "Adaptive computation time and PonderNet are established. Nothing here claims novelty; the mixture-versus-commit diagnosis is a mechanism observation, not a new method.",
+  "program": "Q-Neuro 3.0",
+  "record_id": "QNEURO3-CYCLE-001",
+  "results": {
+    "Q0_frontier": {
+      "d1": 0.2512,
+      "d2": 0.3651,
+      "d3": 0.4918,
+      "d4": 0.629,
+      "d5": 0.7436,
+      "d6": 0.8771,
+      "d8": 1.0
+    },
+    "Q1_best": {
+      "acc": 0.6241,
+      "note": "ceiling; never approaches 1.0 at any ponder cost or halt-bias init",
+      "steps": 3.27
+    },
+    "Q2_best": {
+      "acc": 0.9999,
+      "note": "ceiling removed, but full depth; every reduced budget loses to Q0",
+      "steps": 8.0
+    }
+  },
+  "schema_version": "1.0.0",
+  "task": "chase-to-goal: a random single cycle over 24 nodes; report the distance from a random start to the goal node. Distance ~ U[1,8], guessing 0.136. Difficulty is a property of the DATA and is discoverable only by doing the work, so adaptive depth is meaningful rather than handed over.",
+  "title": "First architecture cycle: compute-elastic depth. Mechanism confirmed, Pareto claim falsified.",
+  "two_implementation_bugs_caught_before_any_claim": [
+    "Version 1 of the task never gave the model the hop count, making the target ambiguous given the input. All ten models returned exactly 0.1441, the guessing ceiling over reachable orbit points. Identical accuracy across ten different models is the signature of an unsolvable task, not a null.",
+    "Core.advance used one embedding for both keys and values, so following a chain was impossible: there was no way to match the current node against index j and read perm[j]. Every model sat at or below the 0.136 guessing baseline. After separating key and value embeddings, depth-8 reached 1.0000 by epoch 2."
+  ],
+  "variants": {
+    "Q0_fixed": "fixed-depth recurrent core, the honest baseline frontier",
+    "Q1_mixture": "PonderNet-style halting; output is the weighted average over steps",
+    "Q2_commit": "identical core and halting head, but COMMITS to the readout at the halt step"
+  }
+}

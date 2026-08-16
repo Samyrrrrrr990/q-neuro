@@ -272,3 +272,137 @@ failure.
 **Decision:** Use the engine to expose tensions and preregister falsifiable mutations. Do not call
 its proposals discoveries, optimize against a hidden aggregate score, or compare timing across
 contexts.
+
+## A single cross-family calibration for the transport-defect estimator
+
+**Why it seemed plausible:** If accumulated covariance defect really controls how far two
+semantics-equivalent systems drift apart, one calibration should predict the final gap wherever the
+defect is measurable. That is the whole content of the `transport_covariance_conjecture` at the
+level Gate D tests it.
+
+**What happened:** QE-000009 generated 216 transport traces across four discovery families
+(permutation, scaling orbit, native complex, dense-vs-factorized) and scored every candidate and
+baseline by leave-one-family-out held-out R². Every out-of-family fit was worse than predicting the
+mean. `cumulative_defect` beat all baselines on one family; Gate D requires two. `amplified_defect`
+beat all baselines on none.
+
+**Why it failed:** Not for lack of signal. *Within* family, `cumulative_defect` reaches R² 0.962 on
+factorization and 0.812 on the scaling orbit and beats every baseline on both. The problem is
+calibration: family medians on the target scale span about 6.5 orders of magnitude, from ~1e-7 for
+permutation — where the map is conjugate and there is essentially nothing left to predict — to
+~1e-0.6 for the scaling orbit. Forcing one global slope and intercept across that range is worse
+than the mean baseline everywhere.
+
+**A correction made along the way:** `one_step_defect` was originally listed as a candidate. With a
+mapped initialization `e_0 = 0`, so the first re-coupled step's defect is bit-for-bit the first
+step's predictive divergence — identical in all 216 rows. It was a baseline wearing a candidate's
+label, and it would have "tied" its way toward the gate. It is now excluded, with the reason
+recorded in `qneuro/equivalence/estimators.py`.
+
+**Decision:** QE-000010 refused to freeze an estimator and left rungs 5–8 sealed. No features were
+added after the outcome was seen. Recorded as `FAIL-006`.
+
+**Worth revisiting:** Yes, but only as a *new* registered attempt with a stated reason. The obvious
+directions are a per-family random intercept — which changes what is being claimed, since a law
+needing per-family calibration is a weaker object than the conjecture states — or restricting the
+population to families where the map is non-conjugate, since two of the four sit at the rounding
+floor by construction and contribute no predictable variation.
+
+## The equivalence-breaking phase boundary as a general phenomenon
+
+**Why it seemed plausible:** DISCOVERY-001 found a sharp, analytically derived boundary at
+`rho = eta*lambda_max/2 = 1` separating "equivalent models train alike" from "one converges and its
+exact equivalent diverges." On least squares it predicted the target's stability with 99.12%
+accuracy, zero false alarms in 1,476 cells, and a confirmed differential prediction that Adam shows
+no boundary. It also explained the Gate D failure. It looked like a real phenomenon.
+
+**What happened:** Two frozen, hashed predictions were opened against an untouched nonlinear system
+(ReLU MLP, cross-entropy, full-batch GD, float64).
+
+- **P1 was vacuous.** The frozen grid used learning rates 0.05–0.2 against a measured curvature
+  range of 0.51–10.9, so `rho` never reached 1.1. There were 197 opportunities for a false alarm and
+  **zero** for a miss. It reported "passes: True" and that reading is meaningless. Preserved, not
+  re-tuned; P2 added a non-vacuity guard requiring cells on both sides of the band.
+- **P2 failed outright.** With the learning rate placed per-cell so that `rho` equalled its target
+  by construction, **96 of 96** cells at `rho >= 1.1` converged. The SGD divergence rate was
+  0.0000 even at `rho = 3.0`, with growth ratios of 1.03–1.27 against a threshold of 2.0.
+
+**Why it failed:** Exactly the failure mode frozen in P2 beforehand. `rho` is computed from the
+Hessian at the mapped initialization, but curvature is not constant for a nonlinear model. A ReLU
+network under cross-entropy relocates to flatter regions and the loss saturates, so an initially
+over-large step does not produce exponential growth. The defect is not calibration — it is that one
+initialization-time curvature does not govern a nonlinear trajectory.
+
+**What survived:** The `rho < 1 => stable` direction. Zero false alarms across 269 scored cells over
+both attempts. That half has never produced a counterexample.
+
+**Decision:** DISCOVERY-001 does not promote. It stands as a statement about **quadratic objectives
+only** and may not be described as a general property of equivalence breaking. Recorded as
+`FAIL-007`. No third prediction was issued: two attempts are consumed, and a third would require a
+materially different estimator — which would be a new discovery, not a rescue of this one.
+
+**Programme consequence:** This converts a stated risk into a measured one. Gate C passed on affine
+maps with exact Lipschitz constants, and that pass was explicitly scoped as saying nothing about
+nonlinear models. P2 is direct evidence that transport intuition built on analytic microcosms does
+not extrapolate.
+
+---
+
+## FAIL-023 / FAIL-024 / FAIL-025 — Adaptive depth: a real speedup that cannot be reported
+
+**Idea:** Let a recurrent model decide for itself how long to think. On `chase_to_goal` the model
+must report how far away a goal node is along a hidden cycle; the answer is discoverable only by
+following the chain, so the required depth genuinely varies per example and nothing in the input
+announces it. A fixed-depth model must always pay the worst case. An adaptive one should not.
+
+**What worked.** `Q3Arrival` halts when it detects arrival and treats the halt step itself as the
+answer. It reached **0.9995 accuracy at 4.53 average steps** against a fixed-depth baseline's
+1.0000 at 8.00 — a **1.77x** reduction in inference compute at 27,970 parameters against 28,360.
+That number is real. Seeds 0, 2 and 3 all reproduce it to within 0.0006 accuracy and 0.00 steps.
+
+**FAIL-023 — the frozen distribution law died.** `QNEURO3-Q3-P1` predicted in advance that the
+saving is a property of the workload rather than the architecture: `average steps = E[distance]`
+to within 0.25. Opened once against three untouched difficulty distributions, it failed three of
+four cells. What broke was **accuracy**, not step count — 0.4356, 0.2461 and 0.3334 against a
+required 0.99. For Q3 the halt step *is* the answer, so those step counts were untestable rather
+than merely wrong. The Q3b answer-decoupling control was not run, because it would have measured
+training reliability a second time under a different name; the question of whether Q3's result
+depends on answer-equals-step-count therefore **remains open**.
+
+**FAIL-024 — the headline was one seed in a bimodal distribution.** The boring explanation was
+tested first, and it was right. Re-running the *original* task at the *original* training budget
+across seeds 0–4 gives 0.9994, **0.4308**, 0.9998, 1.0000, **0.4913**. Over twenty runs spanning
+two task constructions and two training budgets, only **7 of 20** reach 0.99. The distribution is
+bimodal — every run is either 0.9994–1.0000 at 4.54 steps or 0.42–0.57 at 5.2–6.1 steps, and
+nothing lands in between. Training volume changes nothing; seed decides.
+
+The part worth carrying to any other adaptive-compute system: **the failure mode is silent and
+mimics success.** A collapsed run reports 5.2–6.1 average steps — a plausible, non-degenerate,
+adaptive-looking allocation comfortably under the fixed depth of 8. Read the step counter alone
+and all thirteen failed runs look like working elastic models delivering a 1.3–1.5x saving. Only
+the accuracy column shows the model is wrong more than half the time.
+
+**The matched control is what settles it.** `Q0Fixed` under identical conditions reaches ≥0.99 on
+**10 of 10** seeds, minimum 0.9919. The task is not flaky and the budget is sufficient; the
+unreliability belongs to the adaptive architecture. So Q3 buys 1.77x less compute in exchange for
+a 40% chance of a silently broken model, against a baseline that never breaks. Expected accuracy
+across seeds: **0.78 for Q3, 1.00 for Q0.**
+
+**FAIL-025 — the repair failed, and failed informatively.** `QNEURO3-Q4-P1` was frozen before any
+code was written: Q3 is bimodal because nothing forces its state to track position on the chain,
+so a training-only per-step position readout (zero inference cost, identical halting rule) should
+lift reliability to ≥9/10. Result: **0 of 10** on both tasks. The kill condition fired as written
+and no second variant was issued.
+
+It did half of what was predicted, and the useless half. The collapse mode is genuinely **gone** —
+no Q4 run falls below 0.6322 where four Q3 runs sat at 0.42–0.51. But the good mode went with it:
+Q4's best run anywhere is 0.9500. Grounding the state cured the variance by pulling both tails to
+the middle. The likely reason, offered as explanation and not as an established result, is that a
+24-way cross-entropy at every one of eight steps dominates the single scalar arrival signal, so
+the state is optimised to name the node rather than to make the one binary decision that matters.
+An easier auxiliary task can absorb the representation.
+
+**Decision:** Q-Neuro 3.0 cycle 1 closes negative. Adaptive depth does not beat fixed depth on
+this task family once reliability is counted alongside compute. Nothing here shows adaptive depth
+cannot win elsewhere; it shows that this instance does not, and that a speedup figure without a
+matched accuracy *and* a matched seed-reliability rate is not a result.

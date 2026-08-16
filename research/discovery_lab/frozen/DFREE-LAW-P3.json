@@ -1,0 +1,36 @@
+{
+  "prediction": {
+    "PREDICTIONS_DERIVED_BEFORE_MEASUREMENT": {
+      "abs": "homogeneous  -> g = 2h+1",
+      "elu": "NOT homogeneous -> g = h+1",
+      "gelu": "NOT homogeneous -> g = h+1",
+      "leaky_relu": "homogeneous  -> g = 2h+1",
+      "sigmoid": "NOT homogeneous -> g = h+1",
+      "softplus": "NOT homogeneous -> g = h+1"
+    },
+    "derivation": "Softmax invariance under adding a common vector to all logit rows gives h_last+1 always. If phi(cx) = c phi(x) for all c>0 then (W1,W2) -> (cW1, W2/c) is an exact function-preserving symmetry, one scaling per hidden unit, contributing h more. Non-homogeneous activations contribute none.",
+    "frozen_utc": "2026-08-15",
+    "grid": {
+      "classes": [
+        2,
+        3
+      ],
+      "hidden": [
+        7,
+        15
+      ],
+      "input_dims": [
+        4,
+        9
+      ]
+    },
+    "measurement_protocol": "g = P - rank(J_diff) at n=600 saturation; singular-value tolerance 1e-9*sigma_max; float64; parameters at initialization.",
+    "one_attempt": true,
+    "pass_criterion": "EXACT agreement for all six activations in every cell. One mismatch fails.",
+    "prediction_id": "DFREE-LAW-P3",
+    "schema_version": "1.0.0",
+    "statement": "g_arch = (h_last + 1) + h * [activation is positively homogeneous].  rank(J_diff) = min(n(C-1), P - g_arch).",
+    "supersedes": "DFREE-LAW-P2 (FAILED, 118/360: assumed g = h+1 universally; g is activation dependent)"
+  },
+  "sha256_of_prediction": "5a5abd9b1c1a3f7fa94504b61e06a3a3f3451e3e0ce0164e2a888040c36d4fde"
+}

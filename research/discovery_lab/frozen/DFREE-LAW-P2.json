@@ -1,0 +1,53 @@
+{
+  "prediction": {
+    "MEASUREMENT_PROTOCOL_FULLY_SPECIFIED": [
+      "1. Build J_diff: for each of n samples and each class c in 1..C-1, one row = grad_theta (logit_c - logit_0).",
+      "2. rank = number of singular values of J_diff exceeding 1e-9 * sigma_max.",
+      "3. Compare rank DIRECTLY against min(n*(C-1), P-(h_last+1)). No separately estimated gauge probe is used anywhere.",
+      "4. d_free = P - rank - (h_last+1), floored at 0.",
+      "5. float64 throughout; parameters at initialization (the law is architectural, not training dependent)."
+    ],
+    "falsifier": "Any cell where rank != min(n(C-1), P-(h_last+1)).",
+    "frozen_utc": "2026-08-15",
+    "one_attempt": true,
+    "pass_criterion": "EXACT integer agreement in every cell. A single mismatch fails.",
+    "prediction_id": "DFREE-LAW-P2",
+    "schema_version": "1.0.0",
+    "statement": "rank(J_diff) = min( n*(C-1), P - (h_last + 1) )  and  d_free = max(0, P - (h_last+1) - n*(C-1)).",
+    "status": "frozen before any P2 measurement",
+    "supersedes": "DFREE-LAW-P1 (substance confirmed 126/126 but freeze COMPROMISED: the measurement procedure was underspecified and was corrected after a failure was observed)",
+    "untouched_grid": {
+      "activations": [
+        "relu",
+        "tanh"
+      ],
+      "classes": [
+        2,
+        4,
+        7
+      ],
+      "depths": [
+        1,
+        3
+      ],
+      "hidden": [
+        5,
+        12,
+        20
+      ],
+      "input_dims": [
+        3,
+        10
+      ],
+      "n_values": [
+        15,
+        35,
+        75,
+        120,
+        300
+      ],
+      "note": "Every axis differs from P1: input dimension, activation, depth 3, and hidden widths absent from P1."
+    }
+  },
+  "sha256_of_prediction": "da962a222296f9d5baa95bf337bd17f4e66c61410c081c21947eaeb7b41a47be"
+}

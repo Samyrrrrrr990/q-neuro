@@ -1,0 +1,41 @@
+{
+  "date": "2026-08-15",
+  "gate_1_prior_art": {
+    "action": "Preserved as a strong baseline. Not rebranded. Gates 2-4 not run for it, because a known method does not need a novelty pipeline.",
+    "argument": "The EWC objective L_new + lambda*sum F_i (theta_i - theta*_i)^2 has proximal step argmin_delta [ g.delta + 0.5 delta^T (2 lambda F) delta ] = -(2 lambda F)^-1 g, which is exactly the navigator update with a diagonal F. The navigator uses the full GGN instead. Same objective, same constraint, same update family; full-versus-diagonal curvature is a known axis (Rotated EWC, K-FAC EWC, natural-gradient transfer).",
+    "measured_alignments": {
+      "diagonal_EWC_vs_OGD": 0.1098,
+      "full_GGN_vs_OGD_projection": 0.6646,
+      "full_GGN_vs_diagonal_proximal_EWC": 0.232
+    },
+    "result": "NOVELTY DEAD, on substance not on names."
+  },
+  "gate_random_baseline": "In 218 dimensions a random unit vector has expected |cos| ~ 1/sqrt(218) = 0.068. The random control measured -0.057, confirming the scale.",
+  "held_out_ood_gain_following_each_proxy": {
+    "ensemble_disagreement": 0.0007,
+    "entropy_on_extrapolated": 0.0017,
+    "grad_covariance_top": 0.0003,
+    "input_jacobian_norm": -0.0007,
+    "random_control": 0.0003,
+    "reading": "No proxy separates from the random control. Weak alignment does not convert into usable navigation."
+  },
+  "lane": "B",
+  "proxy_alignments_cos_with_v_true": {
+    "ensemble_disagreement": 0.1367,
+    "entropy_on_extrapolated": -0.0066,
+    "grad_covariance_top": 0.0834,
+    "input_jacobian_norm": -0.0011,
+    "random_control": -0.0565,
+    "reading": "Best proxy is ~3x the random scale. Everything else is indistinguishable from random.",
+    "sam_sharpness": 0.214
+  },
+  "record_id": "DISCOVERY-009",
+  "schema_version": "1.0.0",
+  "scope_and_honesty": "One system, 218 parameters, five proxy families. Augmentation disagreement, representation stability and explicit symmetry structure were NOT tested. This is a well-controlled negative with a random baseline, not a theorem. The identifiability argument above is the reason to expect it to generalize, and it is an argument, not a proof.",
+  "the_boundary_statement": "The direction that improves behaviour on distribution Q is a functional of Q. Training data drawn from P cannot determine it without an assumption linking P and Q. The negative result here is therefore not a failure of imagination about proxies; it is an instance of an identifiability limit. Controllability and discoverability come apart: given g_ood the direction is followable very efficiently (up to 35x better Pareto than plain gradient), and without g_ood it is not identifiable from the training-accessible signals tested.",
+  "the_deeper_question": "Given that controllability was demonstrated, the valuable question is discoverability: can a signal available during ordinary training identify the useful direction WITHOUT observing the OOD objective? Five training-only signal families were tested against the known-good direction v_true = (J^T J + lambda I)^-1 g_ood.",
+  "title": "Navigator gates: novelty dead at Gate 1; the useful direction is controllable but not discoverable",
+  "verdict": "NAVIGATOR FAMILY CLOSED in the practically important sense.",
+  "what_this_closes": "The Navigator family as a practical method. Gate 1 killed the novelty; the discoverability test killed the practical value of the non-novel version, because it requires the OOD gradient it was supposed to help you find.",
+  "what_would_reopen_it": "A stated, testable assumption linking P and Q that makes the direction identifiable, for example a known symmetry or invariance the shift must respect. That converts an unidentifiable problem into an estimable one, and it is the only route that does not contradict the boundary statement."
+}

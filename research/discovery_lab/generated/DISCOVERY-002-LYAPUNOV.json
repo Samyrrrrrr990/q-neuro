@@ -1,0 +1,26 @@
+{
+  "admissible_next_step": "Exhibit a system with demonstrated bimodal functional outcomes. Until such a system exists, neither the committor nor quotient Lyapunov can be evaluated against the bifurcation target, and any candidate claiming to predict bifurcation is untestable rather than supported.",
+  "baseline_frozen": "BASELINE-EFS-001 (sha256 2dce11f4...) plus learning rate and early loss",
+  "honest_reading": "The absolute gain is small because the frozen baseline already explains about 96 percent of held-out variance. In residual terms the gain is substantial and consistent: roughly half the remaining held-out error, in both perturbation families, on seeds never previously touched. But the quantity is the derivative of the baseline, not new information of a different kind.",
+  "lane": "B",
+  "protocol": "Fitted on 108 cells at seeds 0-2 (already used in exploration) and evaluated on 108 cells at seeds 3-5 that had never been generated before this test. Linear model in log space; the only difference between the two fits is the added quotient Lyapunov term.",
+  "quotient_lyapunov_definition": "log10(functional spread at step 75 / functional spread at step 25) divided by the 50-step window. It is the growth rate of phenotype separation, i.e. the time derivative of the frozen baseline rather than an independent measurement, and it is described that way deliberately.",
+  "record_id": "DISCOVERY-002-LYAPUNOV",
+  "result": {
+    "noise": {
+      "baseline_heldout_r2": 0.9646,
+      "incremental_gain": 0.0183,
+      "residual_variance_reduction": 0.517,
+      "with_lyapunov_heldout_r2": 0.9829
+    },
+    "symmetry": {
+      "baseline_heldout_r2": 0.9561,
+      "incremental_gain": 0.0232,
+      "residual_variance_reduction": 0.531,
+      "with_lyapunov_heldout_r2": 0.9794
+    }
+  },
+  "schema_version": "1.0.0",
+  "the_important_caveat": "This is predictive performance on FINAL FUNCTIONAL SPREAD, which is explicitly no longer the discovery target. The stated target is predicting future bifurcation before ordinary output divergence reveals it. No bifurcation occurs in any system examined, so quotient Lyapunov has not been tested against the target that matters. Passing the old test does not advance the new one, and this record must not be cited as if it did.",
+  "verdict": "PASSES the incremental test on the OLD target; the NEW target remains untestable"
+}
