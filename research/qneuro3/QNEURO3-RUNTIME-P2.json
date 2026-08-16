@@ -1,0 +1,44 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "At c_step = 0.3343 us a removed row saves a third of a microsecond while a gather costs tens, so the crossover could exceed 64 and S1 would fail honestly.",
+      "The streaming state is only three tensors against the lookup adapter's six, so compaction is cheaper here in absolute terms, which pushes the other way. The two effects have opposite signs and the net is not known.",
+      "select on this family runs 32 cheap steps, so its per-example cost is low and the 1.5x in S4 may be harder to reach than the lookup family's 1.95x suggests."
+    ],
+    "context": "On the associative-lookup family, active-set compaction removed the lockstep straggler ceiling: adaptive halting went from 0.97-1.01x against a matched-accuracy full-depth baseline at batch 128-256 to 1.60-1.95x (QNEURO3-CEILING-REMOVED-001). The cost-model equation that was supposed to predict where this happens FAILED its own test (QNEURO3-RUNTIME-P1), so no predictive equation is claimed. What is claimed, and tested here, is the qualitative structure.",
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If S4 fails, the ceiling removal does not transfer and must be scoped to the associative-lookup family, exactly as the attribution separation was. If S1 fails because compaction never wins on this family, then the recovery depends on per-step cost being large, which would make it a property of expensive cores rather than of adaptive computation, and that must be said.",
+    "one_attempt": true,
+    "pass_criterion": "All five of S1, S2, S3, S4 and S5 hold.",
+    "prediction_id": "QNEURO3-RUNTIME-P2",
+    "predictions": {
+      "S1_crossover_moves_but_exists": "Compaction beats lockstep (speedup > 1.0) at batch 256, and the smallest batch at which it does so is at most 64. On the lookup family that crossover was under 16; it is predicted to move UP here but not past 64.",
+      "S2_large_batch_gain": "Compaction versus lockstep at batch 256 lies between 1.3x and 2.2x.",
+      "S3_no_small_batch_gain": "Compaction versus lockstep at batch 1 is at most 1.05x -- there is nothing to compact, so the gather is pure overhead and compaction must not win.",
+      "S4_ceiling_removed_against_the_real_baseline": "Arrival under compaction beats the matched-accuracy select baseline at batch 256 by at least 1.5x. Under lockstep this comparison measured 0.99x, so this is the clause that says the ceiling removal transfers rather than being a property of one family.",
+      "S5_equivalence": "Compaction reproduces lockstep's halt steps exactly and its answers within 1e-5, at every batch size."
+    },
+    "schema_version": "1.0.0",
+    "setting": {
+      "E_depth": 4.97,
+      "baseline": "select -- per-step attribution at full depth, matched accuracy",
+      "batches": [
+        1,
+        4,
+        16,
+        32,
+        64,
+        128,
+        256
+      ],
+      "difficulty": "heavy-tailed, P(k) proportional to 0.8^k",
+      "family": "streaming threshold crossing",
+      "length": 32,
+      "policies": "lockstep, active-set compaction",
+      "seeds": "model seed 0, data seed 4242, fixed in advance"
+    },
+    "what_a_pass_licenses": "That the straggler ceiling is a property of the lockstep execution policy and is substantially removable by a standard, prior-art runtime across at least two structurally different cores. It licenses NO novelty claim for compaction and no predictive equation -- the equation failed.",
+    "why_this_family_is_a_real_test": "The streaming family's core is attention-free and its measured per-step cost is 0.3343 us against the lookup family's 2.6634 us -- eight times cheaper. Compaction removes rows, and the value of removing a row scales with c_step while the gather cost does not. The benefit is therefore much weaker here relative to overhead, and the crossover must move. Whether it moves far enough to break the qualitative claim is the question."
+  },
+  "sha256": "68c3d5894a89dd929d7bdea6e1400a066e3e686173fe062e53362128d7abcc86"
+}

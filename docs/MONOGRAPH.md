@@ -31,8 +31,9 @@ is the reproduction manual, and this is the narrative — including the parts th
 - Part IV — The discovery lane: eleven attempts, eleven closures
 - Part V — Q-Neuro 3.0: architecture from first principles
 - Part VI — Cycle 2: the fix, and thirteen predictions later
-- Part VII — What the program actually produced
-- Part VIII — The beautiful results that had to be killed
+- Part VII — The ceiling moves: a runtime, and a second boundary
+- Part VIII — What the program actually produced
+- Part IX — The beautiful results that had to be killed
 - Appendix A — The failure register
 - Appendix B — Rules that earned their cost
 
@@ -963,18 +964,114 @@ remains), **Throughput** (batch ≥ 32, early exit **off**, because there it is 
 
 ---
 
-# Part VII — What the program actually produced
+# Part VII — The ceiling moves: a runtime, and a second boundary
 
-## VII.1 The scoreboard
+## VII.1 The over-claim, corrected before anything else
 
-**Thirteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
-twelve failures had narrowed the claim to something small enough to be true.
+The confirmed result came with a ceiling, and the ceiling was written up as though it were a fact
+about adaptive computation. It was a fact about one execution policy.
+
+> **Intuition.** If you advance every example in a batch in lockstep until the last one halts, the
+> batch pays the slowest member. That is a scheduling decision, not a property of halting.
+
+> **Formal.** Lockstep executes `n · max_i d_i` example-steps where the useful work is `Σ_i d_i`.
+> At batch 256 on the lookup family: 5888 rows executed, 1415 useful — a **4.16× waste ratio**.
+
+The corrected statement: *heterogeneous halt depths create a straggler effect under lockstep
+batching, so per-example savings translate strongly into low-batch latency and can vanish at large
+batch.* The open question that creates is whether a better runtime recovers it.
+
+## VII.2 Prior art, and it is decisive
+
+Run first, by rule. **Active-set compaction is not new** — it is the standard early-exit loop, it is
+what MoE dispatch does at every layer, and it is what sequence packing does for variable-length
+attention. **Continuous batching is not new** — it is iteration-level scheduling as deployed in LLM
+serving. **Length bucketing predates transformers.**
+
+So no novelty was available and none is claimed. All four were implemented as baselines
+(`qneuro3/runtime.py`), each required to reproduce lockstep's answers exactly. That requirement
+immediately earned itself: with deferred compaction, a row that fired kept being advanced until the
+next gather and overwrote its own answer with a later step's logits. The equivalence check caught it
+in 13 rows at batch 16 and 215 at batch 256. Nobody would have noticed it in a timing table.
+
+What the audit *did* find is that the assumptions differ even where the mechanisms don't.
+Continuous batching assumes a request stream to backfill from, and the confirmed niche is
+single-stream. Compaction assumes the gather is cheap relative to a step, which is true on a GPU
+matmul and is exactly the open question on a fanless M2. And bucketing assumes depth is known before
+execution — true for sequence length, **false for adaptive halting**, where the depth is the output
+of the computation.
+
+## VII.3 What compaction recovers
+
+> **Experimental.** On the associative-lookup family, against the same matched-accuracy full-depth
+> baseline, both at 1.0000 accuracy and matched parameters:
+>
+> | batch | lockstep | **compacted** |
+> |---:|---:|---:|
+> | 1 | 3.64× | 3.27× |
+> | 16 | 1.04× | **1.28×** |
+> | 64 | 1.10× | **1.59×** |
+> | 256 | 1.01× | **1.95×** |
+
+The advantage stops decaying and starts growing with batch size. At batch 1 and 4 compaction is a
+small *loss* — there is nothing to compact and the gather is pure overhead — so the two policies are
+complementary rather than ordered, and the planner dispatches between them.
+
+## VII.4 Two more frozen predictions, two more failures
+
+**The cost model missed.** `QNEURO3-RUNTIME-P1` froze
+`T = c_step·rows + c_launch·iterations + c_compact·compactions`, with all three constants measured on
+the target family's raw forward and the *form* derived on a different family. It predicted the
+crossover at batch 45. Measured: **below 16**.
+
+> **Why.** The model is accurate where compute dominates — 1.0% error at batch 128, 11.5% at 256 —
+> and wrong where overhead does, 55% at batch 16. It over-charged compaction at small batch: 15
+> modelled compactions against 10 measured, using a `c_compact` taken from a synthetic gather of all
+> six state tensors including the large keys tensor.
+
+Kill condition applied. **No predictive runtime equation is claimed**, and the equation was not
+patched and re-issued — that would be a new identifier and a fresh prospective test.
+
+*And a procedural defect surfaced before it opened.* The hash first recorded could not be
+re-verified from disk, because integer keys sort numerically in memory and lexicographically after a
+JSON reload. Caught with no evidence in existence, and re-issued by hashing the round-trip. The rule
+it establishes belongs with the others: **a frozen prediction whose hash cannot be re-verified from
+disk is not frozen.**
+
+**And the recovery does not transfer.** `QNEURO3-RUNTIME-P2` predicted it would appear on the
+streaming family. Measured **1.065×** against a required 1.5×. Compaction over lockstep was 1.289×
+against a required [1.3, 2.2] — missing by 0.011. Accuracy was not even matched: the baseline scored
+0.9336 against arrival's 0.9189, so the comparison flattered arrival and it still failed.
+
+The reason was written down before the run: *at 0.33 µs per example-step, a removed row saves less
+than the gather that removes it.* The streaming core is attention-free and eight times cheaper.
+
+## VII.5 The second boundary
+
+> **Compaction removes the lockstep straggler ceiling when per-step cost is large relative to gather
+> cost.** Measured: 1.95× at 2.66 µs/example-step, 1.07× at 0.33 µs/example-step.
+
+This has the same shape as the first boundary, and that repetition is the most honest thing in the
+programme. The advantage of adaptive computation is real. Every time it is measured under a stronger
+control, it turns out to be bounded — first by the batch maximum, then by the ratio of step cost to
+gather cost. Neither bound is a property of the mechanism. Both are properties of the machine it
+runs on, and both had to be measured rather than reasoned about.
+
+---
+
+# Part VIII — What the program actually produced
+
+## VIII.1 The scoreboard
+
+**Fifteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
+twelve failures had narrowed the claim to something small enough to be true. The two that followed
+it failed as well, and that is how the claim acquired its second boundary.
 
 Two contained genuine prospective successes inside failures (`DFREE-LAW-P3`'s homogeneity component;
 `TRANSFER-P1`'s third clause). One *passed* and the pass was worthless (`DISCOVERY-001-P1`, vacuous).
-Thirty-one failures preserved with mechanisms.
+Thirty-three failures preserved with mechanisms.
 
-## VII.2 What survives
+## VIII.2 What survives
 
 **1. The equivalence compiler.** A typed, refusing certificate system that makes "these two models
 are equivalent" into a checkable claim with a level, a domain, and a transport class. It caught its
@@ -993,7 +1090,7 @@ Adam. Dead for nonlinear models.
 **4. The adaptive-compute reporting standard.** §V.5. Cheap to apply, and it invalidates a class of
 results that look fine.
 
-**5. A catalogue of measurement defects that produce plausible wrong answers.** §VIII.2. This is
+**5. A catalogue of measurement defects that produce plausible wrong answers.** §IX.2. This is
 worth more than it looks.
 
 **6. Supervised predicate halting, with its ceiling.** Optimal per-example allocation — mean steps
@@ -1001,7 +1098,7 @@ equal `E[predicate index]` to within 0.1 across six settings — a 2.8–4.9× w
 batch 1, and an analytic ceiling that removes the advantage above batch ≈ 32. Confirmed
 prospectively. The mechanism is prior art; the measured boundary is the contribution.
 
-## VII.3 What does not survive
+## VIII.3 What does not survive
 
 The transport-covariance conjecture. Canalized quotient dynamics. Functional bifurcation. Geometric
 phase in training. Curriculum holonomy. Functional navigation of the near-optimal set. The
@@ -1010,7 +1107,7 @@ exactness standard. Adaptive depth on `chase_to_goal` as originally built. Early
 training mode. The carry-distance mechanism. The readout-location principle as anything general.
 Depth extrapolation from halting.
 
-## VII.4 What is not claimed
+## VIII.4 What is not claimed
 
 No state-of-the-art result. No new capability. No claim that adaptive depth cannot win on some other
 workload. No claim that the transport conjecture is false in every possible form. No clinical
@@ -1018,12 +1115,12 @@ validity. No connection to quantum cognition. No general superiority for any met
 
 ---
 
-# Part VIII — The beautiful results that had to be killed
+# Part IX — The beautiful results that had to be killed
 
 Collected deliberately, because a program that reports only its survivors teaches nothing about how
 often the survivors are wrong.
 
-## VIII.1 Results that were beautiful and false
+## IX.1 Results that were beautiful and false
 
 **The 14-order-of-magnitude phase boundary.** Two models, provably the same predictor, on opposite
 sides of a stability boundary because of coordinates. 0.9912 prediction accuracy, zero false alarms
@@ -1059,7 +1156,7 @@ prospective, one-attempt test. Its grid gave 197 chances to false-alarm and **ze
 miss. The strongest methodological safeguard in the program produced a meaningless pass, and only
 an audit of the grid's coverage caught it.
 
-## VIII.2 The defects, in one table
+## IX.2 The defects, in one table
 
 Each produced a plausible, reportable, wrong answer.
 
@@ -1082,7 +1179,7 @@ for the whole apparatus.
 
 # Appendix A — The failure register
 
-Thirty-one preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
+Thirty-three preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
 failed idea has been renamed and rerun.
 
 | ID | Subject | Failure |
@@ -1118,6 +1215,8 @@ failed idea has been renamed and rerun.
 | FAIL-029 | `QNEURO3-ATTRIB-P1` | carry-distance mechanism false; profile flat at 0.22 |
 | FAIL-030 | `QNEURO3-TRANSFER-P1` | the separation does not generalise; 0.007 gap against 0.20 required |
 | FAIL-031 | `QNEURO3-EXTRAP-P1` | no depth extrapolation; and normalisation's effect inverted |
+| FAIL-032 | `QNEURO3-RUNTIME-P1` | cost model put the compaction crossover at 45; it is below 16 |
+| FAIL-033 | `QNEURO3-RUNTIME-P2` | the ceiling removal does not transfer to a cheap core |
 
 ---
 
@@ -1167,6 +1266,14 @@ alone, and it was trusted alone anyway for one more round.
 **Predict where your result stops working.** `QNEURO3-NICHE-P1` passed because its ceiling clause
 (N4) was checkable and checked. A claim that only predicts its own success cannot be caught being
 wrong.
+
+**A frozen prediction whose hash cannot be re-verified FROM DISK is not frozen.** Integer keys sort
+numerically in memory and lexicographically after a JSON reload; the first `RUNTIME-P1` hash did not
+round-trip. Caught before evidence existed, and it changed the freeze procedure.
+
+**Say which policy you measured, not which mechanism you assumed.** The ceiling was written up as a
+fact about adaptive computation and was a fact about lockstep execution. The correction cost nothing
+because no measurement changed — but the over-reading had already been published once.
 
 ---
 

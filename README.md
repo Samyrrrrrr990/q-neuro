@@ -66,18 +66,28 @@ architecture wins.
 ## Research program documentation
 
 Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0) and the architecture program
-(Q-Neuro 3.0) — is documented in three companion documents. **Thirteen frozen, hashed, prospective
-predictions were opened and one passed as written**; 31 failures are preserved with mechanisms.
+(Q-Neuro 3.0) — is documented in three companion documents. **Fifteen frozen, hashed, prospective
+predictions were opened and one passed as written**; 33 failures are preserved with mechanisms.
 
 The one that passed, `QNEURO3-NICHE-P1`, is deliberately small and carries its own ceiling:
 
 > On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised predicate
 > attains the **optimal** per-example allocation and gives a **2.8–4.9× wall-clock inference saving
-> at batch 1**, at matched accuracy and parameters — and **loses that advantage entirely above batch
-> ≈ 32**, because a batch cannot exit until its slowest member does.
+> at batch 1**, at matched accuracy and parameters — and **loses that advantage above batch ≈ 32
+> under lockstep execution**, because a lockstep batch cannot exit until its slowest member does.
 
-The ceiling is analytic, applies to every per-example adaptive-compute method, and was predicted on
-one task family then confirmed unprompted on another.
+Reproduce it standalone, with the frozen hash verified from disk before anything is scored:
+
+```bash
+make reproduce-q3-niche
+```
+
+**The ceiling turned out to belong to the runtime, not the mechanism.** Under active-set compaction
+— prior art, claimed as a baseline — the same models recover from 0.97× to **1.95×** at batch 256 on
+an expensive core. Two further predictions were frozen and both failed: the cost model put the
+crossover at batch 45 when it is below 16, and the recovery does not transfer to a core eight times
+cheaper per step, where it reaches only 1.07×. So the second boundary is: compaction pays when
+per-step cost is large relative to gather cost.
 
 | Document | For |
 |---|---|

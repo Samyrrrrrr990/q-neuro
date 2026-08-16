@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-SCOPE-CORRECTION-001",
+  "date_utc": "2026-08-16",
+  "title": "The ceiling is a property of the lockstep execution policy, not of adaptive computation",
+  "what_is_being_corrected": "wording and scope only",
+  "what_is_NOT_being_corrected": [
+    "No measurement changes. No frozen artifact is touched. QNEURO3-NICHE-P1 (sha256 7fbcceb8...) and",
+    "its result stand exactly as recorded, hash verified. QNEURO3-CEILING-001 stands as recorded.",
+    "Every number in QNEURO3-PARETO-P1-RESULT and QNEURO3-NICHE-P1-RESULT remains correct."
+  ],
+  "superseded_wording": [
+    "CLAIM-008 as originally written: 'Per-example adaptive computation has an analytic ceiling",
+    "under batching: because a batch cannot exit until its slowest member does, batched cost tracks",
+    "E[max halt step over the batch] rather than E[halt step], so the realisable saving decays",
+    "towards 1 as batch size grows.'",
+    "Read without its assumptions field, that sentence says something stronger than the evidence",
+    "supports. It reads as a statement about adaptive computation. It is a statement about one",
+    "execution policy."
+  ],
+  "corrected_wording": [
+    "Heterogeneous halt depths create a STRAGGLER EFFECT under lockstep batching. When every example",
+    "in a batch is advanced in lockstep until the last one halts, batched cost tracks E[max halt",
+    "over the batch] rather than E[halt], so per-example compute savings translate strongly into",
+    "low-batch latency savings and can vanish at large batch size.",
+    "This is a property of the RUNTIME, not of the mechanism. The per-example FLOP saving is",
+    "unchanged; what changes is whether the execution policy can realise it."
+  ],
+  "the_distinction_that_matters": {
+    "adaptive_compute_principle": "sum_i d_i example-steps of useful work, where d_i is example i's halt depth. Unchanged by batching.",
+    "lockstep_runtime": "n * max_i d_i example-steps of executed work. The gap is pure straggler waste.",
+    "waste_ratio": "n * max_i d_i / sum_i d_i. For P(k) proportional to 0.8^k on 1..32 at n=256 this is 26 / 4.97 = 5.2x of wasted work that a better runtime could in principle avoid."
+  },
+  "the_open_question_this_creates": "Can the theoretical per-example saving be recovered by a better runtime?",
+  "why_the_original_measurement_still_stands": [
+    "The frozen prediction QNEURO3-NICHE-P1 predicted the ceiling FOR THE IMPLEMENTATION IT WAS",
+    "MEASURED ON, and that implementation was lockstep with an all-done check. It was right about",
+    "that. N4 asked whether the measured batch-256 speedup would be at most 1.2x under the same",
+    "runtime, and it was 0.97x.",
+    "Nothing about that test licensed a claim over runtimes it did not measure. The correction",
+    "removes an over-reading, and the over-reading was mine."
+  ],
+  "consequences": [
+    "CLAIM-008 is restated with the execution policy named in the sentence itself rather than only",
+    "in its assumptions field.",
+    "The paper, monograph, technical breakdown and published artifact are updated to say straggler",
+    "effect under lockstep batching, not 'batching destroys adaptive computation'.",
+    "A runtime programme is opened: implement compaction, bucketing and continuous scheduling, and",
+    "measure how much of the 5.2x is recoverable. Prior art is audited FIRST."
+  ]
+}

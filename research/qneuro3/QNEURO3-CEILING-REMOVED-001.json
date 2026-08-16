@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-CEILING-REMOVED-001",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "title": "Active-set compaction removes the lockstep straggler ceiling",
+  "why": [
+    "QNEURO3-NICHE-P1 confirmed, prospectively, that adaptive halting's advantage decays to 0.97x at",
+    "batch 256. QNEURO3-SCOPE-CORRECTION-001 narrowed that to the lockstep execution policy and asked",
+    "whether a better runtime recovers it. This is the answer, measured against the same",
+    "matched-accuracy baseline."
+  ],
+  "setting": {
+    "family": "query_chase",
+    "n_nodes": 32,
+    "max_depth": 24,
+    "difficulty": "P(d) proportional to 0.85^d",
+    "E_depth": 6.17,
+    "baseline": "select -- per-step attribution at full depth",
+    "accuracy": "arrival 1.0000 (halt and answer), select 1.0000",
+    "parameters": "matched"
+  },
+  "measured_us_per_example": [
+    {
+      "batch": 1,
+      "select": 1574.8,
+      "arrival_lockstep": 432.3,
+      "arrival_compacted": 482.1,
+      "lockstep_vs_select": 3.64,
+      "compacted_vs_select": 3.27
+    },
+    {
+      "batch": 4,
+      "select": 683.1,
+      "arrival_lockstep": 208.0,
+      "arrival_compacted": 228.0,
+      "lockstep_vs_select": 3.28,
+      "compacted_vs_select": 3.0
+    },
+    {
+      "batch": 16,
+      "select": 268.6,
+      "arrival_lockstep": 257.8,
+      "arrival_compacted": 209.2,
+      "lockstep_vs_select": 1.04,
+      "compacted_vs_select": 1.28
+    },
+    {
+      "batch": 32,
+      "select": 189.2,
+      "arrival_lockstep": 172.0,
+      "arrival_compacted": 129.6,
+      "lockstep_vs_select": 1.1,
+      "compacted_vs_select": 1.46
+    },
+    {
+      "batch": 64,
+      "select": 125.6,
+      "arrival_lockstep": 114.4,
+      "arrival_compacted": 79.2,
+      "lockstep_vs_select": 1.1,
+      "compacted_vs_select": 1.59
+    },
+    {
+      "batch": 128,
+      "select": 96.0,
+      "arrival_lockstep": 97.5,
+      "arrival_compacted": 59.9,
+      "lockstep_vs_select": 0.98,
+      "compacted_vs_select": 1.6
+    },
+    {
+      "batch": 256,
+      "select": 80.0,
+      "arrival_lockstep": 79.2,
+      "arrival_compacted": 41.1,
+      "lockstep_vs_select": 1.01,
+      "compacted_vs_select": 1.95
+    }
+  ],
+  "findings": [
+    {
+      "id": "C1",
+      "finding": "The ceiling was a runtime artifact. Under lockstep the advantage decays to 0.98-1.10x above batch 16; under compaction it never falls below 1.28x and RISES with batch size to 1.95x at 256. At batch 256 the advantage goes from 0.97x-1.01x to 1.95x."
+    },
+    {
+      "id": "C2",
+      "finding": "The two policies are complementary, not ordered. At batch 1 and 4 compaction is slightly WORSE than lockstep (3.27x vs 3.64x, 3.00x vs 3.28x) because there is nothing to compact and the gather is pure overhead. The correct dispatch is lockstep below batch ~8 and compaction above it."
+    },
+    {
+      "id": "C3",
+      "finding": "Recovery is partial, not complete. At batch 256 compaction removes 4.16x of executed rows but delivers 1.854x of wall-clock against lockstep -- about 45% of the theoretical saving survives launch and gather overhead."
+    },
+    {
+      "id": "C4",
+      "finding": "Answers are bit-identical across policies at every batch size, verified rather than assumed."
+    }
+  ],
+  "novelty_position": [
+    "None is claimed. Active-set compaction is the standard early-exit loop, is what MoE dispatch does",
+    "per layer, and is what sequence packing does for variable-length attention. See",
+    "docs/PRIOR_ART_RUNTIME.md. What is measured here is where the crossover sits on constrained Apple",
+    "Silicon and how much of the theoretical saving survives -- not a new runtime."
+  ],
+  "correction_this_forces": [
+    "Every statement of the form 'adaptive computation loses its advantage at serving batch sizes'",
+    "must be qualified as 'under lockstep execution'. Under compaction it does not.",
+    "The paper, monograph, technical breakdown, claim ledger and published artifact are updated."
+  ]
+}

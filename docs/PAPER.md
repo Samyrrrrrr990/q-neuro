@@ -37,11 +37,16 @@ prediction — the only one in the programme to pass as written:
 > On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised
 > predicate attains the *optimal* per-example allocation and delivers a **2.8–4.9× wall-clock**
 > inference saving at batch 1, at matched accuracy and matched parameters — and **loses that
-> advantage entirely above batch ≈ 32**, because a batch cannot exit until its slowest member does.
+> advantage above batch ≈ 32 under lockstep execution**, because a lockstep batch cannot exit until
+> its slowest member does.
 
-The ceiling is the load-bearing half. It is analytic, it applies to every per-example
-adaptive-compute method, and it was predicted in advance on one task family and confirmed
-unprompted on another.
+The ceiling was the load-bearing half, and then it moved. It is analytic for the lockstep policy and
+was predicted in advance on one task family and confirmed unprompted on another. But it is a
+property of the **runtime**, not of the mechanism: under active-set compaction the same models
+recover from 0.97× to **1.95×** at batch 256 on an expensive core — and to only 1.07× on a core
+eight times cheaper per step, where a removed row saves less than the gather that removes it. Two
+further frozen predictions were opened on the runtime; both failed, and the second failure is what
+established that boundary.
 
 We claim no state-of-the-art result, no new mechanism, and no general superiority for any method
 described here.
@@ -379,7 +384,46 @@ The measured crossover, on a family it was not derived from: 2.99× at batch 1, 
 **N4 is the clause that matters.** A result that only predicts its own success is weak; this one
 predicted where it stops working, on evidence it had not seen, and was right.
 
-### 7.5 The final architecture
+### 7.5 The ceiling was a runtime property, and it moves
+
+The confirmed ceiling licensed a claim about *lockstep* execution and nothing wider. Stated
+correctly: **heterogeneous halt depths create a straggler effect under lockstep batching**, so
+per-example savings translate strongly into low-batch latency and can vanish at large batch. The
+per-example FLOP saving is untouched; what changes is whether the execution policy realises it.
+
+The prior art here is unambiguous and no novelty is claimed for any of it: active-set compaction is
+the standard early-exit loop and is what MoE dispatch does per layer; continuous batching is
+iteration-level scheduling as deployed in LLM serving; length bucketing predates transformers
+(`docs/PRIOR_ART_RUNTIME.md`). All four were implemented as baselines, and every one is verified to
+reproduce lockstep's answers exactly.
+
+**Compaction recovers the waste — conditionally.** On the associative-lookup family, against the
+same matched-accuracy full-depth baseline:
+
+| batch | lockstep vs baseline | **compacted vs baseline** |
+|---:|---:|---:|
+| 1 | 3.64× | 3.27× |
+| 16 | 1.04× | **1.28×** |
+| 64 | 1.10× | **1.59×** |
+| 256 | 1.01× | **1.95×** |
+
+The advantage stops decaying and starts *growing* with batch size. Two frozen predictions were
+opened on this and both failed:
+
+- **`QNEURO3-RUNTIME-P1`** froze a cost model `T = c_step·rows + c_launch·iters + c_compact·compactions`
+  and predicted the crossover at batch 45. Measured: the crossover is below 16. The model is accurate
+  where compute dominates (1.0% error at batch 128) and badly wrong where overhead does (55% at
+  batch 16). Kill condition applied — **no predictive runtime equation is claimed.**
+- **`QNEURO3-RUNTIME-P2`** predicted the recovery would transfer to the streaming family.
+  It does not: 1.065× against a required 1.5×. The reason was written into the anticipated failure
+  modes before the run — at 0.33 µs per example-step, a removed row saves less than the gather costs.
+
+So the boundary is: **compaction removes the straggler ceiling when per-step cost is large relative
+to gather cost.** Measured at 2.66 µs/example-step it works (1.95×); at 0.33 µs/example-step it does
+not (1.07×). A second boundary, of exactly the same shape as the first — the advantage is real, and
+every stronger control finds it bounded by something that is not the mechanism.
+
+### 7.6 The final architecture
 
 `qneuro3/adaptive.py`. Every component carries the measurement that justifies it: a first-arrival
 objective (mixture halting caps at 0.6241 where this reaches 1.0000; commit halting reaches 0.9999
@@ -389,9 +433,10 @@ presets — each is the regime where a measurement says something different is c
 
 | Mode | Regime | Policy |
 |---|---|---|
-| **M2 Eco** | batch 1 | early exit; full 2.8–4.9× available |
-| **M2 Balanced** | batch < 32 with ≥1.15× remaining | early exit |
-| **M2 Throughput** | batch ≥ 32 | **early exit off** — it is a measured 0.97–0.99×, i.e. a penalty |
+| **M2 Eco** | batch 1 | lockstep early exit; nothing to compact |
+| **M2 Balanced** | batch < 32, cheap steps | lockstep early exit |
+| **M2 Throughput+** | batch ≥ 16 and ≥1 µs/example-step | **active-set compaction** — measured 1.28–1.95× |
+| **M2 Throughput** | batch ≥ 32 with cheap steps | full depth + select; early exit is a measured penalty |
 
 ## 8. Compute accounting
 
@@ -420,9 +465,12 @@ than scale, when the question is whether a claim is true.
 5. **Halting on a supervised predicate attains the optimal per-example allocation** — mean steps
    equal `E[predicate index]` to within 0.1 across six settings — and delivers a 2.8–4.9× wall-clock
    inference saving at batch 1 at matched accuracy and parameters.
-6. **That advantage has an analytic ceiling.** Batched cost tracks `E[max halt over the batch]`, so
-   the saving decays to parity by batch ≈ 32 and becomes a penalty beyond it. Predicted on one task
+6. **That advantage has an analytic ceiling under lockstep execution.** Lockstep cost tracks
+   `E[max halt over the batch]`, so the saving decays to parity by batch ≈ 32. Predicted on one task
    family, confirmed unprompted on another.
+7. **The ceiling belongs to the runtime, not the mechanism, and is conditionally removable.**
+   Active-set compaction — prior art — restores the advantage from 0.97× to 1.95× at batch 256 when
+   per-step cost is ≳1 µs, and does not when it is ≲0.33 µs.
 
 **We do not claim:** any state-of-the-art result; any novelty for predicate halting, per-step
 attribution or state normalisation, all of which are prior art; that the readout-location separation
@@ -433,14 +481,16 @@ superior to any other.
 
 **Open, and stated as open:** why the fixed-depth readout has a sharp capability threshold between
 depth 4 and depth 8 on lookup tasks (the frozen carry-distance explanation is false); why two task
-constructions inducing the same distance distribution give 6/10 versus 1/10 success; whether
-continuous batching recovers the saving above the crossover (an inference-systems question, not
-measured here); and non-vacuity of the transport bound in the nonlinear setting.
+constructions inducing the same distance distribution give 6/10 versus 1/10 success; a correct
+predictive cost model for the compaction crossover (the first attempt failed and was not patched);
+whether the result transports to a second hardware regime (no second machine was available, recorded
+as future validation); and non-vacuity of the transport bound in the nonlinear setting.
 
 ## 10. On the negative result
 
-Thirteen frozen predictions, one pass — the last one, after twelve failures had narrowed the claim
-to something small enough to be true. Thirty-one preserved failures. It would have been easy to
+Fifteen frozen predictions, one pass. Thirty-three preserved failures. The pass came thirteenth,
+after twelve failures had narrowed the claim to something small enough to be true — and the two
+predictions that followed it failed as well, which is how the claim acquired its second boundary. It would have been easy to
 produce a positive result from this material — widen a tolerance, average over seeds, report the
 easy-distribution cell as partial confirmation, quote 1.77× without the 6-in-10. Each of those was
 available and each was declined, in writing, in the record that declined it.

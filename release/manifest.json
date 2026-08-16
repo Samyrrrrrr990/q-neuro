@@ -28,13 +28,13 @@
     },
     {
       "path": "Makefile",
-      "bytes": 7821,
-      "sha256": "5742e07f5f9d99cd97626543df82b0a5feb1655dd20f18c5f680cdb3e454f665"
+      "bytes": 8085,
+      "sha256": "de6d32e9f97caf7f248737a228ff59ad533a0a4fcbc17775d4bec6193bb27bbf"
     },
     {
       "path": "README.md",
-      "bytes": 8626,
-      "sha256": "dde0bbfef6d96770497ce3c804eb555cf40fe0e601a6ba7d6f8cb9cbb428d27e"
+      "bytes": 9172,
+      "sha256": "d7a1a4e4a90a8c7d20747c3f7ed0b9d865e5508646ae488a6b1273c8c028933b"
     },
     {
       "path": "RELEASE_NOTES.md",
@@ -233,13 +233,13 @@
     },
     {
       "path": "research/claims.json",
-      "bytes": 23117,
-      "sha256": "2abae0fefd0436eb76d1eff55d326639eb4612c38f2dbe6566f3a1467b8e5479"
+      "bytes": 27022,
+      "sha256": "f5c9800159c25bc18c85a9ae8cccebab2913021922df0527a867054e4edbc413"
     },
     {
       "path": "research/failures.json",
-      "bytes": 28428,
-      "sha256": "5db198d724c3fa23ff4f12cd98f4629b253ce4178bb3a059348865e1288f8911"
+      "bytes": 30662,
+      "sha256": "cc1e2b1641b9d2df9f4daf3a0fad956c708b4b99e135ebffd07c4e7e84ad9ea4"
     },
     {
       "path": "research/figures/generated/falsification_phase.pdf",

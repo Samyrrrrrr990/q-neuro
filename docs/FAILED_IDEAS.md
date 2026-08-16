@@ -491,3 +491,62 @@ returns the workload's full compute saving. Mean steps track `E[predicate index]
 across six settings — 4.45 of 8, 6.55 of 12, 2.51 of 4, 4.54 of 8, 6.60 of 12, 6.14 of 24. That is
 optimal allocation, which also means **the size of the saving belongs to the workload, not to the
 architecture** — precisely what the long-dead `QNEURO3-Q3-P1` said and could not test.
+
+---
+
+## FAIL-032 / FAIL-033 — The ceiling moved, then stopped moving
+
+The confirmed result came with a ceiling: adaptive halting's advantage decayed to 0.97× at batch
+256. That was measured under **lockstep** execution, and the wording it was written up in —
+"batching destroys the advantage" — said more than the evidence.
+
+**The correction, before any new work.** Heterogeneous halt depths create a *straggler effect under
+lockstep batching*. The per-example FLOP saving is untouched; what changes is whether the execution
+policy realises it. Lockstep executes `n · max_i d_i` rows where useful work is `Σ_i d_i` — at batch
+256 on the lookup family, 5888 rows against 1415, a **4.16× pure waste ratio** that a better runtime
+could in principle avoid.
+
+**Prior art first, and it is decisive.** Active-set compaction is the standard early-exit loop, is
+what MoE dispatch does at every layer, and is what sequence packing does for variable-length
+attention. Continuous batching is iteration-level scheduling as deployed in LLM serving. Length
+bucketing predates transformers. **No novelty was available and none is claimed**
+(`docs/PRIOR_ART_RUNTIME.md`). All four were implemented as baselines, and each is verified to
+reproduce lockstep's answers exactly — a check that immediately caught a real bug, where deferred
+compaction let a fired row overwrite its own answer.
+
+**What compaction actually recovers.** On the lookup family, against the same matched-accuracy
+baseline, the advantage stops decaying and starts growing: 1.28× at batch 16, 1.46× at 32, 1.59× at
+64, 1.60× at 128, **1.95× at 256** — against 1.04×/1.10×/1.10×/0.98×/1.01× under lockstep. At batch
+1 and 4 compaction is a small *loss* (0.80–0.92×), because there is nothing to compact.
+
+**FAIL-032 — the cost model missed.** `QNEURO3-RUNTIME-P1` froze
+`T = c_step·rows + c_launch·iterations + c_compact·compactions` with all three constants measured on
+the target family's raw forward, and predicted the crossover at **batch 45**. Measured: the
+crossover is **below 16**. Relative errors of 55.1% and 45.1% at batches 16 and 32 against a 25%
+band. The model is accurate exactly where compute dominates — 1.0% at batch 128, 11.5% at 256 — and
+wrong where overhead does, because it over-charged compaction at small batch (15 modelled
+compactions against 10 measured) using a `c_compact` taken from a synthetic gather of all six state
+tensors. Kill condition applied: **no predictive runtime equation is claimed**, and the equation was
+not patched and re-issued.
+
+*A procedural defect was caught before this one opened.* The first hash recorded for it could not be
+re-verified from disk: integer keys in the predicted curve sort numerically in memory and
+lexicographically after a JSON reload, so the two serialisations differed. Found with no evidence in
+existence and re-issued by hashing the round-trip. **A frozen prediction whose hash cannot be
+re-verified from disk is not frozen.**
+
+**FAIL-033 — and it does not transfer.** `QNEURO3-RUNTIME-P2` predicted the recovery would appear on
+the streaming family: compaction ≥1.5× over the matched-accuracy baseline at batch 256. Measured
+**1.065×**. Compaction over lockstep was 1.289× against a required [1.3, 2.2] — missing by 0.011.
+Accuracy was not even matched: `select` scored 0.9336 against arrival's 0.9189, so the comparison
+*flattered* arrival and it still failed.
+
+The reason was in the frozen anticipated failure modes before the run: *"at c_step = 0.3343 µs a
+removed row saves a third of a microsecond while a gather costs tens."* The streaming core is
+attention-free and eight times cheaper per example-step.
+
+**The boundary this establishes.** Compaction removes the lockstep straggler ceiling **when per-step
+cost is large relative to gather cost** — 1.95× at 2.66 µs/example-step, 1.07× at 0.33. That is a
+second boundary of exactly the same shape as the first. The advantage is real; every time it is
+measured under a stronger control it turns out to be bounded by something that has nothing to do
+with the mechanism.

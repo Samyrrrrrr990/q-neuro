@@ -1,0 +1,85 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "The compaction cost is modelled as constant, but it scales with the surviving row count and with the number of state tensors; the lookup adapter carries six tensors including a large keys tensor, so real compaction may be superlinear and push the crossover higher than predicted.",
+      "E[max] assumes independent halt depths. Halt depth here is determined by the sampled distance, which is independent by construction, so this should hold -- but the model also assumes the trained halting head fires exactly at the true distance, and it does so at accuracy 1.0000, not by assumption.",
+      "Timing on a fanless machine drifts with thermal state; the 25% band in R2 exists for that reason and may still be too tight at the smallest batch sizes where launch overhead dominates."
+    ],
+    "calibration_provenance": "The cost-model FORM was derived on the streaming family (c_step 0.3343, c_launch 49.97, c_compact 31.56, predicted crossover 112). The constants above are the same three quantities re-measured on the lookup family, whose core is 8x more expensive per step. The prediction below is for the lookup family, whose runtime behaviour has never been measured.",
+    "constants_measured_on_the_untouched_family_raw_forward": {
+      "c_compact_us_per_compaction": 87.33,
+      "c_launch_us_per_iteration": 119.65,
+      "c_step_us_per_example_step": 2.6634,
+      "note": "Measured from raw per-iteration timing of the model only. No execution policy was run."
+    },
+    "context": "QNEURO3-SCOPE-CORRECTION-001 narrowed the confirmed ceiling to the LOCKSTEP execution policy and opened the question of whether a better runtime recovers the straggler waste. Active-set compaction, bucketing and continuous batching are prior art (docs/PRIOR_ART_RUNTIME.md) and are implemented as baselines; no novelty is claimed for any of them. What is not supplied by the prior art is WHERE the crossover sits on constrained hardware where a step is small and a gather is not free. This freezes that number before measuring it.",
+    "cost_model": "T = c_step * (example-steps) + c_launch * (iterations) + c_compact * (compactions). Lockstep executes n*E[max] example-steps over E[max] iterations with no compactions; compaction executes n*E[d] example-steps over the same E[max] iterations plus one compaction per iteration at which some row halts and some survives, modelled as min(n-1, E[max]-1). The launch term is identical for both policies and therefore cancels in the crossover, which solves to n* = c_compact * E[max] / (c_step * (E[max] - E[d])).",
+    "freeze_procedure_defect": "The first hash recorded for this prediction (859a08dbc0253e47...) could not be re-verified from disk. predicted_curve used integer keys, which json.dumps(sort_keys=True) orders numerically before serialising, while the same document reloaded from JSON has string keys ordered lexicographically. The two serialisations differ, so the hash did not round-trip. Corrected by hashing the JSON round-trip rather than the in-memory object. No prediction content changed and no evidence existed when this was found, so the freeze is re-issued rather than voided. The general rule this establishes: a frozen prediction whose hash cannot be re-verified FROM DISK is not frozen.",
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If R1 fails, the cost model does not locate the crossover and no predictive runtime equation may be claimed; the measured curve would then be reported as an observation only. If R3 fails because measured recovery EXCEEDS the work ratio, the model is wrong about what is recoverable and must be rederived under a new identifier rather than patched.",
+    "one_attempt": true,
+    "pass_criterion": "All four of R1, R2, R3 and R4 hold.",
+    "predicted_curve": {
+      "1": {
+        "expected_max_depth": 6.17,
+        "predicted_compacted_us": 754.8,
+        "predicted_lockstep_us": 754.8,
+        "predicted_speedup": 1.0
+      },
+      "128": {
+        "expected_max_depth": 22.69,
+        "predicted_compacted_us": 6712.2,
+        "predicted_lockstep_us": 10448.8,
+        "predicted_speedup": 1.557
+      },
+      "16": {
+        "expected_max_depth": 17.49,
+        "predicted_compacted_us": 3666.2,
+        "predicted_lockstep_us": 2838.8,
+        "predicted_speedup": 0.774
+      },
+      "256": {
+        "expected_max_depth": 23.43,
+        "predicted_compacted_us": 8970.4,
+        "predicted_lockstep_us": 18781.0,
+        "predicted_speedup": 2.094
+      },
+      "32": {
+        "expected_max_depth": 19.75,
+        "predicted_compacted_us": 4527.5,
+        "predicted_lockstep_us": 4047.3,
+        "predicted_speedup": 0.894
+      },
+      "4": {
+        "expected_max_depth": 11.83,
+        "predicted_compacted_us": 1743.6,
+        "predicted_lockstep_us": 1541.9,
+        "predicted_speedup": 0.884
+      },
+      "64": {
+        "expected_max_depth": 21.49,
+        "predicted_compacted_us": 5411.6,
+        "predicted_lockstep_us": 6233.1,
+        "predicted_speedup": 1.152
+      }
+    },
+    "prediction_id": "QNEURO3-RUNTIME-P1",
+    "predictions": {
+      "R1_crossover_bracket": "Compaction is SLOWER than lockstep at batch 32 and FASTER at batch 128. The crossover batch lies strictly between 32 and 128.",
+      "R2_latency_curve": "Measured speedup (lockstep time / compaction time) falls within 25% relative of the predicted value at every batch size in {16, 32, 64, 128, 256}.",
+      "R3_recovery_is_partial": "At batch 256 the WORK recovery is E[max]/E[d] = 3.80x but the WALL-CLOCK recovery is at most 2.6x, because launch and compaction overheads are not recovered. Specifically the measured batch-256 speedup is between 1.5x and 2.6x -- strictly less than the work ratio.",
+      "R4_equivalence": "Compaction reproduces lockstep's halt steps exactly and its answers within 1e-5."
+    },
+    "schema_version": "1.0.0",
+    "setting": {
+      "difficulty": "heavy-tailed, P(d) proportional to 0.85^d",
+      "empirical_E_depth": 6.17,
+      "family": "query_chase (associative lookup)",
+      "max_depth": 24,
+      "n_nodes": 32,
+      "policies": "lockstep versus active-set compaction, answers required identical"
+    },
+    "what_a_pass_licenses": "That the straggler ceiling is a property of the lockstep policy and is substantially recoverable at serving batch sizes by a standard, prior-art runtime, with the crossover location predictable from three measurable constants. It does NOT license any novelty claim for compaction, nor any claim that the low-batch niche is unnecessary -- at small batch the cost model predicts compaction LOSES, which is itself part of the prediction."
+  },
+  "sha256": "8534471347e939658128e6e0b3f25d138cda0e6ea9c4ef1fdec359ee9691f96e"
+}

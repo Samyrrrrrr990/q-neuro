@@ -626,6 +626,96 @@ and the effect is invisible.
 difficulty distribution and batch size, and switches early exit **off** above the measured crossover
 because there it is a penalty.
 
+## 6B. Execution policies and the runtime boundary
+
+### 6B.1 Commands
+
+```bash
+make reproduce-q3-niche          # standalone; verifies the frozen hash, ~40 min
+make reproduce-q3-niche-quick    # mechanics smoke test, ~2 min
+python -m pytest tests/test_qneuro3.py -q -k "policy or compaction or lockstep or plan"
+```
+
+### 6B.2 Policies
+
+`qneuro3/runtime.py`. Four, all required to reproduce lockstep's answers exactly
+(`verify_equivalence`, enforced in the test suite):
+
+| Policy | Executed rows | Compactions | Notes |
+|---|---|---|---|
+| `lockstep` | `n · max_i d_i` | 0 | the confirmed baseline |
+| `compacted` | **`Σ_i d_i`** (ideal) | one per halting iteration | `every=k` defers the gather |
+| `bucketed` | between the two | 0 | needs a depth predictor; oracle recovers ~half |
+| `continuous` | `Σ_i d_i` | one per departure | constant in-flight width; needs a queue |
+
+Measured executed rows on the streaming family at batch 256: lockstep 8192, compacted **1441**
+(= ideal), compacted/4 1916, bucketed-with-oracle 2944, continuous 1441. Straggler waste 5.68×.
+
+**A real bug, caught by the equivalence check.** With `every > 1` a fired row keeps advancing until
+the next gather, its halt probability stays above threshold, and it overwrites its own answer with a
+later step's logits — 13 rows wrong at batch 16, 215 at batch 256. Fixed with a `fired` mask.
+Regression test: `test_deferred_compaction_does_not_overwrite_an_answer`.
+
+### 6B.3 Cost model, and its failure
+
+```
+T = c_step · (example-steps) + c_launch · (iterations) + c_compact · (compactions)
+n* = c_compact · E[max] / (c_step · (E[max] − E[d]))
+```
+
+Constants measured on raw forwards, no policy exercised:
+
+| | streaming core | lookup core |
+|---|---:|---:|
+| `c_step` (µs/example-step) | 0.3343 | **2.6634** |
+| `c_launch` (µs/iteration) | 49.97 | 119.65 |
+| `c_compact` (µs) | 31.56 | 87.33 |
+| predicted crossover | 112 | 45 |
+| **measured crossover** | **64** | **< 16** |
+
+`QNEURO3-RUNTIME-P1` froze the lookup prediction and **failed**: R1 (crossover bracket) and R2
+(±25% band, missing at 55.1% and 45.1% for batches 16 and 32). R3 and R4 passed. Kill condition
+applied — no predictive equation is claimed and none was patched.
+
+*Freeze-procedure defect, caught before opening:* the first recorded hash did not round-trip,
+because `predicted_curve` used integer keys that `json.dumps(sort_keys=True)` orders numerically in
+memory and lexicographically after a reload. Re-issued by hashing the JSON round-trip. Every freeze
+since verifies from disk.
+
+### 6B.4 The recovery, and its boundary
+
+Matched-accuracy, matched-parameter, microseconds per example:
+
+**Lookup family** (accuracy 1.0000 both, `c_step` 2.66 µs):
+
+| batch | select | arrival lockstep | arrival compacted | lockstep/select | **compacted/select** |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1574.8 | 432.3 | 482.1 | 3.64× | 3.27× |
+| 16 | 268.6 | 257.8 | 209.2 | 1.04× | **1.28×** |
+| 64 | 125.6 | 114.4 | 79.2 | 1.10× | **1.59×** |
+| 256 | 80.0 | 79.2 | 41.1 | 1.01× | **1.95×** |
+
+**Streaming family** (arrival 0.9189, select 0.9336, `c_step` 0.33 µs):
+
+| batch | select | arrival lockstep | arrival compacted | lockstep/select | compacted/select |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1163.8 | 81.4 | 101.7 | 14.30× | 11.45× |
+| 64 | 33.5 | 46.1 | 41.7 | 0.73× | 0.80× |
+| 256 | 16.2 | 19.6 | 15.2 | 0.83× | **1.07×** |
+
+`QNEURO3-RUNTIME-P2` froze the transfer and **failed** on S2 (1.289× against [1.3, 2.2]) and S4
+(1.065× against ≥1.5×). S1, S3 and S5 passed.
+
+**The boundary:** compaction removes the lockstep ceiling when per-step cost is large relative to
+gather cost — 1.95× at 2.66 µs/example-step, 1.07× at 0.33.
+
+### 6B.5 Planner
+
+`qneuro3.adaptive.plan(halt_pmf, batch, max_depth, step_cost_us=...)` returns a `policy` of
+`lockstep`, `compacted` or `full_depth`. Thresholds are the measured points, with the evidence in
+the constant's docstring: `COMPACTION_WORTH_IT_STEP_COST_US = 1.0` (interpolated between the two
+measured cores, not resolved) and `COMPACTION_MIN_BATCH = 16`.
+
 ## 7. Measurement defects found and fixed
 
 Each produced a plausible, reportable, **wrong** answer.
@@ -650,7 +740,7 @@ Fixes are commented at their sites. The corrected transport-bound expression is
 ## 8. Repository state and verification
 
 ```bash
-python -m pytest -q                      # 239 tests
+python -m pytest -q                      # 245 tests
 ruff check .                             # clean
 python scripts/verify_release.py         # 22/22 semantic checks
 python -c "import json; d=json.load(open('research/failures.json')); print(len(d['failures']))"
@@ -663,7 +753,7 @@ pass first, so a stale manifest cannot be papered over.
 `research/laws/FROZEN_CANDIDATE_001.json`, `docs/PREREGISTRATION_NEXT_PHASE.md`,
 `docs/PROVISIONAL_LAW_FREEZE.md`, released manuscript binaries.
 
-**31 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
+**33 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
 idea has been renamed and rerun.
 
 ### 8.1 Record index
@@ -674,6 +764,8 @@ idea has been renamed and rerun.
 | `research/discovery_lab/generated/` | `DISCOVERY-001`…`011`, `SYNTHESIS-001`, DISCOVERY-002 sub-records |
 | `research/qneuro3/` | cycle 1: `CYCLE-001`, `Q3-P1`(+result), `Q3-VARIANCE-001`, `Q0-RELIABILITY-001`, `Q4-P1`(+result), `CYCLE-001-CLOSE` |
 | `research/qneuro3/` | cycle 2: `ATTRIB-P1`(+result), `ATTRIBUTION-001`, `TRANSFER-P1`(+result), `EXTRAP-P1`(+result), `PARETO-P1`(+result), `NICHE-P1`(+result) |
+| `research/qneuro3/` | cycle 3: `SCOPE-CORRECTION-001`, `RUNTIME-P1`(+result), `RUNTIME-P2`(+result), `CEILING-REMOVED-001` |
+| `docs/PRIOR_ART_RUNTIME.md` | equation-level audit of early-exit batching, compaction, continuous batching, MoE dispatch |
 | `experiments/results/QE-*` | Gate A–D evidence |
 | `docs/ML2_GATE_STATUS.md` | living gate record; records outcomes, never amends thresholds |
 | `docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md` | superseded wording preserved; downgrade recorded |
@@ -708,6 +800,7 @@ python -c "from research.discovery_lab.nonlinear_confirmation import confirm; im
 # 4. Q-Neuro 3.0
 python experiments/run_qneuro3_cycle_001.py all
 python experiments/run_qneuro3_cycle_002.py all
+make reproduce-q3-niche
 ```
 
 Expected: Gate D fails, `run_qe_000010.py` refuses, the nonlinear confirmation fails, cycle 1 closes

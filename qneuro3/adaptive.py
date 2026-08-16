@@ -8,12 +8,20 @@ established, and confirmed by the one frozen prediction in this programme that p
     On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised
     predicate reaches the optimal per-example allocation and delivers a 2.8-4.9x wall-clock
     inference saving AT BATCH 1, at matched accuracy and matched parameters -- and loses that
-    advantage entirely above batch ~32.
+    advantage above batch ~32 UNDER LOCKSTEP EXECUTION.
 
-The ceiling is not an implementation defect. A batch cannot exit until its slowest member does, so
-batched cost tracks ``E[max halt over the batch]``, which rises towards the worst case as the batch
-grows. `expected_max_halt` computes it exactly, and `plan` uses it to decide whether early exit is
-worth running at all.
+The last clause matters and was originally over-stated. A *lockstep* batch cannot exit until its
+slowest member does, so its cost tracks ``E[max halt over the batch]``, which rises towards the
+worst case as the batch grows. `expected_max_halt` computes that exactly. But this is a property of
+the execution policy, not of adaptive computation: under active-set compaction
+(`qneuro3.runtime.compacted`) the same models measured 1.28-1.95x over lockstep at batch 16-256 on
+an expensive core, restoring the advantage over the full-depth baseline from 0.97x to 1.95x.
+
+It does not transfer unconditionally. On a core eight times cheaper per step, compaction bought only
+1.07x over the full-depth baseline -- a removed row saves less than the gather that removes it. The
+deciding quantity is `c_step / c_compact`, and `plan` takes the measured step cost as an argument
+rather than assuming one. See `QNEURO3-SCOPE-CORRECTION-001`, `QNEURO3-CEILING-REMOVED-001` and
+`QNEURO3-RUNTIME-P2-RESULT`.
 
 Components, each with the measurement that justifies it:
 
@@ -34,9 +42,22 @@ from dataclasses import dataclass
 import torch
 from torch import nn
 
-#: Batch size at which early exit stopped paying on the M2 reference machine, measured on both
-#: task families. Below it, exit early; above it, run full depth and select.
+#: Batch size at which LOCKSTEP early exit stopped paying on the M2 reference machine, measured on
+#: both task families. This is a property of the execution policy, not of the mechanism: see
+#: `QNEURO3-SCOPE-CORRECTION-001`. Under active-set compaction the ceiling largely disappears on an
+#: expensive core, and does not on a cheap one.
 MEASURED_CROSSOVER_BATCH = 32
+
+#: Per-example-step cost above which active-set compaction pays for itself at serving batch sizes,
+#: in microseconds on the M2 reference machine. Measured, not derived: compaction gives 1.95x over
+#: lockstep at batch 256 on a core costing 2.66 us/example-step, and 1.29x on one costing 0.33.
+#: The cost-model equation that was meant to predict this failed its own frozen test
+#: (`QNEURO3-RUNTIME-P1`), so this is an engineering threshold with its evidence attached, not a law.
+COMPACTION_WORTH_IT_STEP_COST_US = 1.0
+
+#: Below this batch there is nothing to compact and the gather is pure overhead. Measured 0.80-0.92x
+#: at batch 1 on both families.
+COMPACTION_MIN_BATCH = 16
 
 
 def first_arrival(probabilities: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
@@ -98,41 +119,76 @@ class Plan:
 
     mode: str
     early_exit: bool
+    policy: str
+    """One of "lockstep", "compacted" or "full_depth". The execution policy, chosen separately from
+    whether to halt at all -- conflating the two is what produced the original over-claim."""
     expected_steps: float
     expected_batched_steps: float
     predicted_speedup: float
     rationale: str
 
 
-def plan(halt_pmf: torch.Tensor, batch: int, max_depth: int | None = None) -> Plan:
-    """Choose an execution mode from the difficulty distribution and the batch size.
+def plan(
+    halt_pmf: torch.Tensor,
+    batch: int,
+    max_depth: int | None = None,
+    *,
+    step_cost_us: float | None = None,
+) -> Plan:
+    """Choose an execution mode from the difficulty distribution, the batch size, and the step cost.
 
-    The M2 modes are not presets; each is the regime where a measurement says a different thing is
-    correct.
+    Three regimes, each the one where a measurement says something different is correct. `step_cost_us`
+    is the measured per-example-step cost; supply it and the planner can choose compaction, omit it
+    and it falls back to the conservative lockstep policy that the original confirmation measured.
     """
 
     depth = max_depth if max_depth is not None else len(halt_pmf)
     pmf = halt_pmf.double() / halt_pmf.double().sum()
     mean = float((torch.arange(1, len(pmf) + 1, dtype=torch.double) * pmf).sum())
     batched = expected_max_halt(halt_pmf, batch)
-    speedup = depth / batched
+    lockstep_speedup = depth / batched
 
     if batch == 1:
         return Plan(
-            "M2 Eco", True, mean, batched, depth / mean,
-            "Single stream. The full per-example saving is available and measured at 2.8-4.9x.",
+            "M2 Eco", True, "lockstep", mean, batched, depth / mean,
+            "Single stream. The full per-example saving is available and measured at 2.8-4.9x, "
+            "and there is nothing to compact.",
         )
-    if batch < MEASURED_CROSSOVER_BATCH and speedup >= 1.15:
+
+    compaction_pays = (
+        step_cost_us is not None
+        and step_cost_us >= COMPACTION_WORTH_IT_STEP_COST_US
+        and batch >= COMPACTION_MIN_BATCH
+    )
+    if compaction_pays:
         return Plan(
-            "M2 Balanced", True, mean, batched, speedup,
-            f"Batch {batch} still leaves {speedup:.2f}x after the batch maximum; exit early.",
+            "M2 Throughput+", True, "compacted", mean, mean, depth / mean,
+            (
+                f"Batch {batch} at {step_cost_us:.2f} us/example-step. Compaction executes "
+                f"n*E[d] rows instead of n*E[max], which measured 1.28-1.95x over lockstep and "
+                "restored the advantage over the full-depth baseline at serving batch sizes."
+            ),
         )
+
+    if batch < MEASURED_CROSSOVER_BATCH and lockstep_speedup >= 1.15:
+        return Plan(
+            "M2 Balanced", True, "lockstep", mean, batched, lockstep_speedup,
+            f"Batch {batch} still leaves {lockstep_speedup:.2f}x after the batch maximum under "
+            "lockstep; exit early without compacting.",
+        )
+
+    reason = (
+        "no step cost supplied, so compaction cannot be justified"
+        if step_cost_us is None
+        else f"{step_cost_us:.2f} us/example-step is below the {COMPACTION_WORTH_IT_STEP_COST_US} "
+        "us threshold at which compaction pays"
+    )
     return Plan(
-        "M2 Throughput", False, mean, batched, 1.0,
+        "M2 Throughput", False, "full_depth", mean, batched, 1.0,
         (
-            f"Batch {batch} leaves only {speedup:.2f}x after the batch maximum, and the per-step "
-            "halting head costs more than that. Run full depth and select the step instead — "
-            "identical accuracy, and measured 0.97-0.99x for early exit here, i.e. a penalty."
+            f"Batch {batch} leaves only {lockstep_speedup:.2f}x after the batch maximum under "
+            f"lockstep, and {reason}. Run full depth and select the step instead — identical "
+            "accuracy, and measured 0.97-0.99x for lockstep early exit here, i.e. a penalty."
         ),
     )
 

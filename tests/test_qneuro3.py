@@ -260,3 +260,106 @@ def test_halting_loss_prefers_firing_at_the_true_step() -> None:
     assert float(halting_loss(right, true_step, logits, answer)) < float(
         halting_loss(wrong, true_step, logits, answer)
     )
+
+
+# --- execution policies ------------------------------------------------------------------------
+
+
+class _ScriptedCore:
+    """A core whose rows halt at prescribed depths, so runtime accounting is exactly checkable."""
+
+    def __init__(self, depths: list[int], max_depth: int):
+        self.depths = torch.tensor(depths)
+        self.max_depth = max_depth
+
+    def init_state(self, batch):
+        return {"depth": batch["depth"].clone(), "tag": batch["tag"].clone()}
+
+    def step(self, state, position):
+        halt = (position + 1 >= state["depth"]).float()
+        logits = torch.stack([state["tag"].float(), -state["tag"].float()], dim=-1)
+        return state, halt, logits
+
+
+def _scripted(depths):
+    core = _ScriptedCore(depths, max_depth=max(depths))
+    batch = {
+        "depth": torch.tensor(depths),
+        "tag": torch.arange(len(depths)),
+    }
+    return core, batch
+
+
+def test_lockstep_pays_the_batch_maximum() -> None:
+    from qneuro3.runtime import lockstep
+
+    core, batch = _scripted([1, 2, 5])
+    run = lockstep(core, batch)
+    assert run.example_steps == 3 * 5, "lockstep must advance every row to the slowest one"
+    assert run.steps.tolist() == [1.0, 2.0, 5.0]
+
+
+def test_compaction_executes_the_sum_of_depths() -> None:
+    """The whole point: `Σ d_i` rather than `n · max d_i`."""
+
+    from qneuro3.runtime import compacted
+
+    core, batch = _scripted([1, 2, 5])
+    run = compacted(core, batch)
+    assert run.example_steps == 1 + 2 + 5
+    assert run.steps.tolist() == [1.0, 2.0, 5.0]
+
+
+def test_every_policy_agrees_with_lockstep() -> None:
+    """A runtime that changes the answer is a different model. This is the check, not a comment."""
+
+    from qneuro3.runtime import bucketed, compacted, continuous, lockstep, verify_equivalence
+
+    depths = [3, 1, 4, 1, 5, 2, 6, 2]
+    core, batch = _scripted(depths)
+    reference = lockstep(core, batch)
+    for candidate in (
+        compacted(core, batch),
+        compacted(core, batch, every=3),
+        bucketed(core, batch, torch.tensor(depths, dtype=torch.float), buckets=3),
+        continuous(core, batch, width=3),
+    ):
+        verify_equivalence(reference, candidate)
+
+
+def test_deferred_compaction_does_not_overwrite_an_answer() -> None:
+    """With `every > 1` a fired row keeps advancing; without a fired mask it overwrites itself.
+
+    This was a real bug, caught by the equivalence check rather than by inspection.
+    """
+
+    from qneuro3.runtime import compacted, lockstep, verify_equivalence
+
+    core, batch = _scripted([1, 1, 1, 8])
+    verify_equivalence(lockstep(core, batch), compacted(core, batch, every=4))
+
+
+def test_verify_equivalence_actually_rejects() -> None:
+    from qneuro3.runtime import Execution, verify_equivalence
+
+    good = Execution(torch.zeros(2, 2), torch.tensor([1.0, 2.0]), 3, 2, 0)
+    wrong_steps = Execution(torch.zeros(2, 2), torch.tensor([1.0, 3.0]), 3, 2, 0)
+    wrong_answers = Execution(torch.ones(2, 2), torch.tensor([1.0, 2.0]), 3, 2, 0)
+    for bad in (wrong_steps, wrong_answers):
+        try:
+            verify_equivalence(good, bad)
+        except ValueError:
+            continue
+        raise AssertionError("verify_equivalence accepted a policy that changed the result")
+
+
+def test_plan_chooses_compaction_only_when_the_step_cost_justifies_it() -> None:
+    """The measured boundary, encoded: compaction pays on an expensive core, not on a cheap one."""
+
+    from qneuro3.adaptive import plan
+
+    pmf = 0.85 ** torch.arange(1, 25, dtype=torch.double)
+    assert plan(pmf, 256, step_cost_us=2.66).policy == "compacted"
+    assert plan(pmf, 256, step_cost_us=0.33).policy != "compacted"
+    assert plan(pmf, 256).policy != "compacted", "no step cost means compaction is unjustified"
+    assert plan(pmf, 1, step_cost_us=2.66).policy == "lockstep", "nothing to compact at batch 1"

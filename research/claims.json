@@ -248,8 +248,8 @@
     },
     {
       "claim_id": "CLAIM-008",
-      "status": "supported, analytic",
-      "exact_wording": "Per-example adaptive computation has an analytic ceiling under batching: because a batch cannot exit until its slowest member does, batched cost tracks E[max halt step over the batch] rather than E[halt step], so the realisable saving decays towards 1 as batch size grows.",
+      "status": "supported, analytic, scoped to the lockstep policy",
+      "exact_wording": "Under LOCKSTEP execution, per-example adaptive computation has an analytic ceiling: because a lockstep batch cannot exit until its slowest member does, batched cost tracks E[max halt step over the batch] rather than E[halt step], so the realisable saving decays towards 1 as batch size grows. This is a property of the execution policy, not of adaptive computation.",
       "evidence": [
         "E[max] = sum_k k (F(k)^n - F(k-1)^n). For P(k) proportional to 0.8^k on 1..32: E[max] = 4.97 at batch 1, 12.53 at 8, 20.96 at 64, 29.42 at 1024, so the realisable saving falls from 6.43x to 1.09x.",
         "Measured wall-clock agrees: early exit is 0.96-0.99x at batch 64-256 on both task families, i.e. a penalty.",
@@ -257,7 +257,8 @@
       ],
       "counterevidence": [
         "This is arithmetic about order statistics, not an empirical finding about any particular architecture, and no novelty is claimed for it.",
-        "It is stated for independent per-example halt steps. Correlated difficulty within a batch would change the constant, though not the direction."
+        "It is stated for independent per-example halt steps. Correlated difficulty within a batch would change the constant, though not the direction.",
+        "Under active-set compaction the ceiling is largely removed on an expensive core: the same models go from 0.97x to 1.95x against a matched-accuracy baseline at batch 256 (QNEURO3-CEILING-REMOVED-001). The wording was corrected in QNEURO3-SCOPE-CORRECTION-001."
       ],
       "confidence": "high",
       "scope": "applies to any per-example adaptive-compute method, including ACT, PonderNet, early-exit transformers and depth-routed mixtures of experts",
@@ -338,6 +339,40 @@
         "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
         "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
       ]
+    },
+    {
+      "claim_id": "CLAIM-011",
+      "status": "supported, scoped; no predictive equation",
+      "exact_wording": "Active-set compaction removes the lockstep straggler ceiling when the per-example-step cost is large relative to the compaction cost. Measured on Apple M2 CPU: at 2.66 microseconds per example-step it takes adaptive halting from 0.97x to 1.95x against a matched-accuracy full-depth baseline at batch 256; at 0.33 microseconds per example-step it reaches only 1.07x.",
+      "evidence": [
+        "QNEURO3-CEILING-REMOVED-001: lookup family, matched accuracy 1.0000 both models, matched parameters. Compacted versus baseline is 1.28x at batch 16, 1.46x at 32, 1.59x at 64, 1.60x at 128 and 1.95x at 256, against 1.04x/1.10x/1.10x/0.98x/1.01x under lockstep.",
+        "All four execution policies verified to reproduce lockstep's halt steps exactly and its answers within 1e-5 at every batch size."
+      ],
+      "counterevidence": [
+        "QNEURO3-RUNTIME-P2 was frozen and FAILED: on the streaming family the recovery is 1.065x against a required 1.5x, so the effect does not transfer across cores.",
+        "QNEURO3-RUNTIME-P1 was frozen and FAILED: the cost model placed the crossover at batch 45 when it is below 16, so no predictive equation accompanies this claim.",
+        "Compaction is a small LOSS at batch 1 and 4 (0.80x-0.92x): there is nothing to compact and the gather is pure overhead.",
+        "Active-set compaction is prior art -- the standard early-exit loop, MoE dispatch, sequence packing. No novelty is claimed."
+      ],
+      "assumptions": "Static batching without a request stream; CPU execution; per-example halt depths independent; answers required bit-identical across policies.",
+      "effect_size": "0.97x to 1.95x at batch 256 on a 2.66 us/example-step core; 0.83x to 1.07x on a 0.33 us/example-step core. Work recovery is 4.16x, of which about 45% survives as wall-clock.",
+      "external_validity": "Two synthetic families, one machine, CPU only, one model scale. Continuous batching was implemented but not benchmarked as a serving policy; no second hardware regime was available.",
+      "falsifier": "A matched-accuracy comparison on a core costing well above 1 us per example-step where compaction fails to beat lockstep at batch 256, or one below 0.5 us where it succeeds.",
+      "novelty_status": "No novelty claimed for the runtime. The measured boundary on constrained Apple Silicon is the contribution; the predictive equation intended to accompany it failed and is not claimed.",
+      "replication_status": "Two families, one implementation. The recovery was frozen and tested prospectively on the second family and FAILED, which is how the boundary was established.",
+      "supporting_experiments": [
+        "QNEURO3-CEILING-001",
+        "QNEURO3-NICHE-P1"
+      ],
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-CEILING-REMOVED-001.json",
+        "research/qneuro3/QNEURO3-RUNTIME-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-RUNTIME-P2-RESULT.json",
+        "research/qneuro3/QNEURO3-SCOPE-CORRECTION-001.json"
+      ],
+      "uncertainty": "Fanless thermal variation; one streaming batch-64 select timing is anomalous and reported as measured. The 1 us/example-step threshold is interpolated between two measured points, not resolved.",
+      "confidence": "high for the two measured points, low for the threshold between them",
+      "scope": "synthetic, nonclinical, single machine, static batching"
     }
   ]
 }
