@@ -550,3 +550,73 @@ cost is large relative to gather cost** — 1.95× at 2.66 µs/example-step, 1.0
 second boundary of exactly the same shape as the first. The advantage is real; every time it is
 measured under a stronger control it turns out to be bounded by something that has nothing to do
 with the mechanism.
+
+---
+
+## FAIL-034 / 035 / 036 — The final phase: a real dataset, and three dead branches
+
+Sixteen frozen predictions in, with one pass and a niche that had survived every control, the last
+phase asked the two questions that could still overturn it: does the mechanism beat *strong*
+adaptive-compute baselines, and does it work on data I did not design?
+
+**FAIL-034 — on real data it comes fourth of five.** UCI Human Activity Recognition, the dataset's
+own canonical subject-disjoint split (17 train / 4 validation / 9 test subjects, chosen by the
+dataset, not by me). 128-step inertial windows delivered in 16 chunks; classify the activity as
+early as possible. Five arms over one identical core at identical parameter counts (63,271), three
+seeds, protocol frozen and hashed before the test subjects were read:
+
+| arm | test accuracy | mean chunks | train s |
+|---|---:|---:|---:|
+| fixed depth | 0.9127 | 16.00 | 3.6 |
+| **ACT** (Graves 2016) | **0.9006** | **3.61** | 4.5 |
+| confidence exit | 0.8811 | 2.57 | 3.4 |
+| confidence exit @ matched compute | 0.8747 | 2.28 | 3.4 |
+| **supervised halting (ours)** | **0.8112** | 2.39 | **8.4** |
+| PonderNet | 0.5220 | 16.00 | 4.3 |
+
+Real data supplies no ground-truth halt step, so the target had to be distilled from a teacher's
+earliest confident-correct chunk — declared as prior art in the frozen record beforehand, and the
+reason our arm costs 2.3× the training time. **The kill condition fired.** Supervised halting is
+beaten by a method from 2016 that needs no teacher, and by a softmax threshold that needs neither.
+
+The narrowing is the headline, not a caveat: **the mechanism earns its place only where the task
+supplies a halt target.** On the three synthetic families where it does, the mechanism attains
+optimal allocation at matched accuracy with 10/10 seed reliability. On a real workload where it does
+not, it loses.
+
+*What did transfer* is the runtime characterisation, completely: 6.38× at batch 1, 0.70× at batch
+256 under lockstep, 1.63× once compaction is used. The execution-policy findings hold on real data
+even though the mechanism does not win.
+
+PonderNet's collapse to 0.5220 is almost certainly my implementation's fault rather than the
+method's. ACT working well on the same core suggests the harness is fair — and a correctly tuned
+PonderNet would only rank *above* us.
+
+**FAIL-035 — complex fields add exactly nothing.** A genuinely complex state carried as
+`complex64`, with Hermitian attention so phase can affect the halting decision, at matched *real*
+parameter count (56,545 against 55,001): **1.0000 accuracy, 1.0000 halt accuracy, 6.15 mean steps on
+3 of 3 seeds** — indistinguishable from the real control's 1.0000 at 6.14. Expressivity was already
+known to be identical by exact realification (`FAIL-005`); the last remaining route was optimisation
+dynamics, and that is now measured identical too.
+
+**FAIL-036 — adaptive width is beaten by a smaller fixed model.** Letting the model choose both
+depth and width, `C(x) = T(x)·N(x)`, with a per-step router over eight hidden groups:
+
+| config | cost | accuracy | params |
+|---|---:|---:|---:|
+| adaptive depth, full width | 6.15 | 1.0000 | 57,065 |
+| adaptive depth, **routed** 4/8 | 3.07 | 1.0000 | 57,065 |
+| adaptive depth, **static** 4/8 | 3.07 | 1.0000 | **32,425** |
+| adaptive depth, **static** 2/8 | **1.54** | **1.0000** | **20,105** |
+| adaptive depth, routed 2/8 | 2.13 | 0.8143 | 57,065 |
+
+A statically narrow model matches the router at identical cost with 43% fewer parameters, and beats
+it outright at the aggressive setting. At binding capacity (`d = 16`) routing is *strictly worse*
+than static narrowing — 0.032 against 0.115 at equal cost. Killed at both regimes.
+
+Before the control was run, an accounting bug made routing look like a clean 2× Pareto win: the
+fixed-depth arms were charged only up to their *selected* step rather than the full depth they
+actually execute, understating their cost fourfold. Found and fixed before any conclusion was drawn.
+
+**What these three have in common.** Each was killed by the simplest available control — a smaller
+model, an exactly equivalent real model, a 2016 baseline. None needed a subtle argument.

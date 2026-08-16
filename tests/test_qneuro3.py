@@ -363,3 +363,77 @@ def test_plan_chooses_compaction_only_when_the_step_cost_justifies_it() -> None:
     assert plan(pmf, 256, step_cost_us=0.33).policy != "compacted"
     assert plan(pmf, 256).policy != "compacted", "no step cost means compaction is unjustified"
     assert plan(pmf, 1, step_cost_us=2.66).policy == "lockstep", "nothing to compact at batch 1"
+
+
+# --- final-phase invariants ----------------------------------------------------------------------
+
+
+def test_configure_refuses_impossible_constraints() -> None:
+    """A configurator that relaxes a constraint to return something is worse than one that fails."""
+
+    from qneuro3.adaptive import configure
+
+    configure(batch=1)  # satisfiable
+    for kwargs in ({"batch": 1, "max_latency_us": 10.0}, {"batch": 1, "max_bytes": 1}):
+        try:
+            configure(**kwargs)
+        except ValueError:
+            continue
+        raise AssertionError(f"configure({kwargs}) should have refused")
+
+
+def test_configure_never_trades_quality() -> None:
+    from qneuro3.adaptive import configure
+
+    try:
+        configure(batch=1, min_quality=0.99, measured_quality=0.80)
+    except ValueError:
+        return
+    raise AssertionError("configure returned a point below the requested quality floor")
+
+
+def test_peak_memory_favours_compaction() -> None:
+    """The second Pareto axis: compaction retains live rows, attribution retains every step."""
+
+    from qneuro3.adaptive import peak_activation_bytes
+
+    full = peak_activation_bytes(256, 24, 64, policy="select")
+    compact = peak_activation_bytes(256, 24, 64, policy="compacted", mean_depth=6.14)
+    assert compact < full
+    assert full / compact > 3.0
+
+
+def test_har_validation_subjects_are_fixed_in_advance() -> None:
+    """The held-out subjects must be a constant, not something chosen after seeing results.
+
+    The real-data comparison is only credible if the split could not be tuned; the four lowest
+    subject IDs were fixed in the frozen protocol before any outcome was read.
+    """
+
+    from research.qneuro3.har import VALIDATION_SUBJECTS
+
+    assert VALIDATION_SUBJECTS == (1, 3, 5, 6)
+    assert list(VALIDATION_SUBJECTS) == sorted(VALIDATION_SUBJECTS)
+
+
+def test_every_frozen_q3_prediction_verifies_from_disk() -> None:
+    """A frozen prediction whose hash cannot be re-verified from disk is not frozen."""
+
+    import hashlib
+    import json
+    import pathlib
+
+    frozen = pathlib.Path("research/qneuro3")
+    names = [p for p in sorted(frozen.glob("QNEURO3-*.json")) if not p.name.endswith("-RESULT.json")]
+    checked = 0
+    for path in names:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        if "prediction" not in payload:
+            continue
+        key = "sha256" if "sha256" in payload else "sha256_of_prediction"
+        recomputed = hashlib.sha256(
+            json.dumps(payload["prediction"], indent=2, sort_keys=True).encode()
+        ).hexdigest()
+        assert recomputed == payload[key], f"{path.name} hash does not round-trip"
+        checked += 1
+    assert checked >= 10, f"expected at least 10 frozen predictions, found {checked}"

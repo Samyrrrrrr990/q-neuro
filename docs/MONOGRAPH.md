@@ -32,8 +32,9 @@ is the reproduction manual, and this is the narrative — including the parts th
 - Part V — Q-Neuro 3.0: architecture from first principles
 - Part VI — Cycle 2: the fix, and thirteen predictions later
 - Part VII — The ceiling moves: a runtime, and a second boundary
-- Part VIII — What the program actually produced
-- Part IX — The beautiful results that had to be killed
+- Part VIII — The final phase: real data, strong baselines, three dead branches
+- Part IX — What the program actually produced
+- Part X — The beautiful results that had to be killed
 - Appendix A — The failure register
 - Appendix B — Rules that earned their cost
 
@@ -1059,19 +1060,131 @@ runs on, and both had to be measured rather than reasoned about.
 
 ---
 
-# Part VIII — What the program actually produced
+# Part VIII — The final phase: real data, strong baselines, three dead branches
 
-## VIII.1 The scoreboard
+## VIII.1 The two questions that could still overturn everything
 
-**Fifteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
-twelve failures had narrowed the claim to something small enough to be true. The two that followed
-it failed as well, and that is how the claim acquired its second boundary.
+Sixteen predictions in, one had passed, and the niche had survived every control thrown at it. Two
+questions remained that could reverse the headline, and both had been deferred:
+
+1. Does the mechanism beat *strong* adaptive-compute baselines — not fixed-depth strawmen?
+2. Does it work on data I did not design?
+
+Both were answered in the last phase. Both answers are no.
+
+## VIII.2 Real data
+
+> **Intuition.** Every task so far was one I built. A task I build can accidentally be a task my
+> method is good at. The only way out is a dataset whose structure, split and difficulty I did not
+> choose.
+
+> **Formal.** UCI Human Activity Recognition: 9 inertial channels × 128 timesteps, 6 activity
+> classes, delivered in 16 chunks of 8. Early classification — emit the class as soon as possible.
+> The split is the dataset's **own canonical subject-disjoint partition**: 17 training subjects,
+> 4 held out for validation by lowest ID, 9 test subjects never seen. A genuine distribution shift
+> by person, and not mine to tune.
+>
+> The protocol was frozen and hashed before the test subjects were read. Five arms over one
+> identical core, identical parameter counts (63,271), three seeds.
+
+> **Experimental.**
+>
+> | arm | test accuracy | mean chunks | p95 | train s |
+> |---|---:|---:|---:|---:|
+> | fixed depth | **0.9127** | 16.00 | 16.00 | 3.6 |
+> | **ACT** (Graves 2016) | **0.9006** | **3.61** | 10.33 | 4.5 |
+> | confidence exit | 0.8811 | 2.57 | 13.00 | 3.4 |
+> | confidence exit @ matched compute | 0.8747 | 2.28 | 10.00 | 3.4 |
+> | **supervised halting (ours)** | 0.8112 | 2.39 | 15.67 | **8.4** |
+> | PonderNet | 0.5220 | 16.00 | 16.00 | 4.3 |
+
+**Fourth of five.** Beaten by a method from 2016 and by a softmax threshold, at 2.3× the training
+cost.
+
+The cost is structural, and it was declared before the run. Real data supplies no ground-truth halt
+step. My mechanism is *supervised* halting; with nothing to supervise it, the target has to be
+distilled from a teacher's earliest confident-correct chunk — which is early-exit distillation,
+prior art, and requires training the teacher first.
+
+> **The scope condition.** Supervised halting earns its place only where the task supplies a
+> ground-truth halt step. Where it does — `chase_to_goal`, `query_chase`, threshold-crossing — it
+> attains the optimal allocation at matched accuracy with 10/10 seed reliability. Where it does not,
+> methods that need no teacher win.
+
+That sentence is the honest headline of Q-Neuro 3.0, and it is a narrowing, not a result.
+
+**What did transfer, completely, is the runtime characterisation**: 6.38× at batch 1, 0.70× at batch
+256 under lockstep, 1.63× once compaction is used. The execution-policy findings hold on real data
+even though the mechanism does not win. That is worth noticing — the durable part of this programme
+was never the architecture.
+
+One honesty note: PonderNet collapsed to 0.5220 using all 16 chunks. ACT working well on the same
+core suggests the harness is fair, so I read this as a defect in my implementation rather than in
+the method. A correct PonderNet would rank *above* me, which is why the error does not favour me.
+
+## VIII.3 Three branches, three controls, three deaths
+
+**Complex fields.** The branch the whole programme is named after, tested last.
+
+> **Formal.** A genuinely complex state carried as `complex64`, Hermitian attention so that phase
+> affects the halting decision rather than decorating it, at matched **real** parameter count —
+> 56,545 against the real model's 55,001.
+
+> **Experimental.** 1.0000 accuracy, 1.0000 halt accuracy, 6.15 mean steps, on 3 of 3 seeds. The
+> real control: 1.0000 at 6.14 steps. Indistinguishable.
+
+Q-Neuro 1.0 believed in phase. Q-Neuro 2.0 proved realification exact, which removed expressivity
+as a route. This closes the last one: optimisation outcome is identical too. Nothing about the
+complex formulation survives into the final architecture.
+
+**Adaptive width.** The most promising untested idea: let the model choose depth *and* width, so the
+resource spent is `C(x) = T(x)·N(x)`.
+
+> **Experimental.**
+>
+> | config | cost | accuracy | params |
+> |---|---:|---:|---:|
+> | adaptive depth, full width | 6.15 | 1.0000 | 57,065 |
+> | adaptive depth, **routed** 4/8 | 3.07 | 1.0000 | 57,065 |
+> | adaptive depth, **static** 4/8 | 3.07 | 1.0000 | **32,425** |
+> | adaptive depth, **static** 2/8 | **1.54** | **1.0000** | **20,105** |
+> | adaptive depth, routed 2/8 | 2.13 | 0.8143 | 57,065 |
+
+For a few minutes this looked like a clean 2× Pareto win. It was an accounting bug: the fixed-depth
+arms were being charged only up to their *selected* step rather than the full depth they actually
+execute, understating their cost fourfold. Fixed before any conclusion was drawn.
+
+Then the real control killed it. A **statically** narrow model matches the router at identical cost
+with 43% fewer parameters, and beats it at the aggressive setting. At binding capacity (`d = 16`)
+routing is strictly worse — 0.032 against static's 0.115 at equal cost. The router is pure overhead.
+
+**Homeostasis, self-repair, developmental specialisation, distillation.** Recorded as **not
+attempted**, with reasons, rather than dressed up as negative results. Normalisation had already
+taken reliability to 20/20, leaving a homeostatic controller no headroom to demonstrate; the others
+would defend a mechanism that had just been restricted.
+
+## VIII.4 What these deaths have in common
+
+Each branch was killed by the **simplest available control**: a smaller model, an exactly equivalent
+real model, a 2016 baseline. None required a subtle argument. That is the most useful thing to
+notice about the whole search — the ideas that felt most like discoveries were dispatched by
+controls that took a few hours to run and should have been run first.
+
+---
+
+# Part IX — What the program actually produced
+
+## IX.1 The scoreboard
+
+**Sixteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
+twelve failures had narrowed the claim to something small enough to be true. The three that followed
+it all failed, and each narrowed the claim further rather than being absorbed into it.
 
 Two contained genuine prospective successes inside failures (`DFREE-LAW-P3`'s homogeneity component;
 `TRANSFER-P1`'s third clause). One *passed* and the pass was worthless (`DISCOVERY-001-P1`, vacuous).
-Thirty-three failures preserved with mechanisms.
+Thirty-six failures preserved with mechanisms.
 
-## VIII.2 What survives
+## IX.2 What survives
 
 **1. The equivalence compiler.** A typed, refusing certificate system that makes "these two models
 are equivalent" into a checkable claim with a level, a domain, and a transport class. It caught its
@@ -1090,7 +1203,7 @@ Adam. Dead for nonlinear models.
 **4. The adaptive-compute reporting standard.** §V.5. Cheap to apply, and it invalidates a class of
 results that look fine.
 
-**5. A catalogue of measurement defects that produce plausible wrong answers.** §IX.2. This is
+**5. A catalogue of measurement defects that produce plausible wrong answers.** §X.2. This is
 worth more than it looks.
 
 **6. Supervised predicate halting, with its ceiling.** Optimal per-example allocation — mean steps
@@ -1098,7 +1211,7 @@ equal `E[predicate index]` to within 0.1 across six settings — a 2.8–4.9× w
 batch 1, and an analytic ceiling that removes the advantage above batch ≈ 32. Confirmed
 prospectively. The mechanism is prior art; the measured boundary is the contribution.
 
-## VIII.3 What does not survive
+## IX.3 What does not survive
 
 The transport-covariance conjecture. Canalized quotient dynamics. Functional bifurcation. Geometric
 phase in training. Curriculum holonomy. Functional navigation of the near-optimal set. The
@@ -1107,7 +1220,7 @@ exactness standard. Adaptive depth on `chase_to_goal` as originally built. Early
 training mode. The carry-distance mechanism. The readout-location principle as anything general.
 Depth extrapolation from halting.
 
-## VIII.4 What is not claimed
+## IX.4 What is not claimed
 
 No state-of-the-art result. No new capability. No claim that adaptive depth cannot win on some other
 workload. No claim that the transport conjecture is false in every possible form. No clinical
@@ -1115,12 +1228,12 @@ validity. No connection to quantum cognition. No general superiority for any met
 
 ---
 
-# Part IX — The beautiful results that had to be killed
+# Part X — The beautiful results that had to be killed
 
 Collected deliberately, because a program that reports only its survivors teaches nothing about how
 often the survivors are wrong.
 
-## IX.1 Results that were beautiful and false
+## X.1 Results that were beautiful and false
 
 **The 14-order-of-magnitude phase boundary.** Two models, provably the same predictor, on opposite
 sides of a stability boundary because of coordinates. 0.9912 prediction accuracy, zero false alarms
@@ -1137,6 +1250,16 @@ bimodality check: 0.20–0.47, **all unimodal**.
 
 **Curriculum holonomy.** Loops in curriculum space appeared to leave a geometric signature. The
 stay-control — which traversed no loop at all — scored 4.19, higher than every loop.
+
+**The complex hypothesis, finally buried.** Q-Neuro 1.0 was built on it. Q-Neuro 2.0 proved
+realification exact, which removed expressivity as a route but left optimisation dynamics open. The
+last experiment of the programme closed that too: 1.0000 accuracy, 1.0000 halting, 6.15 steps —
+identical to the real control at matched parameters, on every seed. The idea the project is named
+after contributes nothing to its final architecture.
+
+**Adaptive width's 2× Pareto win.** Real-looking, and an accounting bug: fixed-depth arms were
+charged only to their selected step, not the depth they execute. Corrected, then killed properly by
+a statically narrow model that matched it with 43% fewer parameters.
 
 **Q3's 1.77× speedup.** Matched accuracy, fewer parameters, 28.8 s training, and it reproduces
 exactly on the seeds where it works. It works 6 times in 10, against a baseline that works 10 times
@@ -1156,7 +1279,7 @@ prospective, one-attempt test. Its grid gave 197 chances to false-alarm and **ze
 miss. The strongest methodological safeguard in the program produced a meaningless pass, and only
 an audit of the grid's coverage caught it.
 
-## IX.2 The defects, in one table
+## X.2 The defects, in one table
 
 Each produced a plausible, reportable, wrong answer.
 
@@ -1179,7 +1302,7 @@ for the whole apparatus.
 
 # Appendix A — The failure register
 
-Thirty-three preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
+Thirty-six preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
 failed idea has been renamed and rerun.
 
 | ID | Subject | Failure |
@@ -1217,6 +1340,9 @@ failed idea has been renamed and rerun.
 | FAIL-031 | `QNEURO3-EXTRAP-P1` | no depth extrapolation; and normalisation's effect inverted |
 | FAIL-032 | `QNEURO3-RUNTIME-P1` | cost model put the compaction crossover at 45; it is below 16 |
 | FAIL-033 | `QNEURO3-RUNTIME-P2` | the ceiling removal does not transfer to a cheap core |
+| FAIL-034 | `QNEURO3-HAR-P1` | on real data the mechanism is fourth of five; ACT and confidence exit win |
+| FAIL-035 | `QNEURO3-GATE5-A` | complex fields identical to the real control at matched parameters |
+| FAIL-036 | `QNEURO3-GATE5-B` | adaptive width beaten by a smaller static model at equal cost |
 
 ---
 

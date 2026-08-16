@@ -1,4 +1,4 @@
-.PHONY: reproduce-q3-niche reproduce-q3-niche-quick sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010 qe-all discovery-suite claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper
+.PHONY: reproduce-q3 reproduce-q3-quick reproduce-q3-niche reproduce-q3-niche-quick sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010 qe-all discovery-suite claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper
 
 sync:
 	uv sync --extra dev
@@ -217,3 +217,9 @@ reproduce-q3-niche:
 
 reproduce-q3-niche-quick:
 	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3_niche.py --quick --with-compaction
+
+reproduce-q3:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3.py
+
+reproduce-q3-quick:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3.py --quick

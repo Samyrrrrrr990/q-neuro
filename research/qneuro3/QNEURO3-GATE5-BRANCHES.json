@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-GATE5-BRANCHES",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "title": "Gate 5: three architecture branches tested against their own controls, three killed",
+  "rule": "A branch survives only if it adds an independent capability or Pareto improvement beyond the frozen adaptive-halting core.",
+  "branch_A_complex_fields": {
+    "design": "Genuinely complex state carried as complex64, Hermitian attention so phase affects the halting decision, matched REAL parameter count (56545 against the real model's 55001).",
+    "result": [
+      {
+        "seed": 0,
+        "accuracy": 1.0,
+        "halt_accuracy": 1.0,
+        "mean_steps": 6.15
+      },
+      {
+        "seed": 1,
+        "accuracy": 1.0,
+        "halt_accuracy": 1.0,
+        "mean_steps": 6.15
+      },
+      {
+        "seed": 2,
+        "accuracy": 1.0,
+        "halt_accuracy": 1.0,
+        "mean_steps": 6.15
+      }
+    ],
+    "control": "The real model on the identical task: 1.0000 accuracy, 6.14 mean steps.",
+    "verdict": "KILLED. Identical accuracy, identical halting, identical depth, at matched real parameters. The complex field changes nothing.",
+    "consistency": "Consistent with FAIL-005 and the exact-realification result: expressivity was already known to be identical, and the remaining route -- optimisation dynamics -- is now measured and also identical."
+  },
+  "branch_B_adaptive_width": {
+    "design": "C(x) = T(x) * N(x). The step MLP's hidden layer is split into 8 groups; a per-step router keeps the top k. Straight-through hard masking. Compared against the SAME number of hidden units chosen statically at construction.",
+    "result_saturated_capacity_d64": [
+      {
+        "config": "adaptive depth, full width",
+        "cost": 6.15,
+        "accuracy": 1.0,
+        "params": 57065
+      },
+      {
+        "config": "adaptive depth, ROUTED width 4/8",
+        "cost": 3.07,
+        "accuracy": 1.0,
+        "params": 57065
+      },
+      {
+        "config": "adaptive depth, STATIC width 4/8",
+        "cost": 3.07,
+        "accuracy": 1.0,
+        "params": 32425
+      },
+      {
+        "config": "adaptive depth, STATIC width 2/8",
+        "cost": 1.54,
+        "accuracy": 1.0,
+        "params": 20105
+      },
+      {
+        "config": "adaptive depth, ROUTED width 2/8",
+        "cost": 2.13,
+        "accuracy": 0.8143,
+        "params": 57065
+      },
+      {
+        "config": "fixed depth, ROUTED width 4/8",
+        "cost": 12.0,
+        "accuracy": 0.1926,
+        "params": 57065
+      }
+    ],
+    "result_binding_capacity_d16": [
+      {
+        "config": "full width",
+        "cost": 18.71,
+        "accuracy": 0.2502
+      },
+      {
+        "config": "ROUTED 4/8",
+        "cost": 12.0,
+        "accuracy": 0.0324
+      },
+      {
+        "config": "STATIC 4/8",
+        "cost": 10.92,
+        "accuracy": 0.1145
+      },
+      {
+        "config": "ROUTED 2/8",
+        "cost": 6.0,
+        "accuracy": 0.0295
+      },
+      {
+        "config": "STATIC 2/8",
+        "cost": 6.0,
+        "accuracy": 0.0297
+      }
+    ],
+    "verdict": "KILLED by its own control, at both capacity regimes. A statically narrow model matches the routed one at identical cost with 43% fewer parameters, and beats it at the aggressive setting (static 2/8 reaches 1.0000 at cost 1.54 where routed 2/8 reaches 0.8143 at cost 2.13). At binding capacity routing is strictly worse than static narrowing.",
+    "accounting_bug_found_and_fixed": "The first version charged fixed-depth models only up to their SELECTED step rather than the full depth they execute, understating their cost by 4x and briefly making routing look like a 2x Pareto win. Corrected before any conclusion was drawn."
+  },
+  "branches_not_attempted": {
+    "C_homeostatic_control": "Partially addressed and deprioritised. RMS normalisation is already a homeostatic mechanism and already took seed reliability from 11-of-24 to 20-of-20, so a learned controller has no measurable headroom left on the surviving family. Hyperparameter sensitivity is measured separately under Gate 7.",
+    "D_self_repair": "Not attempted. Requires a capability the surviving core does not have -- there is no redundant substrate to repair into -- and the mechanism it would defend has just been restricted by QNEURO3-HAR-P1.",
+    "E_developmental_specialisation": "Not attempted. Branch B already measured that per-example routing over hidden groups is beaten by static narrowing, which is the same question one level down.",
+    "F_distillation": "Not attempted as a Q-Neuro mechanism, but it appears in the programme as PRIOR ART: the HAR supervised arm derives its halt target by distilling a teacher's earliest confident-correct chunk, and that arm lost.",
+    "honesty": "These are recorded as NOT DONE with reasons, not as negative results."
+  }
+}

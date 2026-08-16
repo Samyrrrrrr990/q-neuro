@@ -66,34 +66,38 @@ architecture wins.
 ## Research program documentation
 
 Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0) and the architecture program
-(Q-Neuro 3.0) — is documented in three companion documents. **Fifteen frozen, hashed, prospective
-predictions were opened and one passed as written**; 33 failures are preserved with mechanisms.
+(Q-Neuro 3.0) — is documented in three companion documents. **Sixteen frozen, hashed, prospective
+predictions were opened and one passed as written**; 36 failures are preserved with mechanisms.
 
-The one that passed, `QNEURO3-NICHE-P1`, is deliberately small and carries its own ceiling:
+**The programme's headline is a scope condition, and it is negative:**
 
-> On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised predicate
-> attains the **optimal** per-example allocation and gives a **2.8–4.9× wall-clock inference saving
-> at batch 1**, at matched accuracy and parameters — and **loses that advantage above batch ≈ 32
-> under lockstep execution**, because a lockstep batch cannot exit until its slowest member does.
+> Supervised halting earns its place **only where the task supplies a ground-truth halt step**.
+> Where it does, it attains the optimal per-example compute allocation at matched accuracy with
+> 10/10 seed reliability and a 3.6× batch-1 wall-clock saving. Where it does not — tested on UCI
+> Human Activity Recognition with the dataset's own subject-disjoint split — it comes **fourth of
+> five**, beaten by ACT (2016) and by confidence-based early exit, at 2.3× the training cost.
 
-Reproduce it standalone, with the frozen hash verified from disk before anything is scored:
+Reproduce everything, with all ten frozen hashes verified from disk before anything is scored:
 
 ```bash
-make reproduce-q3-niche
+make reproduce-q3          # full, ~90 min
+make reproduce-q3-quick    # hashes + invariants, ~1 min
 ```
 
-**The ceiling turned out to belong to the runtime, not the mechanism.** Under active-set compaction
-— prior art, claimed as a baseline — the same models recover from 0.97× to **1.95×** at batch 256 on
-an expensive core. Two further predictions were frozen and both failed: the cost model put the
-crossover at batch 45 when it is below 16, and the recovery does not transfer to a core eight times
-cheaper per step, where it reaches only 1.07×. So the second boundary is: compaction pays when
-per-step cost is large relative to gather cost.
+**No new mechanism and no new architecture survives.** What does survive is a set of measured
+boundaries — the lockstep straggler ceiling and its analytic form, the compaction crossover, the
+scope condition above, and the silent-failure mode of adaptive compute — plus the falsification
+discipline that produced them. See [`docs/GATE4_NOVELTY_AUDIT.md`](docs/GATE4_NOVELTY_AUDIT.md) for
+the explicit separation and [`docs/QNEURO3_COMPLETION_SCORECARD.md`](docs/QNEURO3_COMPLETION_SCORECARD.md)
+for the final scorecard, including the three dimensions that fall short of their thresholds.
 
 | Document | For |
 |---|---|
 | [**Paper**](docs/PAPER.md) | the short version — problem, principle, what was frozen, why it failed |
 | [**Technical breakdown**](docs/TECHNICAL_BREAKDOWN.md) | reproduction — derivations, hyperparameters, controls, commands |
 | [**Monograph**](docs/MONOGRAPH.md) | the full narrative, including every failure and the beautiful results that had to be killed |
+| [**Novelty audit**](docs/GATE4_NOVELTY_AUDIT.md) | what is prior art, what is measurement, what is ours |
+| [**Completion scorecard**](docs/QNEURO3_COMPLETION_SCORECARD.md) | evidence-linked scores and the shortfalls |
 
 These document ongoing research and are **not** part of the frozen v1.0.0 publication package below.
 

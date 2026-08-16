@@ -214,8 +214,8 @@
     },
     {
       "claim_id": "CLAIM-007",
-      "status": "confirmed prospectively, scoped",
-      "exact_wording": "On workloads with a deep worst case and heavy-tailed difficulty, halting on a supervised predicate attains the optimal per-example compute allocation and gives a 2.8-4.9x wall-clock inference saving at batch 1 at matched accuracy and matched parameters, and loses that advantage entirely above batch approximately 32.",
+      "status": "confirmed prospectively, then materially narrowed by real-data evidence",
+      "exact_wording": "ON TASKS THAT SUPPLY A GENUINE HALT TARGET, halting on a supervised predicate attains the optimal per-example compute allocation and gives a 2.8-4.9x wall-clock inference saving at batch 1 at matched accuracy and matched parameters, and loses that advantage above batch approximately 32 under lockstep execution. Where no halt target exists and it must be distilled from a teacher, it is beaten by confidence-based early exit and by ACT.",
       "evidence": [
         "QNEURO3-NICHE-P1 (sha256 7fbcceb87f9a2193) was frozen on the streaming family and opened once on the associative-lookup family at depth 24 with a heavy-tailed distribution never used before. All four clauses passed: accuracy 1.0000 against select's 1.0000; mean steps 6.14 against E[distance] 6.14; batch-1 speedup 2.78x against a required 2.5x; batch-256 speedup 0.97x against a required ceiling of 1.2x.",
         "Mean step count equals E[predicate index] to within 0.1 in six independent settings (4.45/8, 6.55/12, 2.51/4, 4.54/8, 6.60/12, 6.14/24).",
@@ -225,10 +225,11 @@
         "No novelty is claimed. Supervised early exit and per-step attribution are prior art (Graves 2016; Banino et al. 2021; Vinyals et al. 2015; Lee et al. 2015).",
         "The SIZE of the saving is max_depth / E[predicate index], a property of the workload rather than of the architecture. The architecture's contribution is attaining that optimum reliably.",
         "Measured on one machine (Apple M2 CPU) at one model scale. Continuous batching or sequence packing may recover part of the saving above the crossover and was not measured.",
-        "Synthetic tasks only."
+        "Synthetic tasks only.",
+        "QNEURO3-HAR-P1 was frozen and FAILED on real data (UCI HAR, subject-disjoint split): supervised halting 0.8112 against confidence exit 0.8747 at matched compute and ACT 0.9006 at 3.61 chunks, with 2.3x the training cost. The mechanism is fourth of five arms."
       ],
       "confidence": "high within the measured scope",
-      "scope": "synthetic, nonclinical, single-machine",
+      "scope": "synthetic, nonclinical, single machine; and only where the task defines the halt step",
       "assumptions": "Per-example halt steps are independent across a batch; the halting predicate is supervised by the task; difficulty is heavy-tailed with a deep worst case; inference runs on CPU at the measured model scale.",
       "effect_size": "2.78x mean wall-clock speedup at batch 1 over 25 independent examples (lookup family, depth 24); 4.89x on the streaming family at depth 32; 0.97-0.99x at batch 256 on both. Mean steps 6.14 of 24 against E[distance] 6.14.",
       "external_validity": "Two synthetic task families with structurally different cores (attention-based graph traversal, attention-free streaming). One machine, one model scale, CPU only. Not tested on natural data, on GPU, at large model width, or under continuous batching.",
@@ -373,6 +374,35 @@
       "uncertainty": "Fanless thermal variation; one streaming batch-64 select timing is anomalous and reported as measured. The 1 us/example-step threshold is interpolated between two measured points, not resolved.",
       "confidence": "high for the two measured points, low for the threshold between them",
       "scope": "synthetic, nonclinical, single machine, static batching"
+    },
+    {
+      "claim_id": "CLAIM-012",
+      "status": "supported by a frozen failed prediction; stated as the programme's headline",
+      "exact_wording": "Supervised halting earns its place only where the task supplies a ground-truth halt step. Where the halt target must be distilled from a teacher, simpler adaptive-compute methods that need no teacher -- confidence-based early exit and adaptive computation time -- reach equal or better accuracy at equal or lower compute and lower training cost.",
+      "evidence": [
+        "QNEURO3-HAR-P1, frozen and opened once on UCI HAR with the dataset's canonical subject-disjoint split, 3 seeds, all five arms at identical parameter counts (63271): fixed 0.9127 at 16.00 chunks; ACT 0.9006 at 3.61; confidence exit 0.8811 at 2.57 and 0.8747 at compute matched to ours; supervised halting 0.8112 at 2.39; PonderNet 0.5220.",
+        "Training cost: 8.4 s for supervised halting against 3.4 s for confidence exit and 4.5 s for ACT, because the supervised arm must train a teacher first."
+      ],
+      "counterevidence": [
+        "On three synthetic families where the task DOES define the halt step, supervised halting attains the optimal allocation (mean steps equal E[predicate index] to within 0.1 in six settings) at matched accuracy and 10/10 seed reliability. The narrowing is a scope condition, not a refutation of those results.",
+        "PonderNet's collapse is probably an implementation shortcoming of mine; a correct implementation would only strengthen this claim, not weaken it."
+      ],
+      "assumptions": "One real dataset; 16 chunks of 8 timesteps; teacher target is the earliest confident-and-correct chunk at 0.9 confidence.",
+      "effect_size": "0.0635 accuracy behind confidence exit at matched compute; 0.0894 behind ACT; 2.3x the training cost.",
+      "external_validity": "One real dataset in one domain. The direction is consistent across 3 seeds with per-seed spread under 0.01.",
+      "falsifier": "A real dataset with no task-supplied halt target on which supervised halting beats both confidence exit and ACT at matched compute, parameters and total training cost.",
+      "novelty_status": "No novelty claimed. The finding is a scope condition on a prior-art mechanism.",
+      "replication_status": "Frozen once, opened once, 3 seeds. Single implementation.",
+      "supporting_experiments": [
+        "QNEURO3-NICHE-P1"
+      ],
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-HAR-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-GATE5-BRANCHES.json"
+      ],
+      "uncertainty": "HAR is near-saturated for strong models, so the arms compete in a narrow band; the supervised arm lost by 0.06-0.09, well outside the per-seed spread.",
+      "confidence": "high for the direction, medium for the magnitude",
+      "scope": "real-data early classification without a task-supplied halt target"
     }
   ]
 }

@@ -716,6 +716,85 @@ gather cost — 1.95× at 2.66 µs/example-step, 1.07× at 0.33.
 the constant's docstring: `COMPACTION_WORTH_IT_STEP_COST_US = 1.0` (interpolated between the two
 measured cores, not resolved) and `COMPACTION_MIN_BATCH = 16`.
 
+## 6C. Gates 1-10: real data, baselines, M2, reliability
+
+### 6C.1 Commands
+
+```bash
+make reproduce-q3            # umbrella: all 10 frozen hashes + 5 invariants + niche reproduction
+make reproduce-q3-quick      # hashes and invariants only, ~1 min
+python experiments/run_qneuro3_m2_benchmark.py all --output research/qneuro3/m2_report.json
+```
+
+### 6C.2 Real data (Gates 1, 3, 9)
+
+UCI HAR, archive sha256 `c00b803081a5c797cd5e4b83700a9810b38d53d9d84e01917e090e1fdbc81031`,
+CC BY 4.0. 9 inertial channels × 128 timesteps → 16 chunks of 8; 6 classes. **Canonical
+subject-disjoint split**: train subjects {7,8,11,14,15,16,17,19,21,22,23,25,26,27,28,29,30},
+validation {1,3,5,6} (four lowest IDs, fixed in advance), test {2,4,9,10,12,13,18,20,24}.
+Standardised with train statistics only. Protocol frozen as `QNEURO3-HAR-P1` before test access.
+
+Five arms, one `Core`, **63,271 parameters each**, 3 seeds:
+
+| arm | test acc | mean chunks | p95 | train s |
+|---|---:|---:|---:|---:|
+| fixed | 0.9127 | 16.00 | 16.00 | 3.6 |
+| act | 0.9006 | 3.61 | 10.33 | 4.5 |
+| confidence | 0.8811 | 2.57 | 13.00 | 3.4 |
+| confidence @ matched compute | 0.8747 | 2.28 | 10.00 | 3.4 |
+| supervised (ours) | 0.8112 | 2.39 | 15.67 | 8.4 |
+| pondernet | 0.5220 | 16.00 | 16.00 | 4.3 |
+
+The matched-compute threshold is chosen on **validation** to match the supervised arm's validation
+chunk count, then applied to test; test is not consulted in the choice. Verdict: H1 and H3 fail,
+H2/H4/H5 pass, kill condition applied. Latency on real data: 6.38× at batch 1, 0.70× at batch 256
+lockstep, 1.63× compacted.
+
+### 6C.3 Gate 5 branches
+
+| branch | control | verdict |
+|---|---|---|
+| A complex fields | real model at matched real parameters | killed — 1.0000/6.15 vs 1.0000/6.14, 3/3 seeds |
+| B adaptive width | statically narrow model at equal cost | killed — static 4/8 matches routed 4/8 with 43% fewer parameters; static 2/8 reaches 1.0000 at cost 1.54 where routed 2/8 reaches 0.8143 |
+| C–F | — | not attempted, reasons recorded |
+
+### 6C.4 M2 sweep (Gate 2)
+
+`research/qneuro3/m2_report.json`. Median µs/example, matched accuracy:
+
+| batch | select | lockstep | compacted | rows/ex | planner |
+|---:|---:|---:|---:|---:|---|
+| 1 | 1504.4 | **417.5** | 469.2 | 5.0 | lockstep |
+| 4 | 662.2 | **201.7** | 222.5 | 4.3 | lockstep |
+| 8 | 374.7 | 361.0 | **331.0** | 6.5 | lockstep |
+| 16 | 261.3 | 245.0 | **198.7** | 5.6 | compacted |
+| 32 | 180.9 | 162.4 | **124.9** | 5.2 | compacted |
+| 64 | 119.1 | 106.1 | **76.3** | 4.9 | compacted |
+| 128 | 89.8 | 88.9 | **57.1** | 5.5 | compacted |
+| 256 | 72.1 | 71.9 | **38.7** | 5.5 | compacted |
+
+Throughput at batch 256: 13,872/s → 25,841/s. Analytic peak activation memory (`peak_activation_bytes`):
+1,536 KiB for select/lockstep against 457 KiB compacted — 3.4×. Measured RSS deltas are all 0.00
+because `ru_maxrss` is a high-water mark; that limitation is why the memory figure is analytic.
+The planner matches the measured optimum at 8 of 9 sizes; it is conservative at batch 8, where
+compaction already wins by 1.09%.
+
+### 6C.5 Reliability (Gate 7)
+
+10 seeds, lookup family: accuracy **1.0000 on all 10**, halt accuracy **1.0000 on all 10**,
+stdev 0.0, catastrophic-run rate 0/10, ECE 0.0018–0.0021.
+
+Hyperparameter sensitivity, 4 learning rates × 3 halt biases: 9/12 at 1.0000. All three failures at
+`lr = 5e-4` (0.8172 / 0.0602 / 0.4258); at `lr ≥ 1e-3` it is 9/9 regardless of halt bias.
+
+### 6C.6 Configuration (Gate 8)
+
+`qneuro3.adaptive.configure(batch=..., max_latency_us=..., max_bytes=..., min_quality=...)` returns
+the cheapest measured operating point satisfying the constraints, or **raises** — it never relaxes a
+constraint to manufacture an answer. Profiles: M2 Eco / Fast (batch 1, lockstep), M2 Balanced
+(batch 32, compacted), M2 Throughput (batch 256, compacted), M2 Research (batch 16, select, full
+attribution retained for inspection).
+
 ## 7. Measurement defects found and fixed
 
 Each produced a plausible, reportable, **wrong** answer.
@@ -753,7 +832,7 @@ pass first, so a stale manifest cannot be papered over.
 `research/laws/FROZEN_CANDIDATE_001.json`, `docs/PREREGISTRATION_NEXT_PHASE.md`,
 `docs/PROVISIONAL_LAW_FREEZE.md`, released manuscript binaries.
 
-**33 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
+**36 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
 idea has been renamed and rerun.
 
 ### 8.1 Record index
@@ -766,6 +845,9 @@ idea has been renamed and rerun.
 | `research/qneuro3/` | cycle 2: `ATTRIB-P1`(+result), `ATTRIBUTION-001`, `TRANSFER-P1`(+result), `EXTRAP-P1`(+result), `PARETO-P1`(+result), `NICHE-P1`(+result) |
 | `research/qneuro3/` | cycle 3: `SCOPE-CORRECTION-001`, `RUNTIME-P1`(+result), `RUNTIME-P2`(+result), `CEILING-REMOVED-001` |
 | `docs/PRIOR_ART_RUNTIME.md` | equation-level audit of early-exit batching, compaction, continuous batching, MoE dispatch |
+| `docs/GATE4_NOVELTY_AUDIT.md` | the five-way novelty separation; no new mechanism or architecture survives |
+| `docs/QNEURO3_COMPLETION_SCORECARD.md` | the final scorecard, including the three dimensions that fall short |
+| `research/qneuro3/` | final phase: `HAR-P1`(+result), `GATE5-BRANCHES`, `m2_report.json` |
 | `experiments/results/QE-*` | Gate A–D evidence |
 | `docs/ML2_GATE_STATUS.md` | living gate record; records outcomes, never amends thresholds |
 | `docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md` | superseded wording preserved; downgrade recorded |

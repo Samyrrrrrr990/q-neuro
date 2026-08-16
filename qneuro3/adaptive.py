@@ -38,6 +38,7 @@ Components, each with the measurement that justifies it:
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 import torch
 from torch import nn
@@ -252,3 +253,117 @@ class PredicateHalting(nn.Module):
         if bool(unfinished.any()):
             answers[unfinished] = self.answer(feature)[unfinished]
         return answers, steps
+
+
+def peak_activation_bytes(
+    batch: int, max_depth: int, width: int, *, policy: str, mean_depth: float | None = None,
+    dtype_bytes: int = 4,
+) -> int:
+    """Peak activation memory for a halting run, analytically.
+
+    Measured RSS is useless here -- `ru_maxrss` is a high-water mark that never falls, so it reports
+    a delta of zero for every policy. This counts what the policies actually differ in.
+
+    A full-depth attribution model must retain every step's state to select among them, so it holds
+    `batch * max_depth * width`. A halting model under lockstep holds the same, because rows that
+    have halted are still carried. Compaction holds only live rows, whose count decays with the
+    halt distribution, so its peak is at the first step and its integral is far smaller.
+    """
+
+    per_state = width * dtype_bytes
+    if policy == "select":
+        return batch * max_depth * per_state
+    if policy == "lockstep":
+        return batch * max_depth * per_state
+    if policy == "compacted":
+        if mean_depth is None:
+            raise ValueError("compacted memory needs the mean halt depth")
+        # Peak is the first iteration (all rows live); the retained history shrinks with survivors.
+        return batch * per_state + int(batch * mean_depth * per_state)
+    raise ValueError(f"unknown policy {policy!r}")
+
+
+@dataclass(frozen=True)
+class Configuration:
+    """A resource-constrained operating point, chosen from measured evidence."""
+
+    name: str
+    policy: str
+    batch: int
+    predicted_latency_us_per_example: float
+    predicted_peak_bytes: int
+    predicted_quality: float
+    rationale: str
+
+
+#: Measured on the M2 reference machine, lookup family, max_depth 24, E[d] 6.14, 3 seeds.
+#: median microseconds per example, by (batch, policy). See `research/qneuro3/m2_report.json`.
+M2_MEASURED_LATENCY: dict[int, dict[str, float]] = {
+    1: {"select": 1504.4, "lockstep": 417.5, "compacted": 469.2},
+    2: {"select": 1199.6, "lockstep": 301.8, "compacted": 322.3},
+    4: {"select": 662.2, "lockstep": 201.7, "compacted": 222.5},
+    8: {"select": 374.7, "lockstep": 361.0, "compacted": 331.0},
+    16: {"select": 261.3, "lockstep": 245.0, "compacted": 198.7},
+    32: {"select": 180.9, "lockstep": 162.4, "compacted": 124.9},
+    64: {"select": 119.1, "lockstep": 106.1, "compacted": 76.3},
+    128: {"select": 89.8, "lockstep": 88.9, "compacted": 57.1},
+    256: {"select": 72.1, "lockstep": 71.9, "compacted": 38.7},
+}
+
+#: Named operating points. Each is a regime where a measurement says something different is correct,
+#: not a preset. `Research` keeps full-depth attribution so every step's state stays inspectable.
+M2_PROFILES: dict[str, dict[str, Any]] = {
+    "M2 Eco": {"batch": 1, "policy": "lockstep"},
+    "M2 Fast": {"batch": 1, "policy": "lockstep"},
+    "M2 Balanced": {"batch": 32, "policy": "compacted"},
+    "M2 Throughput": {"batch": 256, "policy": "compacted"},
+    "M2 Research": {"batch": 16, "policy": "select"},
+}
+
+
+def configure(
+    *, max_latency_us: float | None = None, max_bytes: int | None = None,
+    min_quality: float = 0.99, max_depth: int = 24, width: int = 64, mean_depth: float = 6.14,
+    measured_quality: float = 1.0, batch: int | None = None,
+) -> Configuration:
+    """Pick the cheapest operating point that satisfies the caller's constraints.
+
+    Quality is not traded away: every policy here is verified to produce identical answers
+    (`qneuro3.runtime.verify_equivalence`), so the choice is purely about latency and memory. If no
+    point satisfies the constraints, that is reported rather than silently relaxed.
+    """
+
+    if measured_quality < min_quality:
+        raise ValueError(
+            f"no configuration reaches quality {min_quality}: the model measures "
+            f"{measured_quality}. Constraints are not relaxed to manufacture a result."
+        )
+    candidates: list[Configuration] = []
+    # Batch size is usually a property of the deployment, not a knob: a single-stream on-device
+    # request cannot be batched into 256 to make its per-example number look better.
+    sizes = M2_MEASURED_LATENCY if batch is None else {batch: M2_MEASURED_LATENCY[batch]}
+    for size, policies in sizes.items():
+        for policy, latency in policies.items():
+            peak = peak_activation_bytes(
+                size, max_depth, width, policy=policy, mean_depth=mean_depth
+            )
+            if max_latency_us is not None and latency > max_latency_us:
+                continue
+            if max_bytes is not None and peak > max_bytes:
+                continue
+            candidates.append(
+                Configuration(
+                    name=f"batch{size}/{policy}", policy=policy, batch=size,
+                    predicted_latency_us_per_example=latency, predicted_peak_bytes=peak,
+                    predicted_quality=measured_quality,
+                    rationale="measured on the M2 reference machine; answers verified identical "
+                              "across policies",
+                )
+            )
+    if not candidates:
+        raise ValueError(
+            "no configuration satisfies the constraints "
+            f"(latency <= {max_latency_us}, memory <= {max_bytes}). "
+            "Reported rather than relaxed."
+        )
+    return min(candidates, key=lambda c: c.predicted_latency_us_per_example)

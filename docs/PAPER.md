@@ -23,7 +23,7 @@ all**, which retroactively explains a string of empirical failures as structural
 and (3) a set of **measurement failure modes** — each of which produced a plausible, publishable,
 wrong answer before being caught.
 
-We then applied the same discipline to architecture design, over two cycles and **thirteen** frozen
+We then applied the same discipline to architecture design, over three cycles and **sixteen** frozen
 predictions. Cycle 1 closed negative: an adaptive-depth model achieved a real 1.77× inference
 saving that reproduced on only 6 of 10 seeds against a baseline that never failed, with a **silent**
 failure mode — a broken run still reports a plausible adaptive step count.
@@ -44,12 +44,23 @@ The ceiling was the load-bearing half, and then it moved. It is analytic for the
 was predicted in advance on one task family and confirmed unprompted on another. But it is a
 property of the **runtime**, not of the mechanism: under active-set compaction the same models
 recover from 0.97× to **1.95×** at batch 256 on an expensive core — and to only 1.07× on a core
-eight times cheaper per step, where a removed row saves less than the gather that removes it. Two
-further frozen predictions were opened on the runtime; both failed, and the second failure is what
-established that boundary.
+eight times cheaper per step. Two further frozen predictions were opened on the runtime; both
+failed, and the second failure is what established that boundary.
 
-We claim no state-of-the-art result, no new mechanism, and no general superiority for any method
-described here.
+Then we tested the mechanism against strong baselines on data we did not design. On UCI Human
+Activity Recognition, using the dataset's own subject-disjoint split, **it came fourth of five**:
+ACT (2016) reached 0.9006 accuracy using 3.61 of 16 chunks and confidence-based early exit reached
+0.8747 at matched compute, while supervised halting reached 0.8112 — at 2.3× the training cost,
+because real data supplies no halt target and one must be distilled from a teacher.
+
+That is the programme's headline, and it is a scope condition:
+
+> **Supervised halting earns its place only where the task supplies a ground-truth halt step.**
+> Where it does, the mechanism attains optimal allocation at matched accuracy with 10/10 seed
+> reliability. Where it does not, simpler methods that need no teacher win.
+
+We claim no state-of-the-art result, **no new mechanism, and no new architecture**. What survives is
+a set of measured boundaries and the falsification discipline that produced them.
 
 ---
 
@@ -423,7 +434,78 @@ to gather cost.** Measured at 2.66 µs/example-step it works (1.95×); at 0.33 �
 not (1.07×). A second boundary, of exactly the same shape as the first — the advantage is real, and
 every stronger control finds it bounded by something that is not the mechanism.
 
-### 7.6 The final architecture
+### 7.6 Real data, strong baselines, and the scope condition
+
+Everything above is on synthetic tasks we designed. The last phase tested the mechanism where we
+had no control over the data and against the strongest directly relevant methods.
+
+**Setting.** UCI Human Activity Recognition: 9 inertial channels × 128 timesteps, 6 classes,
+delivered in 16 chunks of 8. Early classification — emit the activity as soon as possible. The split
+is the dataset's own canonical subject-disjoint partition (17 train / 4 validation / 9 test
+subjects), so it is a genuine distribution shift by person and we did not choose it. Protocol frozen
+and hashed before the test subjects were read.
+
+**Five arms, one core, identical parameter counts (63,271), three seeds:**
+
+| arm | test accuracy | mean chunks | p95 chunks | train s |
+|---|---:|---:|---:|---:|
+| fixed depth | **0.9127** | 16.00 | 16.00 | 3.6 |
+| **ACT** (Graves 2016) | **0.9006** | **3.61** | 10.33 | 4.5 |
+| confidence exit | 0.8811 | 2.57 | 13.00 | 3.4 |
+| confidence exit @ matched compute | 0.8747 | 2.28 | 10.00 | 3.4 |
+| **supervised halting (ours)** | 0.8112 | 2.39 | 15.67 | **8.4** |
+| PonderNet | 0.5220 | 16.00 | 16.00 | 4.3 |
+
+`QNEURO3-HAR-P1` required our arm to be within 0.02 of fixed depth (H1) and at least equal to
+confidence exit at matched compute (H3). Both failed. **The kill condition applied.**
+
+Real data supplies no ground-truth halt step, so ours had to be distilled from a teacher's earliest
+confident-correct chunk — early-exit distillation, declared as prior art in the frozen record
+beforehand, and the reason our arm costs 2.3× the training time.
+
+*What did transfer* is the runtime characterisation, completely: 6.38× at batch 1, 0.70× at batch
+256 under lockstep, 1.63× under compaction. The execution-policy findings hold on real data even
+though the mechanism does not win.
+
+PonderNet's collapse is very likely our implementation's fault rather than the method's; ACT working
+well on the same core suggests the harness is fair, and a correct PonderNet would only rank above
+us.
+
+### 7.7 Three architecture branches, three controls, three deaths
+
+- **Complex fields.** A genuinely complex state with Hermitian attention, at matched *real*
+  parameter count: 1.0000 accuracy, 1.0000 halting, 6.15 mean steps on 3/3 seeds — identical to the
+  real control. Expressivity was already known identical by exact realification; optimisation
+  outcome is now measured identical too.
+- **Adaptive width.** Two-axis allocation `C(x) = T(x)·N(x)` with a per-step router over hidden
+  groups reaches 1.0000 at cost 3.07 — and a **statically narrow** model matches it at the same cost
+  with 43% fewer parameters, while static 2/8 reaches 1.0000 at cost 1.54 where routed 2/8 manages
+  only 0.8143. At binding capacity routing is strictly worse. Killed by its own control.
+- **Homeostasis, self-repair, developmental specialisation, distillation.** Recorded as **not
+  attempted**, with reasons, rather than as negative results.
+
+### 7.8 Reliability, and the M2 frontier
+
+On the family where the mechanism works, reliability is not the weak point: **10 of 10 seeds at
+1.0000 accuracy *and* 1.0000 halt accuracy**, zero catastrophic runs, expected calibration error
+0.0018–0.0021, and 9 of 12 hyperparameter configurations perfect — all three failures at a single
+under-trained learning rate.
+
+Full M2 sweep, matched accuracy, microseconds per example (median):
+
+| batch | select | lockstep | compacted | best speedup | rows/example |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 1504.4 | **417.5** | 469.2 | 3.60× | 5.0 vs 24 |
+| 8 | 374.7 | 361.0 | **331.0** | 1.13× | 6.5 vs 24 |
+| 32 | 180.9 | 162.4 | **124.9** | 1.45× | 5.2 vs 24 |
+| 256 | 72.1 | 71.9 | **38.7** | **1.86×** | 5.5 vs 24 |
+
+Throughput at batch 256 rises from 13,872/s to 25,841/s, and analytic peak activation memory falls
+from 1,536 KiB to 457 KiB — a 3.4× reduction, a second Pareto axis. The planner selects the
+measured-optimal policy at 8 of 9 batch sizes (it is conservative at batch 8, where compaction
+already wins by 1.09×).
+
+### 7.9 The final architecture
 
 `qneuro3/adaptive.py`. Every component carries the measurement that justifies it: a first-arrival
 objective (mixture halting caps at 0.6241 where this reaches 1.0000; commit halting reaches 0.9999
@@ -471,9 +553,13 @@ than scale, when the question is whether a claim is true.
 7. **The ceiling belongs to the runtime, not the mechanism, and is conditionally removable.**
    Active-set compaction — prior art — restores the advantage from 0.97× to 1.95× at batch 256 when
    per-step cost is ≳1 µs, and does not when it is ≲0.33 µs.
+8. **The mechanism earns its place only where the task supplies a halt target.** On real data
+   without one, ACT and confidence-based early exit both beat it at matched compute, and it costs
+   2.3× the training time.
 
-**We do not claim:** any state-of-the-art result; any novelty for predicate halting, per-step
-attribution or state normalisation, all of which are prior art; that the readout-location separation
+**We do not claim:** any state-of-the-art result; **any new mechanism or new architecture**; any
+novelty for predicate halting, per-step attribution, state normalisation, compaction, continuous
+batching, bucketing, width routing or complex fields, all of which are prior art; that the readout-location separation
 generalises (it was frozen and falsified); that adaptive halting buys any capability such as depth
 extrapolation (frozen and falsified); that the transport conjecture is false in every possible form;
 any clinical validity; any connection to quantum cognition; or that any method here is generally
