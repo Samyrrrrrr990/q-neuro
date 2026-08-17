@@ -1,0 +1,114 @@
+{
+  "architectures_screened": 32,
+  "chance": {
+    "copy": 0.126,
+    "mod_sum": 0.145,
+    "needle": 0.131,
+    "parity": 0.501,
+    "reverse": 0.126
+  },
+  "experiment_id": "NOVA-FRONTIER-001",
+  "frontier": {
+    "attn_threshold": {
+      "copy": 0.47,
+      "mod_sum": 0.367,
+      "needle": 0.6,
+      "parity": 0.594,
+      "reverse": 0.157
+    },
+    "cursor": {
+      "copy": 0.398,
+      "mod_sum": 0.999,
+      "needle": 0.344,
+      "parity": 1.0,
+      "reverse": 0.348
+    },
+    "cursor_attn": {
+      "copy": 0.34,
+      "mod_sum": 0.998,
+      "needle": 0.977,
+      "parity": 1.0,
+      "reverse": 0.146
+    },
+    "late_fusion_gated": {
+      "copy": 0.36,
+      "mod_sum": 0.363,
+      "needle": 0.471,
+      "parity": 1.0,
+      "reverse": 0.157
+    },
+    "lstm": {
+      "copy": 0.126,
+      "mod_sum": 1.0,
+      "needle": 0.371,
+      "parity": 1.0,
+      "reverse": 0.371
+    },
+    "rnn_attn_max": {
+      "copy": 0.301,
+      "mod_sum": 0.776,
+      "needle": 1.0,
+      "parity": 0.937,
+      "reverse": 0.244
+    },
+    "transformer_rope": {
+      "copy": 0.291,
+      "mod_sum": 0.389,
+      "needle": 0.656,
+      "parity": 0.58,
+      "reverse": 0.153
+    }
+  },
+  "frozen_predictions": 3,
+  "frozen_predictions_passed": 0,
+  "gate": "measurement",
+  "outcome_eligible": true,
+  "per_task_best": {
+    "copy": 0.47,
+    "mod_sum": 1.0,
+    "needle": 1.0,
+    "parity": 1.0,
+    "reverse": 0.371
+  },
+  "profile": "architecture_search",
+  "protocol": {
+    "batch": 64,
+    "evaluated_at": 64,
+    "optimiser": "AdamW 3e-3 one-cycle",
+    "parameters": "~120k, matched within 13%",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "steps": 2400,
+    "train_lengths": "8-16"
+  },
+  "protocol_deviations": [
+    "Single machine, CPU only, ~120k parameters. No scaling study was performed, so nothing here speaks to behaviour at larger scale.",
+    "Three seeds per cell. Adequate for the 0.2-0.9 effects reported and thin for anything smaller.",
+    "The initial 800-step budget was undertrained and inflated the apparent interference effect; every headline number was re-measured at 2400 steps."
+  ],
+  "task_validity": {
+    "clean_task_shortcut_ceilings": {
+      "copy": 0.127,
+      "mod_sum": 0.196,
+      "needle": 0.131,
+      "parity_scan": 0.529,
+      "reverse": 0.127
+    },
+    "dropped": [
+      "cummax",
+      "sort"
+    ],
+    "kept": [
+      "parity_scan",
+      "mod_sum",
+      "copy",
+      "reverse",
+      "needle"
+    ],
+    "reason": "A shortcut audit found position-only prediction scores 0.887 on cummax and 0.598 on sort at length 64, against chance levels of 0.609 and 0.126. Both are weak instruments and were removed from headline scoring before any candidate was compared."
+  },
+  "verdict": "NO NEW SUPERIOR ARCHITECTURE SURVIVED"
+}

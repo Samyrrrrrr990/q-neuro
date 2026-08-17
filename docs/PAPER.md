@@ -572,7 +572,77 @@ predictive cost model for the compaction crossover (the first attempt failed and
 whether the result transports to a second hardware regime (no second machine was available, recorded
 as future validation); and non-vacuity of the transport bound in the nonlinear setting.
 
-## 10. On the negative result
+## 10. Nova: the search for a new computational principle
+
+The programme's final era started from a clean architectural slate and asked whether a genuinely new
+principle of neural computation could be found. The answer is no, and the search is worth reporting
+because of how it failed.
+
+### 10.1 The instrument
+
+Eight algorithmic tasks with known optimal procedures, each evaluated at the trained length and at
+2× and 4× beyond it. Length extrapolation is the axis because it is a *systematic* failure of the
+dominant architectures, not a tuning matter: a model either implements the procedure or it fitted
+the training lengths.
+
+**A shortcut audit disqualified two of our own tasks before any candidate was compared.**
+Position-only prediction scores 0.887 on `cummax` and 0.598 on `sort` at length 64. Both were
+dropped from headline scoring. Five remain, with degenerate-predictor ceilings within 0.03 of chance.
+
+### 10.2 The frontier
+
+Thirty-two architectures across six mechanism families, matched at ~120k parameters and 2400
+optimiser steps, three seeds, evaluated at 4× the trained length:
+
+| architecture | parity | mod-sum | copy | reverse | needle | mean |
+|---|---:|---:|---:|---:|---:|---:|
+| **cursor_attn** | 1.000 | 0.998 | 0.340 | **0.146** | 0.977 | **0.692** |
+| rnn_attn_max | 0.937 | 0.776 | 0.301 | 0.244 | **1.000** | 0.652 |
+| cursor | **1.000** | 0.999 | **0.398** | 0.348 | 0.344 | 0.618 |
+| LSTM | **1.000** | **1.000** | 0.126 | **0.371** | 0.371 | 0.574 |
+| attn_threshold | 0.594 | 0.367 | **0.470** | 0.157 | 0.600 | 0.438 |
+| transformer (RoPE) | 0.580 | 0.389 | 0.291 | 0.153 | 0.656 | 0.414 |
+| *chance* | *0.501* | *0.145* | *0.126* | *0.126* | *0.131* | — |
+
+![Nova capability frontier](../research/figures/generated/nova_frontier.png)
+
+### 10.3 What the search found
+
+**No new mechanism.** The two leading architectures are prior-art compositions: `rnn_attn_max` is an
+attention-augmented recurrent network (Bahdanau et al. 2014), and `cursor` reproduces Neural Turing
+Machine location-based addressing (Graves et al. 2014) — more weakly than the original, on the task
+the NTM paper introduced it for. `docs/NOVA_PRIOR_ART.md` gives the equation-level comparison.
+
+**Three frozen hypotheses, three falsifications.**
+
+- *H-DILUTION* — softmax attention is not length-invariant, so a read whose output ignores
+  non-matching keys should extrapolate better. The operator-level property is real (read drift 0.236
+  vs softmax's 0.724), and the task-level effect is entirely captured by a confound control: giving
+  softmax the same post-read normalisation moves copy from 0.172 to 0.305. Two implementation bugs
+  were found first, one of which made the candidate algebraically identical to the control.
+- *H-INTERFERENCE* — handicapping the non-extrapolating route should let the extrapolating one be
+  learned. All four clauses failed. Dropout does not de-conflict the routes; it slides the model
+  along a trade-off until it simply *is* an LSTM again (needle 0.841 → 0.260).
+- *H-COMPOSE* — three routes should compose their capabilities. Mean 0.692 against a required 0.75,
+  and reverse fell to chance.
+
+**One negative characterisation survives.** *Capability competition is conserved.* Adding a third
+route relieved the state-tracking/retrieval conflict exactly as predicted — mod-sum 0.776 → 0.998
+with needle at 0.977 — and simultaneously destroyed ordered memory, reverse 0.348 → 0.146. The
+conflict moved rather than resolving.
+
+![Capability competition](../research/figures/generated/nova_competition.png)
+
+**And two capabilities are unsolved by everything.** Copy (best 0.470) and reverse (best 0.371) sit
+near a chance level of 0.126 for every architecture tested, including the NTM reproduction.
+
+### 10.4 Verdict
+
+**No — no new superior architecture survived.** On the Nova ladder this is NOVA-1 (anomaly):
+repeatable behaviour worth recording, no capability edge that is not prior art. The programme
+terminates on its boundary condition, which was defined in advance.
+
+## 11. On the negative result
 
 Fifteen frozen predictions, one pass. Thirty-three preserved failures. The pass came thirteenth,
 after twelve failures had narrowed the claim to something small enough to be true — and the two

@@ -403,6 +403,64 @@
       "uncertainty": "HAR is near-saturated for strong models, so the arms compete in a narrow band; the supervised arm lost by 0.06-0.09, well outside the per-seed spread.",
       "confidence": "high for the direction, medium for the magnitude",
       "scope": "real-data early classification without a task-supplied halt target"
+    },
+    {
+      "claim_id": "CLAIM-013",
+      "status": "supported, negative",
+      "exact_wording": "Across 32 architectures spanning six mechanism families, screened on five shortcut-audited algorithmic tasks at four times the trained length with matched parameters and matched training budget, no candidate mechanism outperformed prior-art compositions. The two leading architectures are an attention-augmented recurrent network and a reproduction of Neural Turing Machine location addressing.",
+      "evidence": [
+        "Final frontier at 2400 steps, 3 seeds: cursor_attn 0.692 mean, rnn_attn_max 0.652, cursor 0.618, LSTM 0.574, late_fusion_gated 0.470, attn_threshold 0.438, transformer_rope 0.414.",
+        "The leading model is a composition of an LSTM, NTM-style relative-shift addressing and attention, all prior art.",
+        "Three frozen hypotheses (NOVA-H-DILUTION, NOVA-H-INTERFERENCE-P1, NOVA-H-COMPOSE-P1) were opened once each and all failed."
+      ],
+      "counterevidence": [
+        "Only one hardware regime, one parameter scale (~120k) and one task family (synthetic algorithmic). Nothing here rules out an effect that appears at scale or on natural data.",
+        "Three seeds per cell; effects smaller than about 0.1 accuracy are not resolvable.",
+        "The search is not exhaustive. Six mechanism families out of a much larger space were explored."
+      ],
+      "assumptions": "Length extrapolation is a meaningful proxy for whether a procedure was learned; matched parameters and steps make architectures comparable.",
+      "effect_size": "Best candidate 0.692 against best baseline 0.574 at 4x length, and the gain comes from adding two known mechanisms to an LSTM.",
+      "external_validity": "Synthetic algorithmic tasks only, one machine, one scale. No claim beyond that.",
+      "falsifier": "An architecture that beats 0.692 on this frontier at matched parameters and steps by a mechanism not reducible to the prior art catalogued in docs/NOVA_PRIOR_ART.md.",
+      "novelty_status": "No novelty claimed. The finding is that no novelty was found.",
+      "replication_status": "32 architectures, 3 seeds, single implementation. `make reproduce-nova` re-derives it.",
+      "supporting_experiments": [
+        "NOVA-FRONTIER-001"
+      ],
+      "uncertainty": "An 800-step budget initially inflated one effect threefold; all headline numbers were re-measured at 2400 steps after that was caught.",
+      "confidence": "high within the measured scope",
+      "scope": "synthetic algorithmic tasks, ~120k parameters, CPU, 4x length extrapolation"
+    },
+    {
+      "claim_id": "CLAIM-014",
+      "status": "tentative",
+      "exact_wording": "Capability competition is conserved across the architectures tested: relieving a conflict between two capabilities by adding a third computational route reintroduces a conflict elsewhere. No architecture tested is simultaneously near the per-task best on state tracking, ordered memory and retrieval.",
+      "evidence": [
+        "Adding attention to an LSTM+cursor model took mod_sum from 0.776 to 0.998 and kept needle at 0.977, while reverse fell from 0.348 (cursor alone) and 0.371 (LSTM alone) to 0.146, which is chance.",
+        "Test-time branch ablation shows the routes are co-dependent rather than one overriding the other: removing attention from the two-route hybrid gives mod_sum 0.157 and removing the recurrence gives 0.161, against 0.291 for the full model.",
+        "Every architecture excellent on some columns sits at or near chance on others."
+      ],
+      "counterevidence": [
+        "The aggregate gap is modest: the best single architecture reaches 0.692 of a collective per-task frontier of 0.768, which is 90%. The claim rests on the per-task pattern, not the mean.",
+        "At a fixed 120k parameter budget, three routes each receive roughly a third of the width, so a loss could be capacity rather than competition. The control for this is imperfect.",
+        "The concept resembles gradient starvation and multi-task interference, both prior art. Only the specific measurement is new."
+      ],
+      "assumptions": "Matched parameters across routes; the five tasks probe genuinely distinct capabilities.",
+      "effect_size": "reverse 0.348 to 0.146 when a third route is added; mod_sum 0.776 to 0.998 in the same change.",
+      "external_validity": "One task suite, one scale. Untested on natural data or at scale.",
+      "falsifier": "An architecture at matched parameters that is within 0.15 of the per-task best on all five tasks simultaneously.",
+      "novelty_status": "The concept is prior art (gradient starvation, multi-task interference). The measurement is not obviously stated elsewhere in this form.",
+      "replication_status": "Observed across four architectures and three seeds. Single implementation.",
+      "supporting_experiments": [
+        "NOVA-FRONTIER-001"
+      ],
+      "lane_b_records": [
+        "research/nova/NOVA-H-COMPOSE-P1-RESULT.json",
+        "research/nova/NOVA-H-INTERFERENCE-P1-RESULT.json"
+      ],
+      "uncertainty": "Tentative. Three seeds, one scale, and a capacity confound that is controlled only approximately.",
+      "confidence": "medium",
+      "scope": "synthetic algorithmic tasks at ~120k parameters"
     }
   ]
 }

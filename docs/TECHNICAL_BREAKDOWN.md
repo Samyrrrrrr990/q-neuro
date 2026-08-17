@@ -631,8 +631,10 @@ because there it is a penalty.
 ### 6B.1 Commands
 
 ```bash
-make reproduce-q3-niche          # standalone; verifies the frozen hash, ~40 min
-make reproduce-q3-niche-quick    # mechanics smoke test, ~2 min
+make reproduce-q3-niche
+make reproduce-nova          # standalone; verifies the frozen hash, ~40 min
+make reproduce-q3-niche
+make reproduce-nova-quick    # mechanics smoke test, ~2 min
 python -m pytest tests/test_qneuro3.py -q -k "policy or compaction or lockstep or plan"
 ```
 
@@ -795,6 +797,86 @@ constraint to manufacture an answer. Profiles: M2 Eco / Fast (batch 1, lockstep)
 (batch 32, compacted), M2 Throughput (batch 256, compacted), M2 Research (batch 16, select, full
 attribution retained for inspection).
 
+## 6D. Nova: the architecture search
+
+### 6D.1 Commands
+
+```bash
+make smoke-nova       # frozen hashes, task validity, the invariance probe -- about a minute
+make reproduce-nova   # adds the capability frontier -- several hours
+make nova-figures     # regenerates every Nova figure from stored artifacts
+python -m pytest tests/test_nova.py -q
+```
+
+### 6D.2 The task suite
+
+`nova/tasks.py`. Eight algorithmic tasks, uniform interface `(B,L)` int tokens in, `(B,L)` targets
+plus a scored mask. Trained at lengths 8-16, evaluated at 16, 32 and 64.
+
+**Shortcut audit, run before any candidate was compared.** Three degenerate predictors -- position
+only, token only, previous token -- fitted on one sample and scored on another:
+
+| task | chance | best shortcut | retained |
+|---|---:|---:|---|
+| parity_scan | 0.501 | 0.529 | yes |
+| mod_sum | 0.145 | 0.196 | yes |
+| copy | 0.126 | 0.127 | yes |
+| reverse | 0.126 | 0.127 | yes |
+| needle | 0.131 | 0.131 | yes |
+| cummax | 0.609 | **0.887** | **no** |
+| sort | 0.126 | **0.598** | **no** |
+
+### 6D.3 The zoo and the candidates
+
+`nova/zoo.py`: transformer with RoPE / ALiBi / learned positions, GRU, LSTM, diagonal SSM, selective
+SSM, linear attention, retention, causal MLP. `nova/candidates.py`: four attention normalisers,
+recurrence+retrieval hybrids, branch-dropout variants, disjoint-parameter late fusion, looped depth,
+cursor memory, and the three-route composition.
+
+**Fairness conditions.** `match_parameters` searches width for a 120k target, achieving within 13%
+across families; identical optimiser, schedule, steps, batch and training lengths; causality and
+finiteness asserted for every model in `tests/test_nova.py`.
+
+### 6D.4 The frontier
+
+2400 steps, 3 seeds, accuracy at 4x the trained length:
+
+| architecture | parity | mod_sum | copy | reverse | needle | mean | params |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| cursor_attn | 1.000 | 0.998 | 0.340 | 0.146 | 0.977 | **0.692** | 111,191 |
+| rnn_attn_max | 0.937 | 0.776 | 0.301 | 0.244 | 1.000 | 0.652 | 118,739 |
+| cursor | 1.000 | 0.999 | 0.398 | 0.348 | 0.344 | 0.618 | 131,055 |
+| lstm | 1.000 | 1.000 | 0.126 | 0.371 | 0.371 | 0.574 | 128,675 |
+| late_fusion_gated | 1.000 | 0.363 | 0.360 | 0.157 | 0.471 | 0.470 | 131,751 |
+| attn_threshold | 0.594 | 0.367 | 0.470 | 0.157 | 0.600 | 0.438 | 116,670 |
+| transformer_rope | 0.580 | 0.389 | 0.291 | 0.153 | 0.656 | 0.414 | 116,667 |
+| *chance* | *0.501* | *0.145* | *0.126* | *0.126* | *0.131* | | |
+
+### 6D.5 The three frozen hypotheses
+
+| ID | sha256 (16) | Claim | Verdict |
+|---|---|---|---|
+| `NOVA-H-DILUTION` | (unhashed, killed pre-freeze by its own control) | length-invariant reads extrapolate better | **NOT SUPPORTED** |
+| `NOVA-H-INTERFERENCE-P1` | `eccf380427d9f004` | branch dropout de-conflicts routes | **FAIL**, all four clauses |
+| `NOVA-H-COMPOSE-P1` | `9f9934283056faa1` | three routes compose their capabilities | **FAIL**, C1 and C2 |
+
+**The confound control that killed H-DILUTION.** Unnormalised reads need a post-read RMS
+normalisation; softmax does not. `attn_softmax_rms` gives softmax the same normalisation and moves
+copy from 0.172 to 0.305, against `attn_max`'s 0.321 -- inside noise. Five seeds.
+
+**The intervention that characterised H-INTERFERENCE.** Test-time branch ablation, no retraining:
+removing attention gives mod_sum 0.157, removing the recurrence 0.161, the full model 0.291. The
+routes are co-dependent, so the recurrence never learned the automaton.
+
+**The budget confound, found by checking the instrument.** At 800 steps the hybrid reads mod_sum
+0.291; at 2400 it reads 0.776. Every headline number was re-measured at 2400.
+
+### 6D.6 Prior art
+
+`docs/NOVA_PRIOR_ART.md`. The leading mechanism, `cursor`, is Neural Turing Machine location-based
+addressing (Graves et al. 2014, section 3.3.2) with a read-only memory, reproducing that paper's
+first experiment more weakly than the original.
+
 ## 7. Measurement defects found and fixed
 
 Each produced a plausible, reportable, **wrong** answer.
@@ -819,7 +901,7 @@ Fixes are commented at their sites. The corrected transport-bound expression is
 ## 8. Repository state and verification
 
 ```bash
-python -m pytest -q                      # 245 tests
+python -m pytest -q                      # 299 tests
 ruff check .                             # clean
 python scripts/verify_release.py         # 22/22 semantic checks
 python -c "import json; d=json.load(open('research/failures.json')); print(len(d['failures']))"
@@ -832,7 +914,7 @@ pass first, so a stale manifest cannot be papered over.
 `research/laws/FROZEN_CANDIDATE_001.json`, `docs/PREREGISTRATION_NEXT_PHASE.md`,
 `docs/PROVISIONAL_LAW_FREEZE.md`, released manuscript binaries.
 
-**36 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
+**39 preserved failures** in `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No failed
 idea has been renamed and rerun.
 
 ### 8.1 Record index
@@ -844,6 +926,9 @@ idea has been renamed and rerun.
 | `research/qneuro3/` | cycle 1: `CYCLE-001`, `Q3-P1`(+result), `Q3-VARIANCE-001`, `Q0-RELIABILITY-001`, `Q4-P1`(+result), `CYCLE-001-CLOSE` |
 | `research/qneuro3/` | cycle 2: `ATTRIB-P1`(+result), `ATTRIBUTION-001`, `TRANSFER-P1`(+result), `EXTRAP-P1`(+result), `PARETO-P1`(+result), `NICHE-P1`(+result) |
 | `research/qneuro3/` | cycle 3: `SCOPE-CORRECTION-001`, `RUNTIME-P1`(+result), `RUNTIME-P2`(+result), `CEILING-REMOVED-001` |
+| `research/nova/` | Nova: `registry.jsonl` (43 entries), `NOVA-FRONTIER-001`, `NOVA-VERDICT`, three hypothesis records |
+| `docs/NOVA_PRIOR_ART.md` | equation-level audit; the leading candidate is a 2014 result |
+| `docs/TEXTBOOK.md` | the sixteen-book course, Helix through Nova |
 | `docs/PRIOR_ART_RUNTIME.md` | equation-level audit of early-exit batching, compaction, continuous batching, MoE dispatch |
 | `docs/GATE4_NOVELTY_AUDIT.md` | the five-way novelty separation; no new mechanism or architecture survives |
 | `docs/QNEURO3_COMPLETION_SCORECARD.md` | the final scorecard, including the three dimensions that fall short |
@@ -883,6 +968,7 @@ python -c "from research.discovery_lab.nonlinear_confirmation import confirm; im
 python experiments/run_qneuro3_cycle_001.py all
 python experiments/run_qneuro3_cycle_002.py all
 make reproduce-q3-niche
+make reproduce-nova
 ```
 
 Expected: Gate D fails, `run_qe_000010.py` refuses, the nonlinear confirmation fails, cycle 1 closes

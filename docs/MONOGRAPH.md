@@ -1,6 +1,6 @@
 # Q-Neuro: A Monograph
 
-### The complete history of a research program that falsified itself three times
+### The complete history of a research program that falsified itself, era after era
 
 **Scope: synthetic, analytic, nonclinical computational research only.** Nothing here has been
 evaluated on patients. Nothing here is a medical device, a diagnostic system, a clinical
@@ -25,7 +25,11 @@ is the reproduction manual, and this is the narrative — including the parts th
 
 **Table of contents**
 
-- Part I — Q-Neuro 1.0: the complex-valued hypothesis
+**The four eras.** Helix (the complex-valued hypothesis, overturned by exact controls) → Sentinel
+(the falsification and equivalence framework) → Pulse (one adaptive-compute result that survived,
+with its boundaries mapped) → **Nova** (a clean-slate architecture search that returned no).
+
+- Part I — Q-Neuro 1.0 / Helix: the complex-valued hypothesis
 - Part II — The falsification, and the falsification of the falsification
 - Part III — Q-Neuro 2.0: the equivalence compiler
 - Part IV — The discovery lane: eleven attempts, eleven closures
@@ -33,8 +37,9 @@ is the reproduction manual, and this is the narrative — including the parts th
 - Part VI — Cycle 2: the fix, and thirteen predictions later
 - Part VII — The ceiling moves: a runtime, and a second boundary
 - Part VIII — The final phase: real data, strong baselines, three dead branches
-- Part IX — What the program actually produced
-- Part X — The beautiful results that had to be killed
+- Part IX — Nova: the search for a new computational principle
+- Part X — What the program actually produced
+- Part XI — The beautiful results that had to be killed
 - Appendix A — The failure register
 - Appendix B — Rules that earned their cost
 
@@ -1172,19 +1177,134 @@ controls that took a few hours to run and should have been run first.
 
 ---
 
-# Part IX — What the program actually produced
+# Part IX — Nova: the search for a new computational principle
 
-## IX.1 The scoreboard
+## IX.1 A clean slate, and a much harder question
 
-**Sixteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
+Nova inherited the falsification machinery and nothing architecturally. No mechanism from the
+earlier eras had privileged status: complex numbers, waves, agents, halting — all had to earn their
+place from zero. The objective was set deliberately out of reach of an ordinary architecture search:
+find a principle that changes what capability a given amount of compute can buy.
+
+The previous era's failure mode was named explicitly and designed against. Q-Neuro 3.0 spent weeks
+developing beautiful theories about one architecture. Nova built a **discovery lab** first: tiered
+screening, matched budgets, and a registry that makes rediscovering a dead idea impossible.
+
+## IX.2 Build the instrument before the theory
+
+> **Intuition.** A benchmark score tells you a model did well. It does not tell you whether the
+> model learned the *procedure*. The cleanest way to ask is to train on short inputs and test on
+> long ones: a model that learned the algorithm keeps working, a model that fitted the training
+> lengths does not.
+
+> **Formal.** Eight algorithmic tasks, each with a known optimal procedure, uniform interface
+> `(B, L)` tokens in and `(B, L)` targets out, trained at lengths 8–16 and evaluated at 16, 32
+> and 64.
+
+> **Experimental — and this is the part that mattered.** Before any candidate was compared, a
+> shortcut audit asked what three degenerate predictors could score. Position alone reaches
+> **0.887 on `cummax`** and **0.598 on `sort`** at length 64.
+
+Both were dropped. Had they stayed, the deliberately weak `causal_mlp` control's 0.917 on sort would
+have looked like a discovery. Five tasks remained, with degenerate ceilings within 0.03 of chance.
+
+![Shortcut audit](../research/figures/generated/nova_shortcut_audit.png)
+
+## IX.3 The baselines refused to be a strawman
+
+Ten architectures at matched parameters: transformers with three position schemes, GRU, LSTM,
+diagonal and selective state-space models, a causal MLP, linear attention, and retention. The
+capability matrix at 4× the trained length showed a clean complementarity nobody had to invent:
+
+**Recurrence tracks state and extrapolates perfectly on it** — LSTM reaches 1.000 on parity and
+0.992 on mod-sum. **Attention retrieves and extrapolates on that** — 0.764 on needle. **Neither does
+both**, and nothing at all extrapolates on ordered memory.
+
+The obvious answer to that gap is the linear-attention family: recurrent state that is also
+content-addressable, the idea behind fast-weight programmers, linear transformers, RetNet and
+Mamba. It was implemented **as a baseline, deliberately, so that Nova could not rediscover it** —
+and it came out mediocre at both: 0.55 parity, 0.30 mod-sum, 0.58 needle. The gap was real and the
+established answer did not close it. That is what made the search worth running.
+
+## IX.4 Three hypotheses, three deaths
+
+**H-DILUTION.** Softmax attention is not length-invariant — non-matching keys take probability mass,
+so a read learned at length 16 is a different operation at 64. A read that ignores them should
+extrapolate.
+
+> **The operator-level property is real.** Read drift when 24 distractors are inserted: 0.236 for
+> max and threshold, against softmax's 0.724.
+
+> **The task-level effect is not.** The confound control — ordinary softmax with the *same* post-read
+> normalisation the unnormalised readers require — moves copy from 0.172 to 0.305, capturing
+> essentially the whole apparent gain. Max lands at 0.321, inside noise.
+
+Two bugs were caught getting there. The first `max` normaliser divided by the sum at the end, which
+is algebraically *exactly softmax*; it matched the control to three decimals, and the hypothesis had
+not been tested at all. **An operator can have a property without the property mattering. Those are
+different questions and only a control separates them.**
+
+**H-INTERFERENCE.** An LSTM alone reaches 0.992 on mod-sum. Add attention and it collapses,
+identically for three normalisers. A test-time branch ablation asked whether attention was drowning
+out a working recurrence: turning attention off makes it **worse** (0.291 → 0.157), and turning the
+recurrence off is equally bad. Neither branch works alone. The model found a joint solution that
+needs both and does not extrapolate.
+
+The frozen prediction said a handicap would fix it. All four clauses failed. Dropout does not
+de-conflict the routes — it slides the model along a trade-off until it simply *is* an LSTM again.
+
+*And a validity threat surfaced that touched every number in Nova.* The dramatic version of this
+effect was an 800-step undertraining artifact; at 2400 steps mod-sum reads 0.776, not 0.291.
+Everything was re-measured. The prediction still fails as scored; its narrative was corrected.
+
+**H-COMPOSE.** If the competition is an artifact of which two routes were paired, a model with all
+three should approach the per-task best everywhere.
+
+> Mean 0.692 against a required 0.75 — the best of any architecture tested. And reverse fell to
+> **0.146**, chance, from 0.348 for the cursor alone.
+>
+> The third clause *passed*: adding attention relieved the state-tracking conflict exactly as
+> predicted, mod-sum 0.776 → 0.998 with needle at 0.977. Ordered memory died in the same change.
+
+**Capability competition is conserved. Relieving it between one pair reintroduces it elsewhere.**
+
+![Capability competition](../research/figures/generated/nova_competition.png)
+
+## IX.5 The winner was a 2014 paper
+
+The single best mechanism Nova produced is the `cursor`: an LSTM controller emitting a distribution
+over relative shifts `{−1, 0, +1}` that moves a read pointer over memory, with a soft window read.
+
+That is Neural Turing Machine location-based addressing (Graves, Wayne & Danihelka, 2014), §3.3.2 —
+and copy with generalisation to longer sequences is the NTM paper's *first experiment*. Nova
+reproduces it at 0.398, more weakly than the original, with a read-only memory that makes it
+strictly less capable than an NTM.
+
+The prior-art firewall caught this **before** any novelty was claimed. That is the whole reason it
+runs before the comparison rather than after.
+
+## IX.6 Verdict
+
+**No — no new superior architecture survived.** NOVA-1 on the ladder: repeatable behaviour worth
+recording, no capability edge that is not prior art. Two capabilities remain unsolved by everything
+tested — copy at 0.470 and reverse at 0.371 against a chance level of 0.126 — and that gap is left
+open rather than papered over.
+
+---
+
+# Part X — What the program actually produced
+
+## X.1 The scoreboard
+
+**Nineteen frozen, hashed, prospective predictions. One passed as written** — the thirteenth, after
 twelve failures had narrowed the claim to something small enough to be true. The three that followed
 it all failed, and each narrowed the claim further rather than being absorbed into it.
 
 Two contained genuine prospective successes inside failures (`DFREE-LAW-P3`'s homogeneity component;
 `TRANSFER-P1`'s third clause). One *passed* and the pass was worthless (`DISCOVERY-001-P1`, vacuous).
-Thirty-six failures preserved with mechanisms.
+Thirty-nine failures preserved with mechanisms.
 
-## IX.2 What survives
+## X.2 What survives
 
 **1. The equivalence compiler.** A typed, refusing certificate system that makes "these two models
 are equivalent" into a checkable claim with a level, a domain, and a transport class. It caught its
@@ -1203,7 +1323,7 @@ Adam. Dead for nonlinear models.
 **4. The adaptive-compute reporting standard.** §V.5. Cheap to apply, and it invalidates a class of
 results that look fine.
 
-**5. A catalogue of measurement defects that produce plausible wrong answers.** §X.2. This is
+**5. A catalogue of measurement defects that produce plausible wrong answers.** §XI.2. This is
 worth more than it looks.
 
 **6. Supervised predicate halting, with its ceiling.** Optimal per-example allocation — mean steps
@@ -1211,7 +1331,7 @@ equal `E[predicate index]` to within 0.1 across six settings — a 2.8–4.9× w
 batch 1, and an analytic ceiling that removes the advantage above batch ≈ 32. Confirmed
 prospectively. The mechanism is prior art; the measured boundary is the contribution.
 
-## IX.3 What does not survive
+## X.3 What does not survive
 
 The transport-covariance conjecture. Canalized quotient dynamics. Functional bifurcation. Geometric
 phase in training. Curriculum holonomy. Functional navigation of the near-optimal set. The
@@ -1220,7 +1340,7 @@ exactness standard. Adaptive depth on `chase_to_goal` as originally built. Early
 training mode. The carry-distance mechanism. The readout-location principle as anything general.
 Depth extrapolation from halting.
 
-## IX.4 What is not claimed
+## X.4 What is not claimed
 
 No state-of-the-art result. No new capability. No claim that adaptive depth cannot win on some other
 workload. No claim that the transport conjecture is false in every possible form. No clinical
@@ -1228,12 +1348,12 @@ validity. No connection to quantum cognition. No general superiority for any met
 
 ---
 
-# Part X — The beautiful results that had to be killed
+# Part XI — The beautiful results that had to be killed
 
 Collected deliberately, because a program that reports only its survivors teaches nothing about how
 often the survivors are wrong.
 
-## X.1 Results that were beautiful and false
+## XI.1 Results that were beautiful and false
 
 **The 14-order-of-magnitude phase boundary.** Two models, provably the same predictor, on opposite
 sides of a stability boundary because of coordinates. 0.9912 prediction accuracy, zero false alarms
@@ -1279,7 +1399,7 @@ prospective, one-attempt test. Its grid gave 197 chances to false-alarm and **ze
 miss. The strongest methodological safeguard in the program produced a meaningless pass, and only
 an audit of the grid's coverage caught it.
 
-## X.2 The defects, in one table
+## XI.2 The defects, in one table
 
 Each produced a plausible, reportable, wrong answer.
 
@@ -1302,7 +1422,7 @@ for the whole apparatus.
 
 # Appendix A — The failure register
 
-Thirty-six preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
+Thirty-nine preserved failures, `research/failures.json`, narrated in `docs/FAILED_IDEAS.md`. No
 failed idea has been renamed and rerun.
 
 | ID | Subject | Failure |
@@ -1343,6 +1463,9 @@ failed idea has been renamed and rerun.
 | FAIL-034 | `QNEURO3-HAR-P1` | on real data the mechanism is fourth of five; ACT and confidence exit win |
 | FAIL-035 | `QNEURO3-GATE5-A` | complex fields identical to the real control at matched parameters |
 | FAIL-036 | `QNEURO3-GATE5-B` | adaptive width beaten by a smaller static model at equal cost |
+| FAIL-037 | `NOVA-H-DILUTION` | length-invariant attention: real operator property, no task effect |
+| FAIL-038 | `NOVA-H-INTERFERENCE-P1` | branch dropout does not de-conflict routes, it removes one |
+| FAIL-039 | `NOVA-H-COMPOSE-P1` | composing three routes moves the conflict rather than resolving it |
 
 ---
 

@@ -65,9 +65,10 @@ architecture wins.
 
 ## Research program documentation
 
-Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0) and the architecture program
-(Q-Neuro 3.0) — is documented in three companion documents. **Sixteen frozen, hashed, prospective
-predictions were opened and one passed as written**; 36 failures are preserved with mechanisms.
+Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0), the adaptive-computation
+program (Q-Neuro 3.0) and the architecture search (Nova) — is documented in three companion
+documents. **Nineteen frozen, hashed, prospective
+predictions were opened and one passed as written**; 39 failures are preserved with mechanisms.
 
 **The programme's headline is a scope condition, and it is negative:**
 
@@ -98,6 +99,19 @@ for the final scorecard, including the three dimensions that fall short of their
 | [**Monograph**](docs/MONOGRAPH.md) | the full narrative, including every failure and the beautiful results that had to be killed |
 | [**Novelty audit**](docs/GATE4_NOVELTY_AUDIT.md) | what is prior art, what is measurement, what is ours |
 | [**Completion scorecard**](docs/QNEURO3_COMPLETION_SCORECARD.md) | evidence-linked scores and the shortfalls |
+| [**Nova prior-art firewall**](docs/NOVA_PRIOR_ART.md) | why the leading candidate is a 2014 result |
+| [**Textbook**](docs/TEXTBOOK.md) | sixteen books, Helix through Nova, with exercises |
+
+**Nova — the search for a new computational principle — returned NO.** Thirty-two architectures
+across six mechanism families, screened on five shortcut-audited algorithmic tasks at 4× the trained
+length. The two leading architectures are prior-art compositions; three frozen hypotheses all
+failed. One negative characterisation survives: capability competition is *conserved* — relieving a
+conflict between two capabilities by adding a third route reintroduces one elsewhere.
+
+```bash
+make smoke-nova        # hashes, task validity, invariants — about a minute
+make reproduce-nova    # adds the capability frontier — several hours
+```
 
 These document ongoing research and are **not** part of the frozen v1.0.0 publication package below.
 

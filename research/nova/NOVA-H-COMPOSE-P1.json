@@ -1,0 +1,28 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "Three routes at a fixed 120k parameter budget gives each route roughly a third of the width, so a loss could be capacity rather than competition. The per-task comparison against single-route models at the same total budget is the control for that, and it is imperfect.",
+      "The cursor route is sequential and slow; at 2400 steps this model may simply be undertrained relative to the others, which is the exact confound the budget check already caught once.",
+      "copy has never exceeded 0.470 for any architecture, so C2 may fail on a column where nothing works rather than because of competition."
+    ],
+    "context": "Final frontier at 2400 steps, matched parameters, 3 seeds, five shortcut-clean tasks at 4x the trained length. Three routes each lead a different column and none leads all three: recurrence (LSTM) leads parity 1.000 and mod_sum 1.000; the location cursor leads ordered memory with copy 0.398; content attention leads retrieval with needle 1.000 in the rnn_attn_max hybrid. Best mean is rnn_attn_max at 0.652.",
+    "frozen_utc": "2026-08-16",
+    "hypothesis": "The capability competition measured earlier is a property of the OBJECTIVE, not of any particular pairing of routes. If it is instead an artifact of which two routes were combined, then a model containing all three should approach the per-task best on every column.",
+    "kill_condition": "If C1 or C3 fails, capability competition is confirmed as a property of the training objective rather than of a particular architecture pairing, and Nova terminates: adding routes does not compose capabilities, and no mechanism tested resolves it. That is a negative boundary and it will be reported as the programme's result.",
+    "model_under_test": "CursorAttention: one LSTM controller feeding (a) itself, (b) an NTM-style relative-shift cursor read over the input memory, and (c) content-addressed attention. Concatenated and read out. Every component is prior art and none is claimed as a mechanism.",
+    "one_attempt": true,
+    "pass_criterion": "All three of C1, C2 and C3 hold, on the mean over 3 seeds fixed in advance as 0, 1, 2.",
+    "prediction_id": "NOVA-H-COMPOSE-P1",
+    "predictions": {
+      "C1_composition_works": "Mean accuracy at 4x length over the five clean tasks is at least 0.75, against the current best of 0.652. This is the clause that says the capabilities compose.",
+      "C2_no_column_is_sacrificed": "On every one of the five tasks, accuracy is within 0.15 of the best any architecture has achieved on that task: parity 1.000, mod_sum 1.000, copy 0.470, reverse 0.371, needle 1.000.",
+      "C3_state_tracking_survives_retrieval": "mod_sum at 4x length is at least 0.90. The earlier hybrid reached only 0.776 with attention present, and this is the specific competition the third route is supposed to relieve."
+    },
+    "schema_version": "1.0.0",
+    "what_a_pass_would_and_would_not_license": {
+      "would": "That the competition is architectural and resolvable, which would be a genuine finding about how to build multi-capability models and would justify a scaling study.",
+      "would_not": "Any novelty claim. The model is a composition of an LSTM, NTM location addressing and attention-augmented recurrence, all prior art, and a pass would be an engineering result about composition rather than a new computational principle."
+    }
+  },
+  "sha256": "9f9934283056faa1676db9aae74335a7fda991e40124b78d368578f99779dd3c"
+}

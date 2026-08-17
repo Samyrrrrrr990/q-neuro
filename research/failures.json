@@ -288,6 +288,30 @@
       "failure": "Adaptive width is beaten by its own control. Per-step routing over hidden groups reaches 1.0000 at cost 3.07 with 57065 parameters; a STATICALLY narrow model of the same size reaches 1.0000 at the same cost 3.07 with 32425 parameters, and static 2/8 reaches 1.0000 at cost 1.54 where routed 2/8 reaches only 0.8143 at cost 2.13. At binding capacity (d=16) routing is strictly worse: 0.0324 against static's 0.1145 at equal cost.",
       "response": "Branch killed at both capacity regimes. An accounting bug that briefly made routing look like a 2x Pareto win -- charging fixed-depth models only up to their selected step rather than the full depth they execute -- was found and fixed before any conclusion was drawn.",
       "claim_impact": "C(x) = T(x)*N(x) two-axis allocation does not enter the final architecture. Only depth adaptation survives."
+    },
+    {
+      "failure_id": "FAIL-037",
+      "experiment_id": "NOVA-H-DILUTION",
+      "stage": "nova_hypothesis",
+      "failure": "Length-invariant attention does not improve length extrapolation. The operator-level property is real -- read drift when 24 distractors are inserted is 0.236 for max/threshold against 0.724 for softmax -- but the task-level effect vanishes against the confound control: giving softmax the same post-read RMS normalisation moves copy from 0.172 to 0.305, capturing essentially the whole apparent gain.",
+      "response": "Hypothesis abandoned. Two implementation bugs were found and fixed first: a max normaliser that was algebraically softmax, and a normalisation applied only to the candidate arms.",
+      "claim_impact": "No claim about attention normalisation. What survives is that a post-read RMS normalisation helps copy extrapolation, which is normalisation and not a principle."
+    },
+    {
+      "failure_id": "FAIL-038",
+      "experiment_id": "NOVA-H-INTERFERENCE-P1",
+      "stage": "nova_frozen_prediction",
+      "failure": "Branch dropout does not de-conflict competing computational routes. All four clauses failed: mod_sum reached 0.596 against a required 0.70, needle collapsed from 0.841 to 0.260, the response was non-monotone in the dropout rate, and copy changed by 0.18 against a required limit of 0.15.",
+      "response": "Kill condition applied. Dropout slides the model along a trade-off until it simply is an LSTM again rather than resolving anything.",
+      "claim_impact": "No intervention tested resolves capability competition. The narrative was also corrected: the dramatic version of the interference effect (mod_sum 0.291) was an 800-step undertraining artifact and reads 0.776 at 2400 steps."
+    },
+    {
+      "failure_id": "FAIL-039",
+      "experiment_id": "NOVA-H-COMPOSE-P1",
+      "stage": "nova_frozen_prediction",
+      "failure": "Composing three routes does not compose their capabilities. Mean reached 0.692 against a required 0.75, and reverse fell to 0.146 -- chance -- against a per-task best of 0.371, a gap of 0.225 where the criterion allowed 0.15.",
+      "response": "Kill condition applied and Nova terminated on the boundary condition. C3 did pass: the third route relieved the state-tracking/retrieval conflict exactly as predicted.",
+      "claim_impact": "Capability competition is conserved rather than resolvable by adding routes. This is the programme's final finding and it is negative."
     }
   ]
 }

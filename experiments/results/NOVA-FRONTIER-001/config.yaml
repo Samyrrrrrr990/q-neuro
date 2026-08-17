@@ -1,0 +1,9 @@
+experiment_id: NOVA-FRONTIER-001
+lane: A
+runner: experiments/reproduce_nova.py
+steps: 2400
+seeds: [0, 1, 2]
+optimizer: adamw
+learning_rate: 0.003
+batch_size: 64
+parameter_target: 120000

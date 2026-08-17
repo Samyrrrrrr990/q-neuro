@@ -620,3 +620,78 @@ actually execute, understating their cost fourfold. Found and fixed before any c
 
 **What these three have in common.** Each was killed by the simplest available control — a smaller
 model, an exactly equivalent real model, a 2016 baseline. None needed a subtle argument.
+
+---
+
+## FAIL-037 / 038 / 039 — Nova: thirty-two architectures, three hypotheses, no principle
+
+Nova began from a clean architectural slate with one objective: find a genuinely new principle of
+neural computation. It searched thirty-two architectures across six mechanism families and returned
+**no**. What makes the failure worth reading is how each hypothesis died.
+
+**The instrument came first, and it disqualified two of its own tasks.** Eight algorithmic tasks
+with known optimal procedures, evaluated at 1×, 2× and 4× the trained length. Before any candidate
+was compared, a shortcut audit asked what a degenerate predictor could score: **position alone gets
+0.887 on `cummax` and 0.598 on `sort` at length 64.** Both were dropped. Had they stayed, the
+`causal_mlp` control's apparent 0.917 on sort would have looked like a discovery.
+
+**The baselines then did something inconvenient.** The obvious answer to the measured gap — linear
+attention, retention, selective state-space models, the family that is *supposed* to combine
+recurrence and retrieval — turned out mediocre at both: 0.55 parity, 0.30 mod-sum, 0.58 needle. The
+gap was real, and the established answer did not close it. That is what made the search worth
+running at all.
+
+**FAIL-037 — H-DILUTION.** Softmax attention is not length-invariant: adding non-matching keys takes
+probability mass and shifts the read. A read that ignores non-matching candidates should therefore
+extrapolate better. The operator-level property is **real and measurable** — read drift when 24
+distractors are inserted is 0.236 for max/threshold against softmax's 0.724.
+
+It made no difference. The confound control — ordinary softmax with the *same* post-read RMS
+normalisation the unnormalised readers require — moves copy from 0.172 to 0.305, capturing
+essentially the entire apparent gain. Max lands at 0.321, inside noise of the control. Needle is
+flat across all four variants.
+
+Two bugs were found before that verdict was reachable. The first `max` normaliser divided by the
+sum at the end, which is *algebraically exactly softmax*; it produced numbers identical to the
+control to three decimals, which is how it was caught, and the primary hypothesis had not been
+tested at all up to that point. The second was the confound itself: normalisation applied only to
+the candidate arms.
+
+> **The lesson: an operator can have a property without the property mattering.** Those are separate
+> questions and only a control separates them.
+
+**FAIL-038 — H-INTERFERENCE.** An LSTM alone reaches 0.992 on mod-sum at 4× length. Add a parallel
+attention branch and it collapses — identically for three different attention normalisers. A test-time
+branch ablation showed why: turning attention *off* makes it **worse** (0.291 → 0.157), and turning
+the recurrence off is equally bad. Neither branch works alone. The model found a joint solution that
+needs both routes and does not extrapolate.
+
+The frozen prediction said handicapping the shortcut route with dropout would let the recurrence be
+learned. **All four clauses failed.** Dropout does not de-conflict anything; it slides the model
+along a trade-off until it simply *is* an LSTM again — needle 0.841 → 0.260 against an LSTM-alone
+0.283.
+
+*And a validity threat surfaced here that touched everything.* The dramatic version of this effect —
+mod-sum at 0.291 — was an artifact of an 800-step training budget. At 2400 steps it reads **0.776**.
+Every headline number in Nova was re-measured. The prediction still fails as scored, but its
+narrative was corrected rather than kept.
+
+**FAIL-039 — H-COMPOSE.** If the competition is an artifact of *which two* routes were combined,
+a model with all three — recurrence, location cursor, content attention — should approach the
+per-task best everywhere. Mean 0.692 against a required 0.75, and reverse fell to **0.146**, which
+is chance, against a per-task best of 0.371.
+
+The third clause *passed*: adding attention relieved the state-tracking conflict exactly as
+predicted, mod-sum 0.776 → 0.998 with needle at 0.977. And ordered memory died in the same change.
+
+> **Capability competition is conserved. Relieving it between one pair reintroduces it elsewhere.**
+
+**And the winner was a 2014 paper.** The single best-performing mechanism Nova produced, the
+`cursor`, is Neural Turing Machine relative-shift location addressing — reproduced *more weakly*
+than the original, on copy, the task the NTM paper introduced it for. The prior-art firewall caught
+this before any novelty was claimed, which is the entire reason the firewall runs before the
+comparison rather than after.
+
+**What is left.** Two capabilities remain unsolved by every architecture tested: copy (best 0.470)
+and reverse (best 0.371), against a chance level of 0.126. That gap is real, it is open, and Nova
+did not close it.
