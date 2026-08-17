@@ -52,3 +52,34 @@ are computation traces, not validated clinical reasoning.
 Treat every prediction as a synthetic benchmark measurement. Do not enter personal medical data.
 Do not expose a checkpoint behind a medical-facing interface. Report all results with the safety
 banner: **RESEARCH PROTOTYPE — NOT FOR CLINICAL USE.**
+
+
+---
+
+## Q-Neuro 3.0 addendum (2026-08-16)
+
+**What the model is.** A recurrent core that halts on a supervised predicate and reads its answer at
+the halt step (`qneuro3/adaptive.py`), with an execution planner that selects lockstep, active-set
+compaction or full-depth attribution from the measured per-step cost and batch size
+(`qneuro3/runtime.py`).
+
+**Intended use.** Research only. Synthetic and nonclinical. The one setting where it is competitive
+is single-stream, latency-sensitive inference on tasks that supply a ground-truth halt step.
+
+**Out of scope, measured rather than assumed.**
+
+- Tasks with no task-supplied halt target. On UCI HAR it scores 0.8112 against ACT's 0.9006 and
+  confidence-based early exit's 0.8747 at matched compute, at 2.3× the training cost
+  (`QNEURO3-HAR-P1`, failed).
+- Serving batch sizes under lockstep execution: the advantage decays to 0.97× by batch 256. Under
+  compaction it recovers to 1.95× on an expensive core and only 1.07× on a cheap one.
+- Depth extrapolation beyond the trained range (`QNEURO3-EXTRAP-P1`, failed).
+- Any clinical, diagnostic or patient-facing use. No patient data was used at any point.
+
+**Reliability.** 10/10 seeds at 1.0000 accuracy and 1.0000 halt accuracy on the surviving family,
+ECE 0.0018–0.0021, 9/12 hyperparameter configurations perfect. The failure mode when it does fail is
+**silent**: a collapsed run reports a plausible step count, so a compute-saving figure must never be
+reported without a matched accuracy figure and a seed-reliability rate.
+
+**Known defects in this evaluation.** The PonderNet baseline collapsed to 0.5220 and is very likely
+an implementation shortcoming; a correct implementation would rank above this model, not below.

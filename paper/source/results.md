@@ -1,85 +1,33 @@
 # Results
 
-## Ordered computation passes the impossibility control
+## Comparator identity changes the conclusion
 
-In the corrected full-data study, the unordered MLP reaches 0.752 source top-1 but zero counterfactual pair accuracy. Its aggregate input is identical for the two members of a chronology pair, so this failure is expected. The tiny Transformer reaches 0.995 top-1 and perfect pair accuracy; real and complex operators reach 0.999 and 1.000 top-1 with perfect pairs. Ordered computation therefore solves the causal chronology rule, but the task is saturated among ordered models.
+The historical within-NeuroWorld comparison is positive: complex minus two-channel real at moderate shift is +0.0602 top-1. The stronger comparisons are all non-positive. The QN-000031 power pilot estimates -0.0552 at size 1,000. Reduced discovery estimates -0.0370 against the cellwise best-real envelope. Held-out reduced confirmation estimates -0.00916. These values arise from different task surfaces and are not combined as a meta-analysis. Their joint role is diagnostic: the sign of the conclusion depends on which real comparator and task family are named.
 
-{{table:full_data}}
+## Exact real computation reproduces the candidate
 
-Phase scrambling shows that the trained complex solution uses its phase. Setting relative phase to zero or replacing it randomly lowers top-1 to 0.205 and 0.216. This is a functional ablation of one fitted model, not a comparison against an equally expressive real parameterization. The real operator obtains nearly the same full-data accuracy with better NLL, better ECE, and lower training time. The result supports “phase is used,” not “phase is superior.”
+In the held-out study, complex and exact-real top-1 accuracies match in every one of 1,920 nested cells. Maximum absolute differences are 0 for top-1, 3.58 x 10^-7 for NLL, and 1.19 x 10^-7 for ECE. The earlier mapped mechanism experiment found maximum metric disagreement of approximately 4.8 x 10^-7. This replication across four new generator families supports implementation-level equivalence at numerical precision.
 
-## Source-world sample efficiency is not a complex advantage
+The exact-real control wins the best-real selection in 1,478 held-out cells, while the real polar operator wins 442. The complex operator wins none. Because the exact block is constrained to the same mapped structure, these results do not show that an unrestricted real model is inherently better. They show that explicitly complex arithmetic is not required to obtain the candidate's computation and does not create a favorable top-1 effect in the tested training pipeline.
 
-Under nested training sets, the operator models learn chronology with fewer cases than the tiny Transformer. At 250 cases, the real operator is stronger than the complex operator; from 500 to 5,000 cases, the complex operator has the highest source top-1 in the four-model comparison. Complex calibration is worse than real at every size. At 1,000 cases, complex ECE is 0.176 versus 0.028 for real, and mean CPU training time is 6.88 s versus 4.29 s.
+## Reduced discovery yields no positive effects
 
-{{figure:experiment_zero_learning_curves|Nested learning curves show that real and complex operator states learn the chronology task before the tested tiny Transformer, while the complex model pays a calibration and runtime cost.|Learning curves over 250 to 5,000 training cases for source accuracy, chronology-pair accuracy, calibration, and time.}}
+Across 2,880 nested discovery effects, zero are positive and the mean is -0.03695. The result spans four generator families, two training sizes, five training seeds, 24 worlds, and three severities. It is outcome-ineligible because only five models and one search configuration per model were executed. Nevertheless, it provides no empirical basis for advancing an intrinsic complex-advantage claim.
 
-{{table:sample_efficiency}}
+Six structural relationship families were fit to 12 family-by-severity aggregates. The quadratic candidate minimized the prespecified selection proxy, with discovery R2 0.9487 and MAE 0.002604. Its predictors were empirical order-target mutual information and shift severity. The frozen artifact explicitly prohibited a general-law claim and use for the grand outcome.
 
-Adding a tuned GRU changes the conclusion. At 250 cases in the stronger-control study, the GRU reaches 0.920 source top-1, compared with 0.774 for the real operator and 0.699 for the complex operator. The initial suggestion that hypothesis-state operators are intrinsically the most data-efficient is therefore refuted. The GRU’s subsequent collapse under shift demonstrates that source efficiency and causal robustness are different estimands.
+## The frozen relationship fails untouched families
 
-## Complex robustness repeats across unseen worlds
+Held-out evaluation contains 1,920 nested effects. Zero are positive, 1,538 are exactly zero at the recorded precision, and the remaining 382 are negative. The mean is -0.009158, median 0, standard deviation 0.02355, 10% trimmed mean -0.002485, and worst-decile mean -0.04167. Across 128 world summaries, the mean is again -0.009158 and the median is -0.008056.
 
-In the first strong-control replication at 1,000 cases, the complex operator reaches 0.995 source top-1, 0.896 on nuisance-seed shift, and 0.660 on noisy/sparse shift. The two-channel real control reaches 0.986, 0.828, and 0.597. The paired complex-minus-two-channel effects are +0.068 for nuisance shift and +0.064 for noisy/sparse shift; three-seed intervals are [+0.006, +0.130] and [+0.016, +0.112]. The ordinary real operator is lower on both shifts.
+The hierarchical bootstrap interval is -0.01325 to -0.00457. The exploratory two-sided world sign-flip p value is approximately 5.0 x 10^-6. Because the profile is outcome-ineligible, this p value cannot promote the study into the preregistered grand category. It instead quantifies the consistency of a non-positive effect within the executed scope.
 
-The five-world confirmation holds training data at 1,000 cases and evaluates nuisance, mild, moderate, and severe shifts. Complex top-1 is 0.909, 0.806, 0.645, and 0.468; two-channel top-1 is 0.846, 0.745, 0.585, and 0.414. Paired world-level differences are +0.0627 [0.0552, 0.0702], +0.0609 [0.0502, 0.0715], +0.0602 [0.0529, 0.0674], and +0.0538 [0.0471, 0.0606]. Every unseen world favors the complex parameterization under these definitions.
+The frozen quadratic relationship transfers only the sign. Held-out sign accuracy is 1.0 because both predicted and observed aggregates are non-positive. Magnitude prediction fails: R2 is -30.94 and MAE is 0.03126, violating the frozen R2 and MAE thresholds. No coefficients were changed after this result. QN-LAW-001 is therefore a failed candidate, not a general computational law.
 
-{{figure:robustness_world_sweep|Across five unseen simulator seeds and four shift severities, the complex operator retains an approximately five- to six-point top-1 advantage over the two-channel real control. Accuracy declines for every model as shift increases.|Multi-world robustness curves and paired complex-minus-two-channel effects with world-level confidence intervals.}}
+{{figure:falsification_phase|Comparator-sensitive effects and prospective stop decisions. The historical positive estimate compares the complex operator with a non-equivalent two-channel real model. Pilot, discovery, and held-out estimates use a best-real envelope that includes the exact block. The held-out interval is a family/world/seed hierarchical bootstrap. The final panel records the failed frozen law and the blocked sealed experiment.|Four-stage evidence figure showing a positive historical effect, negative best-real comparisons, failed held-out law prediction, and an unopened grand benchmark.}}
 
-{{table:world_robustness}}
+## The grand benchmark remains sealed
 
-This is the most repeatable positive result in the project, but its scope is narrow. The worlds share one simulator family and were designed within the project. The two-channel model is a strong control, not a proof that no real network can reproduce the computation. The result is therefore a synthetic within-family robustness effect, not a universal complex-arithmetic advantage.
+QN-GRAND-001 passed eight readiness checks, including the repaired shortcut audit, exact-real equivalence, power planning, frozen-law presence, held-out family separation, and nonmedical scope. It failed six mandatory gates: only 4 of 14 required real controls were present; each evaluated model had one search trial instead of the required 8 or 10; FLOPs and optimizer-step records were missing; the full ShiftGauntlet outcome grid was absent; discovery was reduced rather than full; and raw predictions were not preserved.
 
-## The broad law suite reveals a multi-objective frontier
-
-Across eighteen laws, the complex operator reaches the best moderate-shift top-1 at 0.647 and perfect chronology-pair accuracy. The Hamiltonian-style model reaches 0.556 shift accuracy and 0.983 pair accuracy; the hybrid reaches 0.550 and 0.923; the dissipative model reaches 0.438 and 0.008. The coherent term carries useful signal under this parameterization, while generic damping erases order without improving robustness.
-
-The GRU is best in-domain at 0.987 but falls to 0.247 under moderate shift. The diagonal state-space model reaches 0.978 in-domain and perfect chronology pairs but only 0.337 under shift. The real operator obtains the best ambiguity NLL among the larger sequential controls at 1.418, while reaching 0.495 shift accuracy. Density dynamics reaches 1.468 ambiguity NLL and 0.453 shift top-1, a compromise but not a frontier improvement.
-
-{{figure:architecture_pareto_field|Architecture families occupy a broad Pareto field when source accuracy, shifted accuracy, ambiguity, chronology, calibration, and compute are considered together. Highlighted points are nondominated under the six-objective registry rule.|Scatter plot of source accuracy versus moderate unseen-world accuracy with six-objective Pareto status highlighted.}}
-
-{{table:architecture_results}}
-
-The Pareto analysis explains why a single “best architecture” headline would be misleading. Complex operators lead the chosen shift axis, GRU leads source fit, real operators lead ambiguity and calibration, and inexpensive unordered models occupy low-compute regions. The scientific result is a structured tradeoff.
-
-## Efficiency trades against accuracy
-
-The sample-efficiency curve appears favorable when plotted only against case count. Against CPU time, the operator models move rightward: complex training is slower than real, which is slower than the MLP. At large sample sizes, several ordered models approach ceiling accuracy with different costs. The tested complex model does not establish a general compute Pareto frontier.
-
-{{figure:sample_compute_frontier|The source-world sample-efficiency gain of operator states trades against CPU training time. Point size increases with training cases; labels mark the largest training set for each architecture.|Log-scale scatter plot of source top-1 against CPU training time over nested sample sizes.}}
-
-Measured peak RSS remains small on the test machine, but differences of a few megabytes are not treated as reliable because allocator caches persist across sequential runs. Parameter counts are exact. Timing is a reproducible relative observation on one consumer CPU, not a hardware-independent throughput claim.
-
-## Calibration fails to transport
-
-Raw moderate-shift ECE is 0.122 for the real operator, 0.201 for two-channel real, and 0.204 for complex. Applying a scalar temperature fitted only on source validation increases these values to 0.247, 0.267, and 0.257. Complex moderate-shift NLL increases from 1.459 to 4.341. Rankings are unchanged, but probabilistic quality deteriorates.
-
-{{figure:calibration_transport|A scalar temperature fitted on source validation data worsens moderate-shift ECE for real, two-channel, and complex operator models.|Grouped bars comparing raw and source-temperature-scaled expected calibration error under moderate shift.}}
-
-The failure has practical significance even in a synthetic study. A differential diagnosis is not only a ranking; probability mass communicates residual uncertainty. Improvements in top-1 under shift cannot compensate for a calibration method that becomes anti-corrective. All primary results therefore report raw NLL and ECE, and calibrated values are labeled as a failed intervention.
-
-## Orthogonal tasks separate competence from uncertainty
-
-Held-out composition saturates: complex and two-channel real reach 1.000, real reaches 0.999, and GRU reaches 0.995. The task verifies recombination but does not isolate a mechanism. Irreducible ambiguity produces the opposite pattern. The real operator obtains 1.148 pair NLL and assigns 0.836 mass to the two valid labels; two-channel obtains 1.453 and 0.559; complex obtains 2.581 and 0.212. The ideal pair NLL is log(2) = 0.693.
-
-For a completely omitted label, maximum-softmax AUROC is 0.9988 complex, 0.9974 two-channel, 0.9847 GRU, and 0.9521 real. The complex-minus-two-channel interval crosses zero. For the hidden syndrome, representation-distance AUROC is 0.9990 complex and 0.9918 real, while two-channel is seed-unstable. These results show strong synthetic separability but not a uniquely complex anomaly detector.
-
-{{figure:ood_separability|Omitted-disease and hidden-syndrome AUROC are high for several sequential models. Strong separation is not uniquely complex and must not be described as discovery of a disease.|Grouped bars showing maximum-softmax omitted-disease AUROC and representation-distance hidden-syndrome AUROC.}}
-
-{{table:uncertainty_ood}}
-
-The tension is informative: a model can reject a far-away synthetic construct while mishandling two observationally identical valid hypotheses. OOD detection and differential calibration test different geometries. The latter is the more direct warning for any future diagnostic use.
-
-## Active acquisition is predictor-dependent
-
-Across query budgets one through twelve, expected-information acquisition gives the complex model the highest mean accuracy AUC at 0.590, followed by MLP at 0.585 and two-channel real at 0.568. The complex effect over MLP is +0.005 with an interval crossing zero; over two-channel it is +0.022 with an interval crossing zero; over ordinary real it is +0.085 with interval [0.032, 0.138]. At twelve queries, complex reaches 0.833.
-
-{{figure:active_evidence|Expected-information acquisition helps some predictors and harms others. Full-case accuracy does not predict partial-evidence competence, and policy runtime is substantially higher than fixed ordering.|Accuracy-versus-query-budget curves for random, fixed-information, and expected-information policies across model families.}}
-
-The same policy reduces Transformer AUC from 0.528 under fixed information order to 0.359. Its counterfactual entropy calculation trusts a predictor whose partial-evidence geometry is poorly calibrated. The result argues against separating an acquisition heuristic from the model it queries. It does not show that complex models are uniquely suited to active diagnosis.
-
-## Claim summary
-
-Three results survive the strongest internal checks: ordered computation is necessary for chronology twins; the complex operator’s robustness advantage over the tested two-channel real control repeats across the declared NeuroWorld worlds; and order composition, phase-sensitive measurement, and observed-negative evidence each contribute to that result. Several attractive extensions do not survive: universal sample efficiency, intrinsic ambiguity handling, calibration transport, unique OOD separation, universal expected-information acquisition, generic dissipation, adaptive depth, phase-gradient optimization, and unique factor interpretability.
-
-The resulting claim is deliberately conditional. Under the tested synthetic causal shifts, ordered complex hypothesis dynamics improve classification robustness relative to a broad but finite control set. They do not dominate accuracy, uncertainty, compute, or interpretability simultaneously.
+The preflight returned `blocked_before_execution`. It records `executed=false` and `sealed_benchmark_opened=false`, with no primary effect estimate. The stop is a result of the protocol, not an operational accident. Opening the benchmark after a failed gate would convert a prospective test into an exploratory analysis and is deliberately unsupported by the release code.

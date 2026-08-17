@@ -1,0 +1,41 @@
+{
+  "prediction": {
+    "derivation": "Softmax depends only on logit differences. Writing logits = W a + b with W of shape (C, h_last), the map is invariant under W -> W + 1_C u^T for any u in R^{h_last} and b -> b + c 1_C. That is a subspace of dimension h_last + 1, and it does not depend on C. Each sample supplies C-1 independent logit-difference constraints, giving rank n(C-1) until the gauge-quotiented parameter space P - g is saturated. The free subspace is the kernel minus the gauge.",
+    "falsifier": "Any cell where measured d_free != max(0, P - (h_last+1) - n*(C-1)).",
+    "frozen_utc": "2026-08-15",
+    "novel_content_of_this_freeze": "The C-independence of g and the (C-1) multiplier are both derived here and NOT measured yet. The binary case previously confirmed reduces to C=2 and cannot distinguish g = h+1 from other forms, nor n from n(C-1). Multi-class is therefore a genuine out-of-sample test of the derivation.",
+    "one_attempt": true,
+    "pass_criterion": "EXACT integer agreement between measured d_free and the formula in every cell. Any single mismatch fails the prediction.",
+    "prediction_id": "DFREE-LAW-P1",
+    "schema_version": "1.0.0",
+    "statement": "For a feed-forward classifier with C classes whose final layer is Linear(h_last -> C) followed by softmax cross-entropy, trained on n points, let P be the total parameter count. Then:\n  (1) the structural gauge dimension is g = h_last + 1, INDEPENDENT of C;\n  (2) rank(J_train) = min( n*(C-1), P - g );\n  (3) d_free = max( 0, P - g - n*(C-1) ).",
+    "status": "frozen before any multi-class or multi-depth measurement",
+    "test_grid": {
+      "classes": [
+        2,
+        3,
+        5
+      ],
+      "depths": [
+        1,
+        2
+      ],
+      "dtype": "float64",
+      "hidden": [
+        8,
+        16,
+        24
+      ],
+      "n_values": [
+        20,
+        40,
+        60,
+        100,
+        150,
+        200,
+        400
+      ]
+    }
+  },
+  "sha256_of_prediction": "c4c7e6d5ba7fa85f38b86385ea6f24e62def3a4592174ba75ffd3d0f20d6dc7d"
+}

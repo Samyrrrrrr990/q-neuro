@@ -1,0 +1,18 @@
+{
+  "prediction": {
+    "frozen_utc": "2026-08-16",
+    "generalisation_control": "Q3b decouples the answer from the step count: it halts on detected arrival but must emit a LABEL attached to the goal node via a readout. If the compute saving survives, the mechanism is halting-on-arrival. If it vanishes, the Q3 result is an artifact of answer = step count and must be scoped to that class.",
+    "one_attempt": true,
+    "pass_criterion": "Every distribution within |eps| <= 0.25 of predicted steps AND accuracy >= 0.99; Q3b retains a saving >= 1.3x at accuracy >= 0.99.",
+    "prediction_id": "QNEURO3-Q3-P1",
+    "schema_version": "1.0.0",
+    "statement": "Q3's inference-compute saving over the fixed-depth model that matches its accuracy is set entirely by the difficulty distribution, not by the architecture: saving = max_depth / E[distance], and average steps = E[distance] + eps with |eps| <= 0.25.",
+    "untouched_distributions": {
+      "easy_skewed": "distance ~ P(d) proportional to (9-d) over 1..8, E[d] = 3.00, predicted steps 3.00, saving 2.67x",
+      "hard_skewed": "distance ~ P(d) proportional to d over 1..8, E[d] = 6.00, predicted steps 6.00, saving 1.33x",
+      "narrow": "distance ~ U[6,8], E[d] = 7.00, predicted steps 7.00, saving 1.14x"
+    },
+    "why_this_is_the_right_test": "If true, Q3 is an OPTIMAL allocator rather than a clever one, and the size of any advertised speedup is a property of the workload. Stating that in advance prevents quoting a 1.77x number as though the architecture produced it."
+  },
+  "sha256": "a29900e8a47a4d4cb2c351c9a2d91ffd46801a8e118c300d1426d8be3aef5599"
+}

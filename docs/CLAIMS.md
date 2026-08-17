@@ -1,5 +1,32 @@
 # Claim Ledger
 
+## Next-phase adjudication
+
+The machine-readable authoritative ledger is `research/claims.json`. The strongest next-phase
+conclusion is a scoped negative result: exact-real equivalence and a stronger best-real envelope
+remove the intrinsic complex-arithmetic interpretation. QN-GRAND-001 did not execute.
+
+| Claim | Evidence | Counterevidence / confounders | Confidence | Status |
+|---|---|---|---|---|
+| The implemented complex operator has an exact structured-real equivalent | QN-000033 and QN-000042; held-out top-1 difference is zero in 1,920 nested cells | Does not equate every possible complex and real network or optimizer | High | Supported within implementation |
+| Complex retains a best-real robustness advantage on independent tasks | None | QN-000040 and QN-000042 contain zero positive nested effects; held-out hierarchical mean −0.00916 | High within reduced scope | Falsified |
+| QN-LAW-001 generalizes quantitatively | Sign transfers | Held-out R2 −30.94 and MAE 0.0313 fail frozen thresholds | High | Falsified |
+| QN-GRAND-001 provides confirmatory evidence | None | Six mandatory preflight gates failed; sealed benchmark unopened | High | Not executed |
+| Q-Neuro has clinical validity or reveals quantum cognition | None | Synthetic and nonclinical evidence only | High | Unsupported |
+
+## Q-Neuro 3.0 — adaptive computation
+
+| Claim | Evidence | Counterevidence / confounders | Confidence | Status |
+|---|---|---|---|---|
+| Supervised predicate halting attains optimal per-example allocation and gives 2.8–4.9× wall-clock inference saving at batch 1 | `QNEURO3-NICHE-P1` frozen and passed on an untouched family, all four clauses; mean steps equal `E[predicate index]` to within 0.1 in six settings | No novelty — supervised early exit is prior art; the *size* of the saving is a property of the workload; one machine, one scale; synthetic only | High within scope | **Confirmed prospectively, scoped** |
+| The advantage has an analytic ceiling: batched cost tracks `E[max halt over the batch]` | `E[max]` rises 4.97 → 29.42 from batch 1 to 1024 for `P(k) ∝ 0.8^k`; measured 0.96–0.99× at batch 64–256 on both families | Arithmetic about order statistics, not an empirical finding; stated for independent halt steps | High | **Supported, analytic** |
+| Adaptive depth beats fixed depth once reliability is counted | Cycle 1: 6/10 seeds against 10/10, silent failure mode | Cycle 2 removed the reliability gap with state normalisation (20/20), so this is a statement about the *unnormalised* architecture only | High | **Refuted for the fixed version; the cycle-1 finding stands as measured** |
+| Answers must be read from an input-selected iteration for first-match computations | 0.22 → 1.00 on associative lookup, surviving five distinct fixed-depth controls | `QNEURO3-TRANSFER-P1` frozen and failed on an untouched family: 0.007 gap against 0.20 required | High | **Falsified as a general claim; scoped to associative lookup** |
+| Predicate halting confers depth extrapolation | None | `QNEURO3-EXTRAP-P1` frozen and failed on all three clauses; the normalisation clause *inverted* | High | **Falsified** |
+| State normalisation is a general improvement for halting models | 11/24 → 20/20 seed reliability on associative lookup | Destroys the fixed-depth model on the same task (1.0000 → 0.13–0.25); costs 0.30 extrapolated accuracy on streaming | High | **Family-specific trade-off, exposed as a flag** |
+
+## Historical ledger
+
 | Claim | Evidence | Counterevidence / confounders | Confidence | Status |
 |---|---|---|---|---|
 | Ordered computation is required for the chronology-twin task | QN-000003: ordered models 1.0 pair accuracy; MLP 0.0; twin vectors are identical by construction | This is true by task construction and does not establish a broad medical phenomenon | High | Replicated in simulator |

@@ -1,0 +1,24 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "At depth 32 the recurrent state may degrade enough that both models fail, making R1 hold vacuously at low accuracy. R1 is therefore scored together with the absolute accuracy, and a pass at accuracy below 0.60 is recorded as vacuous rather than as a pass.",
+      "Per-step Python loop overhead may dominate at these sizes, so R3 could fail even when R2 passes. That would itself be the useful finding: the saving is real in FLOPs and not realisable in wall-clock at this scale.",
+      "A heavy-tailed index distribution means most examples halt very early, so the halting head sees few deep examples and may never learn to fire late."
+    ],
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If R1 or R2 fails, the surviving compute saving does not scale into the regime where it would matter, and the adaptive-compute programme is finished with no result worth an architecture. Q-Neuro 3.0 then closes as a negative boundary: across three task families, seven readout and halting policies and twelve frozen predictions, adaptive computation produced no capability and no scaling advantage.",
+    "one_attempt": true,
+    "pass_criterion": "All three of R1, R2 and R3 hold.",
+    "prediction_id": "QNEURO3-PARETO-P1",
+    "predictions": {
+      "R1_accuracy_holds": "Arrival's answer accuracy at length 32 is within 0.02 of the fixed-depth model's, on the mean over seeds. Deep recurrence does not break the halting model relative to its baseline.",
+      "R2_saving_scales": "Arrival's mean step count is at most 8.0 of 32, a compute reduction of at least 4.0x.",
+      "R3_latency_follows_steps": "Measured wall-clock inference latency per example drops by at least 3.0x, so the step-count saving is not eaten by per-step overhead. This is the number a user would actually feel."
+    },
+    "schema_version": "1.0.0",
+    "setup": "Streaming threshold-crossing family, unchanged except for two declared knobs: length 32 instead of 12, and a heavy-tailed crossing-index distribution with P(k) proportional to 0.8^k on 1..32, giving E[index] near 4.5. The uniform-distribution code path is untouched so every QNEURO3-TRANSFER-P1 number remains reproducible. Standard protocol otherwise, 3 seeds fixed in advance as 0, 1, 2. Wall-clock inference latency and peak memory measured on the M2.",
+    "what_a_pass_licenses": "A scoped engineering claim only: on workloads with deep worst case and heavy-tailed difficulty, supervised predicate halting delivers a large, measured, wall-clock inference saving at matched accuracy, parameters and training budget. It is NOT a new principle -- supervised early exit is prior art -- and the size of the saving remains a property of the workload, not of the architecture.",
+    "why": "One result has survived every control and transferred prospectively to an untouched family: halting on a supervised predicate costs nothing in accuracy and returns the workload's full compute saving, with mean steps tracking E[predicate index] to within 0.1 across five settings. At a uniform difficulty distribution that saving is max_depth / E[index] ~ 1.8x, which is real but small. It is only worth an architecture if it scales into the regime where a fixed-depth model is badly wasteful: deep worst case, heavy-tailed difficulty. The open question is whether the halting model still WORKS there, because deep recurrence normally degrades."
+  },
+  "sha256": "a855493fd713518e0464612ff436f4804309996255986a7e560b4876c1de808a"
+}

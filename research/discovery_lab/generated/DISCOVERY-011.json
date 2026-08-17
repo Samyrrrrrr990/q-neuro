@@ -1,0 +1,28 @@
+{
+  "attempts": {
+    "P1": {
+      "claim": "g = h_last+1 universally; d_free = max(0,P-g-n(C-1))",
+      "outcome": "SUBSTANCE CONFIRMED 126/126 on the direct rank measurement, but the FREEZE IS COMPROMISED. The measurement procedure was underspecified, my first instrument used a 400-sample gauge probe that cannot saturate when P-g > 400(C-1), and I corrected the instrument after seeing 21 mismatches. The bug accounts for exactly 21 = 3 configurations x 7 n-values, but changing a measurement after observing failure invalidates the freeze regardless of the diagnosis.",
+      "sha256": "c4c7e6d5ba7fa85f"
+    },
+    "P2": {
+      "claim": "same law on untouched grid with the protocol fully specified",
+      "outcome": "FAILED, 118/360. The assumption that g = h_last+1 universally is false: g is activation dependent. ReLU is positively homogeneous, so (W1,W2)->(cW1,W2/c) adds h more exact symmetry directions, giving g = 2h+1. Confirmed 8/8 in a follow-up diagnostic: tanh gives h+1, ReLU gives 2h+1.",
+      "sha256": "da962a222296f9d5"
+    },
+    "P3": {
+      "claim": "g = (h_last+1) + h*[activation positively homogeneous]",
+      "outcome": "FAILED, 2 of 48. The homogeneity component was a genuine prospective success: leaky_relu and abs were derived as homogeneous BEFORE measurement and both gave exactly 2h+1 in every cell. But two ELU cells at h=15 measured 17 against a predicted 16, off by exactly one, most plausibly a singular value near the 1e-9 rank tolerance. The frozen criterion was exactness, so it fails.",
+      "sha256": "5a5abd9b1c1a3f7f"
+    }
+  },
+  "date": "2026-08-15",
+  "honest_status": "An elementary and known relation, imperfectly confirmed under my own exactness standard, useful as a diagnostic and not as a discovery.",
+  "lane": "B",
+  "record_id": "DISCOVERY-011",
+  "schema_version": "1.0.0",
+  "title": "Three frozen attempts at an exact dimension law: one compromised, two failed",
+  "verdict": "NO EXACT LAW CONFIRMED. The form is right, the integer count is not controllable to the standard I froze.",
+  "what_is_actually_true": "d_free = max(0, P - g_arch - n(C-1)) where g_arch is the dimension of the architecture's exact function-preserving symmetry group. This is rank-nullity plus a correct symmetry count. Its components here are the softmax common mode (h_last+1, independent of C) and activation homogeneity (h per positively homogeneous hidden layer). Both are standard and neither is new: ReLU scaling symmetry and softmax shift invariance are textbook parameter symmetries.",
+  "why_it_still_mattered": "It is the explanation for the entire navigation failure sequence. Every search in DISCOVERY-007 through 009 ran at n=600 with P-g=193, so d_free = 0 exactly and there was nothing to find. Those were structurally doomed, not unlucky. Knowing d_free before searching would have saved the whole branch, which is why it is retained as a mandatory pre-check."
+}

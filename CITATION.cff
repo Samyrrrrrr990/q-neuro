@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "If you use Q-Neuro or NeuroWorld, cite this software and its manuscript."
-title: "Q-Neuro: ordered complex hypothesis states for synthetic diagnostic reasoning"
+message: "If you use Q-Neuro, cite this software release and its falsification manuscript."
+title: "Q-Neuro: exact real controls for complex-valued sequential models"
 type: software
-version: 0.1.0
-date-released: 2026-08-13
+version: 1.0.0
+date-released: 2026-08-14
 authors:
   - family-names: Shafiee
     given-names: Samyar
@@ -13,9 +13,11 @@ keywords:
   - complex-valued neural networks
   - dynamical systems
   - synthetic data
-  - uncertainty
-  - differential diagnosis
+  - exact real controls
+  - falsification
+  - reproducibility
 abstract: >-
-  Q-Neuro is a research-only framework for testing ordered evidence operators and evolving
-  hypothesis states in the causal synthetic NeuroWorld environment. It is not clinically
-  validated and must not be used for medical decisions.
+  Q-Neuro is a synthetic, nonclinical framework for testing complex-valued sequential models
+  against exact and stronger real-valued controls. The v1.0.0 release reports that an apparent
+  complex robustness advantage does not survive the strongest executed real-control envelope; a
+  frozen quantitative law also fails held-out transfer, and the grand benchmark remains sealed.

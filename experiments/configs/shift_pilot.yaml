@@ -1,0 +1,91 @@
+experiment: shift_gauntlet_variance_pilot
+description: >-
+  Outcome-ineligible variance and compute pilot over eight independent evaluation worlds. The
+  complex-versus-best-real values may be inspected only to plan the frozen confirmation world
+  count.
+profile: pilot
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H0
+train_world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+evaluation_world:
+  world_seed: 0
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+dataset:
+  train_sizes: [250, 1000]
+  validation_cases: 300
+  test_cases_per_world: 160
+  train_seed: 1001
+  validation_seed: 2001
+  test_seed: 3001
+  world_seeds: [5101, 5107, 5113, 5119, 5147, 5153, 5167, 5171]
+training:
+  seeds: [1103, 2203, 3301]
+  epochs: 6
+  patience: 3
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  device: cpu
+models:
+  names:
+    - complex_operator
+    - exact_real_block_operator
+    - dense_real_recurrence
+    - gru
+    - state_space
+  parameter_budget: 20304
+  operator_rank: 2
+  max_sequence_length: 96
+  step_size: 0.28
+  learning_rates:
+    complex_operator: [0.001]
+    exact_real_block_operator: [0.001]
+    dense_real_recurrence: [0.001]
+    gru: [0.001]
+    state_space: [0.001]
+severities: [0.0, 0.5, 1.0]
+shift_seed: 31013
+shift_families:
+  nuisance_variable: {}
+  prevalence: {}
+  conditional_feature: {}
+  spurious_correlation_inversion:
+    training_profile: spurious
+  missingness:
+    modes: [mcar, mar, mnar_like]
+  observation_noise: {}
+  evidence_order:
+    modes: [canonical, random, partially_corrupted, adversarial, reversed]
+  distractor_evidence: {}
+  contradictory_evidence: {}
+  delayed_decisive_evidence: {}
+  unseen_factor_combinations: {}
+  unseen_world_mechanisms: {}
+  evidence_deletion: {}
+  evidence_duplication: {}
+  temporal_dependency_change: {}
+  class_expansion:
+    training_profile: class_expansion
+  irreducible_ambiguity: {}
+evaluation:
+  calibration_bins: 10
+power:
+  minimum_effect: 0.02
+  candidate_world_counts: [32, 40, 48, 60]
+  target_power: 0.90
+  simulations: 50000
+  seed: 88103

@@ -1,0 +1,25 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "query_chase has an attention read over all nodes at every step, so its per-step cost is much higher than the streaming family's. That could push the crossover to a larger batch and make N4 fail for a reason unrelated to the batch maximum.",
+      "At max_depth 24 the arrival model may not train reliably, in which case N1 fails and nothing else is interpretable.",
+      "Timing at batch 1 is noisy on a fanless machine under thermal variation; N3 is measured as a mean over at least 20 independent examples to blunt that."
+    ],
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If N4 fails -- the advantage persists at large batch on this family -- then the batch-maximum account is wrong, the boundary is not general, and no scoped niche claim may be made. If N3 fails, the small-batch win does not transfer and the niche is a property of the streaming family alone.",
+    "one_attempt": true,
+    "pass_criterion": "All four of N1, N2, N3 and N4 hold.",
+    "prediction_id": "QNEURO3-NICHE-P1",
+    "predictions": {
+      "N1_accuracy_matched": "arrival's answer accuracy is within 0.02 of select's on the mean over seeds.",
+      "N2_optimal_allocation": "arrival's mean step count is within 0.5 of the empirical E[distance].",
+      "N3_small_batch_win": "matched-accuracy wall-clock speedup at batch 1 is at least 2.5x.",
+      "N4_the_boundary_reappears": "matched-accuracy wall-clock speedup at batch 256 is at most 1.2x. This is the prediction that matters: the niche must have a ceiling, and the ceiling must show up unprompted on a family it was not derived from."
+    },
+    "schema_version": "1.0.0",
+    "untouched_setting": "The associative-lookup family (query_chase) at max_depth 24 with a heavy-tailed distance distribution P(d) proportional to 0.85^d. Never run at this depth or with this distribution. Baseline is `select`, which solves the task at full depth, so the comparison is matched-accuracy. 3 seeds fixed in advance as 0, 1, 2.",
+    "what_a_pass_licenses": "A scoped engineering claim with a stated ceiling: on workloads with a deep worst case and heavy-tailed difficulty, supervised predicate halting delivers a multi-fold wall-clock inference saving at small batch, at matched accuracy and parameters, and loses that advantage entirely at serving batch sizes. Not a new principle -- supervised early exit is prior art -- and the size of the saving remains a property of the workload.",
+    "why": "QNEURO3-NICHE-001 measured, on the streaming family, that supervised predicate halting gives a 4.89x wall-clock speedup at batch 1 against a matched-accuracy full-depth baseline, and that the advantage decays to parity by batch 64. The decay has an analytic cause: a batch cannot exit until its slowest member does, so realisable saving is max_depth / E[max halt over the batch], and E[max] rises towards max_depth with batch size. If that account is right it is a property of adaptive computation itself, not of one task, and it must reappear unchanged on the other family."
+  },
+  "sha256": "7fbcceb87f9a219345ea5b6be11ccdcd0339af54a33f7cb9fc70108d1d6ce4b7"
+}

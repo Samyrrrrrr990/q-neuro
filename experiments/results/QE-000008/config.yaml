@@ -1,0 +1,48 @@
+experiment: analytic_transport_bound_tightness
+description: Exact finite-horizon transport bound on least squares under diagonal
+  reparameterization. Every term is closed form, so bound tightness is measured rather
+  than estimated.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: discovery
+split: discovery
+outcome_eligible: false
+family: analytic_microcosm
+gate: C
+gate_threshold:
+  maximum_bound_ratio: 100.0
+problem:
+  samples: 300
+  features: 10
+  dtype: float64
+grid:
+  condition_numbers:
+  - 1.0
+  - 10.0
+  - 100.0
+  - 1000.0
+  - 10000.0
+  step_fractions:
+  - 0.1
+  - 0.5
+  - 0.9
+  scales:
+  - 1.5
+  - 2.0
+  - 4.0
+  horizons:
+  - 50
+  - 200
+  - 1000
+seeds:
+  problem:
+  - 0
+  - 1
+  - 2
+protocol_deviations:
+- Affine update maps with exactly computed Lipschitz constants. This is the most favourable
+  possible setting for the bound and does not establish non-vacuity for nonlinear
+  models where the constant must be over-estimated.
+- 'Discovery split: these cells may inform estimator design and may not be reused
+  for confirmation.'

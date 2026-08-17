@@ -1,0 +1,25 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "The halting head may have learned a threshold calibrated to the depths it saw, so it fires spuriously or never fires beyond step 12 regardless of normalisation.",
+      "The running sum grows without bound while the state is normalised, so the arithmetic comparison may simply saturate outside the trained range.",
+      "E3 may fail trivially: the fixed model reads its final state, and at 16 steps that state is out of distribution for reasons unrelated to halting, so a low score there is weak evidence for anything and is scored separately."
+    ],
+    "frozen_utc": "2026-08-16",
+    "kill_condition": "If E1 fails, predicate halting does not buy depth extrapolation, and the adaptive-compute branch of Q-Neuro 3.0 has produced no capability at all -- only an optimal-allocation compute saving whose size belongs to the workload, and a non-generalising separation. In that case the branch closes and is reported as a bounded negative result.",
+    "mechanism_hypothesis": "RMS normalisation bounds the recurrent state, so the state at step 15 stays in the same region as the state at step 8 and a predicate learned there still applies. Without normalisation the state drifts with depth, the halting threshold becomes depth-dependent, and extrapolation should fail -- the same mechanism that produced the bimodal training outcome in QNEURO3-Q3-VARIANCE-001.",
+    "one_attempt": true,
+    "pass_criterion": "All three of E1, E2 and E3 hold.",
+    "prediction_id": "QNEURO3-EXTRAP-P1",
+    "predictions": {
+      "E1_arrival_extrapolates": "Normalised arrival retains >= 0.80 answer accuracy on crossing indices 13..16, which it never saw in training, on every one of 3 seeds.",
+      "E2_normalisation_is_why": "Unnormalised arrival scores at least 0.20 absolute LOWER than normalised arrival on indices 13..16, on the mean over seeds.",
+      "E3_fixed_cannot": "The fixed final-state readout, run for 16 steps, scores below 0.50 on indices 13..16."
+    },
+    "schema_version": "1.0.0",
+    "setup": "Train every model on the streaming threshold-crossing family at length 12, where the crossing index is uniform on 1..12, using the standard protocol. Then evaluate, without any retraining or tuning, on length 16 where the crossing index is uniform on 1..16. Indices 13..16 were never seen. Score the extrapolated range 13..16 separately from the in-distribution range.",
+    "what_a_pass_would_license": "A capability claim scoped to this family: a predicate-halting model handles difficulty beyond its training range without retraining. It would identify the niche -- unbounded or shifting difficulty at test time -- and would then require confirmation on the associative-lookup family before any general statement.",
+    "why": "Everything measured so far about halting is a compute saving whose size is set by the workload, plus a separation that failed to generalise. Neither is a capability. There is one capability a predicate-halting model could have that a fixed-depth model structurally cannot: it can keep iterating past the depth it was trained at, because its stopping rule is a local condition rather than a fixed count. Whether it ACTUALLY does is the question -- recurrent models normally fail to extrapolate in depth."
+  },
+  "sha256": "09aabd9169a7713b7881758b81d7e1e4c2fd3a1547d8edc1d92d5f8d4823461b"
+}

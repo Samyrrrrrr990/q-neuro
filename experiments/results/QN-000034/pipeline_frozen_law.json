@@ -1,0 +1,13 @@
+{
+  "coefficients": [
+    0.005023808058175128,
+    -0.00015144340629851335,
+    2.457790004368585e-05,
+    0.12013754238590815
+  ],
+  "discovery_mae": 7.955416898040232e-05,
+  "discovery_n": 25,
+  "discovery_r2": 0.9999911579038759,
+  "family": "interaction",
+  "hyperparameter": null
+}

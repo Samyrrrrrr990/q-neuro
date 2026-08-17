@@ -1,0 +1,42 @@
+experiment: estimator_discovery_against_baselines
+description: Leave-one-family-out comparison of candidate transport-defect estimators
+  against the preregistered baselines, over the discovery families.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: discovery
+split: discovery
+outcome_eligible: false
+gate: D
+candidates:
+- cumulative_defect
+- amplified_defect
+baselines:
+- one_step_predictive_divergence
+- total_gradient_norm
+- loss_decrease
+- learning_rate
+- parameter_count
+- mean_amplification
+training:
+  optimizers:
+  - sgd
+  - adamw
+  learning_rates:
+  - 0.001
+  - 0.01
+  weight_decays:
+  - 0.0
+  - 0.01
+  steps: 40
+  device: cpu
+seeds:
+  model:
+  - 0
+  - 1
+  - 2
+  stream: 21
+protocol_deviations:
+- Analytic microcosms only. Estimator behaviour on realistic models and tasks is unmeasured.
+- Univariate log-log fits by design; a richer model would fit discovery better and
+  say less about generalization, which is the only question Gate D asks.

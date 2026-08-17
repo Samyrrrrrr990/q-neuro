@@ -1,4 +1,4 @@
-.PHONY: sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery dashboard analyses figures paper-tables paper-source latex paper paper-release reproduce-paper
+.PHONY: reproduce-nova smoke-nova nova-figures reproduce-q3 reproduce-q3-quick reproduce-q3-niche reproduce-q3-niche-quick sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010 qe-all discovery-suite claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper journey-figures plain-pdfs nova-branch-ablation
 
 sync:
 	uv sync --extra dev
@@ -66,6 +66,64 @@ discovery:
 	uv run python -m experiments.run_discovery_engine \
 		--config experiments/configs/discovery_engine.yaml
 
+simulator-red-team:
+	uv run python -m experiments.run_simulator_red_team \
+		--config experiments/configs/simulator_red_team_v2.yaml
+
+shift-gauntlet:
+	uv run python -m experiments.run_shift_gauntlet \
+		--config experiments/configs/shift_gauntlet.yaml
+
+smoke-shift-pilot:
+	uv run python -m experiments.run_shift_pilot \
+		--config experiments/configs/shift_pilot.yaml --smoke
+
+shift-pilot:
+	uv run python -m experiments.run_shift_pilot \
+		--config experiments/configs/shift_pilot.yaml
+
+smoke-mechanism-suite:
+	uv run python -m experiments.run_mechanism_suite \
+		--config experiments/configs/mechanism_suite.yaml --smoke
+
+mechanism-suite:
+	uv run python -m experiments.run_mechanism_suite \
+		--config experiments/configs/mechanism_suite.yaml
+
+computational-law-suite:
+	uv run python -m experiments.run_computational_law_suite \
+		--config experiments/configs/computational_law_suite.yaml
+
+independent-task-audit:
+	uv run python -m experiments.run_independent_task_audit \
+		--config experiments/configs/independent_task_audit.yaml
+
+smoke-independent-discovery:
+	uv run python -m experiments.run_independent_discovery \
+		--config experiments/configs/independent_discovery.yaml --smoke
+
+independent-discovery:
+	uv run python -m experiments.run_independent_discovery \
+		--config experiments/configs/independent_discovery.yaml
+
+freeze-candidate-law:
+	uv run python -m research.freeze_candidate_law
+
+smoke-independent-confirmation:
+	uv run python -m experiments.run_independent_confirmation \
+		--config experiments/configs/independent_confirmation.yaml --smoke
+
+independent-confirmation:
+	uv run python -m experiments.run_independent_confirmation \
+		--config experiments/configs/independent_confirmation.yaml
+
+qn-grand-001:
+	uv run python -m experiments.run_qn_grand_001 \
+		--config experiments/configs/qn_grand_001.yaml
+
+claim-audit:
+	uv run python -m research.adversarial_reviewer
+
 dashboard:
 	uv run python scripts/build_dashboard_data.py
 
@@ -79,6 +137,7 @@ analyses:
 	uv run python -m research.analyses.analyze_training_laws
 	uv run python -m research.analyses.analyze_hard_halting
 	uv run python -m research.analyses.analyze_trajectories
+	uv run python -m research.analyses.analyze_falsification_phase
 
 figures:
 	uv run python -m research.figures.generate_experiment_zero
@@ -93,6 +152,28 @@ figures:
 	uv run python -m research.figures.generate_hard_halting
 	uv run python -m research.figures.generate_trajectory_signature
 	uv run python -m research.figures.generate_paper_extended
+	uv run python -m research.figures.generate_falsification_phase
+
+journey-figures:
+	uv run python research/figures/generate_journey.py
+	uv run python research/figures/generate_technical.py
+
+plain-pdfs: journey-figures
+	uv run --extra paper python scripts/build_pdf.py docs/pdf/paper.md paper/qneuro-paper.pdf \
+		--title "Q-Neuro" \
+		--subtitle "What I found when I spent a year trying to invent a better neural network, and failed nineteen times" \
+		--byline "Samyar Shafiee &middot; independent, Toronto &middot; built and measured on one 8 GB MacBook Air<br/>Nineteen frozen predictions &middot; one passed &middot; 39 preserved failures"
+	uv run --extra paper python scripts/build_pdf.py docs/pdf/technical.md paper/qneuro-technical.pdf \
+		--title "Q-Neuro: Technical Breakdown" \
+		--subtitle "Everything you need to rebuild this from scratch, including the bugs" \
+		--byline "Samyar Shafiee &middot; independent, Toronto &middot; one 8 GB MacBook Air, CPU only<br/>299 tests &middot; 39 preserved failures &middot; 16 measurement defects, each of which produced a wrong answer"
+	uv run --extra paper python scripts/build_pdf.py docs/pdf/textbook.md paper/qneuro-textbook.pdf \
+		--title "Q-Neuro: From Helix to Nova" \
+		--subtitle "A textbook written by the person who needed it" \
+		--byline "Samyar Shafiee &middot; independent, Toronto<br/>Sixteen books &middot; from what a matrix is, to the open problems I could not solve"
+
+nova-branch-ablation:
+	uv run python experiments/run_nova_branch_ablation.py
 
 paper-tables:
 	uv run python paper/build_tables.py
@@ -116,5 +197,59 @@ paper-release: figures paper-source
 	@command -v soffice >/dev/null 2>&1 || { echo "LibreOffice (soffice) is required to render qneuro.pdf"; exit 1; }
 	soffice --headless --convert-to pdf --outdir paper paper/qneuro.docx
 
-reproduce-paper: test lint dashboard figures paper
+qe-000001:
+	uv run python -m experiments.run_qe_000001
+
+qe-000002:
+	uv run python -m experiments.run_qe_000002
+
+qe-000003:
+	uv run python -m experiments.run_qe_000003
+
+qe-000004:
+	uv run python -m experiments.run_qe_000004
+
+qe-000006:
+	uv run python -m experiments.run_qe_000006
+
+qe-000008:
+	uv run python -m experiments.run_qe_000008
+
+qe-000009:
+	uv run python -m experiments.run_qe_000009
+
+qe-000010:
+	uv run python -m experiments.run_qe_000010
+
+discovery-suite:
+	uv run python -m research.discovery_lab.run_discovery_001
+
+qe-all: qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010
+	@echo "Ran the registered equivalence experiments; see experiments/results/QE-*."
+
+verify-release:
+	uv run python scripts/verify_release.py
+
+reproduce-paper: test lint dashboard figures paper verify-release
 	@echo "Rebuilt tests, dashboard data, figures, tables, LaTeX, DOCX, and an ignored verification PDF from locked sources."
+
+reproduce-q3-niche:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3_niche.py --with-compaction
+
+reproduce-q3-niche-quick:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3_niche.py --quick --with-compaction
+
+reproduce-q3:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3.py
+
+reproduce-q3-quick:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_q3.py --quick
+
+reproduce-nova:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_nova.py
+
+smoke-nova:
+	PYTHONPATH="$(CURDIR)" $(PY) experiments/reproduce_nova.py --smoke
+
+nova-figures:
+	PYTHONPATH="$(CURDIR)" $(PY) research/figures/generate_nova.py

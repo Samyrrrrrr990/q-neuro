@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "NOVA-VERDICT",
+  "date_utc": "2026-08-16",
+  "question": "Did Q-Neuro Nova discover a genuinely better way for neural networks to compute?",
+  "verdict": "NO - NO NEW SUPERIOR ARCHITECTURE SURVIVED",
+  "ladder_position": "NOVA-1 (Anomaly): interesting repeatable behaviour, no capability edge that is not prior art",
+  "what_was_searched": {
+    "architectures": 32,
+    "mechanism_families": [
+      "attention normalisation (softmax, log-length temperature, max, threshold)",
+      "recurrence plus retrieval hybrids",
+      "disjoint-parameter modularity with gated late fusion",
+      "weight-shared looped depth",
+      "NTM-style location addressing (cursor)",
+      "linear attention, retention, diagonal and selective state-space models",
+      "gated RNNs, transformers with three position schemes, causal MLP"
+    ],
+    "frozen_predictions": 3,
+    "frozen_predictions_passed": 0,
+    "tasks": 8,
+    "tasks_retained_after_shortcut_audit": 5
+  },
+  "why_no": [
+    "The two leading architectures are prior-art compositions. rnn_attn_max is an attention-augmented RNN (Bahdanau 2014); cursor reproduces NTM location addressing (Graves 2014), more weakly than the original, on the task the NTM paper introduced it for.",
+    "All three frozen hypotheses were falsified: H-DILUTION by its own confound control, H-INTERFERENCE on all four clauses, H-COMPOSE on two of three.",
+    "No capability leap. The best mean is 0.692 against the strongest baseline's 0.574, and the gain comes from adding two known mechanisms to an LSTM.",
+    "Two capabilities remain unsolved by everything: copy (best 0.470) and reverse (best 0.371), against a chance level of 0.126."
+  ],
+  "what_survives": [
+    "A capability matrix over 32 architectures on five shortcut-audited tasks at four times the trained length, with matched parameters, matched training budget and three seeds.",
+    "A shortcut audit that disqualified two of the programme's own tasks before any candidate was compared (position-only scores 0.887 on cummax and 0.598 on sort at length 64).",
+    "An operator-level length-invariance probe that separates 'the operator has the property' from 'the property helps' -- which turned out to be different questions.",
+    "One negative characterisation: capability competition is conserved. Adding a third route relieved the state-tracking/retrieval conflict (mod_sum 0.776 to 0.998 with needle at 0.977) and simultaneously destroyed ordered memory (reverse 0.348 to 0.146). The conflict moved rather than resolving."
+  ],
+  "validity_threat_found_and_corrected": "The initial 800-step budget was undertrained and inflated the apparent interference: the hybrid's mod_sum reads 0.291 at 800 steps and 0.776 at 2400. Every headline number was re-measured at 2400 steps. The H-INTERFERENCE result stands as scored, but its narrative was corrected.",
+  "termination_justification": [
+    "Six distinct mechanism families explored; the last three rounds all produced prior-art compositions.",
+    "No candidate retains a capability signal that survives the prior-art firewall.",
+    "The remaining directive branches (complex fields, sub-agents, homeostasis, self-repair, development, distillation) were either already falsified in an earlier era or are lower-value given what the frontier shows.",
+    "Further local search would be tiny mutations of compositions that are already known."
+  ]
+}

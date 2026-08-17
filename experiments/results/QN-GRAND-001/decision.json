@@ -1,0 +1,17 @@
+{
+  "blocking_failures": [
+    "complete_preregistered_real_envelope",
+    "equal_or_real_favoring_search_budgets",
+    "compute_matching_records",
+    "full_shiftgauntlet_outcome_grid",
+    "full_discovery_protocol",
+    "raw_predictions_preserved"
+  ],
+  "decision_rule": "Any failed required preflight gate blocks sealed data access.",
+  "experiment_id": "QN-GRAND-001",
+  "primary_confirmatory_effect_estimated": false,
+  "qn_grand_001_executed": false,
+  "scientific_interpretation": "QN-GRAND-001 was not executed. The primary confirmatory architecture claim remains untested under the grand protocol; reduced prior evidence cannot be relabeled.",
+  "sealed_benchmark_opened": false,
+  "status": "blocked_before_execution"
+}

@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "q-neuro"
-version = "0.1.0"
-description = "Research framework for hypothesis-state computing in synthetic neurological reasoning"
+version = "1.0.0"
+description = "Falsification-first evaluation of complex and exact-real sequential models on synthetic tasks"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 license = { text = "MIT" }
@@ -25,6 +25,9 @@ dev = [
 paper = [
   "pillow>=11,<13",
   "python-docx>=1.1,<2",
+  # 5.x strips <b>/<i>/<font> out of Paragraph markup, so the plain-language PDFs lose every
+  # emphasis and every Unicode fallback span. Pinned below it deliberately.
+  "reportlab>=4,<5",
 ]
 
 [tool.hatch.build.targets.wheel]

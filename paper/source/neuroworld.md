@@ -1,47 +1,33 @@
-# NeuroWorld
+# Synthetic task systems
 
-## Causal simulator
+## Historical NeuroWorld benchmark
 
-NeuroWorld is a synthetic environment for testing diagnostic reasoning mechanisms without patient data. It defines 20 diagnosis archetypes and 40 findings organized around mechanism, localization, temporality, and context. Each diagnosis specifies factor-dependent finding probabilities, demographic tendencies, and an observation process. Cases are sampled from the causal template, then findings are observed, signed, timestamped, and possibly omitted. The generator emits latent factors so that representation probes and exact interventions are possible.
+NeuroWorld is a project-designed simulator for ordered evidence integration. It generates disease-like but entirely fictional labels, observations, explicit missingness, negative findings, causal groups, and chronology twins whose aggregate evidence can be identical while their order changes the target. Declared shift operators alter mechanisms such as prevalence, observation process, sequence order, and local evidence reliability. The benchmark is useful for controlled falsification because causal factors and counterfactual pairs are known. It is not a patient dataset and does not establish medical validity.
 
-The simulator is not intended to mimic epidemiology, coding practice, or the full complexity of neurology. Disease names are abstract labels and findings are synthetic variables. “Neurological” describes the structure of the reasoning problem—mechanism, localization, time course, context, and differential competition—not clinical fidelity. The benefit is control: chronology, missingness, nuisance evidence, ambiguity, and new syndromes can be manipulated without harming people or leaking protected data.
+The historical positive result QN-000008 evaluated five unseen NeuroWorld worlds at four severities. Against the then-used two-channel real control, the complex operator's moderate-shift advantage was +0.0602 top-1, with a five-world interval from +0.0529 to +0.0674. This number is retained unchanged. Its interpretation changes because later work demonstrates that the comparator was not the exact real implementation and that stronger real controls eliminate the advantage elsewhere.
 
-## Chronology twins
+## Independent discovery generators
 
-Four labels form two chronology-twin pairs. Members of a pair share aggregate evidence and demographics; two marker events occur in opposite order. Standard random cases may hide one or both markers under the observation process. A separate counterfactual set exposes both markers and varies only order. An unordered model should average the twins and obtain zero pair accuracy in expectation, whereas a valid ordered model can solve both.
+The reduced discovery split contains four nonmedical generator families chosen to vary order dependence and latent structure.
 
-Unit tests verify that paired records have equal signed evidence multisets, identical non-temporal covariates, and only the declared ordering difference. Complete-order accuracy is reported separately from all-case top-1. This prevents an architecture from receiving credit for predicting easier factorial cases while ignoring chronology.
+- **Analytic commutative:** event aggregation is order-insensitive by construction.
+- **Analytic noncommutative:** matrix-like update order determines the outcome.
+- **Hidden causal machine:** observations arise from a latent transition process with strong order dependence.
+- **Sequential detective:** clues update a hidden case state with partial chronology dependence.
 
-## Factorial diagnoses and held-out composition
+For each family, 24 registered world seeds were evaluated at severities 0.0, 0.5, and 1.0. Test sets contained 120 cases per world and counterfactual sets contained 40 paired cases. The discovery surface therefore changes generator mechanism, world realization, and severity rather than randomly partitioning one pooled dataset.
 
-The remaining diagnoses combine mechanism, localization, temporality, and context factors. A held-out composition split removes selected positive-finding conjunctions from training and requires one at test time. The task checks whether a model can recombine familiar individual factors. At 3,000 cases it saturates for several architectures and therefore fails as a discriminator. A stronger future version should reduce data and introduce inseparable tensor or XOR-like interactions with parameter-matched multiplicative controls.
+## Held-out generator families
 
-## Missingness and signed evidence
+Before held-out outcome access, the candidate law and its coefficients were frozen. Four new families were then evaluated:
 
-Observation is generated explicitly rather than imputing every unobserved finding as negative. Positive findings and observed absences are separate tokens; unobserved findings are omitted. Shift worlds can reduce observation rate, add timestamp jitter, mix probabilities toward 0.5, change nuisance findings, and lower the chance that chronology markers appear. The model is therefore tested both when the causal relation is visible and when the observation process obscures it.
+- **Bayesian urn:** an order-insensitive evidence accumulation task.
+- **Hidden-rule relational:** a fully order-dependent latent relation task.
+- **Machine-fault diagnosis:** a nonmedical sequential fault-isolation task with moderate order dependence.
+- **Network-intrusion reasoning:** a nonmedical event-sequence task with strong order dependence.
 
-## Unseen worlds
+Each held-out family used 32 new world seeds, three severities, five new training seeds, and 120 cases per world. The split tests transfer across generator semantics, not merely across examples from an already observed family.
 
-The initial shift replication uses a nuisance-seed world and a noisy/sparse world. The confirmation suite declares five unseen world seeds at four severities: nuisance, mild, moderate, and severe. The disease-factor scaffolding remains related, but secondary findings, nuisance evidence, probability noise, sparsity, and temporal jitter vary. These are genuine held-out generator instantiations, though not independently designed simulators.
+## ShiftGauntlet
 
-{{figure:generator_shift_replication|The stronger-control replication separates source-world fit from robustness. A tuned GRU is strongest at very low source data but collapses under the declared generator shifts; the complex operator becomes strongest under nuisance and noisy/sparse shift at 1,000 cases.|Learning and generator-shift comparison across MLP, Transformer, GRU, real operator, two-channel real operator, and complex operator.}}
-
-## Ambiguity, omitted labels, and hidden syndromes
-
-Irreducible ambiguity pairs present identical observations with two valid chronology labels. The ideal prediction assigns all mass equally to the twins, giving pair NLL log(2). This benchmark tests whether a differential remains calibrated when the label is unidentifiable. It is distinct from standard uncertainty on difficult but identifiable cases.
-
-The omitted-disease task removes one label entirely during training and evaluates whether confidence or representation distance separates it from known cases. The hidden-syndrome task creates an unlabeled cross-factor signature and measures representation separation. Neither task claims disease discovery. High AUROC only shows that a synthetic construct lies away from known examples under a declared score.
-
-{{figure:neuro_task_suite|The orthogonal task suite separates composition, ambiguity, omitted-disease rejection, and hidden-syndrome representation tests. Success on one axis does not imply success on the others.|Multi-panel results for held-out composition, irreducible ambiguity, omitted disease, and hidden syndrome across model families.}}
-
-## Active evidence acquisition
-
-For active acquisition, the complete set of 40 binary outcomes exists but a policy reveals one at a time. Query costs are equal. Random order, fixed mutual-information order, and model-conditioned expected entropy reduction are evaluated from one to twelve queries. Accuracy AUC is the average top-1 across those budgets, not receiver-operating-characteristic area. This task excludes chronology twins so that a set-based query policy is not asked to infer event order from unordered acquisition.
-
-The simulator does not model the causal dependence among requested tests, the semantics of asking a patient a question, or unequal cost and risk. It is a controlled partial-information benchmark. A clinically meaningful extension would need conditional outcome models, governed cost definitions, and prospective policy evaluation.
-
-## Leakage and scope controls
-
-Train, validation, and test cases use disjoint random streams. Model selection never reads shifted test metrics. World seeds are held out before training. Counterfactual pairs are generated separately. The registry stores dataset fingerprints, configuration hashes, seeds, hardware/software environment, and result paths. One early asymmetric-input study is retained but superseded because only the MLP received demographic context; the corrected study equalizes inputs.
-
-NeuroWorld remains a single simulator family built by the same project that proposes Q-Neuro. That is the largest external-validity limitation. Multiple seeds reduce sensitivity to one random template but do not create an independent scientific replication. The benchmark is best viewed as a causal wind tunnel: valuable for mechanism stress tests, insufficient for claims about real patients.
+ShiftGauntlet is the broader preregistered stress surface. Its structural implementation spans 125 cells and passed schema and coverage checks, but the full model-outcome grid was not executed. The available QN-000031 pilot estimated power for a 32-world design and observed a mean complex-minus-best-real difference of -0.0552 at training size 1,000 across eight pilot cells. Pilot results informed design only and are not confirmatory evidence.

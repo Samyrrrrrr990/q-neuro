@@ -1,0 +1,275 @@
+{
+  "schema_version": "1.0.0",
+  "release_date": "2026-08-14",
+  "scope": "Cached-artifact verification of synthetic, nonclinical research outputs.",
+  "semantic_summary": {
+    "discovery_effects": 2880,
+    "heldout_effects": 1920,
+    "total_independent_task_effects": 4800,
+    "heldout_mean_complex_minus_best_real": -0.009157985999869804,
+    "heldout_hierarchical_ci": [
+      -0.013250867711224905,
+      -0.004570204104723728
+    ],
+    "exact_real_maximum_absolute_difference": {
+      "top1": 0.0,
+      "nll": 3.5762786865234375e-07,
+      "ece": 1.1920928955078125e-07
+    },
+    "frozen_law_heldout_r2": -30.936351721073724,
+    "frozen_law_heldout_mae": 0.031264674238761815,
+    "grand_status": "blocked_before_execution"
+  },
+  "artifacts": [
+    {
+      "path": "CITATION.cff",
+      "bytes": 915,
+      "sha256": "c82286ee974bdc42624967431fe939939fbe4fb3fa3ce3dbde7bcda34907b9d6"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 10054,
+      "sha256": "c9eedd8033941e3d4a44a0920ea6c624da462ff0b15ceee0f2cb97cbf62624b2"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11169,
+      "sha256": "f9997c4577d9fdbb12eb37d3c52af0f7cb626594e1b685aae10e639c81745900"
+    },
+    {
+      "path": "RELEASE_NOTES.md",
+      "bytes": 2014,
+      "sha256": "00535fd3481fe73fee0170c1bd9e9caf9b1d8e741bd244fb36fd015f8738658e"
+    },
+    {
+      "path": "REPLICATION.md",
+      "bytes": 4494,
+      "sha256": "d5af0ae249d61aaa563e854c51d2e8416bf3fc88bbf37f1ea5c6fe3a637c8333"
+    },
+    {
+      "path": "RESULTS.md",
+      "bytes": 39228,
+      "sha256": "88d27d3ba2e5172f4b4425dbe13f4b22a2677b34e306e72b938942251f70e770"
+    },
+    {
+      "path": "dashboard/data.js",
+      "bytes": 80116,
+      "sha256": "01f17f85b62fd5dbb62a2116e8753dc66749d4776ed58ef75aac073d67842a33"
+    },
+    {
+      "path": "docs/PREREGISTRATION_AMENDMENT_001.md",
+      "bytes": 2194,
+      "sha256": "948ba6bcb1aed168338dd9ed88d326e99f85aaeca0bb2ebce75b652ab7e5649e"
+    },
+    {
+      "path": "docs/PREREGISTRATION_NEXT_PHASE.md",
+      "bytes": 19103,
+      "sha256": "0f40ed7904545d53531d334c9919c93c8a98bfc171d69091de98d4c35c1d6465"
+    },
+    {
+      "path": "experiments/results/QN-000028/metrics.json",
+      "bytes": 1931,
+      "sha256": "4486a29fbea3708361b941b3d89f442e7730ddb2b6fa92de59c5a1de767cb3f0"
+    },
+    {
+      "path": "experiments/results/QN-000029/metrics.json",
+      "bytes": 189069,
+      "sha256": "b050b669607ae2705aacc78d109bc5e119610cb656c5301b694593e7b5545eb9"
+    },
+    {
+      "path": "experiments/results/QN-000031/metrics.json",
+      "bytes": 9118678,
+      "sha256": "f5d4c3e1816ab2e6fb15ee1263d8adb39754091033d30dd231d8bb04043b85b4"
+    },
+    {
+      "path": "experiments/results/QN-000033/metrics.json",
+      "bytes": 1474944,
+      "sha256": "a0acf17b778c7cb213cff0d20dd278b39e5d7db5fa6bfc94da35312211aa3a58"
+    },
+    {
+      "path": "experiments/results/QN-000040/metrics.json",
+      "bytes": 10499524,
+      "sha256": "d06945ea7257b12c8b515c3f361e9e31925554ea5ee8a27e36ba65e3ddc1428b"
+    },
+    {
+      "path": "experiments/results/QN-000042/metrics.json",
+      "bytes": 6864171,
+      "sha256": "3106fdbf324e80903eb1f6eec19a0db20f6c3eb45abdd49c58d58e26ab792d52"
+    },
+    {
+      "path": "experiments/results/QN-GRAND-001/decision.json",
+      "bytes": 731,
+      "sha256": "0432cc9b3784cbb6bf6d028e69923058de4f959f7afdb6aee35c6535a5f166b8"
+    },
+    {
+      "path": "experiments/results/QN-GRAND-001/preflight.json",
+      "bytes": 5229,
+      "sha256": "2ec576530ef298088f82b7347e311b2084f70427fd57fffd627c37ed24fd6b61"
+    },
+    {
+      "path": "paper/MANUSCRIPT_METADATA.json",
+      "bytes": 1981,
+      "sha256": "4deb3d6e5dea832b6a8ebee5d98e732384b91afcd9a518bfa2f1e42382825caa"
+    },
+    {
+      "path": "paper/build_manuscript.py",
+      "bytes": 38154,
+      "sha256": "4412dc3cacd6133daa2ea28e9801560989de29d90db1fd9c2800431fe19d084f"
+    },
+    {
+      "path": "paper/figures/manifest.json",
+      "bytes": 296,
+      "sha256": "2b987e11da0bd900b3346699a68725dbb11580dc87abf3a11cd9f3ddbf05c602"
+    },
+    {
+      "path": "paper/qneuro.docx",
+      "bytes": 290291,
+      "sha256": "6bf82474f0957c471471bc25aee8de34337c175afd772af72bf05766849eb5e5"
+    },
+    {
+      "path": "paper/qneuro.pdf",
+      "bytes": 520972,
+      "sha256": "e39e448baefbf601ce83a21429b352a8f0902f35690a1d8a0b54a0009e8e01b0"
+    },
+    {
+      "path": "paper/references.json",
+      "bytes": 6258,
+      "sha256": "8a9f12c3fac64a6fd79e5d27966c8094b221c45af19ee1d9fd010cd681b06280"
+    },
+    {
+      "path": "paper/source/ablations.md",
+      "bytes": 2661,
+      "sha256": "0c140e9d2a98f365e6b860861fcdecc94385b669cc2293fcc035a985aa4812aa"
+    },
+    {
+      "path": "paper/source/abstract.md",
+      "bytes": 1949,
+      "sha256": "c170ac7fcaeb0402937a120b003d89637e57ff0f555d2711a5821c30b73e9853"
+    },
+    {
+      "path": "paper/source/appendices.md",
+      "bytes": 5533,
+      "sha256": "cfc486238c8a8dfa7f7f4898202204f87a91752593c52519add6bb25215aa5dd"
+    },
+    {
+      "path": "paper/source/architecture.md",
+      "bytes": 2893,
+      "sha256": "3fdc8c9ca85a013e805474fc8f26ce1a3c47961207714e0794ba94a986212d9a"
+    },
+    {
+      "path": "paper/source/conclusion.md",
+      "bytes": 1006,
+      "sha256": "b5b4031d10a9678f5bb3088d7978d8ac2fa710165c76aee899a41db55e1dfa80"
+    },
+    {
+      "path": "paper/source/discussion.md",
+      "bytes": 3013,
+      "sha256": "5a7703620beed593f06b111dcd931d884a8174ea192c9e3d0ebec0a95605cfce"
+    },
+    {
+      "path": "paper/source/experiments.md",
+      "bytes": 3445,
+      "sha256": "6bf114a6abdc9924bce97673a5d2f77c236d30ae1bead74fb6bad80c0bf80c40"
+    },
+    {
+      "path": "paper/source/interpretability.md",
+      "bytes": 2198,
+      "sha256": "30c6695eb933c82241eb8442725969e422337618e47aa6cc21247ce7e50a800e"
+    },
+    {
+      "path": "paper/source/introduction.md",
+      "bytes": 3713,
+      "sha256": "9d3428936cd23e4b149ce5c4d6821d12fc1f9f7adc937c0117b468ae11f9e206"
+    },
+    {
+      "path": "paper/source/limitations.md",
+      "bytes": 3618,
+      "sha256": "e945a18d887e1687dc913a08684286d909abfd0c7fcad3f1b2fa9fe6c2c1986d"
+    },
+    {
+      "path": "paper/source/neuroworld.md",
+      "bytes": 3236,
+      "sha256": "070ba1636161bdd6049ab814985c07b1dbf3311f2bcfc4c2b02c4600ddd8b330"
+    },
+    {
+      "path": "paper/source/related_work.md",
+      "bytes": 3751,
+      "sha256": "ffeb2e7aa50a7023b8a1b2678f8d286374716a924f8c635784154a7978fe4c06"
+    },
+    {
+      "path": "paper/source/results.md",
+      "bytes": 5096,
+      "sha256": "a471fd3d11e840f72a2e91d5e1c5bb9482bfdc6de7308ab1f67a276cbff20bef"
+    },
+    {
+      "path": "paper/source/safety.md",
+      "bytes": 2138,
+      "sha256": "32ff37f1b5bcb829531e7e1278850b32c7d05ba036096d06e3afbdb91241ae05"
+    },
+    {
+      "path": "paper/source/theory.md",
+      "bytes": 4011,
+      "sha256": "da0f66903fb98e21b728399db4c02c5d7e48d066fb168a15644d825b0411ef79"
+    },
+    {
+      "path": "paper/source/training.md",
+      "bytes": 2819,
+      "sha256": "3cc0119542400225f1d639d932a04e6162b65c86f4bdde4547acad9a9b4b49cf"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 965,
+      "sha256": "98d093f0c99c3175bb5a069b52aff0e9921db6d30736ebb0158328aa642a6a82"
+    },
+    {
+      "path": "qneuro/__init__.py",
+      "bytes": 74,
+      "sha256": "6e158e48a911e98992b46b76eab7ca7de7d07bf9658b66a45ab8e647095a5748"
+    },
+    {
+      "path": "research/analyses/generated/falsification_phase.json",
+      "bytes": 4702,
+      "sha256": "2c139a944b6ec9d381d1ad1310579fca0359a6c3d5486550ac042dcd7d321789"
+    },
+    {
+      "path": "research/claims.json",
+      "bytes": 35695,
+      "sha256": "058d0d1b761b641ab83d044aa122b7e4fab581ce69379c0a16cf17dcb1b54a95"
+    },
+    {
+      "path": "research/failures.json",
+      "bytes": 35997,
+      "sha256": "9eeece15145afe465032a7ecc171cd42e597e659f677c15342111d28f611ff18"
+    },
+    {
+      "path": "research/figures/generated/falsification_phase.pdf",
+      "bytes": 39485,
+      "sha256": "9a10b22f45712801637175e312700709aad37e5968e4ae3cf4842bb842523487"
+    },
+    {
+      "path": "research/figures/generated/falsification_phase.png",
+      "bytes": 261328,
+      "sha256": "a7464023ed528fccb795542994c84907e4cfc38aef435168be677c89c137ca48"
+    },
+    {
+      "path": "research/laws/FROZEN_CANDIDATE_001.json",
+      "bytes": 3362,
+      "sha256": "e3a2899e1dda1b259b72ecb772158fd5399430485726b427e20001a93216defb"
+    },
+    {
+      "path": "research/review_report.json",
+      "bytes": 107,
+      "sha256": "99f96c0592bc2e79ff5852f54510466426e3939104ce97625416e870368373b4"
+    },
+    {
+      "path": "scripts/verify_release.py",
+      "bytes": 13668,
+      "sha256": "0399e0b830003f67b6939624f8f57488898e28345a80df582267765c2b391e53"
+    },
+    {
+      "path": "uv.lock",
+      "bytes": 131423,
+      "sha256": "368e55083f2df26f737eccb84685947c35c51e2a7c09ea69cb26fb1ca009a984"
+    }
+  ]
+}

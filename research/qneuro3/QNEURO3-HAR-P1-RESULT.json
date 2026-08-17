@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-HAR-P1",
+  "prediction_sha256": "70e92005d2433e6612ce03428392254d451fbed0f8c96946c7eaa7e0a96012a0",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_triggered": true,
+  "significance": "The most consequential result of the final phase, and it is negative. On real data the confirmed mechanism loses to two prior-art baselines.",
+  "dataset": "UCI HAR, canonical subject-disjoint split (17 train / 4 validation / 9 test subjects), 9 inertial channels x 128 timesteps in 16 chunks, 6 classes. Test read only at scoring.",
+  "results_3_seeds": [
+    {
+      "arm": "fixed",
+      "test_accuracy": 0.9127,
+      "mean_chunks": 16.0,
+      "p95_chunks": 16.0,
+      "params": 63271,
+      "train_seconds": 3.6,
+      "per_seed": [
+        0.9135,
+        0.9131,
+        0.9114
+      ]
+    },
+    {
+      "arm": "act",
+      "test_accuracy": 0.9006,
+      "mean_chunks": 3.61,
+      "p95_chunks": 10.33,
+      "params": 63271,
+      "train_seconds": 4.5,
+      "per_seed": [
+        0.9016,
+        0.9026,
+        0.8975
+      ],
+      "note": "Graves 2016. The Pareto winner: 0.9006 at 3.61 chunks."
+    },
+    {
+      "arm": "confidence",
+      "test_accuracy": 0.8811,
+      "mean_chunks": 2.57,
+      "p95_chunks": 13.0,
+      "params": 63271,
+      "train_seconds": 3.4,
+      "per_seed": [
+        0.8812,
+        0.8802,
+        0.8819
+      ]
+    },
+    {
+      "arm": "confidence_at_matched_compute",
+      "test_accuracy": 0.8747,
+      "mean_chunks": 2.28,
+      "p95_chunks": 10.0,
+      "params": 63271,
+      "per_seed": [
+        0.8812,
+        0.8802,
+        0.8626
+      ],
+      "note": "threshold chosen on VALIDATION to match the supervised arm's validation chunk count; test not consulted in the choice"
+    },
+    {
+      "arm": "supervised (Q-Neuro 3.0 mechanism)",
+      "test_accuracy": 0.8112,
+      "mean_chunks": 2.39,
+      "p95_chunks": 15.67,
+      "params": 63271,
+      "train_seconds": 8.4,
+      "per_seed": [
+        0.8096,
+        0.8076,
+        0.8164
+      ],
+      "note": "fourth of five, and the most expensive to train"
+    },
+    {
+      "arm": "pondernet",
+      "test_accuracy": 0.522,
+      "mean_chunks": 16.0,
+      "p95_chunks": 16.0,
+      "params": 63271,
+      "train_seconds": 4.3,
+      "per_seed": [
+        0.5165,
+        0.5792,
+        0.4703
+      ],
+      "note": "collapsed; my implementation may be under-tuned and that is my responsibility, not evidence against the method"
+    }
+  ],
+  "latency_us_per_example": [
+    {
+      "batch": 1,
+      "fixed": 492.4,
+      "lockstep": 77.2,
+      "compacted": 94.3,
+      "lockstep_speedup": 6.38,
+      "compacted_speedup": 5.22
+    },
+    {
+      "batch": 16,
+      "fixed": 45.6,
+      "lockstep": 5.3,
+      "compacted": 6.5,
+      "lockstep_speedup": 8.6,
+      "compacted_speedup": 7.08
+    },
+    {
+      "batch": 256,
+      "fixed": 9.6,
+      "lockstep": 13.6,
+      "compacted": 5.9,
+      "lockstep_speedup": 0.7,
+      "compacted_speedup": 1.63
+    }
+  ],
+  "scoring": {
+    "H1_accuracy_matched": {
+      "required": "within 0.02 of fixed depth",
+      "measured": "0.8112 against 0.9127, a gap of 0.1015",
+      "verdict": "FAIL"
+    },
+    "H2_real_saving": {
+      "required": "<= 60% of 16 chunks",
+      "measured": "2.39 chunks (15%)",
+      "verdict": "PASS"
+    },
+    "H3_beats_the_strongest_natural_baseline": {
+      "required": "at matched mean chunks, accuracy at least equal within 0.01",
+      "measured": "0.8112 against confidence exit's 0.8747 at a chunk gap of 0.10",
+      "verdict": "FAIL"
+    },
+    "H4_batch1_latency": {
+      "required": ">= 1.5x over fixed depth",
+      "measured": "6.38x",
+      "verdict": "PASS"
+    },
+    "H5_the_ceiling_reappears": {
+      "required": "<= 1.3x at batch 256 under lockstep",
+      "measured": "0.70x",
+      "verdict": "PASS"
+    }
+  },
+  "consequence_stated_as_the_headline": [
+    "The kill condition applies verbatim. On real data, where the task supplies no ground-truth halt",
+    "step and the target must be distilled from a teacher, supervised halting is beaten by",
+    "confidence-based early exit (0.8747 against 0.8112 at matched compute) and by ACT (0.9006 at 3.61",
+    "chunks), both of which need no teacher. It also costs 2.3x the training time.",
+    "Q-Neuro 3.0's halting mechanism is therefore RESTRICTED to tasks that supply a genuine halt",
+    "target. On the synthetic families where the task defines the halt step it attains optimal",
+    "allocation at matched accuracy; on a real workload where it does not, it is fourth of five."
+  ],
+  "what_transferred_to_real_data": [
+    "The RUNTIME findings, completely. Batch-1 latency saving is 6.38x. The lockstep straggler ceiling",
+    "reappears at batch 256 (0.70x, i.e. a penalty), and active-set compaction removes it (1.63x). The",
+    "execution-policy characterisation holds on real data even though the mechanism does not win."
+  ],
+  "honest_caveats": [
+    "PonderNet collapsed at 0.5220 and I treat that as an implementation shortcoming of mine rather",
+    "than evidence against the method. ACT working well on the same core suggests the harness is fair,",
+    "but a properly tuned PonderNet might rank higher and would only worsen our position.",
+    "HAR is close to saturated for strong models and the fixed-depth arm reaches 0.9127, so the",
+    "adaptive arms are competing over a narrow band. That does not rescue the supervised arm, which",
+    "lost by 0.06-0.10 rather than by noise."
+  ]
+}

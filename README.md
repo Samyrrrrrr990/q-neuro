@@ -3,194 +3,190 @@
 [![CI](https://github.com/Samyrrrrrr990/q-neuro/actions/workflows/ci.yml/badge.svg)](https://github.com/Samyrrrrrr990/q-neuro/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-2E74B5.svg)](LICENSE)
 [![Research: synthetic only](https://img.shields.io/badge/research-synthetic%20only-148F88.svg)](docs/MODEL_CARD.md)
+[![Grand benchmark: sealed](https://img.shields.io/badge/QN--GRAND--001-sealed-D8584A.svg)](experiments/results/QN-GRAND-001/preflight.json)
 
-Q-Neuro is a computational research project testing whether ordered evidence can act on an
-evolving diagnostic hypothesis state more effectively than conventional fixed-vector
-classification. Its first controlled study compares an MLP with real- and complex-valued
-low-rank evidence-operator models on a causal synthetic neurology environment.
+Q-Neuro is a falsification-first research repository for testing structured complex-valued and
+real-valued recurrent models on synthetic sequential tasks. Its central result is a reversal: an
+apparent complex-valued robustness advantage disappears when the comparator is replaced by an
+exact real implementation of the same computation and by stronger real-model controls.
 
-This repository does **not** claim that clinical reasoning is quantum mechanical, that the
-proposed mechanisms are novel, or that the software is clinically valid. Complex arithmetic is
-included only where phase changes the computation, and every architectural claim is treated as a
-falsifiable hypothesis.
+> **SYNTHETIC, NONCLINICAL RESEARCH ONLY.** Q-Neuro has not been evaluated on patients and is not a
+> medical device, diagnostic system, clinical decision-support tool, or demonstration of physical
+> quantum computation.
 
-```mermaid
-flowchart LR
-    E["ordered evidence"] --> O["evidence operator"]
-    O --> S["evolving hypothesis state Ψ"]
-    S --> O
-    S --> M["contextual measurement"]
-    M --> D["differential + uncertainty"]
-    S --> A["trajectory audit"]
+## Main result
+
+| Evidence stage | Registered result | Interpretation |
+|---|---:|---|
+| Historical NeuroWorld comparison | +0.0602 top-1 vs two-channel real | Positive but comparator-sensitive |
+| Reduced discovery | 0/2,880 positive effects; mean −0.03695 vs best real | No support for an intrinsic complex advantage; 52% of cells won by genuinely distinct real models |
+| Untouched-family confirmation | 0/1,920 positive effects; mean −0.009158 | Non-positive result transfers to four new families; see the composition amendment below |
+| Exact-real control | Top-1 matches in all 1,920 held-out cells | Implemented complex computation is reproducible in real arithmetic |
+| Frozen quantitative law | R² −30.94; MAE 0.03126 | Failed magnitude transfer; retained as a negative result |
+| QN-GRAND-001 | Blocked before execution; sealed | Six mandatory readiness gates remain unmet |
+
+The held-out family/world/seed hierarchical bootstrap interval for the complex-minus-best-real
+effect is [−0.01325, −0.00457]. These reduced studies are intentionally outcome-ineligible: they
+do not replace the deferred full protocol and cannot support clinical, universal-superiority, or
+grand-confirmatory claims.
+
+### Amendment 001 — how the 1,920 held-out cells are composed
+
+Every number above remains numerically correct and no result artifact has been changed. The
+*interpretation* of the held-out count is amended, because the cells are not 1,920 independent
+architecture comparisons:
+
+| QN-000042 best-real winner | Cells | Mean effect | Exactly zero |
+|---|---:|---:|---:|
+| `exact_real_block_operator` | 1,478 (77%) | +0.00000 | 1,478 (100%) |
+| `real_polar_operator` | 442 (23%) | −0.03978 | 60 (14%) |
+
+In 77% of held-out cells the selected best-real model *is* the exact-real implementation. That
+implementation is not an independent rival architecture: it evaluates the same modeled computation
+and, in the current code, shares the same real parameter coordinates as the complex model (see
+[`docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md`](docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md)). Those
+1,478 exact zeros are **equivalence-induced**, and must not be presented as 1,478 independent wins
+of a distinct real architecture.
+
+The informative architecture-level reversal is the remaining 442 cells, where `real_polar_operator`
+— a genuinely different model — beats the complex operator by −0.0398 on average.
+
+**QN-000040 is the healthier heterogeneous-control result** and should carry more of the argument:
+`state_space` (637 cells, −0.0906), `real_polar_operator` (485, −0.0469), and `gru` (367, −0.0707)
+together win 52% of discovery cells, with `exact_real_block_operator` taking the remaining 1,391.
+
+This amendment strengthens the negative result rather than weakening it. The
+intrinsic-complex-arithmetic claim still fails on two independent grounds: exact realification
+reproduces the implemented computation, **and** genuinely distinct real controls outperform it.
+What changes is that the headline must distinguish equivalence-induced zeros from independent
+architecture wins.
+
+![Falsification phase](research/figures/generated/falsification_phase.png)
+
+## Research program documentation
+
+Work after the v1.0.0 release — the equivalence compiler (Q-Neuro 2.0), the adaptive-computation
+program (Q-Neuro 3.0) and the architecture search (Nova) — is documented in three companion
+documents. **Nineteen frozen, hashed, prospective
+predictions were opened and one passed as written**; 39 failures are preserved with mechanisms.
+
+**The programme's headline is a scope condition, and it is negative:**
+
+> Supervised halting earns its place **only where the task supplies a ground-truth halt step**.
+> Where it does, it attains the optimal per-example compute allocation at matched accuracy with
+> 10/10 seed reliability and a 3.6× batch-1 wall-clock saving. Where it does not — tested on UCI
+> Human Activity Recognition with the dataset's own subject-disjoint split — it comes **fourth of
+> five**, beaten by ACT (2016) and by confidence-based early exit, at 2.3× the training cost.
+
+Reproduce everything, with all ten frozen hashes verified from disk before anything is scored:
+
+```bash
+make reproduce-q3          # full, ~90 min
+make reproduce-q3-quick    # hashes + invariants, ~1 min
 ```
 
-> **RESEARCH PROTOTYPE — NOT FOR CLINICAL USE.** All initial cases are synthetic. Outputs are
-> experimental measurements, not medical advice.
+**No new mechanism and no new architecture survives.** What does survive is a set of measured
+boundaries — the lockstep straggler ceiling and its analytic form, the compaction crossover, the
+scope condition above, and the silent-failure mode of adaptive compute — plus the falsification
+discipline that produced them. See [`docs/GATE4_NOVELTY_AUDIT.md`](docs/GATE4_NOVELTY_AUDIT.md) for
+the explicit separation and [`docs/QNEURO3_COMPLETION_SCORECARD.md`](docs/QNEURO3_COMPLETION_SCORECARD.md)
+for the final scorecard, including the three dimensions that fall short of their thresholds.
+
+| Document | For |
+|---|---|
+| [**Paper**](docs/PAPER.md) | the short version — problem, principle, what was frozen, why it failed |
+| [**Technical breakdown**](docs/TECHNICAL_BREAKDOWN.md) | reproduction — derivations, hyperparameters, controls, commands |
+| [**Monograph**](docs/MONOGRAPH.md) | the full narrative, including every failure and the beautiful results that had to be killed |
+| [**Novelty audit**](docs/GATE4_NOVELTY_AUDIT.md) | what is prior art, what is measurement, what is ours |
+| [**Completion scorecard**](docs/QNEURO3_COMPLETION_SCORECARD.md) | evidence-linked scores and the shortfalls |
+| [**Nova prior-art firewall**](docs/NOVA_PRIOR_ART.md) | why the leading candidate is a 2014 result |
+| [**Textbook**](docs/TEXTBOOK.md) | sixteen books, Helix through Nova, with exercises |
+
+### Plain-language PDFs
+
+The same material rewritten end to end for a reader without a research background, with 38 figures
+generated from the stored records. Start here if you are not already familiar with the work.
+
+| PDF | Pages | What it is |
+|---|---:|---|
+| [**Q-Neuro**](paper/qneuro-paper.pdf) | 16 | the whole programme, four eras, what survived and what didn't |
+| [**Technical Breakdown**](paper/qneuro-technical.pdf) | 23 | every constant, equation, command and bug needed to rebuild it |
+| [**From Helix to Nova**](paper/qneuro-textbook.pdf) | 38 | sixteen books, from what a matrix is to the open problems |
+
+```bash
+make plain-pdfs        # regenerates the figures and rebuilds all three
+```
+
+**Nova — the search for a new computational principle — returned NO.** Thirty-two architectures
+across six mechanism families, screened on five shortcut-audited algorithmic tasks at 4× the trained
+length. The two leading architectures are prior-art compositions; three frozen hypotheses all
+failed. One negative characterisation survives: capability competition is *conserved* — relieving a
+conflict between two capabilities by adding a third route reintroduces one elsewhere.
+
+```bash
+make smoke-nova        # hashes, task validity, invariants — about a minute
+make reproduce-nova    # adds the capability frontier — several hours
+```
+
+These document ongoing research and are **not** part of the frozen v1.0.0 publication package below.
 
 ## Publication package
 
-The complete manuscript, **Hypothesis-State Computing Under Causal Shift**, is available as
-[Word](paper/qneuro.docx), [PDF](paper/qneuro.pdf), and modular [LaTeX](paper/main.tex). Its 20
-figures and nine tables are generated from registered experiment artifacts rather than transcribed
-by hand. The canonical prose, build details, and artifact map are documented in
-[`paper/README.md`](paper/README.md).
+The complete v1.0.0 results article, **Exact Real Controls Overturn an Apparent Complex-Valued
+Robustness Advantage**, is available as [Word](paper/qneuro.docx), [PDF](paper/qneuro.pdf), and
+modular [LaTeX](paper/main.tex). The editable manuscript is 25 pages, accessibility-audited, and
+generated from canonical Markdown plus registered artifacts.
+
+- [Manuscript build and artifact map](paper/README.md)
+- [Detailed result record](RESULTS.md)
+- [Next-phase preregistration](docs/PREREGISTRATION_NEXT_PHASE.md)
+- [Frozen candidate law](research/laws/FROZEN_CANDIDATE_001.json)
+- [Machine-readable claims](research/claims.json)
+- [Failure ledger](research/failures.json)
+- [Interactive evidence dashboard](dashboard/index.html)
+
+The manuscript has not undergone journal peer review, independent replication, or external
+statistical audit. Publication files are submission-ready artifacts, not a guarantee of acceptance.
+
+## Reproduce
 
 ```bash
-make reproduce-paper  # tests, lint, dashboard, figures, tables, DOCX, and PDF
-make latex            # compile main.tex when latexmk is installed
-```
-
-The manuscript is structurally complete but has not undergone peer review, clinician review,
-independent statistical audit, or external replication. “Publication package” does not mean
-clinical validation or journal acceptance.
-
-## Current milestone
-
-- Foundational research questions and mathematical definitions
-- A causal, structured `NeuroWorld` simulator with explicit missingness and ordered evidence
-- Parameter-budgeted MLP, Transformer, GRU, real, two-channel, and complex operator models
-- Reproducible Experiment Zero, multi-world shift, composition, ambiguity, and OOD runners
-- A never-overwritten SQLite experiment registry with environment, metric, and artifact records
-- An auditable discovery engine that ranks context-specific Pareto fronts, flags metric tensions,
-  and emits falsifiable next-experiment proposals
-- Mathematical-invariant, generator-validity, task-construction, and evaluation tests
-- A synchronized 54-page Word/PDF manuscript, modular LaTeX source, and release artifact set
-
-## Current evidence
-
-Corrected Experiment Zero (`QN-000003`, 14,000 training cases, three seeds) found mean top-1
-accuracy of 0.752 for the unordered MLP, 0.995 for the tiny Transformer, 0.999 for the real
-operator-state model, and 1.000 for the complex operator-state model. All ordered models solved the
-held-out chronology counterfactual pairs; the MLP solved none because each pair has identical
-aggregate evidence by construction.
-
-The stronger-control replication (`QN-000006`) changes the interpretation of that learning curve.
-A validation-tuned GRU is the most sample-efficient in-domain model at 250 cases (0.920 top-1), so
-operators do not hold a general in-domain sample-efficiency lead. The GRU collapses under changed
-generator seeds, while the complex operator reaches 0.896 on the nuisance shift and 0.660 on the
-noisy/sparse shift at 1,000 cases. The matched two-channel real control reaches 0.828 and 0.597.
-This is preliminary evidence of a robustness difference on declared synthetic shifts—not evidence
-that complex arithmetic, Q-Neuro broadly, or a medical system is superior.
-
-The confirmatory sweep (`QN-000008`) evaluates five preregistered unseen world seeds at four shift
-severities and uses world seed—not individual cases—as the statistical unit. At 1,000 training
-cases, complex top-1 is 0.909/0.806/0.645/0.468 from nuisance through severe shift. The two-channel
-real control reaches 0.846/0.745/0.585/0.414. The complex-minus-two-channel world-level effect is
-positive at every severity, with 95% intervals excluding zero. This confirms a simulator robustness
-phenomenon, while in-domain temperature calibration fails to transfer and often worsens shifted
-calibration.
-
-The orthogonal task suite (`QN-000010`) adds an important boundary to that result. Complex and
-two-channel real models both saturate held-out evidence composition. Complex output uncertainty
-detects a completely omitted disease at 0.9988 AUROC, but two-channel real is statistically
-indistinguishable at 0.9974. Complex representation distance separates a synthetic hidden syndrome
-at 0.9990 AUROC, yet this is anomaly separability—not discovery of a new attractor. On genuinely
-ambiguous, observationally identical cases, complex is worse: ambiguous-pair NLL is 2.581 versus
-1.148 for the ordinary real operator. The current complex architecture is robust under shift but
-does not automatically maintain a calibrated differential when evidence cannot resolve the case.
-
-The active-evidence benchmark (`QN-000012`) reveals one of 40 findings per query. Complex reaches
-0.590 mean accuracy over budgets 1–12 under expected-information acquisition, compared with 0.568
-two-channel and 0.585 MLP; those differences do not separate with three seeds. The same policy
-harms the Transformer even though its full-information accuracy is 0.982. Active evidence
-efficiency is a distinct target, not a consequence of high static accuracy.
-
-The computational-law suite (`QN-000014`) compares 18 models. Complex operator remains strongest
-under moderate unseen-world shift at 0.647 top-1. Hamiltonian-style evolution reaches 0.556 versus
-0.438 for dissipative-only, while the hybrid does not improve over Hamiltonian. Low-rank density
-dynamics preserve Hermiticity, PSD, and unit trace but do not beat the real operator. These are
-exploratory synthetic mechanism results, not physical or novelty claims.
-
-Retrained ablations (`QN-000016`) show that the robustness signal is distributed: replacing complex
-operators with a commutative complex accumulator costs 0.232 shifted top-1, a phase-insensitive
-readout costs 0.104, and dropping negative evidence costs 0.072. Density ranks above one do not
-help. These effects isolate functional components but still do not establish novelty or external
-validity.
-
-Frozen-state probes (`QN-000019`) recover all four simulator factors from the complex operator, but
-GRU and state-space representations are generally more linearly readable. Hermitian quadratic
-observables improve some complex-state probe accuracies while usually worsening NLL. The result
-supports latent accessibility, not unique hierarchy or intrinsic interpretability.
-
-Experiment Six (`QN-000021`) finds no optimizer breakthrough. PGO and PCGrad match, but do not beat,
-ordinary multi-objective AdamW and cost almost twice as much CPU time. Backprop-free local
-plasticity learns source structure but fails under shift; local pretraining makes source accuracy
-nearly perfect while reducing shifted accuracy. ZeroBackprop is fast and noncompetitive.
-
-Hard velocity exit (`QN-000023`) converts eight attractor states into two executed states and about
-an 80% CPU-latency reduction without changing top-1; it also improves shifted calibration. Every
-case stops at the same boundary, so this supports shallow truncation—not adaptive per-case thought.
-
-Trajectory replay (`QN-000025`) exposes the model's real evidence-by-evidence amplitudes,
-probabilities, entropy, velocity, and chronology bifurcation. The figure is a computation trace,
-not generated chain-of-thought, and visibility alone is not semantic interpretability.
-
-The registered discovery pass (`QN-000026`) consolidates 36 architecture, training-law, and
-halting candidates. It does not invent claims: it applies declared Pareto objectives, flags 26
-predefined metric tensions, and produces five proposals with explicit falsifiers. Its leading
-recommendations are a fixed two-state attractor control and an ambiguity-aware complex
-measurement. Generated rankings are decision support, not evidence of autonomous scientific
-discovery.
-
-The static [`dashboard`](dashboard/index.html) turns the same versioned artifacts into an
-interactive evidence audit. It includes the safety boundary, unseen-world robustness curve,
-context-specific Pareto field, expandable claim ledger, failed-idea register, and falsifiable
-next-study queue. Rebuild its payload with `make dashboard`; charts, candidates, claims, failures,
-and proposals are generated from versioned research artifacts.
-
-The expanded [prior-art ledger](docs/PRIOR_ART.md) materially narrows the novelty position.
-Complex/unitary recurrence, quantum-probability order effects, density states for ambiguity,
-Lindblad-inspired neural evolution, adaptive computation, and local learning all have direct
-precedent. Q-Neuro is presented as an integrated falsification framework and synthetic empirical
-result—not as the invention of those mechanisms.
-
-![Experiment Zero learning curves](research/figures/generated/experiment_zero_learning_curves.png)
-
-![Generator-shift replication](research/figures/generated/generator_shift_replication.png)
-
-![Multi-world robustness sweep](research/figures/generated/robustness_world_sweep.png)
-
-![Orthogonal NeuroWorld task suite](research/figures/generated/neuro_task_suite.png)
-
-![Active evidence acquisition](research/figures/generated/active_evidence.png)
-
-![Computational-law mechanism suite](research/figures/generated/dynamics_suite.png)
-
-![Critical Q-Neuro ablations](research/figures/generated/critical_ablation_suite.png)
-
-![Emergent hierarchical observables](research/figures/generated/observable_probe.png)
-
-![Unconventional training-law suite](research/figures/generated/training_law_suite.png)
-
-![Realized hard halting](research/figures/generated/hard_halting.png)
-
-![Q-Neuro trajectory signature](research/figures/generated/trajectory_signature.png)
-
-## Quick start
-
-```bash
-uv sync --extra dev
-uv run python -m pytest
-uv run python -m experiments.run_experiment_zero \
-  --config experiments/configs/experiment_zero.yaml
-# Run the orthogonal task suite after the fast smoke/invariant checks
-make neuro-task-suite
-make analyses figures
-make discovery
+uv sync --extra dev --extra paper --frozen
+uv run pytest -q
 make dashboard
+uv run python paper/build_manuscript.py
+uv run python scripts/verify_release.py
 ```
 
-Run artifacts are written to a never-overwritten `experiments/results/QN-XXXXXX/` directory and
-indexed in `experiments/registry.sqlite3`.
+Cached-artifact verification checks the registered result chain without retraining thousands of
+models. Full experimental reruns remain separate, compute-intensive operations and must not be
+confused with independent replication. See [`REPLICATION.md`](REPLICATION.md) for the exact
+boundary and commands.
 
-## Research documents
+## Repository map
 
-- [`docs/RESEARCH_QUESTIONS.md`](docs/RESEARCH_QUESTIONS.md)
-- [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md)
-- [`docs/ARCHITECTURE_CANDIDATES.md`](docs/ARCHITECTURE_CANDIDATES.md)
-- [`docs/MATHEMATICS.md`](docs/MATHEMATICS.md)
-- [`ARCHITECTURE.md`](ARCHITECTURE.md)
-- [`docs/MODEL_CARD.md`](docs/MODEL_CARD.md)
-- [`RESULTS.md`](RESULTS.md)
-- [`RESEARCH_LOG.md`](RESEARCH_LOG.md)
-- [`ROADMAP.md`](ROADMAP.md)
+```text
+experiments/             immutable run outputs, configs, registry, and runners
+q_neuro/                 models, synthetic generators, training, and evaluation code
+research/                preregistrations, analyses, frozen law, claims, failures, and figures
+paper/                   canonical manuscript source plus DOCX/PDF/LaTeX outputs
+dashboard/               static evidence audit built from versioned artifacts
+tests/                   invariant, analysis, registry, safety, and release tests
+release/                 checksummed publication manifest and replication report
+```
+
+## Scientific interpretation
+
+The exact-real mapping falsifies representational uniqueness for the implemented linear complex
+operator. It does not prove that every complex network, nonlinear complex activation, optimizer,
+or task is inferior. The negative result is narrower and more useful: under the executed synthetic
+profiles, the claimed robustness advantage does not survive the strongest tested real controls.
+
+Earlier positive, ablation, probe, training-law, halting, and trajectory studies remain preserved
+in the immutable history. They are context for how the claim evolved, not evidence that overrides
+the prospective falsification decision.
+
+## License
+
+Code is released under the [MIT License](LICENSE). Research artifacts are provided for
+reproducibility and critical review without clinical warranty or fitness claims.

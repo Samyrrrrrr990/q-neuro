@@ -27,14 +27,12 @@ TABLES = PAPER / "tables"
 FIGURE_SOURCE = ROOT / "research" / "figures" / "generated"
 FIGURES = PAPER / "figures"
 
-TITLE = "Hypothesis-State Computing Under Causal Shift"
-SUBTITLE = (
-    "A falsification-led study of complex evidence dynamics for synthetic diagnostic reasoning"
-)
+TITLE = "Exact Real Controls Overturn an Apparent Complex-Valued Robustness Advantage"
+SUBTITLE = "A preregistered falsification study across synthetic sequential task families"
 AUTHOR = "Samyar Shafiee"
 AFFILIATION = "Independent Researcher · Toronto, Canada"
-VERSION = "Research manuscript · v0.1.0 · 13 August 2026"
-RUNNING_TITLE = "Q-Neuro · Hypothesis-state computing under causal shift"
+VERSION = "Research manuscript · v1.0.0 · 14 August 2026"
+RUNNING_TITLE = "Q-Neuro · Exact controls and comparator-sensitive conclusions"
 
 NAVY = "193552"
 BLUE = "2E74B5"
@@ -87,7 +85,7 @@ def sha256(path: Path) -> str:
 def normalize_docx_container(path: Path) -> None:
     """Rewrite the OPC ZIP with stable ordering and timestamps."""
     temporary = path.with_suffix(".normalized.docx")
-    fixed_time = (2026, 8, 13, 0, 0, 0)
+    fixed_time = (2026, 8, 14, 0, 0, 0)
     with zipfile.ZipFile(path, "r") as source, zipfile.ZipFile(temporary, "w") as target:
         for member in sorted(source.infolist(), key=lambda item: item.filename):
             info = zipfile.ZipInfo(member.filename, date_time=fixed_time)
@@ -134,6 +132,11 @@ def parse_source(path: Path) -> list[Block]:
         if line.startswith("- "):
             flush()
             blocks.append(Block("bullet", line[2:]))
+            continue
+        numbered = re.match(r"^\d+\.\s+(.+)$", line)
+        if numbered:
+            flush()
+            blocks.append(Block("numbered", numbered.group(1)))
             continue
         paragraph.append(line)
     flush()
@@ -204,6 +207,89 @@ def set_cell_margins(
         node.set(qn("w:type"), "dxa")
 
 
+def set_table_geometry(table: Any, widths_dxa: list[int], *, indent_dxa: int = 120) -> None:
+    """Apply fixed Word table geometry with matching table, grid, and cell widths."""
+
+    if len(widths_dxa) != len(table.columns):
+        raise ValueError("table width count must match the number of columns")
+    table.autofit = False
+    table_pr = table._tbl.tblPr
+    table_width = table_pr.find(qn("w:tblW"))
+    if table_width is None:
+        table_width = OxmlElement("w:tblW")
+        table_pr.append(table_width)
+    table_width.set(qn("w:w"), str(sum(widths_dxa)))
+    table_width.set(qn("w:type"), "dxa")
+    table_indent = table_pr.find(qn("w:tblInd"))
+    if table_indent is None:
+        table_indent = OxmlElement("w:tblInd")
+        table_pr.append(table_indent)
+    table_indent.set(qn("w:w"), str(indent_dxa))
+    table_indent.set(qn("w:type"), "dxa")
+    layout = table_pr.find(qn("w:tblLayout"))
+    if layout is None:
+        layout = OxmlElement("w:tblLayout")
+        table_pr.append(layout)
+    layout.set(qn("w:type"), "fixed")
+    grid = table._tbl.tblGrid
+    for child in list(grid):
+        grid.remove(child)
+    for width in widths_dxa:
+        grid_column = OxmlElement("w:gridCol")
+        grid_column.set(qn("w:w"), str(width))
+        grid.append(grid_column)
+    for row in table.rows:
+        for cell, width in zip(row.cells, widths_dxa, strict=True):
+            cell.width = Inches(width / 1440)
+            cell_properties = cell._tc.get_or_add_tcPr()
+            cell_width = cell_properties.find(qn("w:tcW"))
+            if cell_width is None:
+                cell_width = OxmlElement("w:tcW")
+                cell_properties.append(cell_width)
+            cell_width.set(qn("w:w"), str(width))
+            cell_width.set(qn("w:type"), "dxa")
+
+
+def configure_list_numbering(document: Document, style_name: str) -> None:
+    """Apply the narrative-proposal list geometry to a built-in real numbering style."""
+
+    style = document.styles[style_name]
+    style.paragraph_format.left_indent = Inches(0.375)
+    style.paragraph_format.first_line_indent = Inches(-0.194)
+    style.paragraph_format.space_before = Pt(0)
+    style.paragraph_format.space_after = Pt(4)
+    style.paragraph_format.line_spacing = 1.208
+    number_properties = style.element.pPr.numPr
+    number_id = str(number_properties.numId.val)
+    numbering = document.part.numbering_part.element
+    number = numbering.find(f'./w:num[@w:numId="{number_id}"]', numbering.nsmap)
+    abstract_id = str(number.find("./w:abstractNumId", numbering.nsmap).get(qn("w:val")))
+    abstract = numbering.find(f'./w:abstractNum[@w:abstractNumId="{abstract_id}"]', numbering.nsmap)
+    level = abstract.find('./w:lvl[@w:ilvl="0"]', numbering.nsmap)
+    suffix = level.find("./w:suff", numbering.nsmap)
+    if suffix is None:
+        suffix = OxmlElement("w:suff")
+        level.insert(1, suffix)
+    suffix.set(qn("w:val"), "tab")
+    paragraph_properties = level.find("./w:pPr", numbering.nsmap)
+    tabs = paragraph_properties.find("./w:tabs", numbering.nsmap)
+    if tabs is None:
+        tabs = OxmlElement("w:tabs")
+        paragraph_properties.insert(0, tabs)
+    tab = tabs.find("./w:tab", numbering.nsmap)
+    if tab is None:
+        tab = OxmlElement("w:tab")
+        tabs.append(tab)
+    tab.set(qn("w:val"), "num")
+    tab.set(qn("w:pos"), "540")
+    indent = paragraph_properties.find("./w:ind", numbering.nsmap)
+    if indent is None:
+        indent = OxmlElement("w:ind")
+        paragraph_properties.append(indent)
+    indent.set(qn("w:left"), "540")
+    indent.set(qn("w:hanging"), "279")
+
+
 def prevent_row_split(row: Any) -> None:
     tr_pr = row._tr.get_or_add_trPr()
     tr_pr.append(OxmlElement("w:cantSplit"))
@@ -260,12 +346,12 @@ def configure_document(document: Document) -> None:
     section = document.sections[0]
     section.page_width = Inches(8.5)
     section.page_height = Inches(11)
-    section.top_margin = Inches(0.82)
-    section.bottom_margin = Inches(0.75)
+    section.top_margin = Inches(1.0)
+    section.bottom_margin = Inches(1.0)
     section.left_margin = Inches(1.0)
     section.right_margin = Inches(1.0)
-    section.header_distance = Inches(0.35)
-    section.footer_distance = Inches(0.35)
+    section.header_distance = Inches(0.492)
+    section.footer_distance = Inches(0.492)
     section.different_first_page_header_footer = True
 
     styles = document.styles
@@ -292,6 +378,9 @@ def configure_document(document: Document) -> None:
         style.paragraph_format.space_before = Pt(before)
         style.paragraph_format.space_after = Pt(after)
         style.paragraph_format.keep_with_next = True
+
+    configure_list_numbering(document, "List Bullet")
+    configure_list_numbering(document, "List Number")
 
     title = styles["Title"]
     title.font.name = "Calibri"
@@ -354,7 +443,7 @@ def configure_document(document: Document) -> None:
 
     footer = section.footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = footer.add_run("Synthetic research manuscript  ·  ")
+    run = footer.add_run("Synthetic, nonclinical research manuscript  ·  ")
     run.font.name = "Calibri"
     run.font.size = Pt(8)
     run.font.color.rgb = RGBColor.from_string(GRAY)
@@ -372,22 +461,21 @@ def add_cover(document: Document) -> None:
 
     badge = document.add_table(rows=1, cols=1)
     badge.alignment = WD_TABLE_ALIGNMENT.CENTER
-    badge.autofit = False
-    badge.columns[0].width = Inches(3.35)
+    set_repeat_table_header(badge.rows[0])
+    set_table_geometry(badge, [4824], indent_dxa=0)
     cell = badge.cell(0, 0)
     set_cell_shading(cell, PALE_TEAL)
     set_cell_margins(cell, 70, 120, 70, 120)
     paragraph = cell.paragraphs[0]
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     paragraph.paragraph_format.space_after = Pt(0)
-    run = paragraph.add_run("RESEARCH ARTICLE  ·  SYNTHETIC BENCHMARK")
+    run = paragraph.add_run("RESULTS ARTICLE  ·  FALSIFICATION FIRST")
     run.bold = True
     run.font.size = Pt(8.5)
     run.font.color.rgb = RGBColor.from_string(TEAL)
 
     title = document.add_paragraph(TITLE, style="Title")
     title.paragraph_format.space_before = Pt(30)
-    set_paragraph_bottom_border(title, TEAL, 14)
 
     subtitle = document.add_paragraph(SUBTITLE, style="Paper Subtitle")
     subtitle.paragraph_format.left_indent = Inches(0.45)
@@ -418,8 +506,8 @@ def add_cover(document: Document) -> None:
 
     boundary = document.add_table(rows=1, cols=1)
     boundary.alignment = WD_TABLE_ALIGNMENT.CENTER
-    boundary.autofit = False
-    boundary.columns[0].width = Inches(5.8)
+    set_repeat_table_header(boundary.rows[0])
+    set_table_geometry(boundary, [8352], indent_dxa=0)
     cell = boundary.cell(0, 0)
     set_cell_shading(cell, PALE_CORAL)
     set_cell_margins(cell, 150, 180, 150, 180)
@@ -438,7 +526,9 @@ def add_cover(document: Document) -> None:
     metrics.alignment = WD_ALIGN_PARAGRAPH.CENTER
     metrics.paragraph_format.space_before = Pt(24)
     metrics.paragraph_format.space_after = Pt(0)
-    run = metrics.add_run("26 REGISTERED STUDIES   ·   20 DATA FIGURES   ·   9 GENERATED TABLES")
+    run = metrics.add_run(
+        "4,800 INDEPENDENT-TASK EFFECT CELLS   ·   1 FROZEN LAW TEST   ·   GRAND BENCHMARK SEALED"
+    )
     run.bold = True
     run.font.size = Pt(8.5)
     run.font.color.rgb = RGBColor.from_string(DEEP_BLUE)
@@ -456,13 +546,13 @@ def add_cover(document: Document) -> None:
         ("02", "Introduction", "10", "Ablations"),
         ("03", "Related work", "11", "Interpretability and state audit"),
         ("04", "Mathematical framework", "12", "Limitations"),
-        ("05", "Architecture", "13", "Safety and responsible use"),
-        ("06", "Training laws", "14", "Discussion"),
-        ("07", "NeuroWorld", "15", "Conclusion"),
-        ("08", "Experiments", "16", "Extended methods and supplementary results"),
+        ("05", "Architecture and controls", "13", "Safety and responsible use"),
+        ("06", "Training and selection", "14", "Discussion"),
+        ("07", "Synthetic task systems", "15", "Conclusion"),
+        ("08", "Experimental design", "16", "Extended methods and results"),
     ]
     table = document.add_table(rows=0, cols=2)
-    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.alignment = WD_TABLE_ALIGNMENT.LEFT
     table.autofit = False
     for row_index, (left_no, left_title, right_no, right_title) in enumerate(contents):
         row = table.add_row()
@@ -471,7 +561,7 @@ def add_cover(document: Document) -> None:
             (row.cells[0], left_no, left_title),
             (row.cells[1], right_no, right_title),
         ):
-            cell.width = Inches(3.18)
+            cell.width = Inches(3.25)
             set_cell_margins(cell, 120, 150, 120, 150)
             if row_index % 2 == 0:
                 set_cell_shading(cell, MIST)
@@ -484,6 +574,8 @@ def add_cover(document: Document) -> None:
             title_run = paragraph.add_run(title_text)
             title_run.bold = True
             title_run.font.color.rgb = RGBColor.from_string(NAVY)
+    set_repeat_table_header(table.rows[0])
+    set_table_geometry(table, [4680, 4680])
     note = document.add_paragraph(
         "References follow the supplementary results. Figures and tables are numbered in order "
         "of appearance and are generated from registered artifacts."
@@ -504,8 +596,8 @@ def add_figure(document: Document, meta: tuple[str, ...], figure_number: int) ->
         width_px, height_px = image_file.size
     width = 6.45
     height = width * height_px / width_px
-    if height > 4.75:
-        height = 4.75
+    if height > 4.15:
+        height = 4.15
         width = height * width_px / height_px
     paragraph = document.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -571,6 +663,12 @@ def add_table(document: Document, identifier: str, table_number: int) -> None:
             run.font.name = "Calibri"
             run.font.size = Pt(8)
             run.font.color.rgb = RGBColor.from_string(NAVY)
+    first_width_dxa = round(first_width * 1440)
+    other_width_dxa = round(other_width * 1440)
+    set_table_geometry(
+        table,
+        [first_width_dxa, *([other_width_dxa] * (len(columns) - 1))],
+    )
     note = document.add_paragraph(payload["note"], style="Table Note")
     note.paragraph_format.keep_with_next = False
 
@@ -600,6 +698,13 @@ def add_blocks_to_docx(
                 paragraph.paragraph_format.space_after = Pt(4)
                 paragraph.paragraph_format.line_spacing = 1.208
                 add_inline_runs(paragraph, block.text, number_by_key)
+            elif block.kind == "numbered":
+                paragraph = document.add_paragraph(style="List Number")
+                paragraph.paragraph_format.left_indent = Inches(0.375)
+                paragraph.paragraph_format.first_line_indent = Inches(-0.194)
+                paragraph.paragraph_format.space_after = Pt(4)
+                paragraph.paragraph_format.line_spacing = 1.208
+                add_inline_runs(paragraph, block.text, number_by_key)
             elif block.kind == "equation":
                 if len(block.meta) != 2:
                     raise ValueError(
@@ -620,7 +725,6 @@ def add_blocks_to_docx(
 
 
 def add_references(document: Document, references: list[dict[str, str]]) -> None:
-    document.add_page_break()
     document.add_paragraph("References", style="Heading 1")
     for index, reference in enumerate(references, start=1):
         paragraph = document.add_paragraph()
@@ -639,10 +743,12 @@ def build_docx(
     document = Document()
     configure_document(document)
     document.core_properties.title = f"{TITLE}: {SUBTITLE}"
-    document.core_properties.subject = "Synthetic hypothesis-state computing under causal shift"
+    document.core_properties.subject = (
+        "Comparator-sensitive falsification of a complex-valued robustness claim"
+    )
     document.core_properties.author = AUTHOR
     document.core_properties.keywords = (
-        "Q-Neuro; synthetic diagnosis; complex-valued networks; distribution shift; reproducibility"
+        "Q-Neuro; exact real control; complex-valued networks; negative results; reproducibility"
     )
     document.core_properties.comments = (
         "Research manuscript generated from registered Q-Neuro artifacts; synthetic evidence only."
@@ -715,18 +821,18 @@ def tex_inline(text: str) -> str:
 
 def module_to_tex(module: str, blocks: list[Block]) -> str:
     lines = ["% Generated from paper/source. Do not edit by hand."]
-    in_bullets = False
+    list_environment: str | None = None
 
-    def close_bullets() -> None:
-        nonlocal in_bullets
-        if in_bullets:
-            lines.append(r"\end{itemize}")
+    def close_list() -> None:
+        nonlocal list_environment
+        if list_environment is not None:
+            lines.append(rf"\end{{{list_environment}}}")
             lines.append("")
-            in_bullets = False
+            list_environment = None
 
     for block in blocks:
-        if block.kind != "bullet":
-            close_bullets()
+        if block.kind not in {"bullet", "numbered"}:
+            close_list()
         if block.kind == "heading1":
             if module == "abstract":
                 lines.append(r"\begin{abstract}")
@@ -742,10 +848,12 @@ def module_to_tex(module: str, blocks: list[Block]) -> str:
         elif block.kind == "paragraph":
             lines.append(tex_inline(block.text))
             lines.append("")
-        elif block.kind == "bullet":
-            if not in_bullets:
-                lines.append(r"\begin{itemize}")
-                in_bullets = True
+        elif block.kind in {"bullet", "numbered"}:
+            required_environment = "itemize" if block.kind == "bullet" else "enumerate"
+            if list_environment != required_environment:
+                close_list()
+                lines.append(rf"\begin{{{required_environment}}}")
+                list_environment = required_environment
             lines.append(rf"\item {tex_inline(block.text)}")
         elif block.kind == "equation":
             lines.extend([r"\begin{equation}", block.meta[0], r"\end{equation}", ""])
@@ -766,7 +874,7 @@ def module_to_tex(module: str, blocks: list[Block]) -> str:
             lines.extend([rf"\input{{tables/{block.meta[0]}.tex}}", ""])
         else:
             raise ValueError(f"Unknown LaTeX block: {block.kind}")
-    close_bullets()
+    close_list()
     if module == "abstract":
         lines.append(r"\end{abstract}")
     return "\n".join(lines).rstrip() + "\n"
@@ -834,7 +942,7 @@ def stage_figures(modules: dict[str, list[Block]]) -> list[str]:
                 raise FileNotFoundError(source)
             shutil.copy2(source, FIGURES / source.name)
     manifest = {
-        "manuscript_date": "2026-08-13",
+        "manuscript_date": "2026-08-14",
         "count": len(names),
         "figures": [
             {

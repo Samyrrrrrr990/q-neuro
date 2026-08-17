@@ -1,0 +1,52 @@
+{
+  "date": "2026-08-15",
+  "lane": "B",
+  "record_id": "DISCOVERY-010",
+  "schema_version": "1.0.0",
+  "the_closure": "The functional-navigation program is closed. Where a free subspace exists it is not integrable; where motion is integrable it is not free; and wherever the OOD gradient is available at all, joint training on the combined data beats navigating. Combined with DISCOVERY-009, which showed no training-only signal identifies the useful direction, there is no configuration in which navigation is both possible and useful.",
+  "the_surviving_result": {
+    "confirmation": {
+      "P": 218,
+      "cells": 9,
+      "exact_matches": 9,
+      "g": 25,
+      "h": 24,
+      "measured": {
+        "n=100": 93,
+        "n=150": 43,
+        "n=180": 13,
+        "n=190": 3,
+        "n=193": 0,
+        "n=200": 0,
+        "n=250": 0,
+        "n=400": 0,
+        "n=50": 143
+      },
+      "predicted": {
+        "n=100": 93,
+        "n=150": 43,
+        "n=180": 13,
+        "n=190": 3,
+        "n=193": 0,
+        "n=200": 0,
+        "n=250": 0,
+        "n=400": 0,
+        "n=50": 143
+      },
+      "predicted_transition_at_n": 193
+    },
+    "derivation": "rank(J_train) = min(n, P - g) since the gauge kernel is structural and shared by every distribution. dim ker(J_train) = P - rank. Removing the g gauge directions, which are inert for every distribution, leaves max(0, P - g - n).",
+    "explanatory_power": "This is why every navigation attempt in DISCOVERY-007 through 009 failed. Those ran at n=600 with P-g=193, so d_free = 0 exactly. There was no free subspace to find, and the searches were structurally doomed rather than unlucky.",
+    "novelty": "Elementary rank-nullity plus an identified gauge dimension. No novelty is claimed. Its value is that it converts a string of empirical failures into a predicted consequence.",
+    "statement": "Let P be the parameter count, g the structural gauge dimension (softmax common mode, g = h + 1 for h hidden units and 2 classes), and n the number of training points. The first-order subspace of directions that preserve all training predictions while being able to change predictions elsewhere has dimension d_free = max(0, P - g - n).",
+    "status": "Stated BEFORE measurement, then confirmed exactly."
+  },
+  "title": "Closure of the functional-navigation program, with the dimension law that explains it",
+  "verdict": "NAVIGATION PROGRAM CLOSED. One exact derived result survives and it is the explanation for the closure.",
+  "what_the_program_should_take_from_this": "Three separate mechanisms were required to close this, and each is a reusable control: check d_free before searching for free directions; check integrability before trusting a first-order subspace; and check whether the simplest use of the same information already dominates.",
+  "why_the_free_regime_does_not_rescue_navigation": {
+    "control_1_non_integrability": "ker(J_train) is a first-order object. Train logit displacement grows essentially linearly with arc length: 7.3e-5, 7.3e-3, 1.78e-1, 2.26, 1.46e1 at arcs 0.01, 0.1, 0.5, 2.0, 7.5. At any step large enough to matter the trajectory has left the kernel, so 'zero-cost navigation' does not survive finite motion.",
+    "control_2_projection_adds_nothing": "At n=100 and matched arc, kernel-projected motion gives dOOD +0.0525 and held-out +0.0267 for dL 2.12e-2, while plain OOD gradient gives dOOD +0.0583 and held-out +0.0347 for dL 4.10e-2. The projection halves the training damage but also reduces the OOD gain, and loses outright on held-out OOD. It is a mild tradeoff, not a win.",
+    "control_3_fatal": "The apparent free-regime gain is simply the use of OOD labels. Training jointly on train plus OOD from scratch DOMINATES every navigation variant on every axis at once: dL 1.86e-2 (lowest), test 0.9845 (highest), dOOD +0.0758 (highest), held-out OOD +0.0423 (highest). The simplest possible use of the same information beats all the machinery."
+  }
+}

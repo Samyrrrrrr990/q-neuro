@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-ATTRIB-P1",
+  "prediction_sha256": "51d342b16dcd9e4e8a90bb35f9e8eaf1e68ae623532097d7c8f7dbfe2f4c8d17",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_triggered": true,
+  "P1_carry_distance": {
+    "required": "fixed-depth accuracy at d = max_depth exceeds accuracy at d = 1 by >= 0.30",
+    "measured_max_depth_8": [
+      {"seed": 0, "by_distance": [0.20, 0.20, 0.22, 0.23, 0.20, 0.22, 0.23, 0.27], "d8_minus_d1": 0.07},
+      {"seed": 1, "by_distance": [0.22, 0.20, 0.19, 0.24, 0.21, 0.24, 0.24, 0.24], "d8_minus_d1": 0.02}
+    ],
+    "verdict": "FAIL. The profile is flat at ~0.22 across every distance. The direction is weakly as predicted but the magnitude is 0.02-0.07 against a required 0.30."
+  },
+  "P2_depth_scaling": {
+    "required": "fixed >= 0.55 at max_depth 4; fixed < 0.20 at max_depth 12; attribution models >= 0.95 at both",
+    "measured": {
+      "max_depth_4_fixed": [1.0000, 0.8759],
+      "max_depth_12_fixed": [0.2395, 0.2403],
+      "max_depth_4_attribution": 1.0000,
+      "max_depth_12_attribution": 1.0000
+    },
+    "verdict": "FAIL on the max_depth 12 threshold: 0.24 against a required < 0.20. The other three conditions hold."
+  },
+  "why_the_mechanism_is_false": [
+    "The transport account said the fixed model degrades in proportion to how far it must carry a",
+    "match. If that were true, accuracy at d = max_depth -- where nothing is carried -- would be",
+    "high. It is 0.27 and 0.24, indistinguishable from d = 1. The fixed model fails uniformly,",
+    "including in the case that requires no transport at all.",
+    "This is the first mode named in the frozen anticipated_failure_modes: 'the fixed model may",
+    "fail uniformly across d because it never learns the match predicate at all'. That is exactly",
+    "what happened, and it was written down before the run."
+  ],
+  "what_the_failure_forced": [
+    "A confound in the original comparison was exposed while diagnosing this. The attribution",
+    "models were supervised with the true match step and the fixed model was not, so the",
+    "separation could have been about supervision rather than architecture. The",
+    "fixed_supervised control was built to remove it and is reported in",
+    "QNEURO3-ATTRIBUTION-001."
+  ],
+  "what_survives": [
+    "Nothing about the mechanism. The empirical separation stands as measured and is recorded",
+    "separately, but no carry-distance account may be attached to it and no scaling law may be",
+    "predicted from it.",
+    "The max_depth 4 vs 8 capability threshold for the fixed model is real and unexplained."
+  ],
+  "not_permitted_from_here": [
+    "Re-issuing this prediction with a smaller required margin, or scoring the direction of the",
+    "d8-minus-d1 difference as partial confirmation. The criterion was a magnitude and the",
+    "magnitude was not met.",
+    "Describing the separation as caused by state transport, degradation, or carry distance."
+  ]
+}

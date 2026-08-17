@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-EXTRAP-P1",
+  "prediction_sha256": "09aabd9169a7713b7881758b81d7e1e4c2fd3a1547d8edc1d92d5f8d4823461b",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED on all three",
+  "kill_condition_triggered": true,
+  "setup": "Trained at length 12 on the streaming family, evaluated without retraining at length 16 where crossing indices 13..16 were never seen.",
+  "results": {
+    "arrival_normalised": [
+      {
+        "seed": 0,
+        "in_distribution_1_12": 0.9473,
+        "extrapolated_13_16": 0.8328,
+        "mean_steps": 8.53
+      },
+      {
+        "seed": 1,
+        "in_distribution_1_12": 0.9599,
+        "extrapolated_13_16": 0.3528,
+        "mean_steps": 8.2
+      },
+      {
+        "seed": 2,
+        "in_distribution_1_12": 0.9581,
+        "extrapolated_13_16": 0.6548,
+        "mean_steps": 8.4
+      }
+    ],
+    "arrival_unnormalised": [
+      {
+        "seed": 0,
+        "in_distribution_1_12": 0.9031,
+        "extrapolated_13_16": 0.8926,
+        "mean_steps": 8.58
+      },
+      {
+        "seed": 1,
+        "in_distribution_1_12": 0.8455,
+        "extrapolated_13_16": 0.8678,
+        "mean_steps": 8.64
+      },
+      {
+        "seed": 2,
+        "in_distribution_1_12": 0.9957,
+        "extrapolated_13_16": 0.9803,
+        "mean_steps": 8.47
+      }
+    ],
+    "fixed_normalised": [
+      {
+        "seed": 0,
+        "in_distribution_1_12": 0.8982,
+        "extrapolated_13_16": 0.6815
+      },
+      {
+        "seed": 1,
+        "in_distribution_1_12": 0.8247,
+        "extrapolated_13_16": 0.4062
+      },
+      {
+        "seed": 2,
+        "in_distribution_1_12": 0.8721,
+        "extrapolated_13_16": 0.4418
+      }
+    ],
+    "select_normalised": [
+      {
+        "seed": 0,
+        "in_distribution_1_12": 0.9506,
+        "extrapolated_13_16": 0.7908
+      },
+      {
+        "seed": 1,
+        "in_distribution_1_12": 0.9331,
+        "extrapolated_13_16": 0.7648
+      },
+      {
+        "seed": 2,
+        "in_distribution_1_12": 0.9391,
+        "extrapolated_13_16": 0.7997
+      }
+    ]
+  },
+  "scoring": {
+    "E1_arrival_extrapolates": {
+      "required": ">= 0.80 on indices 13..16 on every one of 3 seeds",
+      "measured": "0.8328 / 0.3528 / 0.6548",
+      "verdict": "FAIL, 1 of 3"
+    },
+    "E2_normalisation_is_why": {
+      "required": "unnormalised at least 0.20 LOWER than normalised",
+      "measured": "unnormalised mean 0.9136 against normalised 0.6135 -- unnormalised is 0.30 HIGHER",
+      "verdict": "FAIL, and the effect runs in the OPPOSITE direction to the hypothesis"
+    },
+    "E3_fixed_cannot": {
+      "required": "fixed below 0.50 on indices 13..16",
+      "measured": "0.6815 / 0.4062 / 0.4418, mean 0.510",
+      "verdict": "FAIL"
+    }
+  },
+  "the_inversion_matters_most": [
+    "The frozen mechanism said RMS normalisation bounds the state, keeps deep steps in the region",
+    "where the predicate was learned, and therefore enables extrapolation. The measurement says the",
+    "reverse: on this family normalisation costs 0.30 of extrapolated accuracy while buying about",
+    "0.05 in distribution.",
+    "That also bounds the normalisation finding from QNEURO3-Q3-VARIANCE-001. Normalisation rescued",
+    "arrival halting on the associative-lookup family (11 of 24 seeds to 20 of 20) and it hurts",
+    "extrapolation on the streaming family. It is a family-specific engineering choice with a real",
+    "trade-off, not a principle."
+  ],
+  "consequence": [
+    "Kill condition applies verbatim: predicate halting does not buy depth extrapolation. The",
+    "adaptive-compute branch of Q-Neuro 3.0 has produced NO capability -- only an optimal-allocation",
+    "compute saving whose size belongs to the workload, plus a separation that failed to generalise.",
+    "The branch closes."
+  ],
+  "what_still_stands": [
+    "Halting on a supervised predicate costs nothing in accuracy and returns the workload's full",
+    "compute saving. That transferred prospectively (T3 of QNEURO3-TRANSFER-P1) to an untouched",
+    "family and holds across five measured settings with mean steps tracking E[predicate index] to",
+    "within 0.1."
+  ]
+}

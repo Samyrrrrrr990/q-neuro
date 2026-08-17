@@ -1,0 +1,67 @@
+{
+  "audit": {
+    "case_consistency_errors": [],
+    "maximum_class_prevalence_deviation": 0.005571428571428572,
+    "shortcuts": [
+      {
+        "name": "class_prior",
+        "selected_feature": null,
+        "test_accuracy": 0.0535,
+        "validation_accuracy": 0.051
+      },
+      {
+        "name": "metadata_only",
+        "selected_feature": null,
+        "test_accuracy": 0.2095,
+        "validation_accuracy": 0.21
+      },
+      {
+        "name": "sequence_length_only",
+        "selected_feature": null,
+        "test_accuracy": 0.0485,
+        "validation_accuracy": 0.061
+      },
+      {
+        "name": "positive_negative_count",
+        "selected_feature": null,
+        "test_accuracy": 0.048,
+        "validation_accuracy": 0.053
+      },
+      {
+        "name": "order_only",
+        "selected_feature": "first_last_token",
+        "test_accuracy": 0.926,
+        "validation_accuracy": 0.913
+      },
+      {
+        "name": "single_feature",
+        "selected_feature": "finding_4",
+        "test_accuracy": 0.099,
+        "validation_accuracy": 0.111
+      },
+      {
+        "name": "depth_two_lookup",
+        "selected_feature": "finding_1+finding_5",
+        "test_accuracy": 0.1315,
+        "validation_accuracy": 0.165
+      },
+      {
+        "name": "nearest_neighbor",
+        "selected_feature": null,
+        "test_accuracy": 0.6185,
+        "validation_accuracy": 0.631
+      }
+    ],
+    "train_test_duplicate_rate": 0.0,
+    "train_validation_duplicate_rate": 0.0
+  },
+  "deterministic_replay": true,
+  "experiment_id": "QN-000027",
+  "gate_passed": false,
+  "gate_violations": [
+    "shortcut:metadata_only",
+    "shortcut:order_only"
+  ],
+  "scientific_interpretation": "QN-GRAND-001 is blocked until every violation is resolved and preregistered.",
+  "status": "complete"
+}

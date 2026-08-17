@@ -1,0 +1,33 @@
+experiment_id: QN-GRAND-001
+action: preflight_then_execute_once_only_if_every_required_gate_passes
+description: The single preregistered grand confirmation. Any failed integrity or
+  readiness gate blocks sealed benchmark access and is preserved as the final QN-GRAND-001
+  status.
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+machine_protocol: experiments/configs/grand_falsification.yaml
+hypothesis_id: H0
+frozen_law_artifact: research/laws/FROZEN_CANDIDATE_001.json
+evidence:
+  red_team: experiments/results/QN-000028/metrics.json
+  shift_gauntlet: experiments/results/QN-000029/metrics.json
+  power_pilot: experiments/results/QN-000031/metrics.json
+  mechanism_discovery: experiments/results/QN-000033/metrics.json
+  reduced_discovery: experiments/results/QN-000040/metrics.json
+  heldout_confirmation: experiments/results/QN-000042/metrics.json
+minimum_required_worlds: 32
+required_power: 0.9
+required_real_envelope_size: 14
+required_search_trials:
+  complex: 8
+  each_real: 10
+matching:
+  parameter_relative_tolerance: 0.02
+  compute_relative_tolerance: 0.05
+required_outputs_before_execution:
+- raw_predictions
+- per_trial_compute_flops
+- optimizer_steps
+stop_on_any_failed_gate: true
+sealed_benchmark_access_on_failure: prohibited

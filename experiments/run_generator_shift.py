@@ -35,6 +35,8 @@ def build_world(config: dict[str, Any]) -> NeuroWorld:
         probability_mixing=float(config["probability_mixing"]),
         temporal_jitter=float(config["temporal_jitter"]),
         order_marker_visibility=float(config["order_marker_visibility"]),
+        demographic_signal_strength=float(config.get("demographic_signal_strength", 1.0)),
+        shared_nuisance_stages=bool(config.get("shared_nuisance_stages", False)),
     )
 
 

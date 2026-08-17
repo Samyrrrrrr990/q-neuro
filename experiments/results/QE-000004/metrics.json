@@ -1,0 +1,158 @@
+{
+  "experiment_id": "QE-000004",
+  "outcome_eligible": false,
+  "profile": "discovery",
+  "protocol_deviations": [
+    "Analytic microcosm only; no task generator and no architecture claim.",
+    "Discovery split: these cells may inform estimator design and may not be reused for confirmation."
+  ],
+  "records": [
+    {
+      "alignment_residual": 1.043081283569336e-07,
+      "effective_weight_divergence": 0.011758744716644287,
+      "full_rank": true,
+      "induced_gradient_cosine_first_step": 0.9393636584281921,
+      "max_logit_divergence": 0.043703675270080566,
+      "model_seed": 0,
+      "optimizer": "sgd",
+      "rank": 4
+    },
+    {
+      "alignment_residual": 1.043081283569336e-07,
+      "effective_weight_divergence": 0.055150821805000305,
+      "full_rank": true,
+      "induced_gradient_cosine_first_step": 0.9393636584281921,
+      "max_logit_divergence": 0.27989184856414795,
+      "model_seed": 0,
+      "optimizer": "adamw",
+      "rank": 4
+    },
+    {
+      "alignment_residual": 1.1920928955078125e-07,
+      "effective_weight_divergence": 0.009589061141014099,
+      "full_rank": true,
+      "induced_gradient_cosine_first_step": 0.902540922164917,
+      "max_logit_divergence": 0.030131399631500244,
+      "model_seed": 1,
+      "optimizer": "sgd",
+      "rank": 4
+    },
+    {
+      "alignment_residual": 1.1920928955078125e-07,
+      "effective_weight_divergence": 0.05853109434247017,
+      "full_rank": true,
+      "induced_gradient_cosine_first_step": 0.902540922164917,
+      "max_logit_divergence": 0.24557657539844513,
+      "model_seed": 1,
+      "optimizer": "adamw",
+      "rank": 4
+    },
+    {
+      "alignment_residual": 2.682209014892578e-07,
+      "effective_weight_divergence": 0.01518353819847107,
+      "full_rank": true,
+      "induced_gradient_cosine_first_step": 0.9052529335021973,
+      "max_logit_divergence": 0.05350995063781738,
+      "model_seed": 2,
+      "optimizer": "sgd",
+      "rank": 4
+    },
+    {
+      "alignment_residual": 2.682209014892578e-07,
+      "effective_weight_divergence": 0.07405881583690643,
+      "full_rank": true,
+      "induced_gradient_cosine_first_step": 0.9052529335021973,
+      "max_logit_divergence": 0.3016912639141083,
+      "model_seed": 2,
+      "optimizer": "adamw",
+      "rank": 4
+    },
+    {
+      "alignment_residual": 0.21546976268291473,
+      "effective_weight_divergence": 0.20597213506698608,
+      "full_rank": false,
+      "induced_gradient_cosine_first_step": 0.8871005177497864,
+      "max_logit_divergence": 1.0995808839797974,
+      "model_seed": 0,
+      "optimizer": "sgd",
+      "rank": 2
+    },
+    {
+      "alignment_residual": 0.21546976268291473,
+      "effective_weight_divergence": 0.13462185859680176,
+      "full_rank": false,
+      "induced_gradient_cosine_first_step": 0.8871005177497864,
+      "max_logit_divergence": 1.0837421417236328,
+      "model_seed": 0,
+      "optimizer": "adamw",
+      "rank": 2
+    },
+    {
+      "alignment_residual": 0.14269733428955078,
+      "effective_weight_divergence": 0.13578259944915771,
+      "full_rank": false,
+      "induced_gradient_cosine_first_step": 0.8063662648200989,
+      "max_logit_divergence": 0.6394343972206116,
+      "model_seed": 1,
+      "optimizer": "sgd",
+      "rank": 2
+    },
+    {
+      "alignment_residual": 0.14269733428955078,
+      "effective_weight_divergence": 0.09223974496126175,
+      "full_rank": false,
+      "induced_gradient_cosine_first_step": 0.8063662648200989,
+      "max_logit_divergence": 0.595329999923706,
+      "model_seed": 1,
+      "optimizer": "adamw",
+      "rank": 2
+    },
+    {
+      "alignment_residual": 0.1693098247051239,
+      "effective_weight_divergence": 0.16785074770450592,
+      "full_rank": false,
+      "induced_gradient_cosine_first_step": 0.8458196520805359,
+      "max_logit_divergence": 0.8842737078666687,
+      "model_seed": 2,
+      "optimizer": "sgd",
+      "rank": 2
+    },
+    {
+      "alignment_residual": 0.1693098247051239,
+      "effective_weight_divergence": 0.17915430665016174,
+      "full_rank": false,
+      "induced_gradient_cosine_first_step": 0.8458196520805359,
+      "max_logit_divergence": 0.8309674859046936,
+      "model_seed": 2,
+      "optimizer": "adamw",
+      "rank": 2
+    }
+  ],
+  "refusal_audit": {
+    "gradient_transport": {
+      "reason": "gradients do not transport from factorized to dense coordinates",
+      "refused": true
+    },
+    "inverse": {
+      "reason": "factorized_to_dense is non-injective: infinitely many (U, V) realize the same W, so there is no inverse to return",
+      "refused": true
+    },
+    "optimizer_state_transport": {
+      "reason": "FactorizedToDenseMap does not implement optimizer state transport",
+      "refused": true
+    },
+    "supports_optimizer_transport": false
+  },
+  "schema_version": "1.0.0",
+  "scientific_interpretation": "Discovery evidence on an analytic microcosm. Two parameterizations that realize the same predictor at initialization separate under matched training because factor-space descent preconditions the effective weight. No optimizer-state transport exists for this map, and the framework refuses rather than approximating one. Nothing here supports an architecture claim or a transport-covariance law.",
+  "split": "discovery",
+  "status": "complete",
+  "summary": {
+    "all_transport_operations_refused": true,
+    "cells": 12,
+    "largest_induced_gradient_cosine": 0.9393636584281921,
+    "smallest_induced_gradient_cosine": 0.902540922164917,
+    "worst_effective_weight_divergence": 0.07405881583690643,
+    "worst_full_rank_alignment_residual": 2.682209014892578e-07
+  }
+}

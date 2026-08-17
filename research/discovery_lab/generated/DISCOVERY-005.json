@@ -1,0 +1,46 @@
+{
+  "boring_explanation_accepted": "Ordinary noncommutative update accumulation with forgetting. The bulk of the residue (the common part S, scaling near eps^1.3) is excursion-driven drift: how far the curriculum dragged the model from the stay solution, independent of loop orientation or enclosed area.",
+  "date": "2026-08-15",
+  "discriminators": {
+    "1_orientation": {
+      "observed": "+0.8595 to +0.9844",
+      "predicted": "cos(H_cw,H_ccw) = -1",
+      "verdict": "FAIL \u2014 clockwise and counter-clockwise produce nearly the SAME functional change, not opposite ones"
+    },
+    "2_area_scaling_total": {
+      "observed": "eps^1.291",
+      "predicted": "|H| ~ eps^2",
+      "verdict": "FAIL \u2014 closer to path length than area"
+    },
+    "3_area_scaling_odd_part": {
+      "observed": "eps^0.619, R2=0.913",
+      "predicted": "|A| ~ eps^2",
+      "verdict": "FAIL \u2014 sublinear, nowhere near a commutator law"
+    },
+    "4_figure_eight_null": {
+      "observed": "103.3 versus square 72.2",
+      "predicted": "cancellation",
+      "verdict": "FAIL \u2014 larger than the loop it was meant to null"
+    },
+    "5_retrace_null_total": {
+      "observed": "70.8 versus square 72.2",
+      "predicted": "cancellation",
+      "verdict": "FAIL \u2014 zero enclosed area gives an indistinguishable residue"
+    },
+    "6_relative_trend": {
+      "observed": "SHRINKS from 0.577 to 0.174 as eps goes 0.025 to 0.400",
+      "predicted": "|A|/|S| grows like eps, since area/length ~ eps",
+      "verdict": "FAIL \u2014 the trend runs opposite to any area law"
+    }
+  },
+  "instrument_validation": "The retraced path gives |A| = 0.00000e+00 exactly, as it must, since reversing an out-and-back path returns the same sequence. The decomposition and measurement carry no numerical junk.",
+  "lane": "B",
+  "measurement": "Signed holonomy H_gamma = F_after(gamma) - F_stay in audit-logit space, decomposed into a common drift S = (H_cw + H_ccw)/2 and an orientation-odd part A = (H_cw - H_ccw)/2. The geometric claim lives entirely in A. Fully deterministic: fixed dataset, full-batch gradient descent, labels rotating with the teacher, identical initialization and step counts, so ORDER is the only difference between paired paths.",
+  "new_object_if_revived": "Any continuation is a DIFFERENT scientific object and needs a new discovery ID: decaying order-memory with a saturation scale, not geometric phase. The measurable would be the decay length of curriculum memory, not an area law.",
+  "not_pursued": "No connection, curvature tensor, or Stokes-type relation was defined. Doing so would have been decoration: the ordering test, the scaling exponent, and both zero-area nulls all fail, so there is no measured phenomenon for such a formalism to explain.",
+  "record_id": "DISCOVERY-005",
+  "schema_version": "1.0.0",
+  "title": "Curriculum holonomy under the full discriminator suite",
+  "verdict": "KILLED on every discriminator. Learning has order-dependent path memory, but it is NOT geometric.",
+  "what_the_failure_teaches": "Orientation-odd path memory is real and not small: |A| is 17 to 58 percent of the common drift. So learning does retain a signed memory of the order in which a curriculum was traversed. But that memory is SUBLINEAR in loop size and its relative weight DECREASES as loops grow, which is the signature of a saturating, decaying memory rather than an accumulating geometric one. The learner forgets early curriculum, so order matters proportionally less over larger excursions. Curvature accumulates; this decays. They are opposite objects."
+}

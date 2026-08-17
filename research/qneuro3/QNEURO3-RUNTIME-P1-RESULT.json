@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-RUNTIME-P1",
+  "prediction_sha256": "8534471347e939658128e6e0b3f25d138cda0e6ea9c4ef1fdec359ee9691f96e",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_triggered": true,
+  "freeze_procedure_defect_found_before_opening": "The first hash recorded (859a08db...) did not round-trip: integer keys in predicted_curve sort numerically in memory and lexicographically after a JSON reload, so the two serialisations differed. Found before any evidence existed and re-issued by hashing the JSON round-trip. The rule it establishes: a frozen prediction whose hash cannot be re-verified FROM DISK is not frozen.",
+  "measured": [
+    {
+      "batch": 1,
+      "lockstep_us": 432.9,
+      "compacted_us": 471.2,
+      "speedup": 0.919,
+      "predicted": 1.0,
+      "rel_err": 0.081,
+      "rows_lockstep": 5,
+      "rows_compacted": 5,
+      "compactions": 1
+    },
+    {
+      "batch": 4,
+      "lockstep_us": 814.3,
+      "compacted_us": 901.7,
+      "speedup": 0.903,
+      "predicted": 0.884,
+      "rel_err": 0.022,
+      "rows_lockstep": 24,
+      "rows_compacted": 17,
+      "compactions": 3
+    },
+    {
+      "batch": 16,
+      "lockstep_us": 3992.1,
+      "compacted_us": 3324.5,
+      "speedup": 1.201,
+      "predicted": 0.774,
+      "rel_err": 0.551,
+      "rows_lockstep": 320,
+      "rows_compacted": 90,
+      "compactions": 10
+    },
+    {
+      "batch": 32,
+      "lockstep_us": 5250.4,
+      "compacted_us": 4047.6,
+      "speedup": 1.297,
+      "predicted": 0.894,
+      "rel_err": 0.451,
+      "rows_lockstep": 640,
+      "rows_compacted": 166,
+      "compactions": 12
+    },
+    {
+      "batch": 64,
+      "lockstep_us": 6799.3,
+      "compacted_us": 4941.9,
+      "speedup": 1.376,
+      "predicted": 1.152,
+      "rel_err": 0.194,
+      "rows_lockstep": 1280,
+      "rows_compacted": 313,
+      "compactions": 14
+    },
+    {
+      "batch": 128,
+      "lockstep_us": 11535.5,
+      "compacted_us": 7338.2,
+      "speedup": 1.572,
+      "predicted": 1.557,
+      "rel_err": 0.01,
+      "rows_lockstep": 2944,
+      "rows_compacted": 701,
+      "compactions": 19
+    },
+    {
+      "batch": 256,
+      "lockstep_us": 18562.3,
+      "compacted_us": 10011.7,
+      "speedup": 1.854,
+      "predicted": 2.094,
+      "rel_err": 0.115,
+      "rows_lockstep": 5888,
+      "rows_compacted": 1415,
+      "compactions": 20
+    }
+  ],
+  "scoring": {
+    "R1_crossover_bracket": {
+      "required": "compaction slower at batch 32, faster at batch 128; crossover strictly between",
+      "measured": "compaction is already FASTER at batch 16 (1.201x) and at 32 (1.297x); it is slower only at batch 4 (0.903x) and 1 (0.919x). The crossover lies between 4 and 16.",
+      "verdict": "FAIL"
+    },
+    "R2_latency_curve": {
+      "required": "within 25% relative at every batch in {16,32,64,128,256}",
+      "measured": "55.1% / 45.1% / 19.4% / 1.0% / 11.5%",
+      "verdict": "FAIL, 2 of 5 outside the band"
+    },
+    "R3_recovery_is_partial": {
+      "required": "batch-256 speedup between 1.5x and 2.6x and strictly below the work ratio",
+      "measured": "1.854x wall-clock against a 4.16x work ratio",
+      "verdict": "PASS"
+    },
+    "R4_equivalence": {
+      "required": "identical halt steps, answers within 1e-5",
+      "measured": "exact at all seven batch sizes",
+      "verdict": "PASS"
+    }
+  },
+  "why_the_model_missed": [
+    "The model is accurate where overheads are small relative to compute (1.0% error at batch 128,",
+    "11.5% at 256) and badly wrong where they dominate (55% at batch 16). It systematically",
+    "OVER-charged compaction at small batch: it assumed one compaction per iteration at which any row",
+    "halts, modelled as min(n-1, E[max]-1), giving 15 compactions at batch 16 against 10 measured,",
+    "and it used a c_compact of 87.33 us measured on a synthetic gather of all six state tensors",
+    "including the large keys tensor, which over-states the marginal cost inside the loop.",
+    "The consequence is that it placed the crossover at 45 when the true crossover is under 16."
+  ],
+  "consequence": [
+    "Kill condition applies: the cost model does not locate the crossover, so NO predictive runtime",
+    "equation is claimed. The measured curve is reported as an observation.",
+    "The equation is not patched and re-issued. A corrected model would need a new identifier and a",
+    "fresh prospective test."
+  ],
+  "what_survives": [
+    "R3 and R4. Compaction reproduces lockstep's answers exactly at every batch size, and the",
+    "wall-clock recovery is real but strictly partial: 1.854x against a 4.16x work ratio, so about",
+    "45% of the theoretical saving survives the launch and gather overheads."
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "status": "pass",
+  "performed_on": "2026-08-14",
+  "rehearsal_type": "fresh local Git clone with a newly created locked environment",
+  "tested_branch": "codex/q-neuro-falsification",
+  "tested_commit": "301940e6388b5aa538952e6b884417e1021a4da6",
+  "environment": {
+    "platform": "macOS arm64",
+    "python": "CPython 3.12.13",
+    "dependency_install": "uv sync --extra dev --extra paper --frozen"
+  },
+  "checks": [
+    {
+      "check": "untouched cached-artifact release verification",
+      "command": "uv run python scripts/verify_release.py",
+      "result": "pass (22/22 checks)"
+    },
+    {
+      "check": "repository test suite",
+      "command": "uv run pytest -q",
+      "result": "pass (146 tests)"
+    },
+    {
+      "check": "lint and formatting",
+      "command": "uv run ruff check . && uv run ruff format --check .",
+      "result": "pass"
+    },
+    {
+      "check": "dashboard regeneration",
+      "command": "uv run python scripts/build_dashboard_data.py",
+      "result": "pass; manifest hash unchanged"
+    },
+    {
+      "check": "DOCX and modular manuscript regeneration",
+      "command": "uv run python paper/build_manuscript.py",
+      "result": "pass; manifest hash unchanged"
+    },
+    {
+      "check": "post-regeneration release verification",
+      "command": "uv run python scripts/verify_release.py",
+      "result": "pass (22/22 checks)"
+    },
+    {
+      "check": "dashboard JavaScript syntax",
+      "command": "node --check dashboard/app.js",
+      "result": "pass"
+    },
+    {
+      "check": "clean deterministic rebuild",
+      "command": "git diff --check && git status --short",
+      "result": "pass; clean worktree"
+    }
+  ],
+  "scope": "Cached registered artifacts and deterministic publication builds; no model retraining.",
+  "independent_replication": false,
+  "limitations": [
+    "The rehearsal was performed by the project workflow on the same Mac, not by an independent team.",
+    "It verifies artifact integrity and deterministic derived builds, not external validity.",
+    "The sealed QN-GRAND-001 benchmark remained unopened throughout the rehearsal."
+  ]
+}

@@ -159,6 +159,17 @@ class ComplexOperatorState(nn.Module):
     def _complex(real: torch.Tensor, imag: torch.Tensor) -> torch.Tensor:
         return torch.complex(real, imag)
 
+    def _intervene_state(self, state: torch.Tensor, position: int) -> torch.Tensor:
+        """Mechanism hook applied after each active transition.
+
+        The base implementation is an identity. Preregistered ablations override this hook to
+        remove phase or magnitude during both training and inference without changing the update
+        count or the surrounding architecture.
+        """
+
+        del position
+        return state
+
     def evolve(
         self,
         tokens: torch.Tensor,
@@ -181,6 +192,7 @@ class ComplexOperatorState(nn.Module):
             projection = torch.einsum("bs,bsr->br", state, right.conj())
             delta = injection + torch.einsum("bsr,br->bs", left, projection)
             candidate = _bounded_norm_complex(state + self.step_size * torch.tanh(delta))
+            candidate = self._intervene_state(candidate, position)
             state = torch.where(active.unsqueeze(-1), candidate, state)
         return state
 
@@ -209,6 +221,7 @@ class ComplexOperatorState(nn.Module):
             projection = torch.einsum("bs,bsr->br", state, right.conj())
             delta = injection + torch.einsum("bsr,br->bs", left, projection)
             candidate = _bounded_norm_complex(state + self.step_size * torch.tanh(delta))
+            candidate = self._intervene_state(candidate, position)
             state = torch.where(active.unsqueeze(-1), candidate, state)
             states.append(state)
         return torch.stack(states, dim=1)

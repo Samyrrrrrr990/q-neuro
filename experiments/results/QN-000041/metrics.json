@@ -1,0 +1,1578 @@
+{
+  "architecture_effect": {
+    "exceeds_practical_threshold": false,
+    "mean_complex_minus_best_real": -0.021666667113701504,
+    "positive": false
+  },
+  "counterfactual_records": [
+    {
+      "causal_order": true,
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "causal_order": true,
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "causal_order": true,
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "causal_order": true,
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "causal_order": true,
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.0,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "causal_order": true,
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.15000000596046448,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "complex_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.15000000596046448,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "exact_real_block_operator",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.05000000074505806,
+        "counterfactual_flip_rate": 0.10000000149011612,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "causal_order": true,
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "counterfactual_case_accuracy": 0.10000000149011612,
+        "counterfactual_flip_rate": 0.0,
+        "counterfactual_pair_accuracy": 0.0
+      },
+      "model": "state_space",
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    }
+  ],
+  "experiment_id": "QN-000041",
+  "frozen_law": {
+    "coefficients": [
+      -0.034488815444899144,
+      0.12543888576002413,
+      -0.028994308125608596,
+      -0.2107880246049661,
+      0.0059638387082152295,
+      0.02032166572225074
+    ],
+    "discovery_mae": 0.0026041648454527134,
+    "discovery_n": 12,
+    "discovery_r2": 0.9487095562816686,
+    "family": "quadratic",
+    "hyperparameter": null
+  },
+  "frozen_law_id": "QN-LAW-001",
+  "frozen_source": {
+    "experiment_id": "QN-000040",
+    "families": [
+      "analytic_commutative",
+      "analytic_noncommutative",
+      "hidden_causal_machine",
+      "sequential_detective"
+    ],
+    "general_law_claim_permitted": false,
+    "law_cells": 12,
+    "mean_effect": -0.03695312475028913,
+    "outcome_eligible": false,
+    "paired_effects": 2880,
+    "path": "experiments/results/QN-000040/metrics.json",
+    "positive_effect_cells": 0,
+    "profile": "reduced_discovery",
+    "sha256": "d06945ea7257b12c8b515c3f361e9e31925554ea5ee8a27e36ba65e3ddc1428b",
+    "source_git_commit": "30a5c5f36db1043e9cefd28aedca39478fd9ba22"
+  },
+  "general_law_claim_permitted": false,
+  "law_cells": [
+    {
+      "advantage": -0.010000001639127731,
+      "family": "hidden_rule_relational",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "standard_deviation": 0.014142137941807619
+    },
+    {
+      "advantage": -0.009999999776482582,
+      "family": "hidden_rule_relational",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "standard_deviation": 0.014142135307629587
+    },
+    {
+      "advantage": -0.05000000074505806,
+      "family": "hidden_rule_relational",
+      "n_nested_cells": 2,
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "standard_deviation": 0.042426408557066794
+    },
+    {
+      "advantage": -0.05000000074505806,
+      "family": "machine_fault_diagnosis",
+      "n_nested_cells": 2,
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.14441896298611412,
+      "severity": 0.0,
+      "standard_deviation": 0.04242640328871073
+    },
+    {
+      "advantage": -0.009999999776482582,
+      "family": "machine_fault_diagnosis",
+      "n_nested_cells": 2,
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.13952938713679186,
+      "severity": 0.5,
+      "standard_deviation": 0.014142135307629587
+    },
+    {
+      "advantage": 0.0,
+      "family": "machine_fault_diagnosis",
+      "n_nested_cells": 2,
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.07466344847981587,
+      "severity": 1.0,
+      "standard_deviation": 0.0
+    }
+  ],
+  "law_confirmation": {
+    "all_thresholds_pass": false,
+    "confirmation_n": 6,
+    "effect_sign_accuracy": 0.8333333333333334,
+    "mean_absolute_error": 0.03128584307750122,
+    "r2": -1.8273559985687973,
+    "threshold_checks": {
+      "mae_at_most_maximum": false,
+      "r2_at_least_minimum": false,
+      "sign_accuracy_at_least_minimum": true
+    },
+    "thresholds": {
+      "maximum_mae": 0.015,
+      "minimum_r2": 0.5,
+      "minimum_sign_accuracy": 0.8
+    }
+  },
+  "outcome_e_permitted": false,
+  "outcome_eligible": false,
+  "paired_effects": [
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.1599999964237213,
+      "complex_top1": 0.07999999821186066,
+      "difference": -0.07999999821186066,
+      "family": "machine_fault_diagnosis",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.1716903933921587,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "best_real_model": "exact_real_block_operator",
+      "best_real_top1": 0.14000000059604645,
+      "complex_top1": 0.14000000059604645,
+      "difference": 0.0,
+      "family": "machine_fault_diagnosis",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.18790336921931977,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "best_real_model": "exact_real_block_operator",
+      "best_real_top1": 0.18000000715255737,
+      "complex_top1": 0.18000000715255737,
+      "difference": 0.0,
+      "family": "machine_fault_diagnosis",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.10122306176798983,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.07999999821186066,
+      "difference": -0.020000003278255463,
+      "family": "machine_fault_diagnosis",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.11714753258006953,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.03999999910593033,
+      "difference": -0.019999999552965164,
+      "family": "machine_fault_diagnosis",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.09115540505426394,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.05999999865889549,
+      "difference": 0.0,
+      "family": "machine_fault_diagnosis",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.048103835191641936,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.07999999821186066,
+      "difference": -0.020000003278255463,
+      "family": "hidden_rule_relational",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.03999999910593033,
+      "complex_top1": 0.019999999552965164,
+      "difference": -0.019999999552965164,
+      "family": "hidden_rule_relational",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.03999999910593033,
+      "complex_top1": 0.019999999552965164,
+      "difference": -0.019999999552965164,
+      "family": "hidden_rule_relational",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "best_real_model": "exact_real_block_operator",
+      "best_real_top1": 0.11999999731779099,
+      "complex_top1": 0.11999999731779099,
+      "difference": 0.0,
+      "family": "hidden_rule_relational",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "best_real_model": "exact_real_block_operator",
+      "best_real_top1": 0.05999999865889549,
+      "complex_top1": 0.05999999865889549,
+      "difference": 0.0,
+      "family": "hidden_rule_relational",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "best_real_model": "state_space",
+      "best_real_top1": 0.10000000149011612,
+      "complex_top1": 0.019999999552965164,
+      "difference": -0.08000000193715096,
+      "family": "hidden_rule_relational",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    }
+  ],
+  "profile": "smoke_confirmation",
+  "protocol_deviations": [
+    "The discovery source QN-000040 used only sizes 250 and 1000 and a reduced real envelope.",
+    "Confirmation uses size 1000 rather than the QN-GRAND-001 primary size 5000.",
+    "Only the independent generator surface shift is evaluated, not the complete ShiftGauntlet.",
+    "This result is provisional and cannot support Outcome E or QN-GRAND-001.",
+    "Smoke profile is execution-only and is not confirmation evidence."
+  ],
+  "records": [
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.07328157126903534,
+        "nll": 3.0873618125915527,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.1716903933921587,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.0385495088994503,
+        "nll": 3.066084623336792,
+        "order_accuracy": 0.14000000059604645,
+        "top1": 0.14000000059604645
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.18790336921931977,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.020493045449256897,
+        "nll": 3.0477356910705566,
+        "order_accuracy": 0.18000000715255737,
+        "top1": 0.18000000715255737
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.10122306176798983,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.07480312883853912,
+        "nll": 3.1353325843811035,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.11714753258006953,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.11810938268899918,
+        "nll": 3.1486666202545166,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.09115540505426394,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.10132506489753723,
+        "nll": 3.1907918453216553,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.048103835191641936,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.07328155636787415,
+        "nll": 3.0873618125915527,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.1716903933921587,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.038549505174160004,
+        "nll": 3.066084623336792,
+        "order_accuracy": 0.14000000059604645,
+        "top1": 0.14000000059604645
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.18790336921931977,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.020493043586611748,
+        "nll": 3.0477356910705566,
+        "order_accuracy": 0.18000000715255737,
+        "top1": 0.18000000715255737
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.10122306176798983,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.07480312883853912,
+        "nll": 3.1353325843811035,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.11714753258006953,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.11810936778783798,
+        "nll": 3.1486663818359375,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.09115540505426394,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.10132505744695663,
+        "nll": 3.1907918453216553,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.048103835191641936,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.10349448025226593,
+        "nll": 2.984494686126709,
+        "order_accuracy": 0.1599999964237213,
+        "top1": 0.1599999964237213
+      },
+      "model": "state_space",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.1716903933921587,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.01680867373943329,
+        "nll": 2.9901013374328613,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "state_space",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.18790336921931977,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.023609254509210587,
+        "nll": 2.9886655807495117,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "state_space",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.10122306176798983,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.042820751667022705,
+        "nll": 2.9919092655181885,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.11714753258006953,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.003549635410308838,
+        "nll": 2.9897797107696533,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.09115540505426394,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "metrics": {
+        "ece": 0.0027795881032943726,
+        "nll": 2.9841089248657227,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "state_space",
+      "order_dependence": 0.2576881049293237,
+      "order_information": 0.048103835191641936,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.07236889004707336,
+        "nll": 3.221569299697876,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.136026069521904,
+        "nll": 3.1341018676757812,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.1454465240240097,
+        "nll": 3.2386090755462646,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.034314461052417755,
+        "nll": 3.2116811275482178,
+        "order_accuracy": 0.11999999731779099,
+        "top1": 0.11999999731779099
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.10336741805076599,
+        "nll": 3.2034783363342285,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.15339826047420502,
+        "nll": 3.3081214427948,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "complex_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.07236889004707336,
+        "nll": 3.221569299697876,
+        "order_accuracy": 0.07999999821186066,
+        "top1": 0.07999999821186066
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.136026069521904,
+        "nll": 3.134101629257202,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.14544649422168732,
+        "nll": 3.2386090755462646,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.034314461052417755,
+        "nll": 3.2116808891296387,
+        "order_accuracy": 0.11999999731779099,
+        "top1": 0.11999999731779099
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.10336741805076599,
+        "nll": 3.2034783363342285,
+        "order_accuracy": 0.05999999865889549,
+        "top1": 0.05999999865889549
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.15339826047420502,
+        "nll": 3.3081214427948,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "exact_real_block_operator",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.04285026714205742,
+        "nll": 2.980621337890625,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.017150864005088806,
+        "nll": 2.9883458614349365,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.016815297305583954,
+        "nll": 2.97745943069458,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92009
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.016809307038784027,
+        "nll": 2.9913222789764404,
+        "order_accuracy": 0.03999999910593033,
+        "top1": 0.03999999910593033
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.03673355281352997,
+        "nll": 2.9995498657226562,
+        "order_accuracy": 0.019999999552965164,
+        "top1": 0.019999999552965164
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 0.5,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    },
+    {
+      "family": "hidden_rule_relational",
+      "metrics": {
+        "ece": 0.04327068850398064,
+        "nll": 2.9909677505493164,
+        "order_accuracy": 0.10000000149011612,
+        "top1": 0.10000000149011612
+      },
+      "model": "state_space",
+      "order_dependence": 0.5676068223391431,
+      "order_information": 0.6859298002523728,
+      "severity": 1.0,
+      "train_size": 120,
+      "training_seed": 6101,
+      "world_seed": 92033
+    }
+  ],
+  "scientific_interpretation": "This reduced held-out confirmation evaluates a frozen provisional law. It cannot establish Outcome E or rescue a non-positive architecture effect.",
+  "split": "confirmation",
+  "status": "complete",
+  "training_runs": [
+    {
+      "family": "machine_fault_diagnosis",
+      "model": "complex_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "complex_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.556121587753296,
+              "validation_nll": 3.3322272300720215,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.24845290184021,
+              "validation_nll": 3.10105562210083,
+              "validation_top1": 0.07500000298023224
+            }
+          ],
+          "peak_rss_bytes": 308281344,
+          "peak_rss_delta_bytes": 19300352,
+          "training_seconds": 0.3452795420016628
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.07500000298023224,
+          "ece": 0.0739208310842514,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.10105562210083,
+          "order_accuracy": 0.07500000298023224,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.07500000298023224,
+          "top3": 0.23749999701976776
+        }
+      },
+      "train_size": 120,
+      "training_seed": 6101,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "complex_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.556121587753296,
+                "validation_nll": 3.3322272300720215,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.24845290184021,
+                "validation_nll": 3.10105562210083,
+                "validation_top1": 0.07500000298023224
+              }
+            ],
+            "peak_rss_bytes": 308281344,
+            "peak_rss_delta_bytes": 19300352,
+            "training_seconds": 0.3452795420016628
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.07500000298023224,
+            "ece": 0.0739208310842514,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.10105562210083,
+            "order_accuracy": 0.07500000298023224,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.07500000298023224,
+            "top3": 0.23749999701976776
+          }
+        }
+      ]
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "model": "exact_real_block_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "exact_real_block_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.556121349334717,
+              "validation_nll": 3.3322272300720215,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.24845290184021,
+              "validation_nll": 3.10105562210083,
+              "validation_top1": 0.07500000298023224
+            }
+          ],
+          "peak_rss_bytes": 315850752,
+          "peak_rss_delta_bytes": 6291456,
+          "training_seconds": 0.24889083299785852
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.07500000298023224,
+          "ece": 0.0739208310842514,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.10105562210083,
+          "order_accuracy": 0.07500000298023224,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.07500000298023224,
+          "top3": 0.23749999701976776
+        }
+      },
+      "train_size": 120,
+      "training_seed": 6101,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "exact_real_block_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.556121349334717,
+                "validation_nll": 3.3322272300720215,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.24845290184021,
+                "validation_nll": 3.10105562210083,
+                "validation_top1": 0.07500000298023224
+              }
+            ],
+            "peak_rss_bytes": 315850752,
+            "peak_rss_delta_bytes": 6291456,
+            "training_seconds": 0.24889083299785852
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.07500000298023224,
+            "ece": 0.0739208310842514,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.10105562210083,
+            "order_accuracy": 0.07500000298023224,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.07500000298023224,
+            "top3": 0.23749999701976776
+          }
+        }
+      ]
+    },
+    {
+      "family": "machine_fault_diagnosis",
+      "model": "state_space",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "state_space",
+          "parameter_budget": 20304,
+          "parameter_count": 20285,
+          "rank": 0,
+          "state_real_dof": 193,
+          "trainable_parameter_count": 20285,
+          "width": 193
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.995712995529175,
+              "validation_nll": 3.002612352371216,
+              "validation_top1": 0.02500000037252903
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.982273817062378,
+              "validation_nll": 2.9962828159332275,
+              "validation_top1": 0.05000000074505806
+            }
+          ],
+          "peak_rss_bytes": 318947328,
+          "peak_rss_delta_bytes": 425984,
+          "training_seconds": 0.04846162497415207
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.05000000074505806,
+          "ece": 0.006763670593500137,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.9962828159332275,
+          "order_accuracy": 0.05000000074505806,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.05000000074505806,
+          "top3": 0.125
+        }
+      },
+      "train_size": 120,
+      "training_seed": 6101,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "state_space",
+            "parameter_budget": 20304,
+            "parameter_count": 20285,
+            "rank": 0,
+            "state_real_dof": 193,
+            "trainable_parameter_count": 20285,
+            "width": 193
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.995712995529175,
+                "validation_nll": 3.002612352371216,
+                "validation_top1": 0.02500000037252903
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.982273817062378,
+                "validation_nll": 2.9962828159332275,
+                "validation_top1": 0.05000000074505806
+              }
+            ],
+            "peak_rss_bytes": 318947328,
+            "peak_rss_delta_bytes": 425984,
+            "training_seconds": 0.04846162497415207
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.05000000074505806,
+            "ece": 0.006763670593500137,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.9962828159332275,
+            "order_accuracy": 0.05000000074505806,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.05000000074505806,
+            "top3": 0.125
+          }
+        }
+      ]
+    },
+    {
+      "family": "hidden_rule_relational",
+      "model": "complex_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "complex_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.559622049331665,
+              "validation_nll": 3.4314160346984863,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.261343479156494,
+              "validation_nll": 3.184576988220215,
+              "validation_top1": 0.07500000298023224
+            }
+          ],
+          "peak_rss_bytes": 324108288,
+          "peak_rss_delta_bytes": 16384,
+          "training_seconds": 0.08725645902450196
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.07500000298023224,
+          "ece": 0.07795742154121399,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.184576988220215,
+          "order_accuracy": 0.07500000298023224,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.07500000298023224,
+          "top3": 0.17499999701976776
+        }
+      },
+      "train_size": 120,
+      "training_seed": 6101,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "complex_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.559622049331665,
+                "validation_nll": 3.4314160346984863,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.261343479156494,
+                "validation_nll": 3.184576988220215,
+                "validation_top1": 0.07500000298023224
+              }
+            ],
+            "peak_rss_bytes": 324108288,
+            "peak_rss_delta_bytes": 16384,
+            "training_seconds": 0.08725645902450196
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.07500000298023224,
+            "ece": 0.07795742154121399,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.184576988220215,
+            "order_accuracy": 0.07500000298023224,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.07500000298023224,
+            "top3": 0.17499999701976776
+          }
+        }
+      ]
+    },
+    {
+      "family": "hidden_rule_relational",
+      "model": "exact_real_block_operator",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "exact_real_block_operator",
+          "parameter_budget": 20304,
+          "parameter_count": 20304,
+          "rank": 2,
+          "state_real_dof": 48,
+          "trainable_parameter_count": 20304,
+          "width": 24
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 3.559622049331665,
+              "validation_nll": 3.431415557861328,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 3.261343479156494,
+              "validation_nll": 3.184577226638794,
+              "validation_top1": 0.07500000298023224
+            }
+          ],
+          "peak_rss_bytes": 310181888,
+          "peak_rss_delta_bytes": 1753088,
+          "training_seconds": 0.2793503330030944
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.07500000298023224,
+          "ece": 0.07795742154121399,
+          "incomplete_order_accuracy": NaN,
+          "nll": 3.184577226638794,
+          "order_accuracy": 0.07500000298023224,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.07500000298023224,
+          "top3": 0.17499999701976776
+        }
+      },
+      "train_size": 120,
+      "training_seed": 6101,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "exact_real_block_operator",
+            "parameter_budget": 20304,
+            "parameter_count": 20304,
+            "rank": 2,
+            "state_real_dof": 48,
+            "trainable_parameter_count": 20304,
+            "width": 24
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 3.559622049331665,
+                "validation_nll": 3.431415557861328,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 3.261343479156494,
+                "validation_nll": 3.184577226638794,
+                "validation_top1": 0.07500000298023224
+              }
+            ],
+            "peak_rss_bytes": 310181888,
+            "peak_rss_delta_bytes": 1753088,
+            "training_seconds": 0.2793503330030944
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.07500000298023224,
+            "ece": 0.07795742154121399,
+            "incomplete_order_accuracy": NaN,
+            "nll": 3.184577226638794,
+            "order_accuracy": 0.07500000298023224,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.07500000298023224,
+            "top3": 0.17499999701976776
+          }
+        }
+      ]
+    },
+    {
+      "family": "hidden_rule_relational",
+      "model": "state_space",
+      "selected_trial": {
+        "learning_rate": 0.001,
+        "model_metadata": {
+          "name": "state_space",
+          "parameter_budget": 20304,
+          "parameter_count": 20285,
+          "rank": 0,
+          "state_real_dof": 193,
+          "trainable_parameter_count": 20285,
+          "width": 193
+        },
+        "resources": {
+          "best_epoch": 2,
+          "history": [
+            {
+              "epoch": 1,
+              "train_loss": 2.9925196170806885,
+              "validation_nll": 2.9961678981781006,
+              "validation_top1": 0.0625
+            },
+            {
+              "epoch": 2,
+              "train_loss": 2.9789693355560303,
+              "validation_nll": 2.9891326427459717,
+              "validation_top1": 0.07500000298023224
+            }
+          ],
+          "peak_rss_bytes": 312655872,
+          "peak_rss_delta_bytes": 0,
+          "training_seconds": 0.09039533301256597
+        },
+        "validation_metrics": {
+          "complete_order_accuracy": 0.07500000298023224,
+          "ece": 0.01797473058104515,
+          "incomplete_order_accuracy": NaN,
+          "nll": 2.9891326427459717,
+          "order_accuracy": 0.07500000298023224,
+          "order_evidence_complete_rate": 1.0,
+          "top1": 0.07500000298023224,
+          "top3": 0.20000000298023224
+        }
+      },
+      "train_size": 120,
+      "training_seed": 6101,
+      "tuning_trials": [
+        {
+          "learning_rate": 0.001,
+          "model_metadata": {
+            "name": "state_space",
+            "parameter_budget": 20304,
+            "parameter_count": 20285,
+            "rank": 0,
+            "state_real_dof": 193,
+            "trainable_parameter_count": 20285,
+            "width": 193
+          },
+          "resources": {
+            "best_epoch": 2,
+            "history": [
+              {
+                "epoch": 1,
+                "train_loss": 2.9925196170806885,
+                "validation_nll": 2.9961678981781006,
+                "validation_top1": 0.0625
+              },
+              {
+                "epoch": 2,
+                "train_loss": 2.9789693355560303,
+                "validation_nll": 2.9891326427459717,
+                "validation_top1": 0.07500000298023224
+              }
+            ],
+            "peak_rss_bytes": 312655872,
+            "peak_rss_delta_bytes": 0,
+            "training_seconds": 0.09039533301256597
+          },
+          "validation_metrics": {
+            "complete_order_accuracy": 0.07500000298023224,
+            "ece": 0.01797473058104515,
+            "incomplete_order_accuracy": NaN,
+            "nll": 2.9891326427459717,
+            "order_accuracy": 0.07500000298023224,
+            "order_evidence_complete_rate": 1.0,
+            "top1": 0.07500000298023224,
+            "top3": 0.20000000298023224
+          }
+        }
+      ]
+    }
+  ]
+}

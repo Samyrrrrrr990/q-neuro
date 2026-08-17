@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "QNEURO3-CYCLE-001-CLOSE",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "cycle": "Q-Neuro 3.0, cycle 1 — adaptive-depth computation",
+  "verdict": "NEGATIVE. Closed by a kill condition frozen in advance.",
+  "question_the_cycle_asked": [
+    "A fixed-depth model must pay the worst case on every example. If a task's required depth",
+    "genuinely varies per example, and is discoverable only by working rather than announced in",
+    "the input, can a model that decides its own depth beat the fixed-depth model at matched",
+    "accuracy, matched parameters and matched training budget?"
+  ],
+  "task": {
+    "name": "chase_to_goal",
+    "definition": "A permutation defines a single cycle through 24 nodes. The model starts somewhere on it and must report how many hops away node 0 is, up to 8.",
+    "why_this_task": [
+      "Difficulty is a property of the datum, not of a knob. The answer is discoverable only by",
+      "following the chain, so depth cannot be read off the input.",
+      "A guessing baseline is 0.136. An earlier task design was discarded because it was",
+      "unsolvable: the model was never given the information needed to disambiguate the target,",
+      "and all ten candidate models returned exactly 0.1441."
+    ]
+  },
+  "architectures": [
+    {"name": "Q0Fixed", "mechanism": "always spends max_depth steps", "params": 28360,
+     "accuracy": "1.0000", "steps": "8.00", "seed_reliability": "10 of 10"},
+    {"name": "Q1Elastic", "mechanism": "PonderNet-style mixture over halting steps", "params": 28425,
+     "accuracy": "0.6241 best", "steps": "3.27", "seed_reliability": "not measured; never competitive",
+     "note": "ponder collapse; a negative halt-bias initialisation did not cure it"},
+    {"name": "Q2Commit", "mechanism": "hard halting, straight-through estimator", "params": 28425,
+     "accuracy": "0.9999", "steps": "8.00", "seed_reliability": "not measured",
+     "note": "recovers the accuracy the mixture loses, but only by spending full depth, so it buys no saving"},
+    {"name": "Q3Arrival", "mechanism": "halt on detected arrival; the halt step is the answer", "params": 27970,
+     "accuracy": "0.9994-1.0000 on 6 of 10 seeds, 0.42-0.51 on the other 4", "steps": "4.54 / 5.6-6.0",
+     "seed_reliability": "6 of 10"},
+    {"name": "Q4Grounded", "mechanism": "Q3 plus a training-only per-step position readout, zero inference cost", "params": 27970,
+     "accuracy": "0.6322-0.9500, all twenty runs", "steps": "4.50-5.33", "seed_reliability": "0 of 10"}
+  ],
+  "what_was_established": [
+    {
+      "id": "C1",
+      "status": "holds",
+      "statement": "Mixture halting collapses where commit halting does not. Q1 caps at 0.6241; changing only the halting rule to a hard straight-through commit lifts the same core to 0.9999. This was a single-variable intervention at a fixed seed and is a claim about the contrast, not about attainment."
+    },
+    {
+      "id": "C2",
+      "status": "holds",
+      "statement": "Halting on detected arrival, with the halt step as the answer, does produce a genuine 1.77x inference-compute reduction at matched accuracy AND fewer parameters -- when it trains. Seeds 0, 2 and 3 reproduce it to within 0.0006 accuracy and 0.00 steps."
+    },
+    {
+      "id": "C3",
+      "status": "holds, and defeats C2 as a reportable result",
+      "statement": "Q3 trains to that result on 6 of 10 seeds. The fixed-depth baseline reaches >=0.99 on 10 of 10 under identical conditions, minimum 0.9919, so the unreliability belongs to the architecture and not to the task. Expected accuracy across seeds is 0.78 for Q3 against 1.00 for Q0."
+    },
+    {
+      "id": "C4",
+      "status": "holds",
+      "severity": "transferable warning",
+      "statement": "The failure mode is silent and mimics success. Collapsed Q3 runs report 5.2-6.1 average steps: a plausible, non-degenerate, adaptive-looking allocation well under the fixed depth of 8. All thirteen failed runs look healthy if only the step counter is read. A compute-saving figure reported without a matched accuracy figure cannot distinguish a working elastic model from a broken one."
+    },
+    {
+      "id": "C5",
+      "status": "holds",
+      "statement": "Q3's bimodality is not caused by a state that fails to track position. Supplying position directly (Q4) removed the collapse mode -- no run below 0.6322 -- and removed the good mode with it, best run 0.9500. An auxiliary signal that reduces seed variance can do so by destroying the solution worth having."
+    }
+  ],
+  "what_remains_open": [
+    "Whether Q3's result depends on the answer coinciding with the step count. The Q3b control was specified and not run; the question is OPEN and no claim may be made in either direction.",
+    "Finding V4: chase_to_goal and chase_to_goal_weighted induce the same distance distribution under uniform weights, yet Q3 succeeds on 6 of 10 versus 1 of 10. Unexplained.",
+    "Whether adaptive depth wins on a workload with a much wider depth spread, where the fixed-depth worst case is far more wasteful. Not attempted: the blocker measured here is reliability, and there is no reason to expect deeper chains to improve it."
+  ],
+  "branches_of_the_3.0_directive_not_attempted": [
+    "Complex-field / optical-spectral computation. The Q-Neuro 2.0 evidence (FAIL-005) already showed the complex advantage vanishes against a best-real envelope, so this branch was deprioritised rather than merely skipped.",
+    "Sub-agent and collective-field computation; homeostasis and self-repair; distillation; multi-objective Pareto training beyond the accuracy/compute frontier measured here.",
+    "These are recorded as NOT DONE. Cycle 1 consumed its budget establishing that the first architecture family fails, which is the outcome the programme is designed to surface early rather than late."
+  ],
+  "hardware_context": {
+    "machine": "Apple M2 MacBook Air, fanless",
+    "measured": "8.0 GiB total, 2.08 GiB available, 8 physical cores, 4 torch threads, MPS present with complex64 support, CPU/MPS crossover at 65536 elements, working budget 1.04 GiB",
+    "relevance": "Every run in this cycle fits in the budget on CPU. The crossover measurement matters for larger cycles and is retained; it did not constrain cycle 1."
+  }
+}

@@ -1,0 +1,317 @@
+{
+  "schema_version": "1.0.0",
+  "failures": [
+    {
+      "failure_id": "FAIL-001",
+      "experiment_id": "QN-000027",
+      "stage": "simulator_red_team",
+      "failure": "Metadata and unintended order-token shortcuts crossed frozen thresholds.",
+      "response": "Artifact preserved; generator repaired under PREREGISTRATION_AMENDMENT_001; QN-000028 passed the rerun.",
+      "claim_impact": "No pre-repair simulator result can be treated as leakage-cleared."
+    },
+    {
+      "failure_id": "FAIL-002",
+      "experiment_id": "QN-000038",
+      "stage": "independent_discovery_smoke",
+      "failure": "Smoke profile produced too few law cells for the frozen candidate fitter.",
+      "response": "Failure preserved; smoke grid repaired without outcome interpretation; QN-000039 passed.",
+      "claim_impact": "None; smoke artifacts are not evidence."
+    },
+    {
+      "failure_id": "FAIL-003",
+      "experiment_id": "QN-000042",
+      "stage": "heldout_law_confirmation",
+      "failure": "QN-LAW-001 failed R2 and MAE thresholds on untouched task families.",
+      "response": "No refit or threshold change; failure preserved as the prospective result.",
+      "claim_impact": "Outcome E is not established."
+    },
+    {
+      "failure_id": "FAIL-004",
+      "experiment_id": "QN-GRAND-001",
+      "stage": "grand_preflight",
+      "failure": "Six mandatory readiness gates failed before sealed benchmark access.",
+      "response": "Grand test blocked and sealed; no substitute run labeled confirmatory.",
+      "claim_impact": "No QN-GRAND primary estimate exists."
+    },
+    {
+      "failure_id": "FAIL-005",
+      "experiment_id": "QN-000040/QN-000042",
+      "stage": "architecture_hypothesis",
+      "failure": "The best-real envelope eliminates the complex advantage, and exact-real computation matches complex predictions.",
+      "response": "Final synthesis classifies the intrinsic complex-arithmetic hypothesis as falsified within tested scope.",
+      "claim_impact": "The paper is a negative result about controls and parameterization, not a superiority claim."
+    },
+    {
+      "failure_id": "FAIL-006",
+      "experiment_id": "QE-000009",
+      "stage": "estimator_discovery",
+      "failure": "Gate D failed. No candidate transport-defect estimator beat every preregistered baseline on two or more discovery families out-of-family. cumulative_defect won on one family (factorization); amplified_defect won on none. Every out-of-family log-log fit had negative held-out R-squared.",
+      "response": "QE-000010 refused to freeze a primary estimator and left rungs 5-8 sealed. The candidate set was corrected once: one_step_defect was removed because with a mapped initialization it is bit-for-bit identical to the one_step_predictive_divergence baseline in all 216 rows, so it was a baseline mislabelled as a candidate. No features were added after seeing the outcome.",
+      "claim_impact": "No transport-covariance law claim is permitted. Within-family signal is real (cumulative_defect reaches R-squared 0.962 on factorization and 0.812 on the scaling orbit, beating every baseline on both) but does not transfer: family medians span about 6.5 orders of magnitude and a single global calibration is worse than predicting the mean."
+    },
+    {
+      "failure_id": "FAIL-007",
+      "experiment_id": "DISCOVERY-001-P2",
+      "stage": "nonlinear_confirmation",
+      "failure": "The frozen equivalence-breaking boundary rho = eta*lambda_max/2 with transition at rho = 1 was falsified on a nonlinear ReLU network. All 96 scored cells with rho >= 1.1 converged; SGD divergence rate was 0.0000 even at rho = 3.0.",
+      "response": "Preserved. DISCOVERY-001 does not promote to Lane A and remains a statement about quadratic objectives only. An earlier attempt, P1, was recorded as vacuous because its frozen grid never reached rho >= 1.1; it was preserved rather than re-tuned, and P2 added an explicit non-vacuity guard.",
+      "claim_impact": "No general claim about equivalence-breaking phase boundaries is permitted. The rho < 1 implies stability direction survived both attempts with zero false alarms in 269 scored cells, and is the only part that may be described as supported, for quadratic objectives."
+    },
+    {
+      "failure_id": "FAIL-008",
+      "experiment_id": "DISCOVERY-002-S2/S34",
+      "stage": "canalized_quotient_dynamics",
+      "failure": "Two DISCOVERY-002 candidates failed their first tests. (a) The proposed explanation of the DISCOVERY-001 failure, that stable trajectories escape the initially unstable region, is refuted: 40 of 72 cells with rho_0 > 1 kept rho(t) >= 1 throughout 400 steps and converged anyway, 29 ending above their starting rho. (b) Basin coherence is eliminated: controlling for early functional spread its partial correlation with the final spread is -0.18 to -0.23.",
+      "response": "Both preserved, neither retried. The stage-2 explanation is abandoned as instructed; the correct account appears to be edge-of-stability self-stabilization, which is established prior art (Cohen et al., ICLR 2021) and not ours. Basin coherence is dropped as a candidate.",
+      "claim_impact": "No canalization or basin claim is permitted. What survives is methodological: function-space metrics predict where perturbed learners end up far better than loss (0.98 vs 0.25) and than raw parameter distance under control (+0.81 vs +0.21), and this is not a learning-rate proxy. The predictive power is largely persistence: final spread stays within about a factor of two of the early value."
+    },
+    {
+      "failure_id": "FAIL-009",
+      "experiment_id": "DISCOVERY-002-COMMITTOR",
+      "stage": "committor_estimation",
+      "failure": "The committor could not be tested. It requires two distinguishable functional attractors, and across three system families and about 46 configurations perturbed replicas produced continuous unimodal spread with no discrete split. A threshold count initially suggested 6 of 16 cells bifurcated; a bimodality check showed max-gap/range of 0.20-0.47 across all tested cells, so that reading was an artifact of counting crossings of an arbitrary accuracy line.",
+      "response": "Recorded as a precondition failure, NOT as a committor falsification, because the committor never received a fair test. Reviving it requires first exhibiting a system with demonstrated bimodal functional outcomes. Quotient Lyapunov was tested independently instead and passed an incremental held-out test on the old target.",
+      "claim_impact": "No claim about predicting bifurcation is permitted. The bifurcation phenomenon itself has not been demonstrated in any system this program has examined."
+    },
+    {
+      "failure_id": "FAIL-010",
+      "experiment_id": "DISCOVERY-003",
+      "stage": "bifurcation_search",
+      "failure": "No genuine functional bifurcation was found in five system families. The most rigorous test built an exact a<->b symmetry (symmetrized dataset, tied initial weights) verified to 1e-16 under full-batch descent; SGD broke it but never ordered it, and the antisymmetric Hessian curvature was positive in all 12 swept cells, so no pitchfork exists in this class.",
+      "response": "Direction killed and preserved. The committor remains blocked on the same missing precondition. No detector was weakened and no threshold was tuned to manufacture the phenomenon.",
+      "claim_impact": "No claim about bifurcation, spontaneous symmetry breaking, or canalization/plasticity transitions is permitted in feed-forward supervised systems of this class."
+    },
+    {
+      "failure_id": "FAIL-011",
+      "experiment_id": "DISCOVERY-003",
+      "stage": "sgd_symmetry_breaking_exponent",
+      "failure": "An apparent nonequilibrium exponent rms(M) ~ T^0.625 versus the equilibrium 0.5 was an artifact. T = lr/batch failed to collapse the data (M/sqrt(T) ranged 0.52 to 1.02), and long runs showed low-learning-rate systems were still diffusing at t = 64000 rather than stationary, biasing them low.",
+      "response": "Preserved. Not re-fitted with a different scaling variable, since the underlying measurements were pre-asymptotic and no exponent is supportable from them.",
+      "claim_impact": "No scaling-law or nonequilibrium claim is permitted. The batch-size exponent alone (-0.53) is consistent with ordinary equilibrium fluctuation and is not novel."
+    },
+    {
+      "failure_id": "FAIL-012",
+      "experiment_id": "DISCOVERY-004",
+      "stage": "curriculum_holonomy",
+      "failure": "No geometric phase. Under paired clockwise/counter-clockwise traversal with identical noise and visitation, the functional residue was flat at 4.76-5.02 across rectangles spanning 8x in enclosed area at fixed perimeter. A geometric phase requires area scaling; it is absent.",
+      "response": "Killed and preserved. An earlier endpoint-versus-start measurement that showed an inverted area trend was identified as dominated by convergence drift (stay control 4.19 exceeded every loop) and was discarded rather than reported.",
+      "claim_impact": "No holonomy, geometric-phase, or curvature claim about curriculum order is permitted. Order dependence exists but is comparable in magnitude to ordinary convergence drift and has no geometric structure."
+    },
+    {
+      "failure_id": "FAIL-013",
+      "experiment_id": "DISCOVERY-005",
+      "stage": "curriculum_holonomy_full_suite",
+      "failure": "Curriculum holonomy failed all six discriminators under a fully deterministic order-controlled design. Orientation cosine was +0.86 to +0.98 instead of -1; the orientation-odd component scaled as eps^0.62 instead of eps^2; the figure-eight null (103.3) exceeded the loop it nulls (72.2); the retraced zero-area path (70.8) was indistinguishable from the square; and |A|/|S| shrank with loop size instead of growing.",
+      "response": "Killed and preserved. No connection or curvature formalism was written, since every discriminator failed and there was no phenomenon for it to explain. The instrument was validated independently: the retraced path gives an orientation-odd component of exactly zero.",
+      "claim_impact": "No geometric-phase, holonomy, or curvature claim about curriculum order is permitted. Order-dependent path memory exists and is substantial (17-58 percent of common drift) but is sublinear and decaying, which is the opposite signature to an accumulating geometric effect."
+    },
+    {
+      "failure_id": "FAIL-014",
+      "experiment_id": "DISCOVERY-SYNTHESIS-001",
+      "stage": "self_refutation",
+      "failure": "SYNTHESIS-001's claim of global contraction to a single attractor was refuted by direct measurement in DISCOVERY-006. Contraction ratio is constant at 0.5-0.7 across six orders of magnitude of perturbation; separation is transverse to the trajectory (|cos| 0.01-0.40); and endpoints up to delta=0.1 share train loss to four decimals and test accuracy 0.9755 while differing functionally by up to 3.27.",
+      "response": "Superseded by DISCOVERY-006 and preserved unedited so the correction is auditable. The claim was inferred from repeated failure rather than measured, which is the error.",
+      "claim_impact": "The structural obstruction to bifurcation, committors, canalization and basin coherence is CONTINUITY of the solution set, not uniqueness of the attractor. The corrected statement is standard overparameterization theory and no novelty is claimed for it."
+    },
+    {
+      "failure_id": "FAIL-015",
+      "experiment_id": "DISCOVERY-007",
+      "stage": "navigator_curvature_subspace",
+      "failure": "Curvature-based navigation of the near-optimal set fails. The exactly-flat 25-dimensional subspace is identical to the softmax common-mode gauge (principal cosines 1.0000000000 across all 25 directions; dimension predicted a priori as 24+1), so it cannot change the function: traversing 472 percent of ||theta|| gives a max logit change of 4.26e-11. Low-curvature subspaces give no Pareto advantage, with the best ratio (1.82) requiring 209 of 218 directions versus unprojected 1.69.",
+      "response": "Branch closed with mechanism. The terminology was also corrected: the near-optimal set is connected (interpolation barriers 0.000000 to 0.000290) but consists of saddles, not minima, and 'solution manifold' was withdrawn as unestablished.",
+      "claim_impact": "No navigation, manifold-steering, or tangent-space optimizer claim is permitted on curvature-defined subspaces. Any future Navigator must define its tangent space functionally rather than by curvature, since curvature provably cannot separate on-distribution from off-distribution functional change here."
+    },
+    {
+      "failure_id": "FAIL-016",
+      "experiment_id": "DISCOVERY-008",
+      "stage": "navigator_prior_art_gate_1",
+      "failure": "The navigator's novelty is dead on substance. Its update is the proximal step of the EWC objective with a full GGN in place of a diagonal Fisher, and it aligns at cos 0.66 with OGD projection. Same objective, same constraint, same update family as natural-gradient transfer / Rotated EWC / K-FAC EWC.",
+      "response": "Novelty claim withdrawn before any transfer, prediction, or compute gate was run. The method is preserved as a strong baseline and explicitly not rebranded as Q-Neuro.",
+      "claim_impact": "No novelty claim is permitted for curvature-preconditioned secondary-objective descent. The measured Pareto advantage over plain gradient (1.5x to 35x at matched dOOD) stands as a property of a KNOWN method."
+    },
+    {
+      "failure_id": "FAIL-017",
+      "experiment_id": "DISCOVERY-009",
+      "stage": "training_only_proxy_discoverability",
+      "failure": "No training-accessible signal identified the useful OOD navigation direction. Alignments with the known-good direction were 0.214 (SAM sharpness), 0.137 (ensemble disagreement), 0.083 (gradient covariance), -0.001 (input-Jacobian norm), -0.007 (entropy on extrapolated inputs), against a random-control scale of 0.068 expected and -0.057 measured. Held-out OOD gains from following each proxy were within noise of the random control.",
+      "response": "Branch closed. The result is framed as an identifiability limit rather than a proxy-search failure: the direction improving distribution Q is a functional of Q and is not determined by data from P absent an assumption linking them.",
+      "claim_impact": "No claim that training-time signals can steer unseen-distribution behaviour. Controllability was demonstrated; discoverability was not, and the two must not be conflated in any future write-up."
+    },
+    {
+      "failure_id": "FAIL-018",
+      "experiment_id": "DISCOVERY-010",
+      "stage": "navigation_program_closure",
+      "failure": "Functional navigation of the near-optimal set is closed. The free subspace has dimension max(0, P-g-n), exactly confirmed 9/9, and is zero in every regime previously searched. Where it is nonzero it is only first-order: train logit displacement grows linearly with arc (7.3e-5 to 1.46e1). And joint training on train plus OOD dominates every navigation variant on all four metrics simultaneously (dL 1.86e-2, test 0.9845, dOOD +0.0758, held-out +0.0423).",
+      "response": "Closed with mechanism rather than abandoned. The dimension law is preserved as the explanation for the whole failure sequence from DISCOVERY-007 onward, and three reusable controls were extracted: check d_free, check integrability, check whether the simplest use of the same information already dominates.",
+      "claim_impact": "No navigation, manifold-steering, tangent-space optimizer, or Q-Neuro 3.0 navigation claim is permitted. The near-optimal set contains functionally distinct points, but they are not reachable in any way that is both free and useful."
+    },
+    {
+      "failure_id": "FAIL-019",
+      "experiment_id": "DFREE-LAW-P1",
+      "stage": "dimension_law_freeze_compromised",
+      "failure": "The P1 freeze is invalid even though its substance held 126/126. The measurement protocol was underspecified and I corrected the instrument after observing 21 mismatches. The bug is fully diagnosed (a 400-sample gauge probe cannot saturate rank when P-g exceeds 400(C-1), giving exactly 3 configurations x 7 n-values = 21) but a post-hoc measurement change invalidates a freeze regardless.",
+      "response": "Recorded as compromised rather than passed. P2 was issued with the protocol fully specified.",
+      "claim_impact": "No confirmed-prediction status may be claimed for P1."
+    },
+    {
+      "failure_id": "FAIL-020",
+      "experiment_id": "DFREE-LAW-P2",
+      "stage": "dimension_law_activation_dependence",
+      "failure": "P2 failed 118 of 360. It assumed the structural gauge dimension is h_last+1 for every architecture. It is activation dependent: positively homogeneous activations such as ReLU admit (W1,W2)->(cW1,W2/c), adding h further exact symmetry directions and giving 2h+1. Verified 8/8 against tanh and ReLU.",
+      "response": "Preserved. The corrected activation-aware formula was issued as a NEW prediction (P3) rather than silently substituted.",
+      "claim_impact": "No universal gauge-dimension claim is permitted. The gauge dimension must be computed per architecture from its symmetry group."
+    },
+    {
+      "failure_id": "FAIL-021",
+      "experiment_id": "DFREE-LAW-P3",
+      "stage": "dimension_law_exactness",
+      "failure": "P3 failed 2 of 48. The derived homogeneity component succeeded prospectively: leaky_relu and abs were classified as homogeneous before measurement and both gave exactly 2h+1 everywhere. But two ELU cells at h=15 measured a gauge dimension of 17 against a predicted 16, off by one, most plausibly a singular value near the 1e-9 rank tolerance.",
+      "response": "Preserved. No fourth attempt was issued: three frozen attempts on the same object is the point at which continuing becomes fitting rather than testing.",
+      "claim_impact": "No exact dimension law is confirmed. The relation is retained as a diagnostic pre-check, explicitly not as a validated prediction."
+    },
+    {
+      "failure_id": "FAIL-022",
+      "experiment_id": "QNEURO3-CYCLE-001",
+      "stage": "compute_elastic_depth",
+      "failure": "Adaptive-depth computation does not beat fixed depth at matched compute on chase-to-goal. Mixture halting (Q1) caps at 0.6241 versus fixed depth's 1.0000 and cannot reach full accuracy at any ponder cost or halt-bias initialisation. Commit halting (Q2) removes the ceiling, reaching 0.9999, but only at full depth, and loses to fixed depth at every reduced budget.",
+      "response": "Preserved. The Q1 ceiling was diagnosed and then confirmed by intervention: mixture->commit moved accuracy 0.6241 to 0.9999 with everything else held fixed. Two of my own implementation bugs were caught first (an unsolvable task version, and a key/value embedding collision that made chain-following impossible), each identified by models returning identical or below-chance accuracy.",
+      "claim_impact": "No adaptive-compute or Pareto claim is permitted for Q-Neuro 3.0. The specific obstruction is that a scalar mean-depth penalty pressures average depth rather than inducing per-example allocation."
+    },
+    {
+      "failure_id": "FAIL-023",
+      "experiment_id": "QNEURO3-Q3-P1",
+      "stage": "frozen_distribution_law",
+      "failure": "The frozen law 'average steps = E[distance] +/- 0.25' failed on three of four difficulty distributions. Accuracy, not step count, is what broke: 0.4356 / 0.2461 / 0.3334 on uniform, hard and narrow against a required 0.99. Only easy_skewed passed.",
+      "response": "Preserved. Not re-issued with a wider tolerance or a seed-averaged criterion. The Q3b answer-decoupling control was NOT run and the artifact question it was meant to settle remains open.",
+      "claim_impact": "No distribution law for adaptive-depth compute saving may be stated. The failure is diagnosed as training unreliability, not as evidence about difficulty distributions."
+    },
+    {
+      "failure_id": "FAIL-024",
+      "experiment_id": "QNEURO3-Q3-VARIANCE-001",
+      "stage": "reproducibility",
+      "failure": "Q3's headline (0.9995 accuracy at 4.53 steps, 1.77x less inference compute) reproduces on only 6 of 10 seeds. The other 4 land at 0.42-0.51 accuracy. The outcome is bimodal with nothing between 0.57 and 0.99, and training volume has no effect while seed dominates.",
+      "response": "Preserved. Headline restated with its success rate attached. Matched control run (FAIL-025 companion record QNEURO3-Q0-RELIABILITY-001) confirms the baseline is 10 of 10.",
+      "claim_impact": "The Q3 speedup is not reportable as an architecture property. Critically, the failure mode is SILENT: collapsed runs report 5.2-6.1 average steps, which looks like healthy adaptive allocation, so a compute-saving figure quoted without matched accuracy cannot distinguish a working elastic model from a broken one."
+    },
+    {
+      "failure_id": "FAIL-025",
+      "experiment_id": "QNEURO3-Q4-P1",
+      "stage": "reliability_repair",
+      "failure": "The frozen mechanism hypothesis -- that Q3 is bimodal because its state does not track position on the chain -- is false. Adding a training-only per-step position readout gave 0 of 10 seeds at or above 0.99 on both task constructions, against a required 9 of 10 and 8 of 10.",
+      "response": "Kill condition triggered as frozen. No second variant issued. Q-Neuro 3.0 cycle 1 closed.",
+      "claim_impact": "Adaptive depth loses to fixed depth on chase_to_goal once reliability is counted. Instructive detail preserved: the intervention DID remove the collapse mode (no run below 0.6322) but removed the good mode with it (best run 0.9500), so an auxiliary signal that reduces seed variance can do so by destroying the solution worth having."
+    },
+    {
+      "failure_id": "FAIL-026",
+      "experiment_id": "QNEURO3-DECOUPLE-001",
+      "stage": "control_task_design",
+      "failure": "The first decoupled-answer task leaked. It kept the goal fixed at node 0 and asked for the goal's LABEL, but a fixed, known goal identity makes its label directly addressable by attention at any step, with no walking required. Every configuration scored label accuracy 1.0000, including arrival runs whose halting was only 30% correct.",
+      "response": "Task discarded and rebuilt content-addressed: walk to the FIRST node whose label matches a per-example query, then report WHICH node that is. Shortcut audit on the rebuilt task: distance alone gives 0.064, guessing any node carrying the query label gives 0.291, chance is 0.042.",
+      "claim_impact": "None of the leaked run's numbers may be cited. The failure is diagnostic of the control's own validity: a control that every configuration passes is not a control, and the tell was that a model halting at the wrong step still scored perfectly."
+    },
+    {
+      "failure_id": "FAIL-027",
+      "experiment_id": "QNEURO3-PREDICT-001",
+      "stage": "early_mode_prediction",
+      "failure": "No mechanistic observable predicts which of the two training modes a run will reach any earlier than validation accuracy does. Across 24 instrumented runs and 21 observables (linear decodability of current node / hops remaining / goal indicator, halting-distribution entropy and per-step profile, attention entropy, state effective rank), the earliest perfect separation is at step 1900 of 4000 for accuracy, decodability, loss and halting entropy alike. Best early AUC at step 500 is 0.731 for dec_remaining against accuracy's 0.521, which is inside multiple-comparison noise for 21 observables x 7 timepoints.",
+      "response": "Branch closed without a frozen prediction being issued. Early validation accuracy is retained as the operative predictor and recorded as prior art: kill-and-restart on early validation performance is standard practice and no novelty is claimed.",
+      "claim_impact": "The committor/early-warning branch of DISCOVERY-002 gains nothing from the existence of a genuinely bimodal system. FAIL-009 stands, and is now additionally supported: even given two distinguishable attractors, the fate was not predictable ahead of the obvious signal."
+    },
+    {
+      "failure_id": "FAIL-028",
+      "experiment_id": "QNEURO3-DECOUPLE-002",
+      "stage": "control_task_design",
+      "failure": "The rebuilt decoupled task was initially unlearnable by every model because of a read-ordering defect: the label of the node the walk had just moved to was never available to the halting head, which was therefore asked to check a predicate about a node it had not reached. A second defect compounded it: the halting head was a linear map on a concatenation, which cannot express 'these two are equal' at all.",
+      "response": "Read ordering corrected so the label is read after the hop, and the elementwise product carried*query added so a linear reader can compute the match score. Both fixes were made before any model comparison was scored.",
+      "claim_impact": "None. No comparison from the defective version is cited. Recorded because the second defect is the same expressivity gap the V2 variant exposed on chase_to_goal, and it was reintroduced from scratch in a new task."
+    },
+    {
+      "failure_id": "FAIL-029",
+      "experiment_id": "QNEURO3-ATTRIB-P1",
+      "stage": "frozen_mechanism_test",
+      "failure": "The frozen carry-distance mechanism for the attribution separation is false. Fixed-depth accuracy conditioned on true distance is flat at ~0.22 across all eight distances; the required d=max_depth minus d=1 margin was 0.30 and the measured values are 0.02 and 0.07. The model fails uniformly, including where no transport is required at all.",
+      "response": "Kill condition triggered as frozen. No mechanism is claimed for the separation and no scaling law is predicted from it. Diagnosing it exposed a supervision confound in the original comparison, which was then removed with a matched-supervision control.",
+      "claim_impact": "The empirical separation stands as measured but is mechanistically unexplained. The sharp fixed-depth capability threshold between max_depth 4 and 8 remains open."
+    },
+    {
+      "failure_id": "FAIL-030",
+      "experiment_id": "QNEURO3-TRANSFER-P1",
+      "stage": "untouched_confirmation",
+      "failure": "The attribution result does not generalise. On an untouched, qualitatively different family (streaming threshold crossing, no attention anywhere in the core), a final-state readout reaches 0.9351 against per-step selection's 0.9425 -- a gap of 0.007 where the frozen criterion required 0.20. T1 also failed narrowly, with select at 0.9347-0.9481 against a required 0.95.",
+      "response": "Kill condition triggered as frozen. The separation is scoped to associative-lookup tasks and no principle is claimed. Preserved with the observation that the strongest model on this family is the explicit latch (0.9760), which was one of the controls that failed on query_chase -- the two families reward opposite designs.",
+      "claim_impact": "No general claim about where an answer must be read from. What survives is T3, which passed prospectively: halting on a supervised predicate costs nothing in accuracy and returns the workload's full compute saving."
+    },
+    {
+      "failure_id": "FAIL-031",
+      "experiment_id": "QNEURO3-EXTRAP-P1",
+      "stage": "capability_test",
+      "failure": "Predicate halting does not buy depth extrapolation. Trained at length 12 and evaluated at 16, normalised arrival scores 0.8328 / 0.3528 / 0.6548 on the unseen indices against a required 0.80 on every seed. E3 also failed (fixed reached 0.510 mean against a required <0.50).",
+      "response": "Kill condition triggered as frozen; the adaptive-compute branch closes as a bounded negative result. The trade-off exposed by E2 is preserved rather than smoothed over.",
+      "claim_impact": "No capability claim for adaptive halting anywhere in the programme. E2 INVERTED: unnormalised arrival extrapolates at 0.9136 against normalised 0.6135, so normalisation costs 0.30 of extrapolated accuracy while buying about 0.05 in distribution. This bounds the QNEURO3-Q3-VARIANCE-001 normalisation finding to the associative-lookup family: it is a family-specific engineering choice with a real trade-off, not a principle."
+    },
+    {
+      "failure_id": "FAIL-032",
+      "experiment_id": "QNEURO3-RUNTIME-P1",
+      "stage": "runtime_cost_model",
+      "failure": "The frozen cost model T = c_step*rows + c_launch*iterations + c_compact*compactions placed the compaction crossover at batch 45 on the lookup family. The measured crossover is below 16: compaction is already 1.201x at batch 16 and 1.297x at 32, and loses only at batch 4 and 1. R2 also failed, with relative errors of 55.1% and 45.1% at batches 16 and 32 against a 25% band.",
+      "response": "Kill condition applied as frozen: no predictive runtime equation is claimed and the equation was NOT patched and re-issued. The measured curve is reported as an observation. R3 and R4 passed and are retained.",
+      "claim_impact": "No runtime equation may be cited. The model is accurate where compute dominates (1.0% error at batch 128, 11.5% at 256) and wrong where overhead does, and it systematically over-charged compaction at small batch -- 15 modelled compactions against 10 measured at batch 16, and a c_compact measured on a synthetic gather of all six state tensors."
+    },
+    {
+      "failure_id": "FAIL-033",
+      "experiment_id": "QNEURO3-RUNTIME-P2",
+      "stage": "runtime_transfer",
+      "failure": "The ceiling removal does not transfer across cores. On the streaming family, compaction gives only 1.065x over the matched-accuracy full-depth baseline at batch 256 against a required 1.5x, and 1.289x over lockstep against a required [1.3, 2.2]. Accuracy was also not perfectly matched -- select was 0.0147 BETTER than arrival -- so the comparison flattered arrival and it still failed.",
+      "response": "Kill condition applied: the ceiling removal is scoped to the associative-lookup family. Preserved with the mechanism, which was named in the frozen anticipated_failure_modes before the run.",
+      "claim_impact": "Compaction removes the lockstep straggler ceiling only when per-step cost is large relative to gather cost. Measured: 1.95x at 2.66 us/example-step, 1.07x at 0.33 us/example-step. This is a second boundary of the same shape as the first -- the advantage is real and every stronger control finds it bounded by something that is not the mechanism."
+    },
+    {
+      "failure_id": "FAIL-034",
+      "experiment_id": "QNEURO3-HAR-P1",
+      "stage": "real_data_confirmation",
+      "failure": "On real data the confirmed mechanism loses to two prior-art baselines. UCI HAR, canonical subject-disjoint split, 3 seeds, matched parameters (63271 every arm): supervised halting reaches 0.8112 test accuracy at 2.39 of 16 chunks; confidence-based early exit reaches 0.8747 at matched compute; ACT reaches 0.9006 at 3.61 chunks; fixed depth reaches 0.9127. Supervised halting is fourth of five and costs 2.3x the training time because it needs a teacher.",
+      "response": "Kill condition applied verbatim and stated as the headline rather than buried. Q-Neuro 3.0's halting mechanism is restricted to tasks that supply a genuine halt target.",
+      "claim_impact": "CLAIM-007 is materially narrowed. The mechanism's advantage is confined to tasks where the halt step is defined by the task; where it must be distilled from a teacher, simpler methods that need no teacher win. The RUNTIME findings did transfer to real data: 6.38x batch-1, 0.70x at batch 256 under lockstep, 1.63x under compaction."
+    },
+    {
+      "failure_id": "FAIL-035",
+      "experiment_id": "QNEURO3-GATE5-A",
+      "stage": "architecture_branch",
+      "failure": "Complex fields add nothing. A genuinely complex state with Hermitian attention, at matched real parameter count (56545 against 55001), gives 1.0000 accuracy, 1.0000 halt accuracy and 6.15 mean steps on 3 of 3 seeds -- identical to the real control's 1.0000 and 6.14.",
+      "response": "Branch killed. Consistent with FAIL-005: expressivity was already known identical by exact realification, and optimisation outcome is now measured identical too.",
+      "claim_impact": "No complex, wave, phase or spectral mechanism enters the final architecture."
+    },
+    {
+      "failure_id": "FAIL-036",
+      "experiment_id": "QNEURO3-GATE5-B",
+      "stage": "architecture_branch",
+      "failure": "Adaptive width is beaten by its own control. Per-step routing over hidden groups reaches 1.0000 at cost 3.07 with 57065 parameters; a STATICALLY narrow model of the same size reaches 1.0000 at the same cost 3.07 with 32425 parameters, and static 2/8 reaches 1.0000 at cost 1.54 where routed 2/8 reaches only 0.8143 at cost 2.13. At binding capacity (d=16) routing is strictly worse: 0.0324 against static's 0.1145 at equal cost.",
+      "response": "Branch killed at both capacity regimes. An accounting bug that briefly made routing look like a 2x Pareto win -- charging fixed-depth models only up to their selected step rather than the full depth they execute -- was found and fixed before any conclusion was drawn.",
+      "claim_impact": "C(x) = T(x)*N(x) two-axis allocation does not enter the final architecture. Only depth adaptation survives."
+    },
+    {
+      "failure_id": "FAIL-037",
+      "experiment_id": "NOVA-H-DILUTION",
+      "stage": "nova_hypothesis",
+      "failure": "Length-invariant attention does not improve length extrapolation. The operator-level property is real -- read drift when 24 distractors are inserted is 0.236 for max/threshold against 0.724 for softmax -- but the task-level effect vanishes against the confound control: giving softmax the same post-read RMS normalisation moves copy from 0.172 to 0.305, capturing essentially the whole apparent gain.",
+      "response": "Hypothesis abandoned. Two implementation bugs were found and fixed first: a max normaliser that was algebraically softmax, and a normalisation applied only to the candidate arms.",
+      "claim_impact": "No claim about attention normalisation. What survives is that a post-read RMS normalisation helps copy extrapolation, which is normalisation and not a principle."
+    },
+    {
+      "failure_id": "FAIL-038",
+      "experiment_id": "NOVA-H-INTERFERENCE-P1",
+      "stage": "nova_frozen_prediction",
+      "failure": "Branch dropout does not de-conflict competing computational routes. All four clauses failed: mod_sum reached 0.596 against a required 0.70, needle collapsed from 0.841 to 0.260, the response was non-monotone in the dropout rate, and copy changed by 0.18 against a required limit of 0.15.",
+      "response": "Kill condition applied. Dropout slides the model along a trade-off until it simply is an LSTM again rather than resolving anything.",
+      "claim_impact": "No intervention tested resolves capability competition. The narrative was also corrected: the dramatic version of the interference effect (mod_sum 0.291) was an 800-step undertraining artifact and reads 0.776 at 2400 steps."
+    },
+    {
+      "failure_id": "FAIL-039",
+      "experiment_id": "NOVA-H-COMPOSE-P1",
+      "stage": "nova_frozen_prediction",
+      "failure": "Composing three routes does not compose their capabilities. Mean reached 0.692 against a required 0.75, and reverse fell to 0.146 -- chance -- against a per-task best of 0.371, a gap of 0.225 where the criterion allowed 0.15.",
+      "response": "Kill condition applied and Nova terminated on the boundary condition. C3 did pass: the third route relieved the state-tracking/retrieval conflict exactly as predicted.",
+      "claim_impact": "Capability competition is conserved rather than resolvable by adding routes. This is the programme's final finding and it is negative."
+    }
+  ]
+}

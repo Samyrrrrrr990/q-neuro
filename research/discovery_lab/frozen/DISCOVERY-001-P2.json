@@ -1,0 +1,87 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "Progressive sharpening / edge of stability: lambda_max grows during training, so a cell with rho < 1 at initialization can cross the boundary later. This is the most likely falsifier.",
+      "Cross-entropy saturation can flatten curvature, so a cell with rho > 1 at init may stabilize.",
+      "ReLU homogeneity holds only for positive scale; all frozen scales are positive."
+    ],
+    "confirmation_system": {
+      "activation": "relu",
+      "device": "cpu",
+      "dtype": "float64",
+      "loss": "cross_entropy",
+      "model": "qneuro.equivalence.microcosms.HomogeneousMLP",
+      "optimizer": "full-batch gradient descent (SGD, momentum 0)"
+    },
+    "control_parameter": "rho = eta * lambda_max(hessian(L_target, theta_mapped)) / 2",
+    "critical_band": {
+      "high": 1.1,
+      "low": 0.9,
+      "rule": "Cells with 0.9 < rho < 1.1 excluded from scoring; rho = 1 is marginally stable."
+    },
+    "declared_contact_with_the_confirmation_system": "P1 measured lambda_max(H_target) on this model class. P2 uses that curvature SCALE to place the learning rate so the boundary is spanned. This is contact with the confirmation system and is declared rather than hidden. It uses only a property of the model and data at initialization, never any training outcome, and it makes the test capable of failing rather than more likely to pass. P2 additionally uses model seeds disjoint from P1.",
+    "differential_prediction": {
+      "statement": "Adam is scale-free in the gradient; no boundary at the same rho.",
+      "threshold": "adam divergence rate below 0.2 * sgd divergence rate",
+      "vacuous_if": "sgd divergence rate is zero"
+    },
+    "discovery_id": "DISCOVERY-001",
+    "divergence_criterion": {
+      "growth_ratio_threshold": 2.0,
+      "non_finite_is_divergence": true,
+      "note": "Identical to DISCOVERY-001 and P1. Not re-tuned.",
+      "rule": "target parameter norm growth over the final third of training"
+    },
+    "estimator_unchanged": "The estimator and its threshold are IDENTICAL to P1 and to DISCOVERY-001: rho = eta * lambda_max(H_target)/2, transition at rho = 1. Nothing about the prediction was improved using P1's outcome. Only the probe placement changed.",
+    "falsifier": "Any false alarm or any miss outside the critical band.",
+    "frozen_grid": {
+      "batch_size": 128,
+      "in_features": 6,
+      "model_seeds": [
+        10,
+        11,
+        12
+      ],
+      "out_features": 4,
+      "rho_targets": [
+        0.3,
+        0.6,
+        0.8,
+        0.95,
+        1.05,
+        1.2,
+        1.5,
+        2.0,
+        3.0
+      ],
+      "scales": [
+        0.35,
+        0.7,
+        1.4,
+        2.8
+      ],
+      "steps": 400,
+      "widths": [
+        8,
+        16
+      ]
+    },
+    "frozen_utc": "2026-08-15",
+    "one_attempt": true,
+    "pass_thresholds": {
+      "false_alarms_max": 0,
+      "minimum_cells_above_band": 1,
+      "minimum_cells_below_band": 1,
+      "misses_max": 0,
+      "note": "A run with zero cells on either side of the band is VACUOUS and is not a pass. This guard exists because P1 lacked it."
+    },
+    "predicted_transition": 1.0,
+    "prediction_id": "DISCOVERY-001-P2",
+    "probe_placement": "For each cell, eta := rho_target * 2 / lambda_max(H_target at mapped init), so rho equals rho_target by construction. The nontrivial content is whether NONLINEAR dynamics respect a boundary computed from the INITIAL Hessian; progressive sharpening is the expected way this fails.",
+    "schema_version": "1.0.0",
+    "statement": "For a paired (source, target) related by a diagonal scaling map, trained full-batch from a mapped initialization, the target diverges if and only if rho > 1.",
+    "status": "frozen before any P2 evidence was generated",
+    "supersedes": "DISCOVERY-001-P1 (vacuous: grid never reached rho >= 1.1)"
+  },
+  "sha256_of_prediction": "7d77e1593096ee24f7611ad9d7cbf7933287e57e393c0d0ccb6a802d190aa08f"
+}

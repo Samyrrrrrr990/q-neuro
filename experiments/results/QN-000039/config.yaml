@@ -1,0 +1,69 @@
+experiment: reduced_independent_law_discovery
+description: Outcome-ineligible discovery across independent nonclinical task families
+  and structural worlds. This compute-bounded profile proposes candidates but is not
+  the full preregistered discovery. [SMOKE PROFILE; NOT DISCOVERY EVIDENCE]
+profile: smoke
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H7
+generator_version: 1.1.0
+source_world_seed: 81001
+families:
+  hidden_causal_machine:
+    order_dependence: 0.8
+    sequence_length: 18
+  analytic_noncommutative:
+    order_dependence: 1.0
+    sequence_length: 12
+  analytic_commutative:
+    order_dependence: 0.0
+    sequence_length: 12
+dataset:
+  train_sizes:
+  - 120
+  validation_cases: 80
+  test_cases_per_world: 50
+  counterfactual_pairs_per_world: 10
+  train_seed: 8101
+  validation_seed: 8201
+  test_seed: 8303
+  counterfactual_seed: 8401
+  world_seeds:
+  - 82001
+  - 82003
+training:
+  seeds:
+  - 1103
+  epochs: 2
+  patience: 2
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  device: cpu
+models:
+  names:
+  - complex_operator
+  - exact_real_block_operator
+  - state_space
+  parameter_budget: 20304
+  operator_rank: 2
+  max_sequence_length: 96
+  step_size: 0.28
+  learning_rates:
+    complex_operator:
+    - 0.001
+    exact_real_block_operator:
+    - 0.001
+    state_space:
+    - 0.001
+severities:
+- 0.0
+- 0.5
+- 1.0
+evaluation:
+  calibration_bins: 10
+protocol_deviations:
+- Training sizes 5000 and 25000 are deferred; only 250 and 1000 are evaluated.
+- The full real envelope and 8/10-trial hyperparameter policy are not executed.
+- Results are provisional discovery evidence and cannot support Outcome E or QN-GRAND-001.

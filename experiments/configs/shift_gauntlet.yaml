@@ -1,0 +1,42 @@
+experiment: shift_gauntlet_structural_audit
+description: >-
+  Non-outcome-eligible compilation and structural audit of every preregistered ShiftGauntlet
+  intervention before pilot model training.
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H6
+world:
+  world_seed: 314159
+  observation_probability: 0.72
+  probability_mixing: 0.0
+  temporal_jitter: 0.025
+  order_marker_visibility: 1.0
+  demographic_signal_strength: 0.0
+  shared_nuisance_stages: true
+cases: 500
+case_seed: 9157
+seed: 22103
+severities: [0.0, 0.25, 0.5, 0.75, 1.0]
+families:
+  nuisance_variable: {}
+  prevalence: {}
+  conditional_feature: {}
+  spurious_correlation_inversion:
+    splits: [train, test]
+  missingness:
+    modes: [mcar, mar, mnar_like]
+  observation_noise: {}
+  evidence_order:
+    modes: [canonical, random, partially_corrupted, adversarial, reversed]
+  distractor_evidence: {}
+  contradictory_evidence: {}
+  delayed_decisive_evidence: {}
+  unseen_factor_combinations: {}
+  unseen_world_mechanisms: {}
+  evidence_deletion: {}
+  evidence_duplication: {}
+  temporal_dependency_change: {}
+  class_expansion:
+    splits: [train, test]
+  irreducible_ambiguity: {}

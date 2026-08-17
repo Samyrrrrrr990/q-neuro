@@ -1,0 +1,466 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "synthetic and nonclinical computational evidence",
+  "claims": [
+    {
+      "claim_id": "CLAIM-001",
+      "status": "supported within implementation",
+      "exact_wording": "The evaluated complex operator has an exact structured real-block implementation that reproduces its top-1 predictions at numerical precision.",
+      "evidence": [
+        "QN-000033 mapped mechanism runs differ by at most approximately 4.8e-7 across recorded metrics.",
+        "QN-000042 complex and exact-real top-1 are identical in all 1,920 held-out nested cells; maximum NLL difference is 3.58e-7."
+      ],
+      "counterevidence": [
+        "This does not imply that every complex-valued architecture or optimization trajectory is equivalent to every unconstrained real network.",
+        "Different parameterizations can impose different inductive biases even when the represented mapped function is the same.",
+        "AMENDMENT-001: the two implementations do not merely represent the same function class; they share the same real parameter coordinates. ComplexOperatorState stores only real-valued nn.Parameters and constructs complex tensors inside the forward pass, so the parameter map between the two models is the identity and the observed agreement is a numerical-implementation result rather than a coordinate-transport result."
+      ],
+      "amendments": [
+        {
+          "amendment_id": "AMENDMENT-001",
+          "date": "2026-08-14",
+          "document": "docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md",
+          "effect": "narrows interpretation; no numerical value changed",
+          "summary": "The complex/exact-real pair is one parameterization with two implementations, not two parameterizations of one function class. Equivalence level is downgraded from implied E1 to E2/E3 on a declared input domain because the two complex-tanh implementations diverge near the pole at i*pi/2."
+        }
+      ],
+      "supporting_experiments": [
+        "QN-000033",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "maximum_absolute_top1_difference",
+        "value": 0.0,
+        "cells": 1920
+      },
+      "uncertainty": "Deterministic mapped equivalence plus floating-point tolerance; not a population estimate.",
+      "assumptions": [
+        "Mapped initialization",
+        "same data order",
+        "same optimizer policy",
+        "implemented architecture only"
+      ],
+      "scope": "Q-Neuro complex_operator and exact_real_block_operator implementations",
+      "external_validity": "Algebraic mapping is general; empirical tolerance was tested only in this codebase.",
+      "novelty_status": "Known algebraic representation applied as a stringent project control.",
+      "replication_status": "Internally repeated across mechanism discovery and four held-out task families; no independent team replication.",
+      "falsifier": "A mapped forward, loss, gradient, or prediction comparison exceeding the frozen numerical tolerance.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-002",
+      "status": "falsified",
+      "exact_wording": "Within the reduced independent-task studies, the cellwise best-real envelope removes the observed complex robustness advantage.",
+      "evidence": [
+        "QN-000040 has zero positive complex-minus-best-real effects among 2,880 nested discovery cells.",
+        "QN-000042 has zero positive effects among 1,920 held-out nested cells and a family/world/seed hierarchical mean of -0.00916 with 95% interval [-0.01325, -0.00457]."
+      ],
+      "counterevidence": [
+        "The independent discovery and confirmation profiles are outcome-ineligible and compute-reduced.",
+        "The complete 14-model real envelope and full ShiftGauntlet outcome grid were not run.",
+        "AMENDMENT-001: the 1,920 held-out cells are not 1,920 independent architecture comparisons. The cellwise best-real winner was exact_real_block_operator in 1,478 cells (77%) with mean effect exactly +0.00000 and 1,478 exact zeros, and real_polar_operator in 442 cells (23%) with mean -0.03978. The 1,478 zeros are equivalence-induced ties with an implementation that shares the complex model's parameter coordinates, not independent wins by a distinct real architecture. The entire -0.00916 mean is carried by the 442 real_polar_operator cells.",
+        "AMENDMENT-001: QN-000040 is the healthier heterogeneous-control result. There state_space (637 cells, -0.09063), real_polar_operator (485, -0.04687), and gru (367, -0.07073) win 52% of discovery cells against exact_real_block_operator's 1,391."
+      ],
+      "amendments": [
+        {
+          "amendment_id": "AMENDMENT-001",
+          "date": "2026-08-14",
+          "document": "docs/EQUIVALENCE_SCIENCE_AMENDMENT_001.md",
+          "effect": "strengthens the negative result; no numerical value changed",
+          "summary": "The falsification of the intrinsic-complex-arithmetic claim now rests on two explicitly separated legs: exact realification reproduces the implemented computation, and genuinely distinct real controls outperform it. The 1,920-cell headline must distinguish equivalence-induced zeros from independent architecture wins."
+        }
+      ],
+      "supporting_experiments": [
+        "QN-000040",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "mean_complex_minus_best_real_top1",
+        "value": -0.009157985999869804
+      },
+      "uncertainty": {
+        "method": "hierarchical_bootstrap",
+        "confidence": 0.95,
+        "low": -0.013250867711224905,
+        "high": -0.004570204104723728
+      },
+      "assumptions": [
+        "Equal family weighting",
+        "world is the top-level unit",
+        "best-real selection is cellwise and prespecified"
+      ],
+      "scope": "Four held-out and four discovery synthetic nonmedical generator families under the reduced profile",
+      "external_validity": "Unknown beyond the implemented synthetic generators.",
+      "novelty_status": "Negative empirical result; priority not claimed.",
+      "replication_status": "Direction repeats in pilot, discovery, and held-out reduced confirmation; no external replication.",
+      "falsifier": "A fully preregistered clean run in which the complex-minus-best-real aggregate is positive and its adjusted interval exceeds +0.02.",
+      "confidence": "high within tested scope"
+    },
+    {
+      "claim_id": "CLAIM-003",
+      "status": "falsified",
+      "exact_wording": "The frozen quadratic relationship selected on reduced discovery data fails quantitative prediction on held-out task families.",
+      "evidence": [
+        "QN-LAW-001 discovery R2 is 0.949 with MAE 0.00260 across 12 aggregate cells.",
+        "QN-000042 held-out R2 is -30.94 and MAE 0.0313; the frozen requirements were R2 at least 0.50 and MAE at most 0.015."
+      ],
+      "counterevidence": [
+        "Effect-sign accuracy is 1.0 because all observed and predicted gaps are non-positive."
+      ],
+      "supporting_experiments": [
+        "QN-000040",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "heldout_law_r2",
+        "value": -30.936351721073724
+      },
+      "uncertainty": "Twelve held-out family-by-severity aggregates; no refitting permitted.",
+      "assumptions": [
+        "Frozen predictors and coefficients",
+        "untouched family split",
+        "unchanged confirmation thresholds"
+      ],
+      "scope": "QN-LAW-001 only",
+      "external_validity": "No general computational law established.",
+      "novelty_status": "Failed candidate law.",
+      "replication_status": "Prospective held-out failure preserved.",
+      "falsifier": "Not applicable after prospective failure; a new law requires a new preregistration and split.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-004",
+      "status": "bounded reinterpretation",
+      "exact_wording": "The earlier positive NeuroWorld result is comparator-dependent rather than evidence of intrinsically complex arithmetic.",
+      "evidence": [
+        "QN-000008 reports +0.0602 moderate-shift top-1 versus a two-channel real control.",
+        "Later exact-real and best-real comparisons reverse the sign in QN-000031, QN-000040, and QN-000042."
+      ],
+      "counterevidence": [
+        "The later studies use different generator families and reduced profiles, so the four point estimates are not one meta-analysis."
+      ],
+      "supporting_experiments": [
+        "QN-000008",
+        "QN-000031",
+        "QN-000040",
+        "QN-000042"
+      ],
+      "effect_size": {
+        "metric": "historical_complex_minus_two_channel_moderate_top1",
+        "value": 0.06016665697097778
+      },
+      "uncertainty": {
+        "low": 0.05293366263940652,
+        "high": 0.06739965130254905,
+        "units": "five NeuroWorld worlds"
+      },
+      "assumptions": [
+        "Historical result is retained unchanged",
+        "comparator identity is stated with every estimate"
+      ],
+      "scope": "Interpretation of the QN-000008 within-simulator result",
+      "external_validity": "None established.",
+      "novelty_status": "Comparator audit.",
+      "replication_status": "Historical result replicated within NeuroWorld; intrinsic interpretation refuted by stronger controls.",
+      "falsifier": "A same-task parameter/compute-matched study in which complex exceeds the exact-real and strongest structured-real controls.",
+      "confidence": "medium-high"
+    },
+    {
+      "claim_id": "CLAIM-005",
+      "status": "not executed",
+      "exact_wording": "QN-GRAND-001 did not execute and provides no primary confirmatory effect estimate.",
+      "evidence": [
+        "The registered preflight records six blocking failures and sealed_benchmark_opened=false."
+      ],
+      "counterevidence": [
+        "Eight readiness checks passed, including the shortcut gate, power plan, exact-real equivalence, and held-out family separation."
+      ],
+      "supporting_experiments": [
+        "QN-GRAND-001"
+      ],
+      "effect_size": null,
+      "uncertainty": "No primary outcome was observed.",
+      "assumptions": [
+        "Any failed mandatory gate blocks sealed access",
+        "single-use grand experiment"
+      ],
+      "scope": "QNF-PREREG-002 grand confirmation",
+      "external_validity": "Not applicable.",
+      "novelty_status": "Registered stop decision.",
+      "replication_status": "Not applicable; no execution.",
+      "falsifier": "Artifact evidence that all gates passed and the sealed benchmark was executed, which does not exist.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-006",
+      "status": "unsupported",
+      "exact_wording": "The repository contains no evidence of clinical validity, patient benefit, safety, or a quantum mechanism of cognition.",
+      "evidence": [
+        "All next-phase tasks are synthetic and nonclinical; no patient dataset was selected or evaluated."
+      ],
+      "counterevidence": [],
+      "supporting_experiments": [],
+      "effect_size": null,
+      "uncertainty": "This is a scope statement, not an efficacy estimate.",
+      "assumptions": [
+        "Repository artifact inventory is complete"
+      ],
+      "scope": "Entire Q-Neuro release",
+      "external_validity": "No medical external validity.",
+      "novelty_status": "Safety boundary.",
+      "replication_status": "Not applicable.",
+      "falsifier": "A separately approved and preregistered clinical validation program with valid patient evidence.",
+      "confidence": "high"
+    },
+    {
+      "claim_id": "CLAIM-007",
+      "status": "confirmed prospectively, then materially narrowed by real-data evidence",
+      "exact_wording": "ON TASKS THAT SUPPLY A GENUINE HALT TARGET, halting on a supervised predicate attains the optimal per-example compute allocation and gives a 2.8-4.9x wall-clock inference saving at batch 1 at matched accuracy and matched parameters, and loses that advantage above batch approximately 32 under lockstep execution. Where no halt target exists and it must be distilled from a teacher, it is beaten by confidence-based early exit and by ACT.",
+      "evidence": [
+        "QNEURO3-NICHE-P1 (sha256 7fbcceb87f9a2193) was frozen on the streaming family and opened once on the associative-lookup family at depth 24 with a heavy-tailed distribution never used before. All four clauses passed: accuracy 1.0000 against select's 1.0000; mean steps 6.14 against E[distance] 6.14; batch-1 speedup 2.78x against a required 2.5x; batch-256 speedup 0.97x against a required ceiling of 1.2x.",
+        "Mean step count equals E[predicate index] to within 0.1 in six independent settings (4.45/8, 6.55/12, 2.51/4, 4.54/8, 6.60/12, 6.14/24).",
+        "Measured crossover curve on the M2: 2.99x at batch 1, 1.58x at 4, 1.18x at 16, 0.99x at 64, 0.97x at 256."
+      ],
+      "counterevidence": [
+        "No novelty is claimed. Supervised early exit and per-step attribution are prior art (Graves 2016; Banino et al. 2021; Vinyals et al. 2015; Lee et al. 2015).",
+        "The SIZE of the saving is max_depth / E[predicate index], a property of the workload rather than of the architecture. The architecture's contribution is attaining that optimum reliably.",
+        "Measured on one machine (Apple M2 CPU) at one model scale. Continuous batching or sequence packing may recover part of the saving above the crossover and was not measured.",
+        "Synthetic tasks only.",
+        "QNEURO3-HAR-P1 was frozen and FAILED on real data (UCI HAR, subject-disjoint split): supervised halting 0.8112 against confidence exit 0.8747 at matched compute and ACT 0.9006 at 3.61 chunks, with 2.3x the training cost. The mechanism is fourth of five arms."
+      ],
+      "confidence": "high within the measured scope",
+      "scope": "synthetic, nonclinical, single machine; and only where the task defines the halt step",
+      "assumptions": "Per-example halt steps are independent across a batch; the halting predicate is supervised by the task; difficulty is heavy-tailed with a deep worst case; inference runs on CPU at the measured model scale.",
+      "effect_size": "2.78x mean wall-clock speedup at batch 1 over 25 independent examples (lookup family, depth 24); 4.89x on the streaming family at depth 32; 0.97-0.99x at batch 256 on both. Mean steps 6.14 of 24 against E[distance] 6.14.",
+      "external_validity": "Two synthetic task families with structurally different cores (attention-based graph traversal, attention-free streaming). One machine, one model scale, CPU only. Not tested on natural data, on GPU, at large model width, or under continuous batching.",
+      "falsifier": "A matched-accuracy, matched-parameter comparison on a heavy-tailed variable-difficulty workload where batch-1 wall-clock saving is below 1.5x, or where the advantage persists above 1.2x at batch 256.",
+      "novelty_status": "No novelty claimed. Supervised early exit and per-step attribution are prior art (Graves 2016 ACT; Banino et al. 2021 PonderNet; Vinyals et al. 2015 Pointer Networks; Lee et al. 2015 deeply-supervised nets). The contribution is the measured boundary, not the mechanism.",
+      "replication_status": "Frozen and confirmed once on an untouched family under QNEURO3-NICHE-P1; 3 seeds per condition; single implementation, no independent reimplementation.",
+      "supporting_experiments": [
+        "QNEURO3-NICHE-P1"
+      ],
+      "uncertainty": "Batch-1 timing on a fanless machine varies with thermal state; the headline is a mean over 25 independent examples with a per-example range of 0.93x to 13.16x. The crossover batch is located between 16 and 64 and is not resolved more finely.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-008",
+      "status": "supported, analytic, scoped to the lockstep policy",
+      "exact_wording": "Under LOCKSTEP execution, per-example adaptive computation has an analytic ceiling: because a lockstep batch cannot exit until its slowest member does, batched cost tracks E[max halt step over the batch] rather than E[halt step], so the realisable saving decays towards 1 as batch size grows. This is a property of the execution policy, not of adaptive computation.",
+      "evidence": [
+        "E[max] = sum_k k (F(k)^n - F(k-1)^n). For P(k) proportional to 0.8^k on 1..32: E[max] = 4.97 at batch 1, 12.53 at 8, 20.96 at 64, 29.42 at 1024, so the realisable saving falls from 6.43x to 1.09x.",
+        "Measured wall-clock agrees: early exit is 0.96-0.99x at batch 64-256 on both task families, i.e. a penalty.",
+        "Implemented and tested as qneuro3.adaptive.expected_max_halt."
+      ],
+      "counterevidence": [
+        "This is arithmetic about order statistics, not an empirical finding about any particular architecture, and no novelty is claimed for it.",
+        "It is stated for independent per-example halt steps. Correlated difficulty within a batch would change the constant, though not the direction.",
+        "Under active-set compaction the ceiling is largely removed on an expensive core: the same models go from 0.97x to 1.95x against a matched-accuracy baseline at batch 256 (QNEURO3-CEILING-REMOVED-001). The wording was corrected in QNEURO3-SCOPE-CORRECTION-001."
+      ],
+      "confidence": "high",
+      "scope": "applies to any per-example adaptive-compute method, including ACT, PonderNet, early-exit transformers and depth-routed mixtures of experts",
+      "assumptions": "Halt steps are drawn independently and identically across the batch; every example in a batch is processed to the batch's maximum halt step; no continuous batching or sequence packing.",
+      "effect_size": "For P(k) proportional to 0.8^k on 1..32 the realisable saving falls from 6.43x at batch 1 to 2.55x at 8, 1.53x at 64 and 1.09x at 1024.",
+      "external_validity": "The derivation is distribution-free; only the constants depend on the halt distribution. It applies to any per-example adaptive-compute method under static batching.",
+      "falsifier": "A batched implementation whose measured cost tracks E[halt] rather than E[max halt] without continuous batching, or an order-statistics counterexample.",
+      "novelty_status": "No novelty claimed. This is elementary order statistics; it is recorded because the consequence for adaptive computation is not usually stated alongside reported speedups.",
+      "replication_status": "Analytic, implemented and unit-tested as qneuro3.adaptive.expected_max_halt; empirically corroborated on two task families.",
+      "supporting_experiments": [
+        "QNEURO3-CEILING-001",
+        "QNEURO3-NICHE-P1"
+      ],
+      "uncertainty": "Correlated difficulty within a batch would change the constants though not the direction; that case is not measured.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-009",
+      "status": "falsified",
+      "exact_wording": "Reading a computation's answer from an input-selected iteration rather than from the final state is generally necessary for first-match computations.",
+      "evidence": [
+        "On the associative-lookup family the separation is large and robust: a final-state readout scores 0.221-0.273 against 1.0000, and survives matched per-step supervision (0.232-0.243), an explicit learned latch (0.222-0.239) and 3x training."
+      ],
+      "counterevidence": [
+        "QNEURO3-TRANSFER-P1 (sha256 3ef3b2e56d08ca66) was frozen and opened once on a qualitatively different family. The required gap was 0.20; the measured gap was 0.007 in the wrong direction of interest (final-state readout 0.9351 against selection 0.9425). The kill condition applied.",
+        "The strongest model on that family is the explicit latch (0.9760), which is one of the controls that failed on the lookup family. The two families reward opposite designs."
+      ],
+      "confidence": "high",
+      "scope": "the separation is retained as a property of associative-lookup tasks only",
+      "assumptions": "Matched core, matched per-step inputs, matched per-step supervision, parameters within 0.5%, identical training protocol.",
+      "effect_size": "Associative lookup: 0.221-0.273 for final-state readout against 1.0000 for input-selected readout. Streaming: 0.9351 against 0.9425, a gap of 0.007.",
+      "external_validity": "The separation is established on associative-lookup tasks only and explicitly does not transfer to a streaming arithmetic family.",
+      "falsifier": "Already falsified as a general claim by QNEURO3-TRANSFER-P1. The scoped version would be falsified by an associative-lookup task where a final-state readout matches input-selected readout at matched supervision and compute.",
+      "novelty_status": "No novelty claimed. Position-selection readouts are Pointer Networks and span scoring.",
+      "replication_status": "Six readout policies, 2-5 seeds each, one implementation. The generalisation test was frozen and run once.",
+      "supporting_experiments": [
+        "QNEURO3-NICHE-P1"
+      ],
+      "uncertainty": "The sharp fixed-depth capability threshold between max_depth 4 and 8 is unexplained; the frozen carry-distance account was tested and is false.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-010",
+      "status": "falsified",
+      "exact_wording": "Predicate halting confers depth extrapolation: a model whose stopping rule is a local condition can iterate correctly beyond the depth it was trained at.",
+      "evidence": [
+        "None."
+      ],
+      "counterevidence": [
+        "QNEURO3-EXTRAP-P1 (sha256 09aabd9169a7713b) required at least 0.80 accuracy on unseen depths on every seed and measured 0.8328, 0.3528, 0.6548.",
+        "Its mechanism clause inverted: the unnormalised model extrapolates at 0.9136 against the normalised model's 0.6135, so state normalisation costs 0.30 of extrapolated accuracy while buying about 0.05 in distribution."
+      ],
+      "confidence": "high",
+      "scope": "tested on the streaming family at 1.33x the trained depth",
+      "assumptions": "Trained at length 12 and evaluated without retraining at length 16 on the streaming family; standard protocol; 3 seeds.",
+      "effect_size": "0.8328 / 0.3528 / 0.6548 on unseen depths against a required 0.80 on every seed. Unnormalised: 0.8926 / 0.8678 / 0.9803.",
+      "external_validity": "One family, one extrapolation ratio (1.33x). Not tested on the lookup family or at larger ratios.",
+      "falsifier": "Already falsified. Reviving it would require a materially different halting mechanism and a new prediction identifier.",
+      "novelty_status": "Not applicable; the claim is falsified.",
+      "replication_status": "Frozen once, opened once, 3 seeds per condition.",
+      "supporting_experiments": [
+        "QNEURO3-CEILING-001"
+      ],
+      "uncertainty": "The inversion of the normalisation clause is measured on 3 seeds per condition and is large (0.30 absolute), but is not explained.",
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-ATTRIBUTION-001.json",
+        "research/qneuro3/QNEURO3-TRANSFER-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-EXTRAP-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-ATTRIB-P1-RESULT.json"
+      ]
+    },
+    {
+      "claim_id": "CLAIM-011",
+      "status": "supported, scoped; no predictive equation",
+      "exact_wording": "Active-set compaction removes the lockstep straggler ceiling when the per-example-step cost is large relative to the compaction cost. Measured on Apple M2 CPU: at 2.66 microseconds per example-step it takes adaptive halting from 0.97x to 1.95x against a matched-accuracy full-depth baseline at batch 256; at 0.33 microseconds per example-step it reaches only 1.07x.",
+      "evidence": [
+        "QNEURO3-CEILING-REMOVED-001: lookup family, matched accuracy 1.0000 both models, matched parameters. Compacted versus baseline is 1.28x at batch 16, 1.46x at 32, 1.59x at 64, 1.60x at 128 and 1.95x at 256, against 1.04x/1.10x/1.10x/0.98x/1.01x under lockstep.",
+        "All four execution policies verified to reproduce lockstep's halt steps exactly and its answers within 1e-5 at every batch size."
+      ],
+      "counterevidence": [
+        "QNEURO3-RUNTIME-P2 was frozen and FAILED: on the streaming family the recovery is 1.065x against a required 1.5x, so the effect does not transfer across cores.",
+        "QNEURO3-RUNTIME-P1 was frozen and FAILED: the cost model placed the crossover at batch 45 when it is below 16, so no predictive equation accompanies this claim.",
+        "Compaction is a small LOSS at batch 1 and 4 (0.80x-0.92x): there is nothing to compact and the gather is pure overhead.",
+        "Active-set compaction is prior art -- the standard early-exit loop, MoE dispatch, sequence packing. No novelty is claimed."
+      ],
+      "assumptions": "Static batching without a request stream; CPU execution; per-example halt depths independent; answers required bit-identical across policies.",
+      "effect_size": "0.97x to 1.95x at batch 256 on a 2.66 us/example-step core; 0.83x to 1.07x on a 0.33 us/example-step core. Work recovery is 4.16x, of which about 45% survives as wall-clock.",
+      "external_validity": "Two synthetic families, one machine, CPU only, one model scale. Continuous batching was implemented but not benchmarked as a serving policy; no second hardware regime was available.",
+      "falsifier": "A matched-accuracy comparison on a core costing well above 1 us per example-step where compaction fails to beat lockstep at batch 256, or one below 0.5 us where it succeeds.",
+      "novelty_status": "No novelty claimed for the runtime. The measured boundary on constrained Apple Silicon is the contribution; the predictive equation intended to accompany it failed and is not claimed.",
+      "replication_status": "Two families, one implementation. The recovery was frozen and tested prospectively on the second family and FAILED, which is how the boundary was established.",
+      "supporting_experiments": [
+        "QNEURO3-CEILING-001",
+        "QNEURO3-NICHE-P1"
+      ],
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-CEILING-REMOVED-001.json",
+        "research/qneuro3/QNEURO3-RUNTIME-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-RUNTIME-P2-RESULT.json",
+        "research/qneuro3/QNEURO3-SCOPE-CORRECTION-001.json"
+      ],
+      "uncertainty": "Fanless thermal variation; one streaming batch-64 select timing is anomalous and reported as measured. The 1 us/example-step threshold is interpolated between two measured points, not resolved.",
+      "confidence": "high for the two measured points, low for the threshold between them",
+      "scope": "synthetic, nonclinical, single machine, static batching"
+    },
+    {
+      "claim_id": "CLAIM-012",
+      "status": "supported by a frozen failed prediction; stated as the programme's headline",
+      "exact_wording": "Supervised halting earns its place only where the task supplies a ground-truth halt step. Where the halt target must be distilled from a teacher, simpler adaptive-compute methods that need no teacher -- confidence-based early exit and adaptive computation time -- reach equal or better accuracy at equal or lower compute and lower training cost.",
+      "evidence": [
+        "QNEURO3-HAR-P1, frozen and opened once on UCI HAR with the dataset's canonical subject-disjoint split, 3 seeds, all five arms at identical parameter counts (63271): fixed 0.9127 at 16.00 chunks; ACT 0.9006 at 3.61; confidence exit 0.8811 at 2.57 and 0.8747 at compute matched to ours; supervised halting 0.8112 at 2.39; PonderNet 0.5220.",
+        "Training cost: 8.4 s for supervised halting against 3.4 s for confidence exit and 4.5 s for ACT, because the supervised arm must train a teacher first."
+      ],
+      "counterevidence": [
+        "On three synthetic families where the task DOES define the halt step, supervised halting attains the optimal allocation (mean steps equal E[predicate index] to within 0.1 in six settings) at matched accuracy and 10/10 seed reliability. The narrowing is a scope condition, not a refutation of those results.",
+        "PonderNet's collapse is probably an implementation shortcoming of mine; a correct implementation would only strengthen this claim, not weaken it."
+      ],
+      "assumptions": "One real dataset; 16 chunks of 8 timesteps; teacher target is the earliest confident-and-correct chunk at 0.9 confidence.",
+      "effect_size": "0.0635 accuracy behind confidence exit at matched compute; 0.0894 behind ACT; 2.3x the training cost.",
+      "external_validity": "One real dataset in one domain. The direction is consistent across 3 seeds with per-seed spread under 0.01.",
+      "falsifier": "A real dataset with no task-supplied halt target on which supervised halting beats both confidence exit and ACT at matched compute, parameters and total training cost.",
+      "novelty_status": "No novelty claimed. The finding is a scope condition on a prior-art mechanism.",
+      "replication_status": "Frozen once, opened once, 3 seeds. Single implementation.",
+      "supporting_experiments": [
+        "QNEURO3-NICHE-P1"
+      ],
+      "lane_b_records": [
+        "research/qneuro3/QNEURO3-HAR-P1-RESULT.json",
+        "research/qneuro3/QNEURO3-GATE5-BRANCHES.json"
+      ],
+      "uncertainty": "HAR is near-saturated for strong models, so the arms compete in a narrow band; the supervised arm lost by 0.06-0.09, well outside the per-seed spread.",
+      "confidence": "high for the direction, medium for the magnitude",
+      "scope": "real-data early classification without a task-supplied halt target"
+    },
+    {
+      "claim_id": "CLAIM-013",
+      "status": "supported, negative",
+      "exact_wording": "Across 32 architectures spanning six mechanism families, screened on five shortcut-audited algorithmic tasks at four times the trained length with matched parameters and matched training budget, no candidate mechanism outperformed prior-art compositions. The two leading architectures are an attention-augmented recurrent network and a reproduction of Neural Turing Machine location addressing.",
+      "evidence": [
+        "Final frontier at 2400 steps, 3 seeds: cursor_attn 0.692 mean, rnn_attn_max 0.652, cursor 0.618, LSTM 0.574, late_fusion_gated 0.470, attn_threshold 0.438, transformer_rope 0.414.",
+        "The leading model is a composition of an LSTM, NTM-style relative-shift addressing and attention, all prior art.",
+        "Three frozen hypotheses (NOVA-H-DILUTION, NOVA-H-INTERFERENCE-P1, NOVA-H-COMPOSE-P1) were opened once each and all failed."
+      ],
+      "counterevidence": [
+        "Only one hardware regime, one parameter scale (~120k) and one task family (synthetic algorithmic). Nothing here rules out an effect that appears at scale or on natural data.",
+        "Three seeds per cell; effects smaller than about 0.1 accuracy are not resolvable.",
+        "The search is not exhaustive. Six mechanism families out of a much larger space were explored."
+      ],
+      "assumptions": "Length extrapolation is a meaningful proxy for whether a procedure was learned; matched parameters and steps make architectures comparable.",
+      "effect_size": "Best candidate 0.692 against best baseline 0.574 at 4x length, and the gain comes from adding two known mechanisms to an LSTM.",
+      "external_validity": "Synthetic algorithmic tasks only, one machine, one scale. No claim beyond that.",
+      "falsifier": "An architecture that beats 0.692 on this frontier at matched parameters and steps by a mechanism not reducible to the prior art catalogued in docs/NOVA_PRIOR_ART.md.",
+      "novelty_status": "No novelty claimed. The finding is that no novelty was found.",
+      "replication_status": "32 architectures, 3 seeds, single implementation. `make reproduce-nova` re-derives it.",
+      "supporting_experiments": [
+        "NOVA-FRONTIER-001"
+      ],
+      "uncertainty": "An 800-step budget initially inflated one effect threefold; all headline numbers were re-measured at 2400 steps after that was caught.",
+      "confidence": "high within the measured scope",
+      "scope": "synthetic algorithmic tasks, ~120k parameters, CPU, 4x length extrapolation"
+    },
+    {
+      "claim_id": "CLAIM-014",
+      "status": "tentative",
+      "exact_wording": "Capability competition is conserved across the architectures tested: relieving a conflict between two capabilities by adding a third computational route reintroduces a conflict elsewhere. No architecture tested is simultaneously near the per-task best on state tracking, ordered memory and retrieval.",
+      "evidence": [
+        "Adding attention to an LSTM+cursor model took mod_sum from 0.776 to 0.998 and kept needle at 0.977, while reverse fell from 0.348 (cursor alone) and 0.371 (LSTM alone) to 0.146, which is chance.",
+        "Test-time branch ablation shows the routes are co-dependent rather than one overriding the other: removing attention from the two-route hybrid gives mod_sum 0.157 and removing the recurrence gives 0.161, against 0.291 for the full model.",
+        "Every architecture excellent on some columns sits at or near chance on others."
+      ],
+      "counterevidence": [
+        "The aggregate gap is modest: the best single architecture reaches 0.692 of a collective per-task frontier of 0.768, which is 90%. The claim rests on the per-task pattern, not the mean.",
+        "At a fixed 120k parameter budget, three routes each receive roughly a third of the width, so a loss could be capacity rather than competition. The control for this is imperfect.",
+        "The concept resembles gradient starvation and multi-task interference, both prior art. Only the specific measurement is new."
+      ],
+      "assumptions": "Matched parameters across routes; the five tasks probe genuinely distinct capabilities.",
+      "effect_size": "reverse 0.348 to 0.146 when a third route is added; mod_sum 0.776 to 0.998 in the same change.",
+      "external_validity": "One task suite, one scale. Untested on natural data or at scale.",
+      "falsifier": "An architecture at matched parameters that is within 0.15 of the per-task best on all five tasks simultaneously.",
+      "novelty_status": "The concept is prior art (gradient starvation, multi-task interference). The measurement is not obviously stated elsewhere in this form.",
+      "replication_status": "Observed across four architectures and three seeds. Single implementation.",
+      "supporting_experiments": [
+        "NOVA-FRONTIER-001"
+      ],
+      "lane_b_records": [
+        "research/nova/NOVA-H-COMPOSE-P1-RESULT.json",
+        "research/nova/NOVA-H-INTERFERENCE-P1-RESULT.json"
+      ],
+      "uncertainty": "Tentative. Three seeds, one scale, and a capacity confound that is controlled only approximately.",
+      "confidence": "medium",
+      "scope": "synthetic algorithmic tasks at ~120k parameters"
+    }
+  ]
+}

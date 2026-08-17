@@ -1,0 +1,44 @@
+experiment: native_complex_parameterization_and_realification
+description: A model with genuine complex64 leaf parameters and its exact realification.
+  Separates optimizer geometry from numerical implementation for the complex/real
+  family.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: discovery
+split: discovery
+outcome_eligible: false
+family: native_complex_real
+model:
+  in_features: 6
+  hidden: 12
+  out_features: 4
+training:
+  optimizers:
+  - sgd
+  - adamw
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  warmup_steps: 10
+  measured_steps: 20
+  batch_size: 32
+  device: cpu
+optimizer_isolation:
+  steps: 25
+  weight_decays:
+  - 0.0
+  - 0.01
+  epsilons:
+  - 1.0e-08
+  - 0.1
+seeds:
+  model:
+  - 0
+  - 1
+  - 2
+  stream: 13
+protocol_deviations:
+- The activation is a split tanh rather than analytic complex tanh, deliberately,
+  so the optimizer question is not confounded with the pole discrepancy of QE-000001.
+- 'Discovery split: these cells may inform estimator design and may not be reused
+  for confirmation.'

@@ -1,0 +1,26 @@
+{
+  "baseline": {
+    "baseline_id": "BASELINE-EFS-001",
+    "definition": "Median pairwise max-norm distance between phenotypes of perturbed replicas, where phenotype is the logit vector on a frozen audit batch, measured at 25 percent of the training horizon.",
+    "frozen_utc": "2026-08-15",
+    "known_limitation": "Its predictive power is largely persistence: log10(final/early) spans only 0.31-0.35 decades. It is a diagnostic, not evidence of basin structure. This limitation is frozen with it so that no future work mistakes the baseline for a finding.",
+    "mandatory_companion_baselines": [
+      "learning_rate",
+      "early_loss"
+    ],
+    "measured_performance": {
+      "partial_given_learning_rate_noise": 0.928,
+      "partial_given_learning_rate_symmetry": 0.9272,
+      "partial_given_parameter_spread_noise": 0.8142,
+      "partial_given_parameter_spread_symmetry": 0.9836,
+      "spearman_vs_final_spread_noise": 0.9798,
+      "spearman_vs_final_spread_symmetry": 0.9816
+    },
+    "name": "early functional spread",
+    "rule": "A candidate predictor is admissible only if it adds HELD-OUT predictive information beyond {early functional spread, learning rate, early loss} jointly. Beating early loss alone is not sufficient and never was.",
+    "schema_version": "1.0.0",
+    "status": "FROZEN \u2014 mandatory baseline for every future DISCOVERY-002 candidate",
+    "why_frozen": "It beat every alternative in DISCOVERY-002 stages 3-4 and it is nearly free to compute. Any candidate that cannot beat it is not worth carrying."
+  },
+  "sha256": "2dce11f44faf0af2de0dd9d4eef27176bffedc78871cd5da3a8e779a8aca30e5"
+}

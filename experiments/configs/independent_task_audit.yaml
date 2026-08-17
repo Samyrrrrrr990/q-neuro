@@ -1,0 +1,38 @@
+experiment: independent_nonclinical_task_structural_audit
+description: >-
+  Structural and counterfactual audit of task generators whose causal rules are independent of
+  NeuroWorld. No architecture outcomes are produced.
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H7
+generator_version: 1.1.0
+seed: 61001
+world_seed: 71001
+cases_per_split: 500
+counterfactual_pairs: 100
+families:
+  hidden_causal_machine:
+    order_dependence: 0.8
+    sequence_length: 18
+  sequential_detective:
+    order_dependence: 0.65
+    sequence_length: 20
+  machine_fault_diagnosis:
+    order_dependence: 0.3
+    sequence_length: 24
+  network_intrusion_reasoning:
+    order_dependence: 0.75
+    sequence_length: 22
+  hidden_rule_relational:
+    order_dependence: 1.0
+    sequence_length: 16
+  bayesian_urn:
+    order_dependence: 0.0
+    sequence_length: 28
+  analytic_noncommutative:
+    order_dependence: 1.0
+    sequence_length: 12
+  analytic_commutative:
+    order_dependence: 0.0
+    sequence_length: 12

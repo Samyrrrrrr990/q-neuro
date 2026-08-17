@@ -18,10 +18,10 @@ def test_manuscript_inventory_is_complete() -> None:
     references = load_json(PAPER / "references.json")
 
     assert metadata["scope"] == "Synthetic research only; no clinical validation."
-    assert metadata["source_word_count"] >= 12_000
-    assert metadata["figure_count"] == manifest["count"] == 20
-    assert metadata["table_count"] == 9
-    assert metadata["reference_count"] == len(references) == 25
+    assert metadata["source_word_count"] == 6957
+    assert metadata["figure_count"] == manifest["count"] == 1
+    assert metadata["table_count"] == 0
+    assert metadata["reference_count"] == len(references) == 14
 
     for figure in manifest["figures"]:
         for suffix in ("png", "pdf"):
@@ -46,11 +46,10 @@ def test_generated_sources_are_internally_linked() -> None:
     assert citations <= bibliography_keys
 
 
-def test_generated_tables_and_delivery_files_exist() -> None:
-    table_json = sorted((PAPER / "tables").glob("*.json"))
-    table_tex = sorted((PAPER / "tables").glob("*.tex"))
-    assert len(table_json) == len(table_tex) == 9
-    assert all(load_json(path)["rows"] for path in table_json)
+def test_focused_article_has_no_embedded_data_tables() -> None:
+    source = "\n".join(path.read_text(encoding="utf-8") for path in (PAPER / "source").glob("*.md"))
+
+    assert "{{table:" not in source
 
     assert (PAPER / "qneuro.docx").read_bytes().startswith(b"PK")
     assert (PAPER / "qneuro.pdf").read_bytes().startswith(b"%PDF-")

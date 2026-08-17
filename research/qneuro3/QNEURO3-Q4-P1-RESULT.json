@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-Q4-P1",
+  "prediction_sha256": "f315d09bf51dca21fd7fd00c72bb42859670d70a1dccc55f7643908c25a64704",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_triggered": true,
+  "criterion_as_frozen": "On chase_to_goal, at least 9 of 10 seeds reach accuracy >= 0.99; AND on chase_to_goal_weighted, at least 8 of 10 seeds reach accuracy >= 0.99; AND the mean step count over successful runs stays within 0.25 of Q3's 4.54.",
+  "results": {
+    "chase_to_goal": [
+      {"seed": 0, "accuracy": 0.6520, "avg_steps": 5.14},
+      {"seed": 1, "accuracy": 0.7137, "avg_steps": 4.97},
+      {"seed": 2, "accuracy": 0.9050, "avg_steps": 4.61},
+      {"seed": 3, "accuracy": 0.8291, "avg_steps": 4.77},
+      {"seed": 4, "accuracy": 0.6600, "avg_steps": 5.23},
+      {"seed": 5, "accuracy": 0.7011, "avg_steps": 5.14},
+      {"seed": 6, "accuracy": 0.6331, "avg_steps": 5.33},
+      {"seed": 7, "accuracy": 0.6322, "avg_steps": 5.29},
+      {"seed": 8, "accuracy": 0.6883, "avg_steps": 5.03},
+      {"seed": 9, "accuracy": 0.6895, "avg_steps": 5.10}
+    ],
+    "chase_to_goal_weighted": [
+      {"seed": 0, "accuracy": 0.9500, "avg_steps": 4.54},
+      {"seed": 1, "accuracy": 0.6398, "avg_steps": 5.20},
+      {"seed": 2, "accuracy": 0.6587, "avg_steps": 5.32},
+      {"seed": 3, "accuracy": 0.7966, "avg_steps": 4.85},
+      {"seed": 4, "accuracy": 0.6384, "avg_steps": 5.32},
+      {"seed": 5, "accuracy": 0.6580, "avg_steps": 4.92},
+      {"seed": 6, "accuracy": 0.9319, "avg_steps": 4.50},
+      {"seed": 7, "accuracy": 0.6652, "avg_steps": 4.93},
+      {"seed": 8, "accuracy": 0.7905, "avg_steps": 4.94},
+      {"seed": 9, "accuracy": 0.7484, "avg_steps": 4.83}
+    ]
+  },
+  "scored": {
+    "chase_to_goal_at_or_above_0.99": "0 of 10 (needed 9)",
+    "chase_to_goal_weighted_at_or_above_0.99": "0 of 10 (needed 8)",
+    "mean_steps_over_successes": "undefined -- there were no successes"
+  },
+  "what_actually_happened": [
+    "The intervention did exactly half of what was predicted, and the half it did was the useless",
+    "half. Q3's collapse mode is GONE: no Q4 run lands below 0.6322, where four of ten Q3 runs sat",
+    "between 0.4181 and 0.5105. The bimodality is genuinely cured -- all twenty Q4 runs fall in the",
+    "single band 0.6322 to 0.9500.",
+    "But the good mode is gone with it. Q3 reached 0.9994-1.0000 on six of ten seeds; Q4's best run",
+    "anywhere is 0.9500 and its best on chase_to_goal is 0.9050. Grounding the state removed the",
+    "variance by pulling both tails to the middle."
+  ],
+  "mechanism_hypothesis_verdict": "FALSE, and instructively so",
+  "why_the_hypothesis_was_wrong": [
+    "The hypothesis said Q3 fails because the state does not track position, so supplying position",
+    "would let the arrival head do its job. Q4 shows the state can be made to track position and",
+    "the arrival head still does not reach 0.99. Position information is therefore not the binding",
+    "constraint.",
+    "The likely reason -- proposed here as an explanation, not established -- is that a 24-way",
+    "cross-entropy at every one of eight steps dominates the single scalar arrival signal, so the",
+    "state is optimised to name the node rather than to make the one binary decision that matters.",
+    "The auxiliary task is easier than the real task and absorbs the representation. That is a",
+    "generic hazard of auxiliary supervision, not a fact about halting."
+  ],
+  "programme_consequence": [
+    "No second variant is issued. The kill condition frozen in advance says the mechanism",
+    "hypothesis is false and Q-Neuro 3.0 cycle 1 closes with Q3 recorded as an unreliable",
+    "architecture rather than a compute-saving one.",
+    "Combined with QNEURO3-Q0-RELIABILITY-001 (fixed depth: 10 of 10 seeds at or above 0.99), the",
+    "cycle-1 verdict is that adaptive depth loses to fixed depth on this task family once",
+    "reliability is counted alongside compute."
+  ]
+}

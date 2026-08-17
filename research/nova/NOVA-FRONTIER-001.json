@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "NOVA-FRONTIER-001",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "title": "The Nova capability frontier: 32 architectures, 5 shortcut-clean tasks, 4x length extrapolation",
+  "protocol": {
+    "steps": 2400,
+    "optimiser": "AdamW 3e-3 one-cycle",
+    "batch": 64,
+    "parameters": "~120k, matched within 13%",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "train_lengths": "8-16",
+    "evaluated_at": 64
+  },
+  "task_validity": {
+    "kept": [
+      "parity_scan",
+      "mod_sum",
+      "copy",
+      "reverse",
+      "needle"
+    ],
+    "dropped": [
+      "cummax",
+      "sort"
+    ],
+    "reason": "A shortcut audit found position-only prediction scores 0.887 on cummax and 0.598 on sort at length 64, against chance levels of 0.609 and 0.126. Both are weak instruments and were removed from headline scoring before any candidate was compared.",
+    "clean_task_shortcut_ceilings": {
+      "parity_scan": 0.529,
+      "mod_sum": 0.196,
+      "copy": 0.127,
+      "reverse": 0.127,
+      "needle": 0.131
+    }
+  },
+  "frontier": {
+    "cursor_attn": {
+      "parity": 1.0,
+      "mod_sum": 0.998,
+      "copy": 0.34,
+      "reverse": 0.146,
+      "needle": 0.977
+    },
+    "rnn_attn_max": {
+      "parity": 0.937,
+      "mod_sum": 0.776,
+      "copy": 0.301,
+      "reverse": 0.244,
+      "needle": 1.0
+    },
+    "cursor": {
+      "parity": 1.0,
+      "mod_sum": 0.999,
+      "copy": 0.398,
+      "reverse": 0.348,
+      "needle": 0.344
+    },
+    "lstm": {
+      "parity": 1.0,
+      "mod_sum": 1.0,
+      "copy": 0.126,
+      "reverse": 0.371,
+      "needle": 0.371
+    },
+    "late_fusion_gated": {
+      "parity": 1.0,
+      "mod_sum": 0.363,
+      "copy": 0.36,
+      "reverse": 0.157,
+      "needle": 0.471
+    },
+    "attn_threshold": {
+      "parity": 0.594,
+      "mod_sum": 0.367,
+      "copy": 0.47,
+      "reverse": 0.157,
+      "needle": 0.6
+    },
+    "transformer_rope": {
+      "parity": 0.58,
+      "mod_sum": 0.389,
+      "copy": 0.291,
+      "reverse": 0.153,
+      "needle": 0.656
+    }
+  },
+  "chance": {
+    "parity": 0.501,
+    "mod_sum": 0.145,
+    "copy": 0.126,
+    "reverse": 0.126,
+    "needle": 0.131
+  },
+  "per_task_best": {
+    "parity": 1.0,
+    "mod_sum": 1.0,
+    "copy": 0.47,
+    "reverse": 0.371,
+    "needle": 1.0
+  },
+  "readings": [
+    "Two capabilities are solved by prior art and extrapolate perfectly: state tracking (LSTM, parity 1.000, mod_sum 1.000) and retrieval (attention-augmented LSTM, needle 1.000).",
+    "Two capabilities are solved by nobody: copy (best 0.470 against chance 0.126) and reverse (best 0.371 against chance 0.126). Ordered memory does not extrapolate for any architecture tested.",
+    "The best single architecture reaches 0.692 against a collective frontier of 0.768, so 90% of it. The aggregate gap is modest; the competition shows up per task rather than in the mean. Excellence on some columns coexists with chance-level performance on others in every model.",
+    "The best mean, 0.692, belongs to a composition of an LSTM, NTM-style location addressing and attention -- all prior art."
+  ]
+}

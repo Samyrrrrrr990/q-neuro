@@ -1,43 +1,33 @@
 # Limitations
 
-## Synthetic-only evidence
+## Synthetic evidence and external validity
 
-Every case in this work is generated. NeuroWorld provides exact counterfactuals and eliminates privacy risk, but it cannot reproduce the prevalence, comorbidity, documentation noise, institutional practice, measurement process, or harm asymmetry of clinical neurology. The labels are simulator archetypes rather than diseases. A model that reaches 1.000 synthetic top-1 may still be useless or dangerous on a patient. No reported number is a clinical accuracy estimate.
+All next-phase tasks are synthetic and nonclinical. No external real-world dataset was selected, licensed, preregistered, or evaluated. The task families expose useful structural variables, but their labels, shifts, and order semantics are authored by the same research program that evaluates them. Performance does not imply usefulness for medicine, cybersecurity operations, industrial maintenance, or human reasoning despite the nonmedical task metaphors.
 
-The generator and architecture were developed in the same project. Five unseen world seeds measure robustness to declared variations, not to an independently conceived causal process. Shared scaffolding may privilege the operator representation. The strongest result must therefore be replicated on generators built by independent teams, ideally with blinded model selection and locked analysis.
+## Reduced comparator and search envelope
 
-## Small replication counts
+Only five model families were executed in discovery and held-out evaluation, yielding four real controls rather than the 14 required by the full preregistration. Each model received one learning-rate configuration, not the required 8 candidate and 10 real-control trials. The result therefore cannot estimate performance under comprehensive tuning. The best-real envelope is also selected within evaluation cells, making it an intentionally severe falsifier rather than a deployable model-selection procedure.
 
-Most studies use three training seeds because the project targets consumer hardware. World-level effects use five unseen worlds in the confirmation sweep and three worlds in several later suites. Student-t intervals summarize the observed variation but are unstable at these sample sizes. They do not quantify uncertainty over all plausible simulators, implementations, or clinical populations.
+## Incomplete compute matching
 
-The experimental program evaluates many architectures, tasks, and metrics. Even with preregistered pairings and a claim ledger, selection pressure remains. The discovery engine is explicitly exploratory, and no proposal it emits should be treated as confirmed by the data that generated it. A future confirmatory study needs a frozen primary endpoint, independent code review, and a separately generated benchmark.
+Nominal evaluated parameter budgets are matched, but per-trial FLOPs and optimizer-step counts were not preserved. Wall-clock results depend on CPU implementation and are not used for the central claim. A future full run must record optimizer steps, measured or analytically estimated FLOPs, peak memory, and search totals for every trial.
 
-## Baseline and optimization scope
+## Missing raw predictions
 
-The control set is broad for a small CPU study but not exhaustive. It does not include large pretrained clinical language models, modern long-context architectures at production scale, Bayesian neural networks, ensembles, conformal predictors, or every real-valued reparameterization of complex multiplication. Hyperparameter searches are intentionally small. The statement that the complex operator leads tested shift accuracy is not a claim that it would beat a fully tuned contemporary model.
+The reduced experiments preserve aggregate metrics and paired effects but not raw per-case prediction arrays. This limits reanalysis of alternative calibration, subgroup, and dependence-aware statistics. It also constitutes a mandatory grand-test blocker. The summary can be reproduced from cached aggregate artifacts, but a full independent statistical reconstruction from logits is not possible.
 
-The two-channel real operator matches width and quadratic measurement but may not match every complex inductive constraint. Complex multiplication can always be written as structured real arithmetic. The empirical question is whether the chosen parameterization helps optimization or generalization at the tested scale, not whether it computes functions inaccessible to real networks.
+## Outcome ineligibility
 
-## Calibration and ambiguity
+Discovery omits the 5,000 and 25,000 training sizes, and held-out evaluation uses 1,000 rather than the grand-test primary size of 5,000. The full ShiftGauntlet model-outcome grid was not run. Consequently, neither reduced study may support the strongest preregistered outcome category. The observed negative effect is informative about the executed scope but is not a completed universal comparison.
 
-The complex model is poorly calibrated in several regimes and markedly inferior to the real operator on irreducible ambiguity. Source temperature scaling worsens shifted calibration. These are not peripheral metrics: a differential system must preserve uncertainty when evidence is insufficient. Until an ambiguity-aware objective and shift-valid calibration method succeed without erasing robustness, the architecture is unsuitable for decision support even before considering data validity.
+## Investigator and replication limits
 
-ECE itself depends on binning and can hide class-conditional errors. The repository also reports NLL, but does not yet include Brier decomposition, adaptive calibration error, conformal coverage, or decision-curve analysis. Omitted-disease AUROC is measured on one synthetic held-out class and may overstate performance when unknowns lie closer to known diagnoses.
+The code, benchmark, prior-art review, analyses, and manuscript were produced by one independent investigator with coding-assistant support. The prior-art review is primary-source-led but not systematic; patents, theses, non-English work, and unpublished industrial results were not exhaustively screened. No independent team has yet rerun the pipeline or audited the generator semantics.
 
-## Compute measurement
+## Statistical limits
 
-Training and latency are measured on one consumer MacBook CPU. Wall-clock variation, library versions, thermal conditions, and allocator caching can affect results. Peak RSS deltas are approximate. FLOPs are not analytically normalized across custom complex operations. Parameter counts are reliable; fine-grained hardware efficiency claims are not.
+Only four held-out generator families contribute to the top level of the hierarchy. Worlds and training seeds are numerous but are not substitutes for diverse generator mechanisms. The hierarchical interval assumes the implemented resampling hierarchy, while the exploratory sign-flip test is not outcome-eligible. Exact zero effects partly reflect finite test-set resolution and shared mapped predictions.
 
-Hard halting shows a real reduction in executed states and latency, but all cases stop after two steps. The result is fixed truncation. The adaptive attractor never demonstrates case-dependent compute, and the sequence lengths are too short to establish long-context scaling behavior.
+## What the result does not falsify
 
-## Interpretability and novelty
-
-Factor probes show decodability, not causal use. State trajectories show computational change, not a validated medical rationale. The terms “hypothesis,” “interference,” “Hamiltonian,” and “density” are mathematical descriptions and may invite anthropomorphic or physical interpretations. The manuscript repeatedly limits those readings because attractive vocabulary can outrun evidence.
-
-The prior-art search is extensive but non-systematic. It was performed by one investigator and one coding agent, without dual screening or a registered review protocol. Patent literature, theses, non-English work, and unpublished systems were not exhaustively searched. The paper claims a reproducible combination and evidence framework, not invention of complex networks, density states, adaptive inference, active acquisition, or local learning.
-
-## Authorship and automation disclosure
-
-The project was developed by an independent researcher with assistance from an AI coding and writing agent. The agent helped implement code, run tests, structure experiments, generate figures, search prior art, and draft text. The human author remains responsible for the scientific claims, repository publication, and any future submission. Automated assistance is disclosed because provenance matters, especially in a paper about AI.
-
-The manuscript has not undergone peer review, clinician review, independent statistical audit, or external replication. “Publication-ready” in this repository means structurally complete, reproducible, and conservatively written—not accepted, clinically validated, or award-worthy.
+The study does not falsify every complex-valued network, every nonlinear complex activation, phase-native input domain, alternative optimizer, or efficiency objective. It also does not establish that unconstrained real networks always dominate. It falsifies an intrinsic robustness advantage for the implemented Q-Neuro operator over its exact and strongest tested real controls under the executed synthetic profiles.

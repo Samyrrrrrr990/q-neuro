@@ -1,0 +1,75 @@
+experiment: reduced_independent_law_confirmation
+description: Held-out, outcome-ineligible test of one frozen provisional law on independent
+  nonclinical families absent from QN-000040. This is not QN-GRAND-001. [SMOKE PROFILE;
+  NOT CONFIRMATION EVIDENCE]
+profile: smoke_confirmation
+split: confirmation
+preregistration_id: QNF-PREREG-002
+preregistration_version: 2.0.0
+preregistration_document: docs/PREREGISTRATION_NEXT_PHASE.md
+hypothesis_id: H7
+generator_version: 1.1.0
+frozen_law_artifact: research/laws/FROZEN_CANDIDATE_001.json
+minimum_practical_effect: 0.02
+source_world_seed: 91001
+families:
+  machine_fault_diagnosis:
+    order_dependence: 0.3
+    sequence_length: 24
+  hidden_rule_relational:
+    order_dependence: 1.0
+    sequence_length: 16
+dataset:
+  train_sizes:
+  - 120
+  validation_cases: 80
+  test_cases_per_world: 50
+  counterfactual_pairs_per_world: 10
+  train_seed: 9101
+  validation_seed: 9201
+  test_seed: 9301
+  counterfactual_seed: 9403
+  world_seeds:
+  - 92009
+  - 92033
+training:
+  seeds:
+  - 6101
+  epochs: 2
+  patience: 2
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  device: cpu
+models:
+  names:
+  - complex_operator
+  - exact_real_block_operator
+  - state_space
+  parameter_budget: 20304
+  operator_rank: 2
+  max_sequence_length: 96
+  step_size: 0.28
+  learning_rates:
+    complex_operator:
+    - 0.001
+    exact_real_block_operator:
+    - 0.001
+    state_space:
+    - 0.001
+severities:
+- 0.0
+- 0.5
+- 1.0
+evaluation:
+  calibration_bins: 10
+law_thresholds:
+  minimum_r2: 0.5
+  minimum_sign_accuracy: 0.8
+  maximum_mae: 0.015
+protocol_deviations:
+- The discovery source QN-000040 used only sizes 250 and 1000 and a reduced real envelope.
+- Confirmation uses size 1000 rather than the QN-GRAND-001 primary size 5000.
+- Only the independent generator surface shift is evaluated, not the complete ShiftGauntlet.
+- This result is provisional and cannot support Outcome E or QN-GRAND-001.
+- Smoke profile is execution-only and is not confirmation evidence.

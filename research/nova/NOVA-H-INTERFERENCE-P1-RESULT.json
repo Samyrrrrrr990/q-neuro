@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "NOVA-H-INTERFERENCE-P1",
+  "prediction_sha256": "eccf380427d9f004ecb836efe5ba96821c1c780008f50d02c7809a3d7bd2f2f3",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED on all four clauses",
+  "kill_condition_triggered": true,
+  "results_mean_of_3_seeds_at_4x_length": [
+    {
+      "arm": "rnn_attn (no dropout)",
+      "mod_sum": 0.291,
+      "needle": 0.841,
+      "copy": 0.309,
+      "parity": 0.948
+    },
+    {
+      "arm": "rnn_attn_drop25",
+      "mod_sum": 0.284,
+      "needle": 0.591,
+      "copy": 0.147,
+      "parity": 1.0
+    },
+    {
+      "arm": "rnn_attn_drop50",
+      "mod_sum": 0.596,
+      "needle": 0.26,
+      "copy": 0.128,
+      "parity": 1.0
+    },
+    {
+      "arm": "rnn_attn_drop75",
+      "mod_sum": 0.498,
+      "needle": 0.259,
+      "copy": 0.139,
+      "parity": 1.0
+    },
+    {
+      "arm": "LSTM alone (reference)",
+      "mod_sum": 0.992,
+      "needle": 0.283,
+      "copy": 0.147,
+      "parity": 1.0
+    }
+  ],
+  "scoring": {
+    "I1_dropout_recovers_extrapolation": {
+      "required": ">= 0.70 mod_sum at dropout 0.5",
+      "measured": "0.596, up from 0.291",
+      "verdict": "FAIL, though it moved a long way"
+    },
+    "I2_retrieval_is_retained": {
+      "required": ">= 0.70 needle",
+      "measured": "0.260",
+      "verdict": "FAIL, decisively"
+    },
+    "I3_monotone_in_the_handicap": {
+      "required": "non-decreasing across 0.25, 0.50, 0.75",
+      "measured": "0.284 -> 0.596 -> 0.498",
+      "verdict": "FAIL"
+    },
+    "I4_no_effect_where_nothing_to_pre_empt": {
+      "required": "copy changes by < 0.15",
+      "measured": "0.309 -> 0.128, a change of 0.18",
+      "verdict": "FAIL"
+    }
+  },
+  "what_the_failure_reveals": [
+    "Branch dropout does not de-conflict the two routes. It slides the model along a TRADE-OFF between",
+    "LSTM-like and attention-like behaviour. At dropout 0.5 the hybrid has essentially become an LSTM:",
+    "mod_sum rises towards the LSTM's, needle falls to 0.260 against the LSTM-alone 0.283, copy falls to",
+    "0.128 against the LSTM-alone 0.147, parity reaches 1.000.",
+    "So the earlier mechanistic intervention and this one agree: the recurrence and the retrieval are in",
+    "genuine competition. No setting of the handicap gives both."
+  ],
+  "the_finding_that_replaces_the_hypothesis": [
+    "CAPABILITY COMPETITION. Across every configuration tested, state-tracking extrapolation and",
+    "retrieval extrapolation trade against one another, and the trade is not favourable: the LSTM alone",
+    "scores (mod_sum 0.992, needle 0.283) while the best hybrid scores (0.291, 0.841). The hybrid buys",
+    "0.56 of retrieval for 0.70 of state tracking.",
+    "This is a negative result about architecture composition, and it is not resolved by any of: three",
+    "attention normalisers, three dropout rates, or test-time branch ablation."
+  ],
+  "prior_art": [
+    "Branch dropout is stochastic depth / DropPath and is prior art; no novelty was claimed for it and",
+    "none is claimed now.",
+    "The account resembles gradient starvation (Pezeshki et al. 2021). The specific consequence measured",
+    "here -- that a hybrid can be strictly worse at length extrapolation than its own recurrent component",
+    "alone -- is the part that is not obviously in that literature, and it is a negative result."
+  ],
+  "next_hypothesis_this_generated": "NOVA-H-MODULARITY: if the competition is caused by shared parameters, giving each route disjoint parameters and fusing only at the output should resolve it."
+}

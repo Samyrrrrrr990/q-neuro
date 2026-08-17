@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "NOVA-H-DILUTION",
+  "lane": "B",
+  "date_utc": "2026-08-16",
+  "hypothesis": "Softmax attention is not length-invariant: adding non-matching keys takes probability mass and shifts the read, so a retrieval learned at length 16 is a different operation at length 64. A read whose output does not depend on the number of non-matching candidates should extrapolate where softmax does not.",
+  "why_it_was_worth_testing": [
+    "Derived from measurement, not taste. The baseline sweep found that no architecture does both state-tracking and retrieval, and that the established 'both' family (linear attention, retention, selective SSM) is mediocre at each: 0.55 parity / 0.30 mod_sum / 0.58 needle at 4x length.",
+    "The mechanism is measurable at the operator level independently of any task."
+  ],
+  "operator_level_evidence": {
+    "probe": "read drift at a fixed query when 24 low-signal distractor keys are inserted before it",
+    "softmax": 0.7243,
+    "logl": 0.5277,
+    "max": 0.2356,
+    "threshold": 0.2356,
+    "reading": "max and threshold are about 3x more length-invariant than softmax. The mechanism is real."
+  },
+  "task_level_result_5_seeds_at_4x_length": {
+    "copy": {
+      "attn_softmax": [
+        0.172,
+        0.051
+      ],
+      "attn_softmax_rms": [
+        0.305,
+        0.041
+      ],
+      "attn_max": [
+        0.321,
+        0.046
+      ],
+      "attn_threshold": [
+        0.377,
+        0.093
+      ]
+    },
+    "needle": {
+      "attn_softmax": [
+        0.579,
+        0.046
+      ],
+      "attn_softmax_rms": [
+        0.577,
+        0.065
+      ],
+      "attn_max": [
+        0.576,
+        0.063
+      ],
+      "attn_threshold": [
+        0.609,
+        0.045
+      ]
+    },
+    "parity_scan": {
+      "attn_softmax": [
+        0.569,
+        0.013
+      ],
+      "attn_softmax_rms": [
+        0.572,
+        0.014
+      ],
+      "attn_max": [
+        0.569,
+        0.01
+      ],
+      "attn_threshold": [
+        0.57,
+        0.022
+      ]
+    },
+    "mod_sum": {
+      "attn_softmax": [
+        0.263,
+        0.042
+      ],
+      "attn_softmax_rms": [
+        0.311,
+        0.029
+      ],
+      "attn_max": [
+        0.312,
+        0.031
+      ],
+      "attn_threshold": [
+        0.28,
+        0.019
+      ]
+    },
+    "reverse": {
+      "attn_softmax": [
+        0.156,
+        0.006
+      ],
+      "attn_softmax_rms": [
+        0.155,
+        0.01
+      ],
+      "attn_max": [
+        0.156,
+        0.011
+      ],
+      "attn_threshold": [
+        0.164,
+        0.008
+      ]
+    },
+    "format": "mean, population stdev over 5 seeds"
+  },
+  "verdict": "NOT SUPPORTED",
+  "what_killed_it": [
+    "The confound control. Unnormalised reads need a post-read RMS normalisation to keep their magnitude usable, and softmax does not. Giving softmax the SAME normalisation (attn_softmax_rms) moves copy from 0.172 to 0.305 -- capturing essentially the whole apparent effect.",
+    "attn_max (0.321) is within noise of attn_softmax_rms (0.305). attn_threshold (0.377 +/- 0.093) is nominally higher but the gap is inside a pooled standard deviation and rests on one task.",
+    "needle is flat across all four variants (0.576-0.609), so the retrieval task the hypothesis was built to explain shows no effect at all."
+  ],
+  "two_bugs_found_and_fixed_before_scoring": [
+    "The first `max` normaliser divided by the sum at the end, which is algebraically exactly softmax. It produced numbers identical to the control to three decimals, which is how it was caught. The primary hypothesis had not been tested at all at that point.",
+    "Post-read RMS normalisation was applied only to the candidate arms, which is the confound the control above was then built to isolate."
+  ],
+  "what_survives": [
+    "One modest and unglamorous engineering fact: a post-read RMS normalisation on the attention output improves copy extrapolation from 0.172 to 0.305 (chance 0.126). That is normalisation, not a principle, and it is not claimed as novel.",
+    "The operator-level length-invariance measurement stands and is reusable: it separates 'the operator has the property' from 'the property helps', which turned out to be different questions."
+  ],
+  "next_hypothesis_this_generated": "NOVA-H-INTERFERENCE"
+}

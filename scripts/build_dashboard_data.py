@@ -59,7 +59,7 @@ def main() -> None:
                 },
             }
         )
-    claims = [
+    historical_claims = [
         {
             "claim": row[0],
             "evidence": row[1],
@@ -70,17 +70,55 @@ def main() -> None:
         for row in markdown_rows("docs/CLAIMS.md")
         if len(row) == 5
     ]
-    failures = re.findall(
+    historical_failures = re.findall(
         r"^## (.+)$",
         (ROOT / "docs/FAILED_IDEAS.md").read_text(encoding="utf-8"),
         flags=re.MULTILINE,
     )
+    synthesis = read_json("research/analyses/generated/falsification_phase.json")
+    claim_ledger = read_json("research/claims.json")
+    failure_ledger = read_json("research/failures.json")
+    grand_preflight = read_json("experiments/results/QN-GRAND-001/preflight.json")
+    current_claims = [
+        {
+            "claim": item["exact_wording"],
+            "evidence": " ".join(item["evidence"]),
+            "counterevidence": " ".join(item["counterevidence"]),
+            "confidence": item["confidence"],
+            "status": item["status"],
+        }
+        for item in claim_ledger["claims"]
+    ]
+    falsification = [
+        {
+            "label": "initial NeuroWorld",
+            "value": synthesis["historical_within_neuroworld"]["moderate_shift_mean_difference"],
+            "comparator": "two-channel real",
+        },
+        {
+            "label": "power pilot",
+            "value": synthesis["power_pilot"]["train_size_1000"]["mean"],
+            "comparator": "best evaluated real",
+        },
+        {
+            "label": "reduced discovery",
+            "value": synthesis["reduced_discovery"]["mean_nested_effect"],
+            "comparator": "cellwise best real",
+        },
+        {
+            "label": "held-out families",
+            "value": synthesis["heldout_confirmation"]["nested_summary"]["mean"],
+            "comparator": "cellwise best real",
+        },
+    ]
     experiments = []
     for directory in sorted((ROOT / "experiments/results").glob("QN-*")):
         metrics_path = directory / "metrics.json"
-        if not metrics_path.exists():
+        decision_path = directory / "decision.json"
+        if not metrics_path.exists() and not decision_path.exists():
             continue
-        result = json.loads(metrics_path.read_text(encoding="utf-8"))
+        result_path = metrics_path if metrics_path.exists() else decision_path
+        result = json.loads(result_path.read_text(encoding="utf-8"))
         experiments.append(
             {
                 "id": directory.name,
@@ -97,14 +135,34 @@ def main() -> None:
             "QN-000023",
             "QN-000025",
             "QN-000026",
+            "QN-000031",
+            "QN-000033",
+            "QN-000040",
+            "QN-000042",
+            "QN-GRAND-001",
         ],
         "candidates": discovery,
         "frontiers": frontiers,
         "surprises": surprises,
         "proposals": proposals,
         "robustness": robustness,
-        "claims": claims,
-        "failures": failures,
+        "falsification": falsification,
+        "synthesis": synthesis,
+        "claims": current_claims,
+        "historical_claims": historical_claims,
+        "failures": [item["failure"] for item in failure_ledger["failures"]],
+        "historical_failures": historical_failures,
+        "grand_preflight": grand_preflight,
+        "next_steps": [
+            {
+                "id": item["check_id"],
+                "mechanism": item["evidence"],
+                "falsifier": "Must pass prospectively before any future sealed grand benchmark.",
+                "priority": "blocking",
+            }
+            for item in grand_preflight["checks"]
+            if not item["passed"]
+        ],
         "experiments": experiments,
     }
     output = ROOT / "dashboard/data.js"

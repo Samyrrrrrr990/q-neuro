@@ -1,0 +1,10 @@
+experiment: primary_estimator_freeze_record
+description: Freezes one primary transport-defect estimator, but only if Gate D passed.
+  Otherwise records the refusal and leaves every sealed confirmation family closed.
+preregistration_id: ML2-PREREG-001
+preregistration_version: 1.0.0
+preregistration_document: docs/ML2_PREREGISTRATION_001.md
+profile: freeze
+outcome_eligible: false
+gate: D
+source_experiment: QE-000009

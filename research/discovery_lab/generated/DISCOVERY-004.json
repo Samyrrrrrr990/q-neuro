@@ -1,0 +1,21 @@
+{
+  "boring_explanation_accepted": "Order dependence in SGD is real but is not geometric. Its magnitude (about 4.9) is comparable to ordinary convergence drift measured by the stay control (4.19), so task order matters about as much as continuing to train. That is well known and carries no curvature structure.",
+  "corrected_measurement": "Paired clockwise versus counter-clockwise traversal. Identical initialization, identical points, identical step count, and identical batch-noise draws step for step; only the ORDER differs, which flips the signed area while holding visitation statistics exactly fixed.",
+  "date": "2026-08-15",
+  "design": "Task space controlled by u=(u1,u2) driving rotations in DIFFERENT planes, so the generators do not commute and control space carries genuine curvature. Closed loops return the teacher exactly to its start, so any residue belongs to the learner. The discriminator was area versus perimeter: a geometric phase scales with enclosed area, ordinary drift with path length.",
+  "figure_eight_note": "The figure-eight is lower (3.13) but this is not evidence for area scaling, since the rectangles themselves show no area trend. Its local path structure under reversal differs from a rectangle's and the difference is not interpreted further.",
+  "first_measurement_was_wrong": "Measuring D_F(f_end, f_start) gave a residue that DECREASED with area (1.95 at area 0.09 up to 4.02 at area 0), with a stay-control of 4.19 exceeding every loop. That measurement is dominated by ordinary convergence: wandering disrupts convergence, so larger loops end closer to their start. It conflates holonomy with training progress and was discarded, not reported.",
+  "lane": "B",
+  "record_id": "DISCOVERY-004",
+  "result": {
+    "fig8_area_0.0": 3.1269,
+    "interpretation": "Across rectangles spanning 8x in area at fixed perimeter, the residue is flat at 4.76 to 5.02 with per-cell standard deviations of 0.12 to 0.19. There is no monotone dependence on area. A geometric phase requires residue proportional to enclosed area; it is absent.",
+    "rect_area_0.0116": 4.8755,
+    "rect_area_0.0500": 5.0223,
+    "rect_area_0.0756": 5.0113,
+    "rect_area_0.0900": 4.7642
+  },
+  "schema_version": "1.0.0",
+  "title": "Curriculum holonomy: is path-dependent residue geometric (area) or ordinary drift (length)?",
+  "verdict": "KILLED. No area scaling. The residue is ordinary path dependence with no geometric structure."
+}

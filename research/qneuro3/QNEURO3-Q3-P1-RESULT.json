@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "QNEURO3-Q3-P1",
+  "prediction_sha256": "a29900e8a47a4d4cb2c351c9a2d91ffd46801a8e118c300d1426d8be3aef5599",
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "criterion_as_frozen": "Every distribution within |eps| <= 0.25 of predicted steps AND accuracy >= 0.99; Q3b retains a saving >= 1.3x at accuracy >= 0.99.",
+  "disclosure_before_scoring": [
+    "The frozen record quoted idealised E[d] of 3.00 / 6.00 / 7.00 for easy / hard / narrow. The",
+    "distributions as actually sampled give 3.38 / 5.72 / 6.98. The prediction is stated as",
+    "'average steps = E[distance] + eps', so each distribution is scored against its own MEASURED",
+    "E[d], which is the reading most favourable to the prediction. Scoring against the idealised",
+    "values instead would only make the failure larger."
+  ],
+  "cells": [
+    {"distribution": "uniform", "E_distance": 4.55, "measured_steps": 6.12, "abs_error": 1.577, "accuracy": 0.4356, "passes": false},
+    {"distribution": "hard_skewed", "E_distance": 5.72, "measured_steps": 7.28, "abs_error": 1.560, "accuracy": 0.2461, "passes": false},
+    {"distribution": "easy_skewed", "E_distance": 3.38, "measured_steps": 3.39, "abs_error": 0.007, "accuracy": 0.9959, "passes": true},
+    {"distribution": "narrow", "E_distance": 6.98, "measured_steps": 7.71, "abs_error": 0.730, "accuracy": 0.3334, "passes": false}
+  ],
+  "cells_passing": 1,
+  "cells_total": 4,
+  "generalisation_control_status": "NOT RUN",
+  "why_the_control_was_not_run": [
+    "Q3b was specified to test whether the compute saving survives when the answer is decoupled",
+    "from the step count. That question is only meaningful if Q3 trains reliably in the first",
+    "place, and this run shows it does not. Running Q3b now would measure training reliability a",
+    "second time under a different name. The control is deferred to a separate prediction and the",
+    "artifact question -- whether answer = step count carried the Q3 result -- remains OPEN and",
+    "unresolved. No claim may be made in either direction."
+  ],
+  "immediate_diagnosis": {
+    "observation": [
+      "Accuracy, not step count, is what failed. For Q3 the halt step IS the answer, so accuracy",
+      "and steps are the same quantity measured two ways: a model that halts at the wrong step is",
+      "simultaneously inaccurate and off-prediction. Three of four cells did not learn the task at",
+      "all, which makes their step counts untestable rather than merely wrong."
+    ],
+    "first_hypothesis_tested": "Task-construction artifact: chase_to_goal_weighted with uniform weights differs from chase_to_goal.",
+    "first_hypothesis_verdict": "REFUTED",
+    "refuting_evidence": [
+      "Re-running the ORIGINAL chase_to_goal at the ORIGINAL 500 training batches across seeds",
+      "0-4 reproduces the collapse: seed 0 gives 0.9994 at 4.54 steps, seed 2 gives 0.9998 at",
+      "4.54 steps, and seed 1 gives 0.4308 at 5.96 steps. The configuration that produced the",
+      "0.9995 headline fails on a different initialisation seed. See QNEURO3-Q3-VARIANCE-001."
+    ]
+  },
+  "what_this_costs_the_programme": [
+    "The frozen distribution law is dead as stated and is not re-issued.",
+    "The Q3 headline (0.9995 accuracy at 4.53 steps, 1.77x less inference compute) is downgraded",
+    "from a result to a single favourable seed until the variance probe says otherwise.",
+    "The Q-Neuro 3.0 cycle-1 mechanism finding (mixture halting collapses, commit halting does",
+    "not) is NOT affected: that was an intervention on one variable with the seed held fixed, and",
+    "it is a statement about the mixture-vs-commit contrast, not about absolute attainment."
+  ],
+  "not_permitted_from_here": [
+    "Re-issuing QNEURO3-Q3-P1 with a wider eps, a seed-averaged criterion, or an accuracy floor",
+    "chosen after seeing these numbers.",
+    "Reporting the easy_skewed pass as partial confirmation. One cell out of four, and the easiest",
+    "one, is what a model that has only learned short chains produces by default.",
+    "Quoting any speedup figure for Q3 without the training-reliability rate attached."
+  ]
+}

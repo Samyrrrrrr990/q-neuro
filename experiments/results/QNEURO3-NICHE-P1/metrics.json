@@ -1,0 +1,109 @@
+{
+  "attempts_allowed": 1,
+  "attempts_used": 1,
+  "experiment_id": "QNEURO3-NICHE-P1",
+  "gate": "confirmatory",
+  "hash_verified_before_run": true,
+  "measured_crossover_curve": [
+    {
+      "arrival_us_per_example": 502.2,
+      "batch": 1,
+      "select_us_per_example": 1502.6,
+      "speedup": 2.99
+    },
+    {
+      "arrival_us_per_example": 424.7,
+      "batch": 4,
+      "select_us_per_example": 670.9,
+      "speedup": 1.58
+    },
+    {
+      "arrival_us_per_example": 219.6,
+      "batch": 16,
+      "select_us_per_example": 258.7,
+      "speedup": 1.18
+    },
+    {
+      "arrival_us_per_example": 119.8,
+      "batch": 64,
+      "select_us_per_example": 118.9,
+      "speedup": 0.99
+    },
+    {
+      "arrival_us_per_example": 73.7,
+      "batch": 256,
+      "select_us_per_example": 71.8,
+      "speedup": 0.97
+    }
+  ],
+  "outcome_eligible": true,
+  "prediction_sha256": "7fbcceb87f9a219345ea5b6be11ccdcd0339af54a33f7cb9fc70108d1d6ce4b7",
+  "profile": "confirmation",
+  "promotion_path": {
+    "step_1_exploration": "QNEURO3-Q3-VARIANCE-001, QNEURO3-ATTRIBUTION-001",
+    "step_2_internal_replication": "3 seeds per condition across two task families",
+    "step_3_mechanistic_explanation": "batch maximum: E[max halt over the batch], qneuro3.adaptive.expected_max_halt",
+    "step_4_frozen_prediction": "sha256 7fbcceb87f9a219345ea5b6be11ccdcd0339af54a33f7cb9fc70108d1d6ce4b7",
+    "step_5_untouched_confirmation": "associative-lookup family at depth 24 with a heavy-tailed distribution never previously run"
+  },
+  "protocol_deviations": [
+    "Wall-clock timing on a fanless machine varies with thermal state; the batch-1 figure is a mean over 25 independent examples.",
+    "Single implementation; no independent reimplementation in a second framework (Gate G remains not started).",
+    "Synthetic tasks only. CPU only. One model scale."
+  ],
+  "scoring": {
+    "N1_accuracy_matched": {
+      "measured": "arrival 1.0000/1.0000/1.0000 against select 1.0000/1.0000/1.0000",
+      "required": "within 0.02 of select on the mean",
+      "verdict": "PASS"
+    },
+    "N2_optimal_allocation": {
+      "measured": "6.14 steps against E[d] 6.14, agreeing to two decimals",
+      "required": "mean steps within 0.5 of empirical E[distance]",
+      "verdict": "PASS"
+    },
+    "N3_small_batch_win": {
+      "measured": "2.78x, mean over 25 independent examples (select 1504.3 us, arrival 541.9 us)",
+      "required": ">= 2.5x matched-accuracy wall-clock speedup at batch 1",
+      "verdict": "PASS"
+    },
+    "N4_the_boundary_reappears": {
+      "measured": "0.97x",
+      "note": "This is the prediction that mattered. The ceiling was derived on the streaming family and had to appear unprompted here. It did, and the whole crossover curve came with it.",
+      "required": "<= 1.2x at batch 256",
+      "verdict": "PASS"
+    }
+  },
+  "setting": {
+    "baseline": "select -- per-step attribution at full depth, which solves the task, so the comparison is matched-accuracy",
+    "difficulty": "heavy-tailed, P(d) proportional to 0.85^d",
+    "empirical_E_distance": 6.14,
+    "family": "query_chase (associative lookup)",
+    "max_depth": 24,
+    "n_nodes": 32,
+    "never_run_at_this_depth_or_distribution_before": true,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "verdict": "PASSED",
+  "what_this_does_not_license": [
+    "Any novelty claim. Supervised early exit and per-step attribution are prior art; see the",
+    "prior-art position in QNEURO3-ATTRIBUTION-001.",
+    "Any claim that the SIZE of the saving is a property of the architecture. It is max_depth /",
+    "E[predicate index], a property of the workload. The architecture's contribution is attaining",
+    "that optimum reliably, which it does to two decimal places in every setting measured.",
+    "Any capability claim. QNEURO3-EXTRAP-P1 failed and adaptive halting buys no depth extrapolation.",
+    "Any general principle about where an answer must be read from. QNEURO3-TRANSFER-P1 failed."
+  ],
+  "what_this_licenses": [
+    "A scoped engineering claim WITH ITS CEILING: on workloads with a deep worst case and",
+    "heavy-tailed difficulty, supervised predicate halting delivers a 2.8-4.9x wall-clock inference",
+    "saving at batch 1, at matched accuracy and matched parameters, and loses that advantage",
+    "entirely above batch ~32.",
+    "The niche is therefore single-stream, latency-sensitive, on-device inference. It is explicitly",
+    "NOT server-side batched serving, where the method is a 3% penalty."
+  ]
+}

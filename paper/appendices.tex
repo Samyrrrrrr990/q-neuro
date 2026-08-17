@@ -1,74 +1,57 @@
 % Generated from paper/source. Do not edit by hand.
 \appendix
-\section{A. Repository and registry design}
-The repository separates simulator code, model implementations, experiment runners, configurations, registered artifacts, paired analyses, figure scripts, dashboard assets, paper sources, and tests. Every runner writes to a unique QN identifier. The SQLite registry is an index; the JSON artifact is the portable record. A failed QN-000024 run is retained with its status so that sequential numbering and debugging history remain auditable.
+\section{A. Preregistration hierarchy}
+The next-phase preregistration distinguishes exploratory smoke tests, reduced discovery, provisional held-out confirmation, and QN-GRAND-001. Only the grand protocol can support its strongest outcome category. Result directories carry the preregistration identifier, hypothesis identifier, configuration, environment, and status. Smoke profiles explicitly state that they are not evidence.
 
-Configurations are YAML and include generator parameters, split sizes, seeds, model hyperparameters, optimizer settings, and evaluation worlds. Artifacts contain aggregate summaries and per-run metrics with sample standard deviation and Student-t intervals. Analysis files record paired contrasts separately from headline metrics. The discovery stage reads those artifacts and cannot modify experimental results.
+The minimum practical favorable effect is +0.02 top-1. A complex advantage would require a positive aggregate estimate whose adjusted interval clears that value against the full real envelope. An equivalence or negative result against the exact real block adjudicates the intrinsic-arithmetic claim separately from performance against other real architectures.
 
-\section{B. Reproduction commands}
-The locked Python environment is installed with \texttt{make sync}. \texttt{make test} runs the test suite and \texttt{make lint} checks repository formatting. Individual Make targets rerun Experiment Zero, sample efficiency, generator shift, robustness, task suite, active evidence, dynamics, ablations, observables, training laws, hard halting, trajectories, and discovery. \texttt{make figures} regenerates every PNG and vector PDF from result files. \texttt{make paper} rebuilds tables, modular LaTeX, DOCX, and the PDF; \texttt{make reproduce-paper} verifies cached artifacts and performs the complete publication build.
+\section{B. Discovery configuration}
+Discovery families were analytic commutative, analytic noncommutative, hidden causal machine, and sequential detective. The source world seed was 81001. Training sizes were 250 and 1,000; validation used 300 cases; each shifted test world used 120 cases; and each counterfactual set used 40 pairs. Twenty-four world seeds and severities 0.0, 0.5, and 1.0 were crossed with five training seeds.
 
-Full retraining is intentionally not part of the default paper target because it is slower and can produce hardware-dependent timing. Cached registered results are source artifacts, not manually transcribed numbers. Researchers who rerun training should use a new experiment identifier or preserve the existing directories before comparison.
+The five evaluated models were complex operator, exact-real-block operator, structured state space, GRU, and real polar operator. Each used the same nominal parameter budget of 20,304, rank 2 for operator models, sequence limit 96, batch size 128, learning rate 0.001, weight decay 0.0001, six epochs, and patience three. Discovery produced 200 training runs, 14,400 evaluation records, and 2,880 paired effects.
 
-\section{C. Full-data saturation}
-The full-data study is useful primarily as a leakage and order sanity check. All ordered models solve the chronology pairs. Differences among 0.995, 0.999, and 1.000 source top-1 are not a sound basis for an architectural claim. The unordered MLP’s zero pair accuracy validates the construction.
+\section{C. Held-out configuration}
+Held-out families were Bayesian urn, hidden-rule relational, machine-fault diagnosis, and network-intrusion reasoning. Their order-dependence controls were 0.0, 1.0, 0.3, and 0.75, respectively. The source world seed was 91001. Training size was 1,000, with 300 validation cases, 120 cases per shifted world, 40 counterfactual pairs, 32 new world seeds, and five new training seeds.
 
-The phase-scramble result is similarly bounded. A fitted complex network can distribute information across phase and magnitude, so perturbing phase should hurt. Comparative evidence requires retrained controls, which are provided by the two-channel and magnitude-only ablations.
+Architecture and optimization settings were unchanged. The study produced 100 training runs, 9,600 evaluation records, 1,920 paired effects, and 12 family-by-severity law aggregates. The four families, all seeds, and the confirmation configuration were stored in the frozen artifact before execution.
 
-\section{D. Strong-control generator shift}
-At 1,000 cases under the noisy/sparse shift, both chronology markers are observed in 49.1\% of twin cases. The complex model scores 0.998 when the marker evidence is complete and 0.380 when incomplete. Counterfactual pairs expose both markers and vary only order; complex solves 0.991 of pairs, compared with 0.844 for two-channel real. The model cannot infer absent causal evidence reliably, even when its ordered rule is strong.
+\section{D. Frozen candidate coefficients}
+For predictors I (empirical observed-order target mutual information) and q (shift severity), QN-LAW-001 used coefficients in the order intercept, I, q, I squared, Iq, and q squared:
 
-Generator shifts are constructed without model-specific optimization, but they share causal code. The five-world hierarchy is used to avoid treating thousands of cases from one generator instance as independent evidence. A true external replication requires new causal code.
+\begin{equation}
+\beta=(-0.0344888,0.125439,-0.0289943,-0.210788,0.00596384,0.0203217)
+\end{equation}
 
-\section{E. Active acquisition details}
-Expected information gain evaluates positive and negative counterfactual outcomes for every unqueried finding, weights them by a diagnosis-conditioned outcome model, and selects the lowest expected posterior entropy. This adds substantial forward-pass cost: for the complex model, evaluating 200 cases takes approximately 5.43 s, compared with 1.20 s for fixed order. Query costs are otherwise assumed equal.
+The candidate was selected by a minimum-BIC proxy across six prespecified families with deterministic complexity and name tie breaks. Discovery contained only 12 aggregate cells. The frozen artifact labeled the candidate provisional, forbade a general-law claim, and prohibited using it to authorize QN-GRAND-001.
 
-The fixed policy ranks findings by mutual information computed on training data. It is competitive for several models and much better than expected information for the Transformer. This demonstrates that a simpler policy can be safer when model probabilities under partial evidence are misspecified.
+\section{E. Hierarchical analysis}
+The held-out hierarchical estimate is computed from 640 family-world-seed observations after averaging lower-level severity effects as specified by the analysis. Resampling gives equal top-level weight to the four generator families and resamples worlds and seed observations within family. Twenty thousand resamples yield an estimate of -0.009158 and a 95\% interval from -0.013251 to -0.004570.
 
-\section{F. Unconventional dynamics}
-The energy and adaptive attractors use averaged evidence force and therefore cannot represent chronology. Their failure on pair accuracy is a specification consequence rather than an optimization surprise. The adaptive model’s soft expected depth is logged but never converted into a compute claim.
+The nested distribution has n = 1,920, median 0, standard deviation 0.02355, probability of superiority 0, trimmed mean -0.002485, and worst-decile mean -0.04167. The world distribution has n = 128, median -0.008056, standard deviation 0.007361, trimmed mean -0.008397, and worst-decile mean -0.01944.
 
-The Hamiltonian-style operator uses a real diagonal plus complex low-rank Hermitian action. Pure and hybrid variants share injection and readout. The discrete update is normalized, so conservation is approximate. The dissipative-only failure suggests that elimination needs structured, hypothesis-dependent damping.
+\section{F. Grand-test readiness decision}
+The QN-GRAND-001 preflight passed eight checks and failed six. Failed gates were:
 
-Density dynamics factorizes the diagnosis-space state. Numerical invariant tests pass across ranks. Rank two is selected for the main suite before the rank ablation; the rank sweep provides no evidence for added relational capacity.
-
-\section{G. Training-law diagnostics}
-At 1,000 cases, diagnosis-only AdamW obtains 0.971 source top-1 and 0.620 shift top-1 in the training-law configuration. Multi-objective AdamW and PCGrad reach 0.978 source and 0.635 shift. Phase Gradient Optimization reaches 0.978 and 0.633 while taking 5.43 s versus 2.96 s for AdamW. Weakly positive task-gradient cosines explain why conflict-specific rotation has little opportunity.
-
-Transition-local plasticity makes zero backward calls and trains in 1.25 s, reaching 0.642 source and 0.137 shift top-1. ZeroBackprop reaches 0.133 and 0.139. The local rule learns something, but not a robust diagnostic state. Hybrid local-plus-global training reaches 0.998 source and 0.419 shift, consistent with source locking.
-
-\section{H. Hard-halting threshold selection}
-Candidate velocity thresholds are evaluated on source validation under predefined accuracy and NLL tolerances. The selected threshold causes every case to exit at the minimum step two. Compared with soft eight-state evaluation, this reduces state computations by 75\% and measured latency by roughly 80\%. Because the distribution is degenerate, difficulty-conditioned execution is not established.
-
-Later attractor steps reduce confidence quality without improving accuracy. The correct baseline for future work is therefore fixed depth two, not the original eight-step or soft ACT model.
-
-\section{I. Statistical cautions}
-Student-t intervals are reported because seed and world counts are small and variance is estimated. They are not corrected for the large number of explored comparisons. Exact sign-flip tests cannot resolve conventional significance thresholds with only three paired seeds. The analysis prioritizes repeated direction across unseen worlds and targeted ablations.
-
-Case-level bootstrap intervals would be misleading for generator robustness because cases share one world. The hierarchy averages training seeds within world and uses world means as observations. A future study should preregister at least twenty independently generated worlds or use a hierarchical model with enough top-level units.
-
-\section{J. Failure inventory}
-The repository’s failure ledger records why each plausible idea was tested, what happened, why it likely failed, and whether it is worth revisiting. It includes full-data saturation, asymmetric inputs, GRU source dominance, calibration transport, easy composition, ambiguity collapse, model-conditioned acquisition failure, generic dissipation, soft-depth accounting, graph oversmoothing, density-rank non-benefit, non-unique probes, phase-gradient non-benefit, local source locking, and hard-halting degeneracy.
-
-Preserving these outcomes changes the research program. It redirects work from adding architectural ornament toward independent generators, ambiguity-aware objectives, real-equivalence controls, and causal state interventions.
-
-\section{K. Artifact integrity}
-Figures read the registered metrics and emit PNG plus vector PDF. Tables read the same JSON and emit machine-readable JSON plus LaTeX. The Word and PDF builders consume those outputs. The dashboard uses a generated JavaScript data bundle. Continuous integration rebuilds the dashboard and checks for an unexpected diff.
-
-The paper source deliberately avoids external patient data, secrets, checkpoints, and large binaries. The Git history separates experiments, analyses, dashboard, literature audit, figures, and manuscript. A release artifact can therefore be inspected at the level of both claim and commit.
-
-\section{L. AI-assistance disclosure}
-An OpenAI Codex agent assisted with code implementation, experiment orchestration, documentation, figure and document generation, prior-art retrieval, and manuscript drafting. The agent was instructed to preserve negative results and refuse unsupported claims. The human author should independently verify every scientific statement before submission and obtain any journal-specific disclosure language required at the time of submission.
-
-\section{M. Checklist for external replication}
 \begin{itemize}
-\item Freeze the primary and co-primary endpoints before model training.
-\item Implement a separately authored causal generator with new factor and observation mechanics.
-\item Include tuned GRU, state-space, real operator, two-channel, block-real-equivalent, and complex controls.
-\item Use enough independent world seeds for stable top-level uncertainty.
-\item Report ambiguity NLL, valid-set mass, calibration, and compute alongside accuracy.
-\item Select hyperparameters without shifted test labels.
-\item Preserve failed and superseded runs in a public registry.
-\item Release code, configurations, raw summaries, and generated artifacts.
-\item Prohibit clinical interpretation unless a separate governed validation program succeeds.
+\item Complete the 14-model real comparator envelope; only four required real controls were evaluated.
+\item Execute equal or real-favoring search; observed maximum trials were one per evaluated model.
+\item Preserve per-trial FLOPs and optimizer steps.
+\item Execute the full ShiftGauntlet model-outcome grid.
+\item Complete the full rather than reduced discovery protocol.
+\item Preserve raw prediction artifacts.
+\end{itemize}
+
+The preflight status is \texttt{blocked\_before\_execution}. The benchmark-access flag is false, the execution flag is false, and no primary effect exists. This artifact is single-use and was not rerun after a documentation amendment.
+
+\section{G. Reproducibility and artifact map}
+The evidence layer contains immutable experiment result directories, a SQLite registry, normalized analysis JSON, the frozen law JSON, a machine-readable claim ledger, a failure ledger, generated PNG and PDF figures, the manuscript source, and a browser-based dashboard. A release verifier checks artifact presence, hashes, claim audit status, QN-GRAND-001 seal status, and the repository test suite. Cached-artifact reproduction does not require rerunning thousands of training evaluations.
+
+\section{H. Reporting checklist}
+\begin{itemize}
+\item Every effect names its comparator.
+\item Discovery, held-out reduced confirmation, and grand confirmation are not conflated.
+\item Exact functional equivalence is separated from optimization and architecture hypotheses.
+\item Failed thresholds and blocked gates are reported with passed checks.
+\item No external dataset or patient evidence is implied.
+\item No priority, clinical, universal-superiority, or physical-quantum claim is made.
 \end{itemize}

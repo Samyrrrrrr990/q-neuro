@@ -1,0 +1,30 @@
+{
+  "prediction": {
+    "anticipated_failure_modes": [
+      "Branch dropout is also a plain regulariser, so any improvement could be reduced overfitting rather than route de-confliction. I4 is the control for that: a generic regulariser should help copy too.",
+      "At dropout 0.75 the attention route may be too weak to learn at all, breaking I2 and making I3 non-monotone at the top end.",
+      "Three seeds is thin for a claim about a 0.4 accuracy swing; if the seed spread exceeds the margins the result will be reported as inconclusive rather than as a pass."
+    ],
+    "frozen_utc": "2026-08-16",
+    "hypothesis": "H-INTERFERENCE (pre-emption form). When an architecture offers two routes to fit the training distribution, one that extrapolates and one that does not, optimisation converges on a joint solution that uses both. The extrapolating route is never learned in isolation, so the model is strictly worse at extrapolation than the same recurrence would have been ALONE. Extra capacity does not merely fail to help; it removes a capability.",
+    "kill_condition": "If I1 fails, pre-emption is not the mechanism -- the recurrence is not being prevented from learning, it is simply not learning -- and the observation stands as an unexplained interference effect with no intervention that repairs it. If I4 fails, the account is not specific to extrapolating routes and is some more general regularisation effect, which would make it prior art outright.",
+    "mechanistic_intervention_already_run": "Zeroing each branch at TEST time, without retraining, distinguishes override from pre-emption. Turning the attention branch off does NOT recover mod_sum -- it falls further, 0.291 to 0.157 -- and turning the recurrence off gives 0.161. Neither branch alone does anything. The recurrence therefore never learned the automaton; the model found a JOINT solution that needs both routes and does not extrapolate.",
+    "observation": "An LSTM alone extrapolates mod_sum to 0.992 and parity to 1.000 at 4x the trained length. Adding a parallel attention branch collapses mod_sum to 0.291, identically for three different attention normalisers (0.298 / 0.300 / 0.306), so it is the presence of the second route rather than its details.",
+    "one_attempt": true,
+    "pass_criterion": "All four of I1, I2, I3 and I4 hold, on the mean over 3 seeds fixed in advance as 0, 1, 2.",
+    "prediction_id": "NOVA-H-INTERFERENCE-P1",
+    "predictions": {
+      "I1_dropout_recovers_extrapolation": "Training with the attention branch dropped at probability 0.5 recovers mod_sum accuracy at 4x length to at least 0.70, against 0.291 without dropout. The LSTM-alone reference is 0.992.",
+      "I2_retrieval_is_retained": "The same model keeps needle accuracy at 4x length at or above 0.70, because the attention route is still present at inference. If retrieval collapses, the intervention has merely removed the second route rather than de-conflicting the two.",
+      "I3_monotone_in_the_handicap": "mod_sum at 4x length is non-decreasing in the dropout probability across 0.25, 0.50, 0.75, allowing 0.05 of slack for seed noise between adjacent settings.",
+      "I4_no_effect_where_there_is_nothing_to_pre_empt": "On copy, where the LSTM alone reaches only 0.147 at 4x length and so has no extrapolating route to lose, dropout changes accuracy at 4x length by less than 0.15 in either direction. This is the clause that says where the theory should NOT apply."
+    },
+    "prior_art_declared_before_the_test": [
+      "The intervention -- randomly dropping a branch during training -- is prior art: stochastic depth (Huang et al. 2016), DropPath, shake-shake regularisation, and branch dropout generally. No novelty is claimed for the mechanism.",
+      "The account is close to gradient starvation (Pezeshki et al. 2021), where features that fit early suppress the learning of others, and to the shortcut-learning literature generally. What would be new here is the specific consequence for LENGTH EXTRAPOLATION and the demonstration that a hybrid can be strictly worse than its own component."
+    ],
+    "protocol": "Identical to every other run in this programme: 120k parameter target, 800 AdamW steps at 3e-3 with one-cycle schedule, batch 64, training lengths 8-16, evaluation at 16 and 64. Only the attention-branch dropout probability changes.",
+    "schema_version": "1.0.0"
+  },
+  "sha256": "eccf380427d9f004ecb836efe5ba96821c1c780008f50d02c7809a3d7bd2f2f3"
+}

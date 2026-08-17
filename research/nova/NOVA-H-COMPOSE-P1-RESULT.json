@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0.0",
+  "prediction_id": "NOVA-H-COMPOSE-P1",
+  "prediction_sha256": "9f9934283056faa1676db9aae74335a7fda991e40124b78d368578f99779dd3c",
+  "hash_verified_before_run": true,
+  "opened_utc": "2026-08-16",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "verdict": "FAILED",
+  "kill_condition_triggered": true,
+  "protocol": "2400 AdamW steps at 3e-3, batch 64, ~120k parameters, 3 seeds, train lengths 8-16, evaluated at 64",
+  "measured": {
+    "cursor_attn": {
+      "parity": 1.0,
+      "mod_sum": 0.998,
+      "copy": 0.34,
+      "reverse": 0.146,
+      "needle": 0.977
+    },
+    "rnn_attn_max": {
+      "parity": 0.937,
+      "mod_sum": 0.776,
+      "copy": 0.301,
+      "reverse": 0.244,
+      "needle": 1.0
+    },
+    "cursor": {
+      "parity": 1.0,
+      "mod_sum": 0.999,
+      "copy": 0.398,
+      "reverse": 0.348,
+      "needle": 0.344
+    },
+    "lstm": {
+      "parity": 1.0,
+      "mod_sum": 1.0,
+      "copy": 0.126,
+      "reverse": 0.371,
+      "needle": 0.371
+    },
+    "late_fusion_gated": {
+      "parity": 1.0,
+      "mod_sum": 0.363,
+      "copy": 0.36,
+      "reverse": 0.157,
+      "needle": 0.471
+    },
+    "attn_threshold": {
+      "parity": 0.594,
+      "mod_sum": 0.367,
+      "copy": 0.47,
+      "reverse": 0.157,
+      "needle": 0.6
+    },
+    "transformer_rope": {
+      "parity": 0.58,
+      "mod_sum": 0.389,
+      "copy": 0.291,
+      "reverse": 0.153,
+      "needle": 0.656
+    }
+  },
+  "chance": {
+    "parity": 0.501,
+    "mod_sum": 0.145,
+    "copy": 0.126,
+    "reverse": 0.126,
+    "needle": 0.131
+  },
+  "per_task_best_across_all_architectures": {
+    "parity": 1.0,
+    "mod_sum": 1.0,
+    "copy": 0.47,
+    "reverse": 0.371,
+    "needle": 1.0
+  },
+  "scoring": {
+    "C1_composition_works": {
+      "required": "mean at 4x length >= 0.75",
+      "measured": "0.692, the best of any architecture tested, up from 0.652",
+      "verdict": "FAIL"
+    },
+    "C2_no_column_is_sacrificed": {
+      "required": "within 0.15 of the per-task best on every task",
+      "measured": "parity gap 0.000, mod_sum 0.002, copy 0.130, needle 0.023 -- but REVERSE gap 0.225 (0.146 against 0.371)",
+      "verdict": "FAIL on reverse"
+    },
+    "C3_state_tracking_survives_retrieval": {
+      "required": "mod_sum >= 0.90",
+      "measured": "0.998, up from the two-route hybrid's 0.776",
+      "verdict": "PASS"
+    }
+  },
+  "the_finding_the_failure_produced": [
+    "CAPABILITY COMPETITION IS CONSERVED. Adding the third route did exactly what C3 predicted -- it",
+    "relieved the state-tracking / retrieval conflict, taking mod_sum from 0.776 to 0.998 while needle",
+    "stayed at 0.977. And it simultaneously destroyed the third capability: reverse fell to 0.146,",
+    "which is chance, from 0.348 for the cursor alone and 0.371 for the LSTM alone.",
+    "The conflict was not resolved. It moved."
+  ],
+  "the_frontier_gap": {
+    "per_task_best_mean": 0.768,
+    "best_single_architecture_mean": 0.692,
+    "fraction_of_collective_frontier": 0.901,
+    "correction_note": "An earlier draft of this record said 72%, from an arithmetic error on my part. The correct figure is 90%: the best single architecture reaches 0.692 of a collective frontier of 0.768. The AGGREGATE gap is therefore modest, and the competition claim rests on the PER-TASK pattern rather than on the mean.",
+    "per_task_evidence": "cursor_attn scores 0.146 on reverse where cursor alone scores 0.348 and the LSTM alone scores 0.371; it scores 0.998 on mod_sum where the two-route hybrid scores 0.776. Adding a route moved which column was sacrificed."
+  },
+  "consequence": [
+    "The kill condition applies: capability competition is a property of the training objective rather",
+    "than of any particular pairing of routes, and no mechanism tested resolves it. Nova terminates on",
+    "the boundary condition.",
+    "Two of the three leading architectures are prior-art compositions (attention-augmented RNN; NTM",
+    "location addressing). The third, cursor_attn, is a composition of both."
+  ]
+}

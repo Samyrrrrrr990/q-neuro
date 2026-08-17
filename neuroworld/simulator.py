@@ -66,6 +66,8 @@ class NeuroWorld:
         probability_mixing: float = 0.0,
         temporal_jitter: float = 0.025,
         order_marker_visibility: float = 1.0,
+        demographic_signal_strength: float = 1.0,
+        shared_nuisance_stages: bool = False,
     ):
         if not 0.0 < observation_probability <= 1.0:
             raise ValueError("observation_probability must be in (0, 1]")
@@ -75,17 +77,27 @@ class NeuroWorld:
             raise ValueError("temporal_jitter must be non-negative")
         if not 0.0 <= order_marker_visibility <= 1.0:
             raise ValueError("order_marker_visibility must be in [0, 1]")
+        if not 0.0 <= demographic_signal_strength <= 1.0:
+            raise ValueError("demographic_signal_strength must be in [0, 1]")
         self.world_seed = int(world_seed)
         self.observation_probability = float(observation_probability)
         self.probability_mixing = float(probability_mixing)
         self.temporal_jitter = float(temporal_jitter)
         self.order_marker_visibility = float(order_marker_visibility)
+        self.demographic_signal_strength = float(demographic_signal_strength)
+        self.shared_nuisance_stages = bool(shared_nuisance_stages)
         self._probabilities, self._stages, self._age_means, self._sex_probs = (
             self._build_causal_templates()
         )
         self._probabilities = (
             (1.0 - self.probability_mixing) * self._probabilities + self.probability_mixing * 0.5
         ).astype(np.float32)
+        self._age_means = (0.5 + self.demographic_signal_strength * (self._age_means - 0.5)).astype(
+            np.float32
+        )
+        self._sex_probs = (0.5 + self.demographic_signal_strength * (self._sex_probs - 0.5)).astype(
+            np.float32
+        )
 
     def _build_causal_templates(self) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         rng = np.random.default_rng(self.world_seed)
@@ -146,6 +158,17 @@ class NeuroWorld:
             stages[disease, hallmark[6:8]] = 0.80
             age_means[disease] = 0.18 + 0.065 * local_idx
             sex_probs[disease] = 0.30 + 0.10 * (local_idx % 5)
+
+        if self.shared_nuisance_stages:
+            shared = rng.uniform(0.12, 0.88, size=self.num_findings).astype(np.float32)
+            stages[:] = shared[None, :]
+            for pair in range(4):
+                disease_a = 2 * pair
+                disease_b = disease_a + 1
+                marker_a = 2 * pair
+                marker_b = marker_a + 1
+                stages[disease_a, marker_a], stages[disease_a, marker_b] = 0.05, 0.95
+                stages[disease_b, marker_a], stages[disease_b, marker_b] = 0.95, 0.05
 
         return probabilities, stages, age_means, sex_probs
 
