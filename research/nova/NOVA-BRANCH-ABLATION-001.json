@@ -1,0 +1,92 @@
+{
+ "schema_version": "1.0.0",
+ "record_id": "NOVA-BRANCH-ABLATION-001",
+ "lane": "B",
+ "title": "Test-time branch ablation on the recurrence+attention hybrid",
+ "question": "Does the attention branch OVERRIDE a recurrence that learned the automaton, or PRE-EMPT one that never did?",
+ "protocol": {
+  "architecture": "rnn_attn_softmax",
+  "parameters": {
+   "d": 64,
+   "depth": 2
+  },
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "train_lengths": "8-16",
+  "evaluated_at": [
+   16,
+   64
+  ],
+  "retraining": "none -- branches are zeroed at test time",
+  "recovery_margin": 0.15,
+  "reproduce": "python experiments/run_nova_branch_ablation.py"
+ },
+ "measured": {
+  "mod_sum": {
+   "none": {
+    "acc_at_16": 0.7063,
+    "acc_at_64": 0.2914
+   },
+   "attention": {
+    "acc_at_16": 0.1946,
+    "acc_at_64": 0.1572
+   },
+   "recurrence": {
+    "acc_at_16": 0.2064,
+    "acc_at_64": 0.1609
+   }
+  },
+  "parity_scan": {
+   "none": {
+    "acc_at_16": 1.0,
+    "acc_at_64": 0.9481
+   },
+   "attention": {
+    "acc_at_16": 0.6456,
+    "acc_at_64": 0.5313
+   },
+   "recurrence": {
+    "acc_at_16": 0.5559,
+    "acc_at_64": 0.5225
+   }
+  },
+  "needle": {
+   "none": {
+    "acc_at_16": 0.9115,
+    "acc_at_64": 0.8411
+   },
+   "attention": {
+    "acc_at_16": 0.1693,
+    "acc_at_64": 0.1172
+   },
+   "recurrence": {
+    "acc_at_16": 0.2005,
+    "acc_at_64": 0.1667
+   }
+  },
+  "copy": {
+   "none": {
+    "acc_at_16": 1.0,
+    "acc_at_64": 0.3093
+   },
+   "attention": {
+    "acc_at_16": 0.1535,
+    "acc_at_64": 0.1277
+   },
+   "recurrence": {
+    "acc_at_16": 0.3186,
+    "acc_at_64": 0.1935
+   }
+  }
+ },
+ "verdicts": {
+  "mod_sum": "PRE-EMPT / no recovery",
+  "parity_scan": "PRE-EMPT / no recovery",
+  "needle": "PRE-EMPT / no recovery",
+  "copy": "PRE-EMPT / no recovery"
+ },
+ "reading": "Neither branch works alone on any task. Removing attention makes state tracking worse, not better, so the recurrence never learned the automaton. The model found a joint solution that needs both routes and does not extrapolate. This is pre-emption, not override."
+}

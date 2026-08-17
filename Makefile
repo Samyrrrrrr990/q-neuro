@@ -1,4 +1,4 @@
-.PHONY: reproduce-nova smoke-nova nova-figures reproduce-q3 reproduce-q3-quick reproduce-q3-niche reproduce-q3-niche-quick sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010 qe-all discovery-suite claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper
+.PHONY: reproduce-nova smoke-nova nova-figures reproduce-q3 reproduce-q3-quick reproduce-q3-niche reproduce-q3-niche-quick sync test lint smoke-experiment-zero experiment-zero sample-efficiency generator-shift robustness-sweep neuro-task-suite active-evidence dynamics-suite ablation-suite observable-probe training-laws hard-halting trajectories discovery simulator-red-team shift-gauntlet shift-pilot smoke-shift-pilot mechanism-suite smoke-mechanism-suite computational-law-suite independent-task-audit independent-discovery smoke-independent-discovery freeze-candidate-law independent-confirmation smoke-independent-confirmation qn-grand-001 qe-000001 qe-000002 qe-000003 qe-000004 qe-000006 qe-000008 qe-000009 qe-000010 qe-all discovery-suite claim-audit dashboard analyses figures paper-tables paper-source latex paper paper-release verify-release reproduce-paper journey-figures plain-pdfs nova-branch-ablation
 
 sync:
 	uv sync --extra dev
@@ -153,6 +153,27 @@ figures:
 	uv run python -m research.figures.generate_trajectory_signature
 	uv run python -m research.figures.generate_paper_extended
 	uv run python -m research.figures.generate_falsification_phase
+
+journey-figures:
+	uv run python research/figures/generate_journey.py
+	uv run python research/figures/generate_technical.py
+
+plain-pdfs: journey-figures
+	uv run --extra paper python scripts/build_pdf.py docs/pdf/paper.md paper/qneuro-paper.pdf \
+		--title "Q-Neuro" \
+		--subtitle "What I found when I spent a year trying to invent a better neural network, and failed nineteen times" \
+		--byline "Samyar Shafiee &middot; independent, Toronto &middot; built and measured on one 8 GB MacBook Air<br/>Nineteen frozen predictions &middot; one passed &middot; 39 preserved failures"
+	uv run --extra paper python scripts/build_pdf.py docs/pdf/technical.md paper/qneuro-technical.pdf \
+		--title "Q-Neuro: Technical Breakdown" \
+		--subtitle "Everything you need to rebuild this from scratch, including the bugs" \
+		--byline "Samyar Shafiee &middot; independent, Toronto &middot; one 8 GB MacBook Air, CPU only<br/>299 tests &middot; 39 preserved failures &middot; 16 measurement defects, each of which produced a wrong answer"
+	uv run --extra paper python scripts/build_pdf.py docs/pdf/textbook.md paper/qneuro-textbook.pdf \
+		--title "Q-Neuro: From Helix to Nova" \
+		--subtitle "A textbook written by the person who needed it" \
+		--byline "Samyar Shafiee &middot; independent, Toronto<br/>Sixteen books &middot; from what a matrix is, to the open problems I could not solve"
+
+nova-branch-ablation:
+	uv run python experiments/run_nova_branch_ablation.py
 
 paper-tables:
 	uv run python paper/build_tables.py

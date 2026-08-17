@@ -28,13 +28,13 @@
     },
     {
       "path": "Makefile",
-      "bytes": 8553,
-      "sha256": "471d2f768db50731707764fbcb0c209db975f936f0dd682ce25e1d5dcbd85d34"
+      "bytes": 10054,
+      "sha256": "c9eedd8033941e3d4a44a0920ea6c624da462ff0b15ceee0f2cb97cbf62624b2"
     },
     {
       "path": "README.md",
-      "bytes": 10461,
-      "sha256": "8cb6b7c0f24df5cb05a30e93ac0501c672a1594d67e0604b64fc18772fd295f7"
+      "bytes": 11169,
+      "sha256": "f9997c4577d9fdbb12eb37d3c52af0f7cb626594e1b685aae10e639c81745900"
     },
     {
       "path": "RELEASE_NOTES.md",
@@ -218,8 +218,8 @@
     },
     {
       "path": "pyproject.toml",
-      "bytes": 775,
-      "sha256": "6ffbc39a638057f38aba9c6181186dd034f4937174abebb52e020a5aade67892"
+      "bytes": 965,
+      "sha256": "98d093f0c99c3175bb5a069b52aff0e9921db6d30736ebb0158328aa642a6a82"
     },
     {
       "path": "qneuro/__init__.py",
@@ -258,8 +258,8 @@
     },
     {
       "path": "research/review_report.json",
-      "bytes": 106,
-      "sha256": "90fbf34052f37dd48aa36ca741c6f4fd84a3da94aa054608962a33dc9b6f8655"
+      "bytes": 107,
+      "sha256": "99f96c0592bc2e79ff5852f54510466426e3939104ce97625416e870368373b4"
     },
     {
       "path": "scripts/verify_release.py",

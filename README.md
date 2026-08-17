@@ -102,6 +102,21 @@ for the final scorecard, including the three dimensions that fall short of their
 | [**Nova prior-art firewall**](docs/NOVA_PRIOR_ART.md) | why the leading candidate is a 2014 result |
 | [**Textbook**](docs/TEXTBOOK.md) | sixteen books, Helix through Nova, with exercises |
 
+### Plain-language PDFs
+
+The same material rewritten end to end for a reader without a research background, with 38 figures
+generated from the stored records. Start here if you are not already familiar with the work.
+
+| PDF | Pages | What it is |
+|---|---:|---|
+| [**Q-Neuro**](paper/qneuro-paper.pdf) | 16 | the whole programme, four eras, what survived and what didn't |
+| [**Technical Breakdown**](paper/qneuro-technical.pdf) | 23 | every constant, equation, command and bug needed to rebuild it |
+| [**From Helix to Nova**](paper/qneuro-textbook.pdf) | 38 | sixteen books, from what a matrix is to the open problems |
+
+```bash
+make plain-pdfs        # regenerates the figures and rebuilds all three
+```
+
 **Nova — the search for a new computational principle — returned NO.** Thirty-two architectures
 across six mechanism families, screened on five shortcut-audited algorithmic tasks at 4× the trained
 length. The two leading architectures are prior-art compositions; three frozen hypotheses all
